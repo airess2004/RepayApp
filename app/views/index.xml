@@ -1,12 +1,26 @@
 <Alloy>
 	<Window class="container">
-		<ScrollView class="mainView">
-			<Label id="label" onClick="doClick">Hello, World</Label>
+		<ScrollView class="mainView" layout ="vertical">
+			<View layout = "horizontal">
+				<Label id="label" onClick="doClick">Hello, World</Label>
+				<TextField></TextField>
+			</View>
+			
+			
+			
 		</ScrollView>
-		<View class="buttonBar">
-			<View class="homeBtn">
+		<View class="buttonBar" >
+			<View class="homeBtn" onClick="buttonBarClick">
 				<ImageView class="homeImg"></ImageView>
 				<Label id="homeIcon" icon="fa-home"></Label>
+			</View>
+			<View class="reimburseBtn" onClick="buttonBarClick">
+				<ImageView class="reimburseImg"></ImageView>
+				<Label id="reimburseIcon" icon="fa-file-text"></Label>
+			</View>
+			<View class="settingBtn" onClick="buttonBarClick">
+				<ImageView class="settingImg"></ImageView>
+				<Label id="settingIcon" icon="fa-gears"></Label>
 			</View>
 		</View>
 		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>

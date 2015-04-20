@@ -5,4 +5,11 @@ function doClick(e) {
     alert($.label.text);
 }
 
+function buttonBarClick(e) {
+	var reimburse = Alloy.createController('reimburse').getView();
+	reimburse.open();
+	
+}
+
+
 $.index.open();

@@ -21,6 +21,7 @@
 	contentHeight: Titanium.UI.SIZE,
 	scrollType: "vertical",
 	zIndex: 1,
+	top:0,
 }
 
 ".buttonBar": {
@@ -54,6 +55,66 @@
 }
 
 "#homeIcon": {
+	touchEnabled: false,
+	color: "white",
+	//iconFontSize: 40,
+	font: {
+		fontSize: "40dp"
+	}
+}
+
+".reimburseBtn": {
+	backgroundColor:"darkgray",
+	backgroundSelectedColor: "gray",
+	touchEnabled: true,
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	zIndex: 2,
+	top: "4dp",
+	bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+".reimburseImg": {
+	image: null,
+	width: "64dp",
+	height: "64dp",
+	touchEnabled: false,
+	zIndex: 2,
+}
+
+"#reimburseIcon": {
+	touchEnabled: false,
+	color: "white",
+	//iconFontSize: 40,
+	font: {
+		fontSize: "40dp"
+	}
+}
+
+".settingBtn": {
+	backgroundColor:"darkgray",
+	backgroundSelectedColor: "gray",
+	touchEnabled: true,
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	zIndex: 2,
+	top: "4dp",
+	bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+".settingImg": {
+	image: null,
+	width: "64dp",
+	height: "64dp",
+	touchEnabled: false,
+	zIndex: 2,
+}
+
+"#settingIcon": {
 	touchEnabled: false,
 	color: "white",
 	//iconFontSize: 40,
