@@ -1,0 +1,26 @@
+<Alloy>
+	<Window id="registerForm" class="noNavBar" backgroundColor="white">
+		<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
+			<ImageView class="fitWidth" image="/logo.png" />
+			<View class="centeredHorizontal">
+				<Label color="darkgray" icon="fa-user"></Label>
+				<TextField id="userField" hintText="username / email"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<Button id="signUp" title="Sign Up" onClick="onSignUpClick"></Button>
+			<View class="fitSize" layout="vertical" horizontalWrap="false">
+				<Button class="darkButton" id="companySignIn" title="Learn more about RepayApp?"></Button>
+				<View class="centeredHorizontal" width=Ti.UI.FILL>
+					
+				</View>
+			</View>
+		</ScrollView>
+		<View class="bottomButton" onClick="showSignInForm">
+			<Label class="buttonLabel" text="Already have an account? Sign In"></Label>
+		</View>
+        
+        <Notification id="toast" platform="android" message="Account has been successfully created." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
+		
+		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>
+	</Window>
+</Alloy>

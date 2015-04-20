@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.reimburseapp.repay</id>
     <name>RepayApp</name>
-    <version>1.0</version>
+    <version>0.1</version>
     <publisher>Willy</publisher>
     <url>http://reimburseapp.com</url>
     <description>undefined</description>
@@ -38,7 +38,10 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest android:installLocation="auto" android:versionCode="1" android:versionName="0.1">
+        </manifest>
+    </android>
     <mobileweb>
         <precache/>
         <splash>

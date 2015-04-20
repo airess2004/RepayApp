@@ -24,11 +24,20 @@
 	top:0,
 }
 
+".buttonBarInner": {
+	backgroundColor:"darkgray",
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	layout: "horizontal",
+	bottom: 0,
+	zIndex: 2,
+}
+
 ".buttonBar": {
 	backgroundColor:"darkgray",
 	width: Titanium.UI.FILL,
 	height: Titanium.UI.SIZE,
-	layout: "horizontal",
+	layout: "vertical",
 	bottom: 0,
 	zIndex: 2,
 }

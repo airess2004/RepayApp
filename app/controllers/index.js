@@ -16,4 +16,10 @@ function buttonBarClick(e) {
 }
 
 
+function mainViewOpen(e) {
+	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
+		var loginView = Alloy.createController("login").getView().open();
+	}
+}
+
 $.index.open();

@@ -37,7 +37,7 @@
 	height: Titanium.UI.SIZE,
 }
 
-"#signIn": {
+"#signUp": {
 	width: Titanium.UI.FILL,
 	height: Titanium.UI.SIZE,
 	color: "white",
@@ -49,13 +49,13 @@
 }
 
 ".darkButton": {
-	width: "40%",
+	width: Titanium.UI.FILL,
 	height: Titanium.UI.SIZE,
 	color: "gray",
 	backgroundColor: "transparent",
 	backgroundSelectedColor: "#0df",
-	left: "8dp",
-	right: "8dp",
+	//left: "8dp",
+	//right: "8dp",
 	top: "16dp",
 	//bottom: "8dp",
 	borderColor: "gray",
