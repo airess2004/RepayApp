@@ -1,0 +1,7 @@
+<Alloy>
+	<Window>
+		<ScrollView class="mainView">
+			<Label id="label">Hello, World2</Label>
+		</ScrollView>
+	</Window>
+</Alloy>

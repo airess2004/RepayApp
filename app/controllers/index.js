@@ -9,4 +9,11 @@ function doLoginClick(e) {
     var loginView = Alloy.createController("login").getView().open();
 }
 
+function buttonBarClick(e) {
+	var reimburse = Alloy.createController('reimburse').getView();
+	reimburse.open();
+	
+}
+
+
 $.index.open();
