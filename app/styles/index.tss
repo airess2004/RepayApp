@@ -10,6 +10,45 @@
 
 "#label": {
 	font: {
-		fontSize: 12
+		fontSize: "12sp"
 	}
+}
+
+".mainView": {
+	backgroundColor:"white",
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	scrollType: "vertical",
+	zIndex: 1,
+}
+
+".buttonBar": {
+	backgroundColor:"darkgray",
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	layout: "horizontal",
+	bottom: 0,
+	zIndex: 2,
+}
+
+".homeBtn": {
+	backgroundColor:"darkgray",
+	backgroundSelectedColor: "lightgray",
+	touchEnabled: true,
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	zIndex: 2,
+	top: "4dp",
+	bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+".homeImg": {
+	image: null,
+	width: "48dp",
+	height: "48dp",
+	touchEnabled: false,
+	zIndex: 2,
 }
