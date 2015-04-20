@@ -1,0 +1,89 @@
+
+".noNavBar": {
+  navBarHidden: true,
+  fullscreen: true,
+}
+
+
+".fitWidth": {
+  width: Titanium.UI.FILL,
+}
+
+".fitSize": {
+  width: Titanium.UI.FILL,
+  height: Titanium.UI.SIZE,
+}
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1dp",
+	touchEnabled: false,
+	backgroundColor: "gray",
+	top: "8dp",
+	//bottom: "8dp",
+}
+
+".centeredVertical": {
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	scrollType: "vertical",
+}
+
+".centeredHorizontal": {
+	layout: "horizontal",
+	top: "8dp",
+	horizontalWrap: false,
+	height: Titanium.UI.SIZE,
+}
+
+"#signIn": {
+	width: Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	color: "white",
+	backgroundColor: "#0be",
+	backgroundSelectedColor: "#0df",
+	top: "16dp",
+	//bottom: "8dp",
+	borderRadius: "3dp",
+}
+
+".darkButton": {
+	width: "40%",
+	height: Titanium.UI.SIZE,
+	color: "gray",
+	backgroundColor: "transparent",
+	backgroundSelectedColor: "#0df",
+	left: "8dp",
+	right: "8dp",
+	top: "16dp",
+	//bottom: "8dp",
+	borderColor: "gray",
+	borderRadius: "3dp",
+	font: {
+		fontSize: "12sp"
+	}
+}
+
+".bottomButton": {
+	backgroundColor:"darkgray",
+	backgroundSelectedColor: "gray",
+	width: Titanium.UI.FILL,
+	height: "64dp",
+	touchEnabled: true,
+	bottom: 0,
+	zIndex: 2,
+}
+
+".buttonLabel": {
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	touchEnabled: false,
+}
+
+"TextField": {
+	color: "darkgray",
+	left: "8dp",
+	top: "8dp",
+	horizontalWrap: false,
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL,
+}

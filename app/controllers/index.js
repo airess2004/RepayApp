@@ -5,4 +5,8 @@ function doClick(e) {
     alert($.label.text);
 }
 
+function doLoginClick(e) {
+    var loginView = Alloy.createController("login").getView().open();
+}
+
 $.index.open();

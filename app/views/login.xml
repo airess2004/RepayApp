@@ -1,0 +1,28 @@
+<Alloy>
+	<Window class="noNavBar" backgroundColor="white">
+		<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
+			<ImageView class="fitWidth" image="/logo.png" />
+			<View class="centeredHorizontal">
+				<Label color="darkgray" icon="fa-user"></Label>
+				<TextField id="userField" hintText="username / email"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<View class="centeredHorizontal">
+				<Label color="darkgray" icon="fa-lock"></Label>
+				<TextField id="passField" passwordMask="true" hintText="password"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<Button id="signIn" title="Sign In"></Button>
+			<View class="fitSize" layout="vertical" horizontalWrap="false">
+				<View class="centeredHorizontal" width=Ti.UI.SIZE>
+					<Button class="darkButton" id="companySignIn" title="Company SignIn"></Button>
+					<Button class="darkButton" id="forgotPassword" title="Forgot Password"></Button>
+				</View>
+			</View>
+		</ScrollView>
+		<View class="bottomButton">
+			<Label class="buttonLabel" text="Don't have an account? Sign up for free!"></Label>
+		</View>
+		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>
+	</Window>
+</Alloy>

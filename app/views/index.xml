@@ -4,7 +4,7 @@
 			<Label id="label" onClick="doClick">Hello, World</Label>
 		</ScrollView>
 		<View class="buttonBar">
-			<View class="homeBtn">
+			<View class="homeBtn" onClick="doLoginClick">
 				<ImageView class="homeImg"></ImageView>
 				<Label id="homeIcon" icon="fa-home"></Label>
 			</View>
