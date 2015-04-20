@@ -34,7 +34,7 @@
 
 ".homeBtn": {
 	backgroundColor:"darkgray",
-	backgroundSelectedColor: "lightgray",
+	backgroundSelectedColor: "gray",
 	touchEnabled: true,
 	width: Titanium.UI.SIZE,
 	height: Titanium.UI.SIZE,
@@ -47,8 +47,17 @@
 
 ".homeImg": {
 	image: null,
-	width: "48dp",
-	height: "48dp",
+	width: "64dp",
+	height: "64dp",
 	touchEnabled: false,
 	zIndex: 2,
+}
+
+"#homeIcon": {
+	touchEnabled: false,
+	color: "white",
+	//iconFontSize: 40,
+	font: {
+		fontSize: "40dp"
+	}
 }

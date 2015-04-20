@@ -6,7 +6,9 @@
 		<View class="buttonBar">
 			<View class="homeBtn">
 				<ImageView class="homeImg"></ImageView>
+				<Label id="homeIcon" icon="fa-home"></Label>
 			</View>
 		</View>
+		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>
 	</Window>
 </Alloy>
