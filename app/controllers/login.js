@@ -1,5 +1,7 @@
 var args = arguments[0] || {};
 
+var register = Alloy.createController("register");
+
 function onSignInClick(e) {
 	if (String.format($.userField.value).trim().toUpperCase() == "ADMIN" && $.passField.value == "sysadmin") {
 		$.loginForm.close();
@@ -8,7 +10,7 @@ function onSignInClick(e) {
 	}
 }
 
-function showResetDialog(){
+function showResetDialog(e){
     $.resetDialog.show();
 };
 
@@ -19,6 +21,11 @@ function doResetClick(e){
 };
 
 function showSignUpForm(e){
-	var registerView = Alloy.createController("register").getView().open();
+	register.getView().open();
 	$.loginForm.close();
+};
+
+function userFocus(e){
+	$.userField.blur();
+    Ti.UI.Android.hideSoftKeyboard();
 };

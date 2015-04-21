@@ -49,7 +49,7 @@
 }
 
 ".darkButton": {
-	width: "40%",
+	width: "45%",
 	height: Titanium.UI.SIZE,
 	color: "gray",
 	backgroundColor: "transparent",

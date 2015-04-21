@@ -1,28 +1,39 @@
 <Alloy>
 	<Window class="container" onOpen="mainViewOpen">
-		<ScrollView class="mainView" layout ="vertical">
-			<View layout = "horizontal">
-				<Label id="label" onClick="doClick">Hello, World</Label>
-				<TextField></TextField>
-			</View>
+		<ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" />
+		<SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" />
+        <Menu>
+            <MenuItem id="itemSearch" title="Search" onClick="doSearch" />
+        </Menu>
+        
+		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">
+			<!--Require src='reimburse' id="reimburse"/-->
+			<ScrollView>
+				<Label id="label1" onClick="doClick">Home Page</Label>
+			</ScrollView>
 			
+			<ScrollView>
+				<Label id="label2" onClick="doClick">Reimburse Page</Label>
+			</ScrollView>
 			
+			<ScrollView>
+				<Label id="label3" onClick="doClick">Setting Page</Label>
+			</ScrollView>
+		</ScrollableView>
 			
-		</ScrollView>
-		
 		<View class="buttonBar" >
 			<View class="buttonBarInner" >
-				<View class="homeBtn" onClick="buttonBarClick">
+				<View class="homeBtn" onClick="homeBtnClick">
 					<ImageView class="homeImg"></ImageView>
 					<Label id="homeIcon" icon="fa-home"></Label>
 				</View>
-				<View class="reimburseBtn" onClick="buttonBarClick">
+				<View class="reimburseBtn" onClick="reimburseBtnClick">
 					<ImageView class="reimburseImg"></ImageView>
 					<Label id="reimburseIcon" icon="fa-file-text"></Label>
 				</View>
-				<View class="settingBtn" onClick="buttonBarClick">
+				<View class="settingBtn" onClick="settingBtnClick">
 					<ImageView class="settingImg"></ImageView>
-					<Label id="settingIcon" icon="fa-gears"></Label>
+					<Label id="settingIcon" icon="fa-gear"></Label>
 				</View>
 			</View>
 		</View>
