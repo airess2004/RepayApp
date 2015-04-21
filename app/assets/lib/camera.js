@@ -1,4 +1,5 @@
 // For BlackBerry, you need to add the `use_camera` and `access_shared` permission in your project's tiapp.xml file.
+var maxImageResolution = 1280;
 
 exports.getImage = function(callback) {
 	//var win = Titanium.UI.currentWindow;
@@ -17,7 +18,7 @@ exports.getImage = function(callback) {
 			cancel : callbackCancel,
 			error : callbackError,
 			showControls : true,
-			//saveToPhotoGallery : true,
+			saveToPhotoGallery : false,
 			// allowEditing and mediaTypes are iOS-only settings
 			//allowEditing:true,
 			//mediaTypes:[Ti.Media.MEDIA_TYPE_VIDEO,Ti.Media.MEDIA_TYPE_PHOTO]
@@ -33,7 +34,7 @@ exports.getImage = function(callback) {
 
 	var cameras = Ti.Media.availableCameras;
 	if (cameras != null)
-	for (var c = 0; c < cameras.length; c++) {
+	for (c = 0; c < cameras.length; c++) {
 		// if we have a rear camera ... we add switch button
 		if (cameras[c] == Ti.Media.CAMERA_REAR) {
 			overlay.add(cameraType);
@@ -59,7 +60,7 @@ exports.getImage = function(callback) {
 		error : callbackError,
 		//overlay : overlay,
 		showControls : true,
-		saveToPhotoGallery : true,
+		saveToPhotoGallery : false,
 		// allowEditing and mediaTypes are iOS-only settings
 		//allowEditing:true,
 		//mediaTypes:[Ti.Media.MEDIA_TYPE_VIDEO,Ti.Media.MEDIA_TYPE_PHOTO]
@@ -71,21 +72,32 @@ exports.getImage = function(callback) {
 		//Ti.API.info('Our media was: '+event.media);
 		if (event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
 			var media = event.media;
-			// Must be less than 12Mp otherwise it won't shows (bug?)
-			var imageView = Ti.UI.createImageView({
-				//width : _win.width,
-				//height : _win.height,
-				image : media,
-				//url : media.nativePath,
-			});
+			// Must be less than 12Mp otherwise it won't shows (OutOfMemory or bug?)
+			// Resize photo to prevent using too much memory, taking too long time & nativePath doesn't works yet
+			// var imgOption = {image : media};
+			// if (media.width > media.height && media.width > maxImageResolution) {
+				// imgOption.width = maxImageResolution;
+			// } else if (media.width < media.height && media.height > maxImageResolution) {
+				// imgOption.height = maxImageResolution;
+			// }
+			// var image = Ti.UI.createImageView(imgOption).toImage();
+			// var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, "img_"+Date.now()+'.jpg');
+			// f.write(image.media);
+			// image = Ti.UI.createImageView({image : f.resolve()}); //f.nativePath
+			// var imageView = Ti.UI.createImageView({
+				// //width : _win.width,
+				// //height : _win.height,
+				// image : media,
+				// //url : media.nativePath,
+			// });
 			//_win.removeAllChildren();
 			//_win.add(imageView);
 			//_path.value = media.nativePath;
-			Ti.API.info('Our NativePath was: ' + media.nativePath);
+			Ti.API.info('Our NativePath was: ' + media.nativePath); //image.nativePath
 			//Ti.API.info('Our URL was: ' + imageView.url);
 			Ti.API.info('Current camera is: ' + Ti.Media.camera + ' (Front='+Ti.Media.CAMERA_FRONT+')');
-			if (callback) callback(media);
-			return media.nativePath;
+			if (callback) callback(media); //image.media
+			return media.nativePath; //image.nativePath
 		} else {
 			alert("got the wrong type back =" + event.mediaType);
 		}
@@ -109,8 +121,10 @@ exports.getImage = function(callback) {
 		} else {
 			a.setMessage('Unexpected error: ' + error.code);
 		}
+		a.addEventListener('click', function(e) {
+			if (callback) callback(null);
+		});
 		a.show();
-		if (callback) callback(null);
 		return null;
 	};
 	

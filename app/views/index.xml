@@ -4,17 +4,15 @@
 		<SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" />
         <Menu>
             <MenuItem id="itemSearch" title="Search" onClick="doSearch" />
+            <MenuItem id="itemSave" title="SAVE" onClick="doSave" visible="false" />
         </Menu>
         
 		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">
-			<!--Require src='reimburse' id="reimburse"/-->
 			<ScrollView>
 				<Label id="label1" onClick="doClick">Home Page</Label>
 			</ScrollView>
 			
-			<ScrollView>
-				<Label id="label2" onClick="doClick">Reimburse Page</Label>
-			</ScrollView>
+			<Require src='reimburseList' id="reimburseList"/>
 			
 			<ScrollView>
 				<Label id="label3" onClick="doClick">Setting Page</Label>

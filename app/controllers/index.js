@@ -22,6 +22,10 @@ function doSearch(e) {
 	alert("Search Clicked");
 }
 
+function doSave(e) {
+	alert("Save Clicked");
+}
+
 function doLoginClick(e) {
     Alloy.Globals.login.getView().open();
 }
@@ -44,6 +48,7 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
+	//var reimburseDetil = Alloy.createController("reimburseDetailForm").getView().open();
 }
 
 function settingBtnClick(e) {
@@ -58,17 +63,29 @@ function settingBtnClick(e) {
 function mainViewOpen(e) {
 	Alloy.Globals.index = $.index;
 	//Alloy.Globals.abx = require('com.alcoapps.actionbarextras');
-	var actionBar = $.index.getActivity().getActionBar();
-	// get a handle to the action bar
-	actionBar.title = 'RepayApp';
-	// change the App Title
-	//actionBar.displayHomeAsUp = true; // back icon
-	// Show the "angle" pointing back
-	actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
-		Ti.API.info("Home icon clicked!");
-	};
-	// Make sure icons are updated
-	$.index.activity.invalidateOptionsMenu();
+	var activity = $.index.getActivity();
+		if (activity) {
+		var actionBar = activity.getActionBar();
+		// get a handle to the action bar
+		actionBar.title = 'RepayApp';
+		// change the App Title
+		//actionBar.displayHomeAsUp = true; // back icon
+		// Show the "angle" pointing back
+		actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
+			Ti.API.info("Home icon clicked!");
+		};
+	
+		activity.onCreateOptionsMenu = function(e) {
+        	e.menu.add({
+            	title: "Table Search",
+            	icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
+            	actionView: $.searchView,
+            	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+        	});
+    };
+		// Make sure icons are updated
+		$.index.activity.invalidateOptionsMenu();
+	}
 	
 	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
 		Alloy.Globals.CURRENT_USER = "Admin"; 

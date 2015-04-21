@@ -1,0 +1,9 @@
+
+".container" : {
+  
+}
+
+"#tableView" : {
+ 	height: Titanium.UI.SIZE,
+ 	separatorColor: "gray",
+}

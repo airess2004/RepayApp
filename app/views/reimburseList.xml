@@ -1,0 +1,8 @@
+<Alloy>
+	<View class="container" layout="vertical" onOpen="showList">
+		<SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" />
+		<TableView id="tableView" searchAsChild="false" dataCollection="reimburse" dataFilter="whereFunction" dataTransform="transformFunction">
+			<Require src="reimburseRow"/>
+		</TableView>
+	</View>
+</Alloy>

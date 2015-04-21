@@ -8,9 +8,12 @@
 "#itemSearch": {
     icon: Ti.Android.R.drawable.ic_menu_search
 },
+"#itemSave": {
+    icon: Ti.Android.R.drawable.btn_check_buttonless_on
+},
 "#actionBar": {
     icon: "/actionicon.png",
-    displayHomeAsUp: true,
+    //displayHomeAsUp: true,
     backgroundImage: "/actionbackground.png"
 }
 
