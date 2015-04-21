@@ -26,6 +26,7 @@ function doLoginClick(e) {
     Alloy.Globals.login.getView().open();
 }
 
+
 function homeBtnClick(e) {
 	var page = 0;
 	$.scrollableView.scrollToView(page);
@@ -33,6 +34,7 @@ function homeBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Home';
+
 }
 
 function reimburseBtnClick(e) {

@@ -1,0 +1,17 @@
+<Alloy>
+	<Window>
+		<View class="container" layout = "vertical">
+			<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
+				<ImageView id= "image" class="fitWidth" image="/logo.png" onClick="imageClick"/>
+				<View class="centeredHorizontal">
+					<Label>Title</Label>
+					<TextField id="title" hintText="Title"></TextField>
+				</View>
+				<View class="centeredHorizontal">
+					<Label>Description</Label>
+					<TextField id="passField" hintText="Description"></TextField>
+				</View>
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>
