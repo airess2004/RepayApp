@@ -1,0 +1,19 @@
+
+".container" : {
+  
+}
+
+
+
+".centeredVertical": {
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	scrollType: "vertical",
+}
+
+".centeredHorizontal": {
+	layout: "horizontal",
+	top: "8dp",
+	horizontalWrap: false,
+	height: Titanium.UI.SIZE,
+}

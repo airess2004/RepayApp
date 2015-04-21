@@ -1,0 +1,22 @@
+<Alloy>
+	<Window>
+		<View class="container" layout = "vertical">
+			<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
+				<View class="centeredHorizontal">
+					<Label>Title</Label>
+					<TextField id="title" hintText="Title"></TextField>
+				</View>
+				<View class="centeredHorizontal">
+					<Label>Date</Label>
+					<Picker id="picker"
+					type="Ti.UI.PICKER_TYPE_DATE"
+					value="2014-04-15T12:00:00"></Picker>
+				</View>
+				<View class="centeredHorizontal">
+					<Label>Description</Label>
+					<TextField id="passField" hintText="Description"></TextField>
+				</View>
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>

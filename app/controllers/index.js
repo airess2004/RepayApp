@@ -10,7 +10,7 @@ function doLoginClick(e) {
 }
 
 function buttonBarClick(e) {
-	var reimburse = Alloy.createController('reimburse').getView();
+	var reimburse = Alloy.createController('reimburseDetailForm').getView();
 	reimburse.open();
 	
 }
