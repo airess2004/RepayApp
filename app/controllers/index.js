@@ -48,7 +48,8 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
-	//var reimburseDetil = Alloy.createController("reimburseDetailForm").getView().open();
+
+	Alloy.createController("reimburseDetailForm").getView().open();
 }
 
 function settingBtnClick(e) {
@@ -88,8 +89,8 @@ function mainViewOpen(e) {
 	}
 	
 	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
-		Alloy.Globals.CURRENT_USER = "Admin"; 
-		//Alloy.Globals.login.getView().open();
+		//Alloy.Globals.CURRENT_USER = "Admin"; 
+		Alloy.Globals.login.getView().open();
 	}
 }
 

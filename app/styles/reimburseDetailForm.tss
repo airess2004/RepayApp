@@ -1,6 +1,4 @@
-
 ".container" : {
-  
 }
 
 ".centeredVertical": {
@@ -14,4 +12,8 @@
 	top: "8dp",
 	horizontalWrap: false,
 	height: Titanium.UI.SIZE,
+}
+
+".fitWidth": {
+  width: Titanium.UI.FILL,
 }

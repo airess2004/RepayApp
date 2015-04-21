@@ -3,18 +3,16 @@
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
 				<View class="centeredHorizontal">
-					<Label>Title</Label>
-					<TextField id="title" hintText="Title"></TextField>
+					<Label width="40%">Title</Label>
+					<TextField id="titleField" hintText="Title" width="60%"></TextField>
 				</View>
 				<View class="centeredHorizontal">
-					<Label>Date</Label>
-					<Picker id="picker"
-					type="Ti.UI.PICKER_TYPE_DATE"
-					value="2014-04-15T12:00:00"></Picker>
+					<Label  width="40%">Date</Label>
+					<TextField id="dateField" hintText="adsdas" width="60%"></TextField>
 				</View>
 				<View class="centeredHorizontal">
-					<Label>Description</Label>
-					<TextField id="passField" hintText="Description"></TextField>
+					<Label width="40%">Description</Label>
+					<TextField id="descriptionField" hintText="Description" width="60%"></TextField>
 				</View>
 			</ScrollView>
 		</View>
