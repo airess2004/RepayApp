@@ -4,12 +4,32 @@
 			<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
 				<ImageView id= "image" class="fitWidth" image="/logo.png" onClick="imageClick"/>
 				<View class="centeredHorizontal">
-					<Label>Title</Label>
-					<TextField id="title" hintText="Title"></TextField>
+					<Label  width="40%">Title</Label>
+					<TextField id="titleField" hintText="Title"  width="60%"></TextField>
 				</View>
 				<View class="centeredHorizontal">
-					<Label>Description</Label>
-					<TextField id="passField" hintText="Description"></TextField>
+					<Label  width="40%">Date</Label>
+					<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" editable="false"></TextField>
+				</View>
+				<View class="centeredHorizontal">
+					<Label  width="40%">Description</Label>
+					<TextField id="descriptionField" hintText="Description" width="60%"></TextField>
+				</View>
+				<View class="centeredHorizontal">
+					<Label width="40%">Amount</Label>
+					<TextField id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" width="60%"></TextField>
+				</View>
+				<View class="centeredHorizontal">
+					<Label>Comment :</Label>
+				</View>
+				<View class="centeredHorizontal">
+					<TableView id="commentTable">
+						<TableViewRow>
+							<ImageView id="userAvatar"/>
+							<Label id="message"/>
+							<Label id="date"/>
+						</TableViewRow>
+					</TableView>
 				</View>
 			</ScrollView>
 		</View>

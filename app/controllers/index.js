@@ -44,6 +44,7 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
+	Alloy.createController("reimburseDetailForm").getView().open();
 }
 
 function settingBtnClick(e) {
