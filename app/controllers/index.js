@@ -4,7 +4,7 @@
 Alloy.Globals.login = Alloy.createController("login");
 
 function doClick(e) {
-    alert($.label.text);
+    alert($.label1.text);
 }
 
 function doMenuClick(evt) {
