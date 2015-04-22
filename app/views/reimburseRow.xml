@@ -1,9 +1,9 @@
 <Alloy>
   <TableViewRow id="reimburseRow">
-  	<View id="innerView" layout="horizontal">
+  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
     	<ImageView class="avatar" onClick="thumbPopUp"/>
-    	<Label id="title" text="{title}" horizontalWrap="false" />
-    	<View layout="vertical">
+    	<Label id="title" text="{title}" />
+    	<View class="rightView">
     		<Label id="status" text="{status}"/>
     		<Label id="total" text="{total}"/>
     	</View>

@@ -17,6 +17,7 @@ var moment = require('alloy/moment');
 
 if (OS_IOS || OS_ANDROID) {
 	Alloy.Collections.reimburse = Alloy.createCollection('reimburse');
+	Alloy.Collections.reimburseDetail = Alloy.createCollection('reimburseDetail');
 	fillTestData();
 	
 	//Alloy.Globals.top = 0;
@@ -40,12 +41,12 @@ function addItem(item) {
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
         title : item.title,
-        projectDate : moment("dd/MM/yyyy", item.projectDate).utc().toISOString(),
-        total : item.total,
+        projectDate : moment("DD/MM/YYYY", item.projectDate).utc().toISOString(),
         isSent : item.isSent,
         sentDate : item.sentDate,
-        isDeleted : 0,
         status : item.isSent == 1 ? 1 : 0,
+        total : item.total,
+        isDeleted : 0,
     });
 
     // add new model to the global collection
@@ -69,11 +70,11 @@ function fillTestData() {
 	for (var i = 1; i <= 25; i++) {
 		var isSent = Math.round(Math.random());
 		addItem({
-			title : "Judul"+i+"sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
+			title : "Judul"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
 			total : 0,
 			isSent : isSent,
-			sentDate : isSent == 1 ? moment().add(i, "days").format("dd/MM/yyyy") : null,
-			projectDate : moment().add(i, "days").format("dd/MM/yyyy")
+			sentDate : isSent == 1 ? moment().add(i, "days").format("DD/MM/YYYY") : null,
+			projectDate : moment().add(i, "days").format("DD/MM/YYYY")
 		});
 	}
 }

@@ -1,5 +1,7 @@
 ".container": {
-	backgroundColor:"white"
+	backgroundColor:"white",
+	height: Titanium.UI.FILL,
+	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_ADJUST_SIZE,
 }
 
 "MenuItem": {
@@ -8,7 +10,7 @@
 "#itemSearch": {
     icon: Ti.Android.R.drawable.ic_menu_search
 },
-"#itemSave": {
+"#itemNew": {
     icon: Ti.Android.R.drawable.btn_check_buttonless_on
 },
 "#actionBar": {
@@ -32,11 +34,12 @@
 ".mainView": {
 	backgroundColor:"white",
 	width: Titanium.UI.FILL,
-	height: Titanium.UI.SIZE,
+	height: Titanium.UI.FILL,
 	contentHeight: Titanium.UI.SIZE,
 	scrollType: "vertical",
 	zIndex: 1,
 	top:0,
+	bottom:"72dp",
 }
 
 ".buttonBarInner": {

@@ -10,15 +10,17 @@ var id;
 
 if ($model) {
 	id = $model.id;
+	$.reimburseRow.rowid = $model.id;
+	var status = $model.get('status');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.backgroundColor = STATUS_COLOR[$model.status];
+		$.reimburseRow.backgroundColor = STATUS_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUS_COLOR[$model.status];
+		$.status.backgroundColor = STATUS_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.reimburseRow.backgroundColor = $model.status == 0 ? 'red' : 'purple';
+		$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
 		$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = $model.status == 0 ? 'red' : 'purple';
+		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
 	}
 }
@@ -54,3 +56,17 @@ function deleteItem(e) {
 function thumbPopUp(e) {
 	
 }
+
+function rowClick(e) {
+	var id = e.source.parent.rowid;
+	Alloy.createController("reimburseDetailList",{
+					id : id
+				}
+	).getView().open();
+}
+
+function rowLongClick(e) {
+	var id = e.source.parent.rowid;
+	alert("Long Clicked ID: "+id);
+}
+
