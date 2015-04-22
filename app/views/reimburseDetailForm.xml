@@ -9,7 +9,7 @@
 				</View>
 				<View class="centeredHorizontal">
 					<Label  width="40%">Date</Label>
-					<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" editable="false"></TextField>
+					<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" onFocus="dateFieldClick" editable="false"></TextField>
 				</View>
 				<View class="centeredHorizontal">
 					<Label  width="40%">Description</Label>

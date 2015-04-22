@@ -81,6 +81,7 @@
 }
 
 "TextField": {
+	font : "",
 	color: "darkgray",
 	left: "8dp",
 	top: "8dp",

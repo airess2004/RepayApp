@@ -49,7 +49,7 @@ function reimburseBtnClick(e) {
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
 
-	Alloy.createController("reimburseDetailForm").getView().open();
+	Alloy.createController("reimburseForm").getView().open();
 }
 
 function settingBtnClick(e) {
@@ -81,6 +81,12 @@ function mainViewOpen(e) {
             	title: "Table Search",
             	icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
             	actionView: $.searchView,
+            	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+        	});
+        	e.menu.add({
+            	title: "Save",
+            	icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
+            	actionView: $.saveMenu,
             	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
         	});
     };

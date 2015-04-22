@@ -10,9 +10,30 @@
 	scrollType: "vertical",
 }
 
+".verticalLayout": {
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	layout: "horizontal",
+}
+
+".labelView": {
+	font: {
+		fontSize: "12sp", fontWeight:'bold'
+	}
+}
+
 ".centeredHorizontal": {
 	layout: "horizontal",
 	top: "8dp",
 	horizontalWrap: false,
 	height: Titanium.UI.SIZE,
+}
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1dp",
+	touchEnabled: false,
+	backgroundColor: "gray",
+	top: "8dp",
+	//bottom: "8dp",
 }
