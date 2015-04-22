@@ -3,5 +3,5 @@
 		<TableView id="tableView" searchAsChild="false" dataCollection="reimburse" dataFilter="whereFunction" dataTransform="transformFunction">
 			<Require src="reimburseRow"/>
 		</TableView>
-	</View>
+	</View>      
 </Alloy>

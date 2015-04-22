@@ -1,19 +1,19 @@
 <Alloy>
-	<Window>
-		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
+	<Window onOpen="windowOpen">
+		<ActionBar id="actionBar" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
-			<MenuItem id="editMenu" title="Edit" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
+			<MenuItem id="editMenu" title="Edit" onClick="doEdit" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
 		</Menu>
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
 				<Label class="labelView"   width="40%">Total</Label>
-				<TextField id="totalField" hintText="Title" width="60%" editable="false"></TextField>
+				<TextField id="totalField" hintText="0" width="60%" editable="false"></TextField>
 				<View class="vSplitter" />
-				<Button id="addNewButton" title="Add New"></Button>
+				<Button id="addNewButton" title="Add New" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
 				<View class="vSplitter" />
-				<TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+				<!--TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
 					<Require src="reimburseDetailRow"/>
-				</TableView>
+				</TableView-->
 			</ScrollView>
 		</View>
 	</Window>

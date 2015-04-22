@@ -2,6 +2,9 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
+function winOpen(e) {
+	
+}
 
 function doMenuClick(evt) {
   switch(evt.source.title){

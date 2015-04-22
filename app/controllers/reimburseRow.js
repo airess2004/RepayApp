@@ -41,10 +41,7 @@ if ($model) {
 // }
 
 // delete the IDed todo from the collection
-function deleteItem(e) {
-	// prevent bubbling up to the row
-	e.cancelBubble = true;
-
+function deleteItem(id) {
 	// find the todo task by id
 	var reimburse = reimburses.get(id);
 
@@ -54,12 +51,20 @@ function deleteItem(e) {
 	reimburse.destroy();
 }
 
+function doDeleteClick(e){
+	if (e.index == 0) {
+		// prevent bubbling up to the row
+		e.cancelBubble = true;
+    	deleteItem(id);
+	}
+};
+
 function thumbPopUp(e) {
 	
 }
 
 function rowClick(e) {
-	var id = e.source.parent.rowid;
+	id = e.source.parent.rowid;
 	Alloy.createController("reimburseDetailList",{
 					id : id
 				}
@@ -67,7 +72,7 @@ function rowClick(e) {
 }
 
 function rowLongClick(e) {
-	var id = e.source.parent.rowid;
-	alert("Long Clicked ID: "+id);
+	id = e.source.parent.rowid;
+	$.deleteDialog.show();
 }
 

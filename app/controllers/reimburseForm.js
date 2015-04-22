@@ -1,6 +1,16 @@
 var args = arguments[0] || {};
 var moment = require('alloy/moment');
-Alloy.Globals.cameraShown = false;
+
+var reimburses = Alloy.Collections.reimburse;
+reimburses && reimburses.fetch();
+var data = reimburses.get(args.id);
+
+function winOpen(e) {
+	if (data) {
+		$.titleField.value = data.get('title');
+		$.dateField.value = moment("YYYY-MM-DD", data.get('projectDate')).toDate();
+	}
+}
 
 function doMenuClick(evt) {
   switch(evt.source.title){
@@ -30,11 +40,17 @@ function doSave(e) {
 		isDeleted : 0,
 		status :  0,
 	});
-	reimburse.save();
 	reimburses.add(reimburse);
+	reimburse.save();
+
 	// reload the tasks
 	reimburses.fetch();
+	Alloy.createController("reimburseDetailList",{
+					id : reimburse.id
+				}
+	).getView().open();
 	$.reimburseForm.close();
+	
 }
 
 var picker = Ti.UI.createPicker({

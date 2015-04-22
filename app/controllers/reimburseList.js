@@ -32,7 +32,7 @@ function transformFunction(model) {
 
 // open the "add item" window
 function addItem() {
-	Alloy.createController("reimburseForm").getView().open();
+	
 }
 
 // Show task list based on selected status type

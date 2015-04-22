@@ -26,7 +26,7 @@ function doSearch(e) {
 }
 
 function doNew(e) {
-	alert("New Clicked");
+	Alloy.createController("reimburseForm").getView().open();
 }
 
 function doLoginClick(e) {
@@ -51,6 +51,7 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
+
 
 }
 
