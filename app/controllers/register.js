@@ -18,6 +18,14 @@ function showSignInForm(e){
 };
 
 function userFocus(e){
-	$.userField.blur();
-    Ti.UI.Android.hideSoftKeyboard();
+	//$.userField.removeEventListener("focus", userFocus);
+	//$.userField.blur();
+    //Ti.UI.Android.hideSoftKeyboard();
 };
+
+function registerOpen(e) {
+	$.userField.blur();
+	$.signUp.focus();	
+}
+
+$.signUp.focus();

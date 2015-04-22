@@ -4,7 +4,7 @@
 		<SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" />
         <Menu>
             <MenuItem id="itemSearch" title="Search" onClick="doSearch" />
-            <MenuItem id="itemSave" title="SAVE" onClick="doSave" visible="false" />
+            <MenuItem id="itemSave" title="SAVE" onClick="doSave"/>
         </Menu>
         
 		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">

@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="registerForm" class="noNavBar" backgroundColor="white" >
+	<Window id="registerForm" class="noNavBar" backgroundColor="white" onOpen="registerOpen">
 		<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
 			<ImageView class="fitWidth" image="/logo.png" />
 			<View class="centeredHorizontal">
