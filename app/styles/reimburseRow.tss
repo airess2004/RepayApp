@@ -1,9 +1,12 @@
 
 "#reimburseRow" : {
- 	height: Titanium.UI.SIZE,
+ 	height: "80dp", //Titanium.UI.SIZE,
+ 	width: Titanium.UI.FILL,
 }
 
 "#innerView" : {
+	left: "4dp",
+	width: Titanium.UI.FILL,
  	height: Titanium.UI.SIZE,
  	touchEnabled : true,
  	backgroundSelectedColor: "gray",
@@ -22,18 +25,28 @@
  	horizontalWrap: false,
 }
 
+".rightView" : {
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.FILL,
+ 	touchEnabled : false,
+}
+
 "#status" : {
- 	width: "30%",
+ 	//width: "30%",
  	right: "8dp",
  	top: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
 }
 
 "#total" : {
- 	width: "30%",
+ 	//width: "30%",
  	right: "8dp",
  	bottom: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
 }

@@ -25,6 +25,8 @@ function whereFunction(collection) {
 function transformFunction(model) {
 	var transform = model.toJSON();
 	transform.status = STATUS[transform.status];
+	transform.total = transform.total + " IDR";
+	if (String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
 	return transform;
 }
 
@@ -48,7 +50,7 @@ function thumbPopUp(e) {
 }
 
 $.reimburseList.addEventListener("open", function(e){
-	$.tableView.search = $.searchView;
+	$.tableView.search = Alloy.Globals.index.searchView;
 	Alloy.Globals.index.activity.actionBar.title = "Reimburse";
 	//showList(e);
 });
