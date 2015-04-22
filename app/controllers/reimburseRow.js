@@ -13,9 +13,10 @@ if ($model) {
 	$.reimburseRow.rowid = $model.id;
 	var status = $model.get('status');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.backgroundColor = STATUS_COLOR[status];
+		$.reimburseRow.title = $model.get('title');
+		$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUS_COLOR[status];
+		$.status.backgroundColor = STATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
 		$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
@@ -59,7 +60,8 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	var id = e.source.parent.rowid;
-	alert("Clicked ID: "+id);
+	//alert("Clicked ID: "+id);
+	Alloy.createController("reimburseForm", {id : id}).getView().open();
 }
 
 function rowLongClick(e) {

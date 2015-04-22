@@ -3,6 +3,9 @@
 
 Alloy.Globals.login = Alloy.createController("login");
 
+// use action bar search view
+Alloy.Globals.searchView = Alloy.createController("searchView").getView();
+
 function doClick(e) {
     alert($.label1.text);
 }
@@ -48,8 +51,6 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
-
-	Alloy.createController("reimburseForm").getView().open();
 }
 
 function settingBtnClick(e) {
@@ -63,6 +64,7 @@ function settingBtnClick(e) {
 
 function mainViewOpen(e) {
 	Alloy.Globals.index = $.index;
+	//Alloy.Globals.searchView = $.searchView;
 	//Alloy.Globals.abx = require('com.alcoapps.actionbarextras');
 	var activity = $.index.getActivity();
 	if (activity) {
@@ -76,22 +78,16 @@ function mainViewOpen(e) {
 			// Ti.API.info("Home icon clicked!");
 		// };
 	
-		// activity.onCreateOptionsMenu = function(e) {
-        	// e.menu.add({
-            	// title: "Table Search",
-            	// icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
-            	// actionView: $.searchView,
-            	// showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-        	// });
-        	// e.menu.add({
-            	// title: "Save",
-            	// icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
-            	// actionView: $.saveMenu,
-            	// showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-        	// });
-    	// };
-    	//$.itemSearch.actionView = $.searchView;
-		// Make sure icons are updated
+		activity.onCreateOptionsMenu = function(e) {
+			e.menu.clear();
+        	e.menu.add({
+            	title: "List Search",
+            	icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
+            	actionView: Alloy.Globals.searchView,
+            	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+        	});
+    	};
+    	// Make sure icons are updated
 		$.index.activity.invalidateOptionsMenu();
 	}
 	

@@ -50,7 +50,7 @@ function thumbPopUp(e) {
 }
 
 $.reimburseList.addEventListener("open", function(e){
-	$.tableView.search = Alloy.Globals.index.searchView;
+	$.tableView.search = Alloy.Globals.searchView;
 	Alloy.Globals.index.activity.actionBar.title = "Reimburse";
 	//showList(e);
 });

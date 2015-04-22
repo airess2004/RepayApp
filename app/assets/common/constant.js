@@ -7,9 +7,16 @@ var STATUS = {
 
 var STATUS_COLOR = {
 	'Pending': "#0be",
-	'Sent': "#be0",
+	'Sent': "#bb0",
 	'Approved': "#0e8",
 	'Denied': "777",
+};
+
+var STATUSCODE_COLOR = {
+	'0': "#0be",
+	'1': "#bb0",
+	'2': "#0e8",
+	'3': "777",
 };
 
 //var statusStr = STATUS['0'];

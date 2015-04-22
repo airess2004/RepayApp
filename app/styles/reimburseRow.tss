@@ -23,6 +23,7 @@
  	width: "60%",
  	touchEnabled : false,
  	horizontalWrap: false,
+ 	color: "black",
 }
 
 ".rightView" : {
@@ -32,21 +33,25 @@
 }
 
 "#status" : {
- 	//width: "30%",
+ 	width: Titanium.UI.FILL,
  	right: "8dp",
  	top: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	borderColor: "black",
+ 	borderWidth: "1dp",
+ 	color: "black",
 }
 
 "#total" : {
- 	//width: "30%",
+ 	width: Titanium.UI.FILL,
  	right: "8dp",
  	bottom: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	color: "navy",
 }

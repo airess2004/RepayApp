@@ -1,12 +1,11 @@
 <Alloy>
 	<Window class="container" onOpen="mainViewOpen">
-		<ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" />
-        <Menu>
-            <MenuItem id="itemSearch" title="Search" onClick="doSearch">
-            	<SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" submitEnabled="true" />
-            </MenuItem>
+		<!--ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" /-->
+		<!--SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" submitEnabled="true" /-->
+        <!--Menu>
+            <MenuItem id="itemSearch" title="Search" onClick="doSearch" />
             <MenuItem id="itemNew" title="NEW" onClick="doNew"/>
-        </Menu>
+        </Menu-->
         
 		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">
 			<ScrollView>
