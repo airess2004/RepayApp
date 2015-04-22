@@ -1,24 +1,35 @@
 
-".container" : {
+".container": {}
+
+
+"Label": {
+	width: Ti.UI.SIZE,
+	left: "4dp"
 }
 
-
+"TextField": {
+	width: Ti.UI.SIZE,
+	left: "4dp"
+}
 
 ".centeredVertical": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,
-	scrollType: "vertical",
+	scrollType: "vertical"
 }
 
 ".verticalLayout": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,
-	layout: "horizontal",
+	layout: "vertical",
+	top: "8dp",
+	left: "4dp"
 }
 
 ".labelView": {
 	font: {
-		fontSize: "12sp", fontWeight:'bold'
+		fontSize: "12sp",
+		fontWeight: 'bold'
 	}
 }
 
@@ -26,7 +37,7 @@
 	layout: "horizontal",
 	top: "8dp",
 	horizontalWrap: false,
-	height: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE
 }
 
 ".vSplitter": {
@@ -34,6 +45,5 @@
 	height: "1dp",
 	touchEnabled: false,
 	backgroundColor: "gray",
-	top: "8dp",
-	//bottom: "8dp",
+	top: "8dp"
 }

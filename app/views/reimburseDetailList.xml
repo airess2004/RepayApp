@@ -1,0 +1,20 @@
+<Alloy>
+	<Window>
+		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
+		<Menu>
+			<MenuItem id="editMenu" title="Edit" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
+		</Menu>
+		<View class="container" layout = "vertical">
+			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
+				<Label class="labelView"   width="40%">Total</Label>
+				<TextField id="totalField" hintText="Title" width="60%" editable="false"></TextField>
+				<View class="vSplitter" />
+				<Button id="addNewButton" title="Add New"></Button>
+				<View class="vSplitter" />
+				<TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+					<Require src="reimburseDetailRow"/>
+				</TableView>
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>

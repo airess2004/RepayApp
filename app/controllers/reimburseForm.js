@@ -2,38 +2,39 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
-function reimburseFormViewOpen(e) {
-	var activity = $.reimburseFormView.getActivity();
-		if (activity) {
-		var actionBar = activity.getActionBar();
-		// get a handle to the action bar
-		actionBar.title = 'Reimburse';
-		// change the App Title
-		actionBar.displayHomeAsUp = true; // back icon
-		// Show the "angle" pointing back
-		actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
-			Ti.API.info("Home icon clicked!");
-		};
-	
-		activity.onCreateOptionsMenu = function(e) {
-        	e.menu.add({
-            	title: "Save",
-            	// icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
-            	actionView: $.saveMenu,
-            	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-        	});
-    };
-		// Make sure icons are updated
-		$.reimburseFormView.activity.invalidateOptionsMenu();
+function doMenuClick(evt) {
+  switch(evt.source.title){
+		case "Menu": // in real life you probably wouldn't want to use the text of the menu option as your condition
+			var activity = $.reimburseForm.getActivity();
+			activity.openOptionsMenu();
+			break;
+		default:
+			alert(evt.source.title);	
 	}
 }
+
 
 function doSearch(e) {
 	alert("Search Clicked");
 }
 
 function doSave(e) {
-	alert("Save Clicked");
+	var reimburses = Alloy.Collections.reimburse;
+	var reimburse = Alloy.createModel('reimburse', {
+		userId : 1,
+		title : $.titleField.value,
+		projectDate : moment("YYYY-MM-DD", $.dateField.value).utc().toISOString(),
+		total : 0,
+		isSent : 0,
+		//sentDate : item.sentDate,
+		isDeleted : 0,
+		status :  0,
+	});
+	reimburse.save();
+	reimburses.add(reimburse);
+	// reload the tasks
+	reimburses.fetch();
+	$.reimburseForm.close();
 }
 
 var picker = Ti.UI.createPicker({
@@ -47,7 +48,7 @@ function dateFieldClick(e) {
 		callback : function(e) {
 			if (e.cancel) {
 			} else {
-				$.dateField.value =  moment(e.value).format("YYYY-MM-DD");
+				$.dateField.value = moment(e.value).format("YYYY-MM-DD");
 			}
 		}
 	});
