@@ -17,3 +17,13 @@
 ".fitWidth": {
   width: Titanium.UI.FILL,
 }
+
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1dp",
+	touchEnabled: false,
+	backgroundColor: "gray",
+	top: "8dp",
+	//bottom: "8dp",
+}

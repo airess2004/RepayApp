@@ -1,19 +1,26 @@
 <Alloy>
 	<Window>
 		<View class="container" layout = "vertical">
-			<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
-				<View class="centeredHorizontal">
-					<Label width="40%">Title</Label>
-					<TextField id="titleField" hintText="Title" width="60%"></TextField>
+			<Menu>
+				<MenuItem id="backMenu" title="BACK" onClick="doSearch" />
+				<MenuItem id="saveMenu" title="SAVE" onClick="doSave"  />
+			</Menu>
+			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
+				<View class="vSplitter" />
+				<View class="verticalLayout">
+					<Label class="labelView"   width="40%">Title</Label>
+					<View class="centeredHorizontal">
+						<TextField id="titleField" hintText="Title" width="60%"></TextField>
+					</View>
 				</View>
-				<View class="centeredHorizontal">
-					<Label  width="40%">Date</Label>
-					<TextField id="dateField" hintText="adsdas" width="60%"></TextField>
+				<View class="vSplitter" />
+				<View class="verticalLayout">
+					<Label class="labelView"  width="40%">Date</Label>
+					<View class="centeredHorizontal">
+						<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" onFocus="dateFieldClick" editable="false"></TextField>
+					</View>
 				</View>
-				<View class="centeredHorizontal">
-					<Label width="40%">Description</Label>
-					<TextField id="descriptionField" hintText="Description" width="60%"></TextField>
-				</View>
+				<View class="vSplitter" />
 			</ScrollView>
 		</View>
 	</Window>

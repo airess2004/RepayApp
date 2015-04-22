@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-
+var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
 function imageClick(e) {	
@@ -17,22 +17,22 @@ function imageClick(e) {
 	}
 }
 		
-// var picker = Ti.UI.createPicker({
-	// type : Ti.UI.PICKER_TYPE_DATE,
-	// value : new Date()
-// });
-// 
-// function dateFieldClick(e) {
-	// picker.showDatePickerDialog({
-		// value : new Date(2010, 8, 1),
-		// callback : function(e) {
-			// if (e.cancel) {
-			// } else {
-				// $.dateField.value = e.value;
-			// }
-		// }
-	// });
-// }
+var picker = Ti.UI.createPicker({
+	type : Ti.UI.PICKER_TYPE_DATE,
+	value : new Date()
+});
+
+function dateFieldClick(e) {
+	picker.showDatePickerDialog({
+		value : moment().toDate(),
+		callback : function(e) {
+			if (e.cancel) {
+			} else {
+				$.dateField.value =  moment(e.value).format("YYYY-MM-DD");
+			}
+		}
+	});
+}
 
 
 
