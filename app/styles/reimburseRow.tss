@@ -6,7 +6,7 @@
 "#innerView" : {
  	height: Titanium.UI.SIZE,
  	touchEnabled : true,
- 	backgroundSelectedColor: "lightgray",
+ 	backgroundSelectedColor: "gray",
 }
 
 ".avatar" : {

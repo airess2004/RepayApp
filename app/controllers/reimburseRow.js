@@ -11,9 +11,9 @@ var id;
 if ($model) {
 	id = $model.id;
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.backgroundColor = $model.status == 0 ? '#0be' : 'lightgray';
-		$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = $model.status == 0 ? '#0be' : 'lightgray';
+		$.reimburseRow.backgroundColor = STATUS_COLOR[$model.status];
+		$.innerView.backgroundColor = 'lightgray';
+		$.status.backgroundColor = STATUS_COLOR[$model.status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
 		$.reimburseRow.backgroundColor = $model.status == 0 ? 'red' : 'purple';
