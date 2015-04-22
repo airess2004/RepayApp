@@ -5,26 +5,35 @@
 
 "#innerView" : {
  	height: Titanium.UI.SIZE,
+ 	touchEnabled : true,
+ 	backgroundSelectedColor: "lightgray",
 }
 
 ".avatar" : {
  	height: "64dp",
  	width: "64dp",
  	image: "/icon/ic_action_copy.png",
+ 	touchEnabled : false,
 }
 
 "#title" : {
  	width: "60%",
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
 }
 
 "#status" : {
  	width: "30%",
  	right: "8dp",
  	top: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	touchEnabled : false,
 }
 
 "#total" : {
  	width: "30%",
  	right: "8dp",
  	bottom: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	touchEnabled : false,
 }

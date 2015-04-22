@@ -95,7 +95,7 @@ function mainViewOpen(e) {
 }
 
 function scrollableViewScrollEnd(e) {
-	e.view.fireEvent("open");
+	if (e.view) e.view.fireEvent("open");
 }
 
 // $.index.addEventListener('open', function() {

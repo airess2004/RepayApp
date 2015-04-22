@@ -10,7 +10,7 @@ var id;
 
 if ($model) {
 	id = $model.id;
-	if ($model.get('isDeleted')) {
+	if ($model.get('isDeleted') == 0) {
 		$.reimburseRow.backgroundColor = $model.status == 0 ? '#0be' : 'lightgray';
 		$.innerView.backgroundColor = 'white';
 		$.status.backgroundColor = $model.status == 0 ? '#0be' : 'lightgray';
@@ -49,4 +49,8 @@ function deleteItem(e) {
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
 	reimburse.destroy();
+}
+
+function thumbPopUp(e) {
+	
 }

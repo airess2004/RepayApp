@@ -46,6 +46,7 @@
 	top: "16dp",
 	//bottom: "8dp",
 	borderRadius: "3dp",
+	focusable: true,
 }
 
 ".darkButton": {
@@ -78,6 +79,7 @@
 ".buttonLabel": {
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	touchEnabled: false,
+	color: "white",
 }
 
 "TextField": {
