@@ -1,6 +1,7 @@
 <Alloy>
-	<Window>
+	<Window id="reimburseFormView" onOpen = "reimburseFormViewOpen">
 		<View class="container" layout = "vertical">
+			<ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" />
 			<Menu>
 				<MenuItem id="backMenu" title="BACK" onClick="doSearch" />
 				<MenuItem id="saveMenu" title="SAVE" onClick="doSave"  />
