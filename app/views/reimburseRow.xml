@@ -1,5 +1,5 @@
 <Alloy>
-  <TableViewRow id="reimburseRow">
+  <TableViewRow id="reimburseRow" title="{title}">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
     	<ImageView class="avatar" onClick="thumbPopUp"/>
     	<Label id="title" text="{title}" />

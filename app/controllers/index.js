@@ -51,6 +51,7 @@ function reimburseBtnClick(e) {
 	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
+
 }
 
 function settingBtnClick(e) {
@@ -86,6 +87,13 @@ function mainViewOpen(e) {
             	actionView: Alloy.Globals.searchView,
             	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
         	});
+        	Alloy.Globals.newMenu = e.menu.add({
+            	title: "NEW",
+            	//icon: (Ti.Android.R.drawable.ic_menu_search ? Ti.Android.R.drawable.ic_menu_search : "/icon/ic_action_search.png"),
+            	actionView: $.itemNew,
+            	showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS | Ti.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+        	});
+        	Alloy.Globals.newMenu.addEventListener("click", doNew);
     	};
     	// Make sure icons are updated
 		$.index.activity.invalidateOptionsMenu();

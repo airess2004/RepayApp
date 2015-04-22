@@ -39,14 +39,6 @@
 	height: Titanium.UI.SIZE,
 }
 
-".fitWidth": {
-  height: "64dp",
-  width: "64dp",
-  borderColor :"black",
-  borderWidth :"1dp",
-  right : "6dp"
-}
-
 
 ".vSplitter": {
 	width: Titanium.UI.FILL,

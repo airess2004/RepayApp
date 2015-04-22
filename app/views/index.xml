@@ -3,7 +3,7 @@
 		<!--ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" /-->
 		<!--SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" submitEnabled="true" /-->
         <!--Menu>
-            <MenuItem id="itemSearch" title="Search" onClick="doSearch" />
+            <!MenuItem id="itemSearch" title="Search" onClick="doSearch" />
             <MenuItem id="itemNew" title="NEW" onClick="doNew"/>
         </Menu-->
         

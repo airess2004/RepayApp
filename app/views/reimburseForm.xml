@@ -1,26 +1,17 @@
 <Alloy>
 	<Window>
+		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
+		<Menu>
+			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
+		</Menu>
 		<View class="container" layout = "vertical">
-			<Menu>
-				<MenuItem id="backMenu" title="BACK" onClick="doSearch" />
-				<MenuItem id="saveMenu" title="SAVE" onClick="doSave"  />
-			</Menu>
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-				<View class="vSplitter" />
-				<View class="verticalLayout">
-					<Label class="labelView"   width="40%">Title</Label>
-					<View class="centeredHorizontal">
-						<TextField id="titleField" hintText="Title" width="60%"></TextField>
-					</View>
-				</View>
-				<View class="vSplitter" />
-				<View class="verticalLayout">
-					<Label class="labelView"  width="40%">Date</Label>
-					<View class="centeredHorizontal">
-						<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" onFocus="dateFieldClick" editable="false"></TextField>
-					</View>
-				</View>
-				<View class="vSplitter" />
+					<Label class="labelView">Title</Label>
+					<TextField id="titleField" hintText="Title" ></TextField>
+					<View class="vSplitter" />
+					<Label class="labelView">Date</Label>
+					<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" onFocus="dateFieldClick" editable="false"></TextField>
+					<View class="vSplitter" />
 			</ScrollView>
 		</View>
 	</Window>

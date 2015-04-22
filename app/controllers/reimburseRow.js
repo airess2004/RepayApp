@@ -12,8 +12,8 @@ if ($model) {
 	id = $model.id;
 	$.reimburseRow.rowid = $model.id;
 	var status = $model.get('status');
+	$.reimburseRow.title = $model.get('title');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.title = $model.get('title');
 		$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
 		$.status.backgroundColor = STATUSCODE_COLOR[status];
@@ -60,8 +60,10 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	var id = e.source.parent.rowid;
-	//alert("Clicked ID: "+id);
-	Alloy.createController("reimburseForm", {id : id}).getView().open();
+	Alloy.createController("reimburseDetailList",{
+					id : id
+				}
+	).getView().open();
 }
 
 function rowLongClick(e) {

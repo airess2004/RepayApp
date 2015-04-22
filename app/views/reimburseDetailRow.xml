@@ -1,0 +1,12 @@
+<Alloy>
+  <TableViewRow id="reimburseDetailRow">
+  	<View id="innerView" layout="horizontal">
+    	<Label id="title" text="{name}" horizontalWrap="false" />
+    	<View layout="vertical">
+    		<Label id="status" text="{description}"/>
+    		<Label id="total" text="{amount}"/>
+    	</View>
+    	<ImageView class="avatar" onClick="thumbPopUp"/>
+    </View>
+  </TableViewRow>
+</Alloy>

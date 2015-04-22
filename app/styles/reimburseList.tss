@@ -6,6 +6,7 @@
 "#tableView" : {
  	height: Titanium.UI.SIZE,
  	separatorColor: "gray",
- 	searchHidden: true,
+ 	filterAttribute: "title",
+ 	//searchHidden: true,
  	//rowHeight: "80dp",
 }

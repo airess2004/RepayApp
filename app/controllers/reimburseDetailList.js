@@ -1,9 +1,9 @@
 var args = arguments[0] || {};
 
-var reimburses = Alloy.Collections.reimburse;
+var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch();
+reimburseDetails && reimburseDetails.fetch();
 
 // Filter the fetched collection before rendering. Don't return the
 // collection itself, but instead return an array of models
@@ -24,15 +24,15 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON();
-	transform.status = STATUS[transform.status];
-	transform.total = transform.total + " IDR";
-	if (String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
+	transform.status = STATUS[transform.desctiption];
+	transform.total = transform.amount + " IDR";
+	if (String.format(transform.title).length > 30) transform.name = transform.name.substring(0,27)+"...";
 	return transform;
 }
 
 // open the "add item" window
 function addItem() {
-	Alloy.createController("reimburseForm").getView().open();
+	Alloy.createController("reimburseDetailForm").getView().open();
 }
 
 // Show task list based on selected status type
@@ -42,15 +42,15 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses.fetch();
+	reimburseDetails.fetch();
 }
 
 function thumbPopUp(e) {
 	
 }
 
-$.reimburseList.addEventListener("open", function(e){
-	Alloy.Globals.index.activity.actionBar.title = "Reimburse";
-	$.tableView.search = Alloy.Globals.searchView;
+$.reimburseDetailList.addEventListener("open", function(e){
+	$.tableView.search = Alloy.Globals.index.searchView;
+	Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
 	//showList(e);
 });
