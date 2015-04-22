@@ -23,7 +23,7 @@ function doSearch(e) {
 }
 
 function doNew(e) {
-	alert("New Clicked");
+	Alloy.createController("reimburseForm").getView().open();
 }
 
 function doLoginClick(e) {
@@ -49,7 +49,7 @@ function reimburseBtnClick(e) {
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
 
-	Alloy.createController("reimburseDetailList").getView().open();
+
 }
 
 function settingBtnClick(e) {

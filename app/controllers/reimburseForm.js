@@ -30,11 +30,17 @@ function doSave(e) {
 		isDeleted : 0,
 		status :  0,
 	});
-	reimburse.save();
 	reimburses.add(reimburse);
+	reimburse.save();
+
 	// reload the tasks
 	reimburses.fetch();
+	Alloy.createController("reimburseDetailList",{
+					id : reimburse.id
+				}
+	).getView().open();
 	$.reimburseForm.close();
+	
 }
 
 var picker = Ti.UI.createPicker({
