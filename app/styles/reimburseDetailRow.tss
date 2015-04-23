@@ -1,4 +1,56 @@
 
-".container" : {
-  
+"#reimburseDetailRow" : {
+ 	height: "80dp", //Titanium.UI.SIZE,
+ 	width: Titanium.UI.FILL,
+}
+
+"#innerView" : {
+	left: "4dp",
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE,
+ 	touchEnabled : true,
+ 	backgroundSelectedColor: "gray",
+}
+
+".avatar" : {
+ 	height: "64dp",
+ 	width: "64dp",
+ 	image: "/icon/ic_action_copy.png",
+ 	touchEnabled : false,
+}
+
+"#title" : {
+ 	width: "50%",
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
+ 	color: "black",
+ 	left : "4dp"
+}
+
+".rightView" : {
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.FILL,
+ 	touchEnabled : false,
+}
+
+"#status" : {
+ 	width: Titanium.UI.FILL,
+ 	right: "8dp",
+ 	top: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
+ 	color: "black",
+}
+
+"#total" : {
+ 	width: Titanium.UI.FILL,
+ 	right: "8dp",
+ 	bottom: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
+ 	color: "navy",
 }

@@ -3,7 +3,7 @@
 		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
 			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
-		</Menu> 
+		</Menu>
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
 				<View class="centeredHorizontal" >
@@ -13,13 +13,16 @@
 					</View>
 					<ImageView id= "image" class="fitWidth" image="/icon/ic_action_photo.png" width="20%" onClick="imageClick"/>
 				</View>
+				<View class="vSplitter" />
 				<Label class="labelView" >Amount</Label>
 				<TextField id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
+				<View class="vSplitter" />
 				<Label  class="labelView" >Date</Label>
 				<TextField id="dateField" hintText="YYYY-MM-DD"  onFocus="dateFieldClick" editable="false"></TextField>
+				<View class="vSplitter" />
 				<Label  class="labelView" >Description</Label>
 				<TextField id="descriptionField" hintText="Description" ></TextField>
-				 
+				<View class="vSplitter" />
 				<Label>Comment :</Label>
 				<View class="centeredHorizontal">
 					<TableView id="commentTable">

@@ -11,10 +11,10 @@
 				<View class="vSplitter" />
 				<Button id="addNewButton" title="Add New" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
 				<View class="vSplitter" />
-				<!--TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
-					<Require src="reimburseDetailRow"/>
-				</TableView-->
 			</ScrollView>
+			<TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+				<Require src="reimburseDetailRow"/>
+			</TableView>
 		</View>
 	</Window>
 </Alloy>
