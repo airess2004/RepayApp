@@ -1,0 +1,20 @@
+<Alloy>
+  <TableViewRow id="homeReimburseRow" title="{title}">
+  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
+    	<ImageView class="avatar" onClick="thumbPopUp"/>
+    	<Label id="title" text="{title}" />
+    	<View class="rightView">
+    		<Label id="status" text="{status}"/>
+    		<Label id="total" text="{total}"/>
+    	</View>
+    </View>
+  </TableViewRow>
+  <AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
+            message="Are you sure you want to approve selected receipts?" cancel="1">
+            <!-- The ButtonNames tag sets the buttonNames property. -->
+            <ButtonNames>
+                <ButtonName>Yes</ButtonName>
+                <ButtonName>No</ButtonName>
+            </ButtonNames>
+    </AlertDialog>
+</Alloy>

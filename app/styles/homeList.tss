@@ -1,0 +1,12 @@
+
+".container" : {
+ 	height: Titanium.UI.FILL,
+}
+
+"#tableView" : {
+ 	height: Titanium.UI.SIZE,
+ 	separatorColor: "gray",
+ 	filterAttribute: "title",
+ 	//searchHidden: true,
+ 	//rowHeight: "80dp",
+}

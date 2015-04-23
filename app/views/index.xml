@@ -1,5 +1,5 @@
 <Alloy>
-	<Window class="container" onOpen="mainViewOpen">
+	<Window class="container" onOpen="mainViewOpen" onClose="cleanUp">
 		<!--ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" /-->
 		<!--SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" submitEnabled="true" /-->
         <!--Menu>

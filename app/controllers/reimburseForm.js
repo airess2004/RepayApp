@@ -33,7 +33,7 @@ function doSave(e) {
 	var reimburse = Alloy.createModel('reimburse', {
 		userId : 1,
 		title : $.titleField.value,
-		projectDate : moment("YYYY-MM-DD", $.dateField.value).utc().toISOString(),
+		projectDate : moment($.dateField.value).utc().toISOString(),
 		total : 0,
 		isSent : 0,
 		//sentDate : item.sentDate,

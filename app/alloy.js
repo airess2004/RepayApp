@@ -41,7 +41,7 @@ function addItem(item) {
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
         title : item.title,
-        projectDate : moment("DD/MM/YYYY", item.projectDate).utc().toISOString(),
+        projectDate : moment(item.projectDate).utc().toISOString(),
         isSent : item.isSent,
         sentDate : item.sentDate,
         status : item.isSent == 1 ? 1 : 0,
@@ -73,8 +73,8 @@ function fillTestData() {
 			title : "Judul"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
 			total : 0,
 			isSent : isSent,
-			sentDate : isSent == 1 ? moment().add(i, "days").format("DD/MM/YYYY") : null,
-			projectDate : moment().add(i, "days").format("DD/MM/YYYY")
+			sentDate : isSent == 1 ? moment().add(i, "days").format("YYYY-MM-DD") : null,
+			projectDate : moment().add(i, "days").format("YYYY-MM-DD")
 		});
 	}
 }

@@ -10,16 +10,16 @@ var id;
 
 if ($model) {
 	id = $model.id;
-	$.reimburseRow.rowid = $model.id;
+	$.homeReimburseRow.rowid = $model.id;
 	var status = $model.get('status');
 	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
+		$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
 		$.status.backgroundColor = STATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
+		$.homeReimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
 		$.innerView.backgroundColor = 'white';
 		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
@@ -41,21 +41,22 @@ if ($model) {
 // }
 
 // delete the IDed todo from the collection
-function deleteItem(id) {
+function approveReimburse(id) {
 	// find the todo task by id
 	var reimburse = reimburses.get(id);
 
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
-	reimburse.destroy();
+	reimburse.set("status", STATUSCODE["Approved"]);
+	reimburse.save();
 }
 
-function doDeleteClick(e){
+function doApproveClick(e){
 	if (e.index == 0) {
 		// prevent bubbling up to the row
 		e.cancelBubble = true;
-    	deleteItem(e.source.rowid);
+    	approveReimburse(e.source.rowid);
 	}
 };
 
@@ -72,8 +73,8 @@ function rowClick(e) {
 }
 
 function rowLongClick(e) {
-	id = e.source.parent.rowid;
-	$.deleteDialog.rowid = id;
-	$.deleteDialog.show();
+	// id = e.source.parent.rowid;
+	// $.deleteDialog.rowid = id;
+	// $.deleteDialog.show();
 }
 

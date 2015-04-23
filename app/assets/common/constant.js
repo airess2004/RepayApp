@@ -5,6 +5,13 @@ var STATUS = {
 	'3': "Denied",
 };
 
+var STATUSCODE = {
+	"Pending" : 0,
+	"Sent" : 1,
+	"Approved" : 2,
+	"Denied" : 3,
+};
+
 var STATUS_COLOR = {
 	'Pending': "#0be",
 	'Sent': "#bb0",

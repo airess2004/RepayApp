@@ -122,4 +122,9 @@ function scrollableViewScrollEnd(e) {
 	// };
 // });
 
+// Need to destroy when binding to data collection to prevent memory leaks
+function cleanUp() {
+    $.destroy();
+}
+
 $.index.open();

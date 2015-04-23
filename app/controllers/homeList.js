@@ -16,7 +16,7 @@ reimburses.comparator = function(model) {
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
-	var ret = collection.where({ isDeleted: 0 });
+	var ret = collection.where({ isDeleted: 0, isSent: 1 });
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
 		 // return -(moment.parseZone(model.get('projectDate')).unix());
@@ -59,8 +59,8 @@ function thumbPopUp(e) {
 	
 }
 
-$.reimburseList.addEventListener("open", function(e){
-	Alloy.Globals.index.activity.actionBar.title = "Reimburse";
+$.homeList.addEventListener("open", function(e){
+	Alloy.Globals.index.activity.actionBar.title = "Home";
 	$.tableView.search = Alloy.Globals.searchView;
 	//showList(e);
 });
