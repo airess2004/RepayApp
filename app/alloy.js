@@ -41,7 +41,7 @@ function addItem(item) {
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
         title : item.title,
-        projectDate : moment("DD/MM/YYYY", item.projectDate).utc().toISOString(),
+        projectDate : moment(item.projectDate).utc().toISOString(),
         isSent : item.isSent,
         sentDate : item.sentDate,
         status : item.isSent == 1 ? 1 : 0,
@@ -60,12 +60,19 @@ function addItem(item) {
 }
 
 function fillTestData() {
+	var reimburseDetails = Alloy.Collections.reimburseDetail;
+	reimburseDetails.fetch();
+	for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
+  		reimburseDetails.models[i].destroy();        
+	}
 	var reimburses = Alloy.Collections.reimburse;
 	// delete all data from last to first
 	reimburses.fetch();
 	for (var i = reimburses.models.length-1; i >= 0; i--) {
   		reimburses.models[i].destroy();        
 	}
+	
+	
 	//create new data
 	for (var i = 1; i <= 25; i++) {
 		var isSent = Math.round(Math.random());
@@ -73,7 +80,7 @@ function fillTestData() {
 			title : "Judul"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
 			total : 0,
 			isSent : isSent,
-			sentDate : isSent == 1 ? moment().add(i, "days").format("DD/MM/YYYY") : null,
+			sentDate : isSent == 1 ? moment().add(i, "days").format("YYYY-MM-DD") : null,
 			projectDate : moment().add(i, "days").format("DD/MM/YYYY")
 		});
 	}

@@ -3,20 +3,20 @@ var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
 function winOpen(e) {
-	
+
 }
 
 function doMenuClick(evt) {
-  switch(evt.source.title){
-		case "Menu": // in real life you probably wouldn't want to use the text of the menu option as your condition
-			var activity = $.reimburseDetailForm.getActivity();
-			activity.openOptionsMenu();
-			break;
-		default:
-			alert(evt.source.title);	
+	switch(evt.source.title) {
+	case "Menu":
+		// in real life you probably wouldn't want to use the text of the menu option as your condition
+		var activity = $.reimburseDetailForm.getActivity();
+		activity.openOptionsMenu();
+		break;
+	default:
+		alert(evt.source.title);
 	}
 }
-
 
 function doSearch(e) {
 	alert("Search Clicked");
@@ -24,24 +24,45 @@ function doSearch(e) {
 
 function doSave(e) {
 	var reimburses = Alloy.Collections.reimburse;
-	var reimburse = Alloy.createModel('reimburse', {
-		userId : 1,
-		title : $.titleField.value,
-		projectDate : moment("YYYY-MM-DD", $.dateField.value).utc().toISOString(),
-		total : 0,
-		isSent : 0,
-		//sentDate : item.sentDate,
+	var reimburseDetails = Alloy.Collections.reimburseDetail;
+	var reimburseDetail = Alloy.createModel("reimburseDetail", {
+		reimburseId : args.reimburseId,
+		name : $.titleField.value,
+		description : $.descriptionField.value,
+		receiptDate : moment($.dateField.value).utc().toISOString(),
 		isDeleted : 0,
-		status :  0,
+		amount :  parseFloat($.amountField.value),
+		urlImageOriginal : $.image.image
+
 	});
-	reimburse.save();
-	reimburses.add(reimburse);
+
+	reimburseDetail.save();
+	reimburseDetails.add(reimburseDetail);
+	var detail = reimburseDetails.where({
+		isDeleted : 0,
+		reimburseId : args.reimburseId
+	});
+	
+	var total = 0 ;  
+	
+	if (detail != null) {
+		_.each(detail,function(model) {
+			total += parseFloat(model.amount);
+		});
+	}
+
+	var reimburse = reimburses.get(args.reimburseId);
+
+	reimburse.set({
+		"total" : total
+	}).save();
+
 	// reload the tasks
-	reimburses.fetch();
-	$.reimburseForm.close();
+	reimburseDetails.fetch();
+	$.reimburseDetailForm.close();
 }
 
-function imageClick(e) {	
+function imageClick(e) {
 	if (!Alloy.Globals.cameraShown) {
 		Alloy.Globals.cameraShown = true;
 		var camera = require('/lib/camera').getImage(function(media) {
@@ -55,7 +76,7 @@ function imageClick(e) {
 		//cameraShown = false;
 	}
 }
-		
+
 var picker = Ti.UI.createPicker({
 	type : Ti.UI.PICKER_TYPE_DATE,
 	value : new Date()
@@ -67,12 +88,9 @@ function dateFieldClick(e) {
 		callback : function(e) {
 			if (e.cancel) {
 			} else {
-				$.dateField.value =  moment(e.value).format("YYYY-MM-DD");
+				$.dateField.value = moment(e.value).format("YYYY-MM-DD");
 			}
 		}
 	});
 }
-
-
-
 

@@ -1,7 +1,7 @@
 exports.definition = {
 	config: {
 		columns: {
-		    "remburseId": "bigint",
+		    "reimburseId": "bigint",
 		    "name": "string",
 		    "receiptDate": "datetime",
 		    "isDeleted": "boolean",
