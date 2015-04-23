@@ -1,13 +1,13 @@
 
 "#homeReimburseRow" : {
- 	height: "80dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.SIZE, //"200dp"
  	width: Titanium.UI.FILL,
 }
 
 "#innerView" : {
 	left: "4dp",
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.SIZE,
+ 	height: "80dp", //Titanium.UI.SIZE, 
  	touchEnabled : true,
  	backgroundSelectedColor: "gray",
 }
@@ -62,7 +62,7 @@
 ".rightView" : {
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.FILL,
- 	touchEnabled : true,
+ 	touchEnabled : false, //true
 }
 
 "#approveBtn" : {
@@ -77,7 +77,7 @@
  	horizontalWrap: false,
  	backgroundColor: "#0bd",
  	backgroundSelectedColor: "#0df",
- 	borderRadius: "3dp",
+ 	//borderRadius: "3dp",
  	borderColor: "black",
  	borderWidth: "1dp",
  	color: "black",
@@ -93,4 +93,14 @@
  	horizontalWrap: false,
  	color: "navy",
  	minimumFontSize: "8sp",
+}
+
+"#detailView" : {
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE, //"100dp"
+ 	backgroundColor: "#ddd",
+ 	//separatorColor: "gray",
+ 	//filterAttribute: "title",
+ 	//searchHidden: true,
+ 	//rowHeight: "80dp",
 }

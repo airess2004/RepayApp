@@ -1,5 +1,5 @@
 <Alloy>
-  <TableViewRow id="homeReimburseRow" title="{title}">
+  <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
     	<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
     	<View class="midView">
@@ -11,6 +11,9 @@
     		<Label id="approveBtn" onClick="approveBtnClick" />
     		<Label id="total" text="{total}"/>
     	</View>
+    </View>
+    <View layout="vertical" id="detailView" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+    	<Require src="homeReimburseDetailRow"/>
     </View>
   </TableViewRow>
   <AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"

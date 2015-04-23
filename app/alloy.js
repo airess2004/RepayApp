@@ -66,7 +66,7 @@ function addReimburseDetail(item) {
 
     // Create a new model for the todo collection
     var reimburseDetail = Alloy.createModel('reimburseDetail', {
-    	reimburseID : item.reimburseID,
+    	reimburseId : item.reimburseId,
         name : item.name,
         description : item.description,
         receiptDate : moment(item.receiptDate).utc().toISOString(),
@@ -107,7 +107,7 @@ function fillTestData() {
 		var status = Math.round(Math.random()*3);
 		var total = Math.round(Math.random()*1000)*1000 + 10000;
 		var parent = addReimburse({
-			title : "Judul"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
+			title : "Proyek"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
 			total : total,
 			status : status,
 			sentDate : status >= STATUSCODE[Const.Sent] ? moment().add(i, "days").format("YYYY-MM-DD") : null,

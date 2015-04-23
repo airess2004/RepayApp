@@ -7,7 +7,7 @@ Alloy.Globals.login = Alloy.createController("login");
 Alloy.Globals.searchView = Alloy.createController("searchView").getView();
 
 function doClick(e) {
-    alert($.label1.text);
+    //alert($.label1.text);
 }
 
 function doMenuClick(evt) {

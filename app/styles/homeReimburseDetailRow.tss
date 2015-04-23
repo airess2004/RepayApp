@@ -1,0 +1,87 @@
+
+"#homeReimburseDetailRow" : {
+ 	height: Titanium.UI.SIZE, //"80dp"
+ 	width: Titanium.UI.FILL,
+}
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1dp",
+	touchEnabled: false,
+	backgroundColor: "darkgray",
+	top: "8dp",
+	//bottom: "8dp",
+}
+
+"#innerView" : {
+	left: "16dp",
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE,
+ 	touchEnabled : true,
+ 	backgroundSelectedColor: "gray",
+}
+
+".avatar" : {
+ 	height: "64dp",
+ 	width: "64dp",
+ 	image: "/icon/ic_action_photo.png",
+ 	touchEnabled : false,
+}
+
+"#title" : {
+ 	width: "50%",
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
+ 	color: "black",
+ 	left : "4dp"
+}
+
+".rightView" : {
+	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.FILL,
+ 	touchEnabled : false,
+}
+
+"#status" : {
+ 	width: Titanium.UI.FILL,
+ 	right: "8dp",
+ 	top: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
+ 	color: "black",
+}
+
+"#total" : {
+ 	width: Titanium.UI.FILL,
+ 	right: "8dp",
+ 	bottom: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
+ 	color: "navy",
+}
+
+".commentImg" : {
+	left: "8dp",
+ 	height: "16dp",
+ 	width: "16dp",
+ 	image: "/icon/ic_action_attach.png",
+ 	touchEnabled : true,
+}
+
+"#comment" : {
+	left: "32dp",
+ 	height: Titanium.UI.SIZE,
+ 	width: Titanium.UI.SIZE,
+ 	touchEnabled : true,
+}
+
+"#switch" : {
+	right: "8dp",
+ 	height: Titanium.UI.SIZE,
+ 	width: Titanium.UI.SIZE,
+ 	touchEnabled : true,
+}

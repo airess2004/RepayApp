@@ -1,0 +1,18 @@
+<Alloy>
+	<View id="homeReimburseDetailRow" layout="vertical">
+		<View class="vSplitter" />
+		<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
+			<ImageView class="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>
+			<Label id="title" text="{name}" />
+			<View class="rightView">
+				<Label id="status" text="{receiptDate}"/>
+				<Label id="total" text="{amount}"/>
+			</View>
+		</View>
+		<View height="Ti.UI.SIZE" width="Ti.UI.FILL">
+			<ImageView class="commentImg"></ImageView>
+			<Label id="comment"></Label>
+			<Switch id="switch" value="true"></Switch>
+		</View>
+	</View>
+</Alloy>

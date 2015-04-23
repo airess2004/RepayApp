@@ -36,7 +36,7 @@ function transformFunction(model) {
 	var transform = model.toJSON();
 	transform.status = STATUS[transform.status];
 	transform.total = String.formatDecimal(transform.total) + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
-	if (transform.title!=null && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
+	if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
 	return transform;
 }
 
@@ -60,8 +60,10 @@ function thumbPopUp(e) {
 }
 
 $.reimburseList.addEventListener("open", function(e){
-	Alloy.Globals.index.activity.actionBar.title = "Reimburse";
-	Alloy.Globals.newMenu.visible = true;
+	Alloy.Globals.index.getActivity().getActionBar().title = "Reimburse";
+	//Alloy.Globals.newMenu.visible = true;
+	// Make sure icons are updated
+	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
 	//showList(e);
 });
