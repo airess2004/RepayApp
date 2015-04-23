@@ -1,28 +1,31 @@
 <Alloy>
 	<Window onOpen="winOpen">
-		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
-		<Menu>
-			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
-		</Menu>
+		<ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" />
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
 				<View class="centeredHorizontal" >
 					<View class="verticalLayout" width="80%">
 						<Label  class="labelView">Title</Label>
-						<TextField id="titleField" hintText="Title" ></TextField>
+						<Label id="titleField" ></Label>
 					</View>
 					<ImageView id= "image" class="fitWidth" image="/icon/ic_action_photo.png" width="20%" onClick="imageClick"/>
 				</View>
 				<View class="vSplitter" />
 				<Label class="labelView" >Amount</Label>
-				<TextField id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
+				<Label id="amountField" ></Label>
 				<View class="vSplitter" />
 				<Label  class="labelView" >Date</Label>
-				<TextField id="dateField" hintText="YYYY-MM-DD"  onFocus="dateFieldClick" editable="false"></TextField>
+				<Label id="dateField"></Label>
 				<View class="vSplitter" />
 				<Label  class="labelView" >Description</Label>
-				<TextField id="descriptionField" hintText="Description" ></TextField>
+				<Label id="descriptionField" ></Label>
 				<View class="vSplitter" />
+				<Label>Comment :</Label>
+				<TextArea id="commentField"></TextArea>
+				<Button id="addNewButton" title="Add Comment" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
+				<View id="tableView" searchAsChild="false" dataCollection="comment" dataFilter="whereFunction" dataTransform="transformFunction" layout="vertical">
+					<Require src="commentRow"/>
+				</View>
 			</ScrollView>
 		</View>
 	</Window>

@@ -69,6 +69,10 @@ function rowClick(e) {
 					id : id , reimburseId : null
 				}
 	).getView().open();
+	// Alloy.createController("comment",{
+					// id : id
+				// }
+	// ).getView().open();
 }
 
 function rowLongClick(e) {

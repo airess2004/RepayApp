@@ -5,11 +5,12 @@ exports.definition = {
 		    "message": "string",
 		    "commentsDate": "datetime",
 		    "userId": "bigint",
+		    "username" : "string",
 		    "dateCreated": "date"
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "comments"
+			collection_name: "comment"
 		}
 	},
 	extendModel: function(Model) {

@@ -54,17 +54,8 @@ function whereFunction(collection) {
 	if (!ret)
 		ret = [];
 	return ret;
-	//!whereIndex ?
-	//collection.models :
-	//collection.where({ isDeleted: false });
 }
 
-// Perform transformations on each model as it is processed. Since
-// these are only transformations for UI representation, we don't
-// actually want to change the model. Instead, return an object
-// that contains the fields you want to use in your bindings. The
-// easiest way to do that is to clone the model and return its
-// attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON(); 
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format("YYYY-MM-DD");

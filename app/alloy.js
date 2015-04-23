@@ -18,6 +18,7 @@ var moment = require('alloy/moment');
 if (OS_IOS || OS_ANDROID) {
 	Alloy.Collections.reimburse = Alloy.createCollection('reimburse');
 	Alloy.Collections.reimburseDetail = Alloy.createCollection('reimburseDetail');
+	Alloy.Collections.comment = Alloy.createCollection('comment');
 	fillTestData();
 	
 	//Alloy.Globals.top = 0;
