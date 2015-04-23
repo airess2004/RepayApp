@@ -1,0 +1,13 @@
+<Alloy>
+	<View id="commentRow" title="{title}">
+		<View id="innerView" layout="horizontal">
+			<ImageView class="avatar" onClick="thumbPopUp"/>
+			<Label id="message" text="{message}"/>
+			<View class="rightView">
+				<Label id="commentDate" text="{commentDate}"/>
+				<Label id="username" text="{username}" />
+			</View>
+		</View>
+		<View class="vSplitter" />
+	</View>
+</Alloy>

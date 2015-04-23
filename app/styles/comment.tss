@@ -1,0 +1,53 @@
+
+".container": {}
+
+
+"Label": {
+	width: Ti.UI.SIZE,
+	left: "4dp"
+}
+
+"TextArea": {
+	width: Ti.UI.FILL,
+	height: "80dp",
+	left: "4dp",
+	borderColor: "black",
+ 	borderWidth: "1dp",
+ 	color: "black",
+}
+
+".centeredVertical": {
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	scrollType: "vertical"
+}
+
+".verticalLayout": {
+	height: Titanium.UI.SIZE,
+	contentHeight: Titanium.UI.SIZE,
+	layout: "vertical",
+	top: "8dp",
+	left: "4dp"
+}
+
+".labelView": {
+	font: {
+		fontSize: "12sp",
+		fontWeight: 'bold'
+	}
+}
+
+".centeredHorizontal": {
+	layout: "horizontal",
+	top: "8dp",
+	horizontalWrap: false,
+	height: Titanium.UI.SIZE
+}
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1dp",
+	touchEnabled: false,
+	backgroundColor: "gray",
+	top: "8dp"
+}

@@ -1,0 +1,13 @@
+".container" : {
+ 	height: Titanium.UI.FILL,
+}
+
+".avatar" : {
+ 	height: "120dp",
+ 	width: "120dp",
+ 	image: "/icon/ic_action_user.png",
+ 	touchEnabled : false,
+ 	backgroundColor : "gray",
+ 	top :"8dp"
+ 	
+}
