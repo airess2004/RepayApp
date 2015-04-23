@@ -122,6 +122,7 @@ function fillTestData() {
 			status : status,
 			urlImageSmall : "/icon/ic_action_photo.png",
 			urlImageMedium : "/icon/ic_action_photo.png",
+			urlImageOriginal : "/icon/ic_action_photo.png",
 			receiptDate : moment().add(i, "days").format("YYYY-MM-DD")
 		});
 	}

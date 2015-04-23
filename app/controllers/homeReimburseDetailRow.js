@@ -2,6 +2,8 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 var reimburseDetails = Alloy.Collections.reimburseDetail;
+var comments = Alloy.Collections.comment;
+
 var id;
 
 // $model represents the current model accessible to this
@@ -13,6 +15,7 @@ if ($model) {
 	$.homeReimburseDetailRow.rowid = $model.id;
 	var status = $model.get('status');
 	$.homeReimburseDetailRow.title = $model.get('title');
+	$.commentLabel.text = comments.where({reimburseDetailId : id}).length;
 	if ($model.get('isDeleted') == 0) {
 		$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
@@ -65,7 +68,7 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	id = e.source.parent.rowid;
-	Alloy.createController("reimburseDetailForm",{
+	Alloy.createController("comment",{
 					id : id , reimburseId : null
 				}
 	).getView().open();
@@ -73,6 +76,6 @@ function rowClick(e) {
 
 function rowLongClick(e) {
 	id = e.source.parent.rowid;
-	$.deleteDialog.show();
+	//$.deleteDialog.show();
 }
 

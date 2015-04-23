@@ -102,6 +102,8 @@ function mainViewOpen(e) {
 	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
 		//Alloy.Globals.CURRENT_USER = "Admin"; 
 		Alloy.Globals.login.getView().open();
+	} else {
+		$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open");
 	}
 }
 

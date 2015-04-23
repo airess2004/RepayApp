@@ -11,8 +11,8 @@
 		</View>
 		<View height="Ti.UI.SIZE" width="Ti.UI.FILL">
 			<ImageView class="commentImg"></ImageView>
-			<Label id="comment"></Label>
-			<Switch id="switch" value="true"></Switch>
+			<Label id="commentLabel"></Label>
+			<Switch id="switchBtn" value="true"></Switch>
 		</View>
 	</View>
 </Alloy>

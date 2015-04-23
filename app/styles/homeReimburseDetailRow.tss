@@ -16,7 +16,7 @@
 "#innerView" : {
 	left: "16dp",
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.SIZE,
+ 	height: "80dp", //Titanium.UI.SIZE,
  	touchEnabled : true,
  	backgroundSelectedColor: "gray",
 }
@@ -72,14 +72,14 @@
  	touchEnabled : true,
 }
 
-"#comment" : {
+"#commentLabel" : {
 	left: "32dp",
  	height: Titanium.UI.SIZE,
  	width: Titanium.UI.SIZE,
  	touchEnabled : true,
 }
 
-"#switch" : {
+"#switchBtn" : {
 	right: "8dp",
  	height: Titanium.UI.SIZE,
  	width: Titanium.UI.SIZE,
