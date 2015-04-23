@@ -12,16 +12,22 @@ if ($model) {
 	id = $model.id;
 	$.homeReimburseRow.rowid = $model.id;
 	var status = $model.get('status');
-	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
+	$.homeReimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
 	if ($model.get('isDeleted') == 0) {
 		$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUSCODE_COLOR[status];
+		$.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
+		$.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]);
+		$.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
+		$.innerView.touchEnabled = $.approveBtn.touchEnabled;
 		//$.avatar.image = '/tick_64.png';
 	} else {
 		$.homeReimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
 		$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
+		$.approveBtn.backgroundColor = status == 0 ? 'red' : 'purple';
+		$.approveBtn.touchEnabled = false;
+		$.approveBtn.text = STATUS[status];
+		$.innerView.touchEnabled = false;
 		//$.avatar.image = '/tick_64.png';
 	}
 }
@@ -48,8 +54,10 @@ function approveReimburse(id) {
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
-	reimburse.set("status", STATUSCODE["Approved"]);
-	reimburse.save();
+	reimburse.set({"status": STATUSCODE[Const.Approved]}).save;
+	reimburses.fetch();
+	
+	return reimburse;
 }
 
 function doApproveClick(e){
@@ -66,15 +74,13 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	id = e.source.parent.rowid;
-	Alloy.createController("reimburseDetailList",{
-					id : id
-				}
-	).getView().open();
+	
 }
 
-function rowLongClick(e) {
-	// id = e.source.parent.rowid;
-	// $.deleteDialog.rowid = id;
-	// $.deleteDialog.show();
+function approveBtnClick(e) {
+	id = e.source.parent.rowid;
+	if (!id) id = e.source.parent.parent.parent.rowid;
+	$.approveDialog.rowid = id;
+	$.approveDialog.show();
 }
 

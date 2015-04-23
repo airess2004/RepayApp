@@ -1,10 +1,14 @@
 <Alloy>
   <TableViewRow id="homeReimburseRow" title="{title}">
-  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
-    	<ImageView class="avatar" onClick="thumbPopUp"/>
-    	<Label id="title" text="{title}" />
+  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
+    	<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
+    	<View class="midView">
+    		<Label id="userName" text="{userName}" />
+    		<Label id="title" text="{title}" />
+    		<Label id="date" text="{projectDate}" />
+    	</View>
     	<View class="rightView">
-    		<Label id="status" text="{status}"/>
+    		<Label id="approveBtn" onClick="approveBtnClick" />
     		<Label id="total" text="{total}"/>
     	</View>
     </View>

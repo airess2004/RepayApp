@@ -54,4 +54,5 @@
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
  	color: "navy",
+ 	minimumFontSize: "8sp",
 }

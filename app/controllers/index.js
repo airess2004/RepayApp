@@ -38,9 +38,9 @@ function homeBtnClick(e) {
 	var page = 0;
 	$.scrollableView.scrollToView(page);
 	//$.scrollableView.setCurrentPage(page);
-	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Home';
+	$.scrollableView.views[page].fireEvent("open");
 
 }
 
@@ -48,11 +48,10 @@ function reimburseBtnClick(e) {
 	var page = 1;
 	$.scrollableView.scrollToView(page);
 	//$.scrollableView.setCurrentPage(page);
-	$.scrollableView.views[page].fireEvent("open");
 	var actionBar = $.index.getActivity().getActionBar();
 	actionBar.title = 'Reimburse';
-
-
+	$.scrollableView.views[page].fireEvent("open");
+	
 }
 
 function settingBtnClick(e) {

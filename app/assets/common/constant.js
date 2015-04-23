@@ -1,8 +1,15 @@
+var Const = {
+	Pending : "Pending",
+	Sent: "Sent",
+	Approved: "Approved",
+	Denied: "Denied",
+};
+
 var STATUS = {
-	'0': "Pending",
-	'1': "Sent",
-	'2': "Approved",
-	'3': "Denied",
+	'0': Const.Pending,
+	'1': Const.Sent,
+	'2': Const.Approved,
+	'3': Const.Denied,
 };
 
 var STATUSCODE = {
@@ -16,14 +23,14 @@ var STATUS_COLOR = {
 	'Pending': "#0be",
 	'Sent': "#bb0",
 	'Approved': "#0e8",
-	'Denied': "777",
+	'Denied': "#aaa",
 };
 
 var STATUSCODE_COLOR = {
 	'0': "#0be",
 	'1': "#bb0",
 	'2': "#0e8",
-	'3': "777",
+	'3': "#aaa",
 };
 
 //var statusStr = STATUS['0'];

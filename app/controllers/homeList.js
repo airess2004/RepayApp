@@ -16,7 +16,10 @@ reimburses.comparator = function(model) {
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
-	var ret = collection.where({ isDeleted: 0, isSent: 1 });
+	var ret = collection.where({ isDeleted: 0});
+	ret = _.filter(ret, function(model){
+		return model.get('status') >= STATUSCODE[Const.Sent];
+	});
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
 		 // return -(moment.parseZone(model.get('projectDate')).unix());
@@ -35,8 +38,9 @@ function whereFunction(collection) {
 function transformFunction(model) {
 	var transform = model.toJSON();
 	transform.status = STATUS[transform.status];
-	transform.total = transform.total + " IDR";
-	if (String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
+	transform.total = String.formatDecimal(transform.total) + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
+	transform.projectDate = moment.parseZone(transform.projectDate).local().format("YYYY-MM-DD");
+	if (transform.title!=null && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
 	return transform;
 }
 
@@ -61,6 +65,7 @@ function thumbPopUp(e) {
 
 $.homeList.addEventListener("open", function(e){
 	Alloy.Globals.index.activity.actionBar.title = "Home";
+	Alloy.Globals.newMenu.visible = false;
 	$.tableView.search = Alloy.Globals.searchView;
 	//showList(e);
 });

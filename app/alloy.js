@@ -34,17 +34,18 @@ if (OS_IOS || OS_ANDROID) {
 	}
 }
 
-function addItem(item) {
+function addReimburse(item) {
     var reimburses = Alloy.Collections.reimburse;
 
     // Create a new model for the todo collection
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
+    	userName : "Adam", //Alloy.Globals.CURRENT_USER,
+    	userAvatar : "/icon/ic_action_user.png",
         title : item.title,
         projectDate : moment(item.projectDate).utc().toISOString(),
-        isSent : item.isSent,
         sentDate : item.sentDate,
-        status : item.isSent == 1 ? 1 : 0,
+        status : item.status,
         total : item.total,
         isDeleted : 0,
     });
@@ -57,24 +58,70 @@ function addItem(item) {
 
     // reload the tasks
     //reimburses.fetch();
+    return reimburse;
+}
+
+function addReimburseDetail(item) {
+    var reimburseDetails = Alloy.Collections.reimburseDetail;
+
+    // Create a new model for the todo collection
+    var reimburseDetail = Alloy.createModel('reimburseDetail', {
+    	reimburseID : item.reimburseID,
+        name : item.name,
+        description : item.description,
+        receiptDate : moment(item.receiptDate).utc().toISOString(),
+        status : item.status,
+        amount : item.amount,
+        urlImageSmall: item.urlImageSmall,
+        urlImageMedium: item.urlImageMedium,
+        isDeleted : 0,
+    });
+
+    // add new model to the global collection
+    reimburseDetails.add(reimburseDetail);
+
+    // save the model to persistent storage
+    reimburseDetail.save();
+
+    // reload the tasks
+    //reimburses.fetch();
+    return reimburseDetail;
 }
 
 function fillTestData() {
-	var reimburses = Alloy.Collections.reimburse;
 	// delete all data from last to first
+	var reimburseDetails = Alloy.Collections.reimburseDetail;
+	reimburseDetails.fetch();
+	for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
+  		reimburseDetails.models[i].destroy();        
+	}
+	var reimburses = Alloy.Collections.reimburse;
 	reimburses.fetch();
 	for (var i = reimburses.models.length-1; i >= 0; i--) {
   		reimburses.models[i].destroy();        
 	}
+	
+	
 	//create new data
 	for (var i = 1; i <= 25; i++) {
-		var isSent = Math.round(Math.random());
-		addItem({
+		var status = Math.round(Math.random()*3);
+		var total = Math.round(Math.random()*1000)*1000 + 10000;
+		var parent = addReimburse({
 			title : "Judul"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
-			total : 0,
-			isSent : isSent,
-			sentDate : isSent == 1 ? moment().add(i, "days").format("YYYY-MM-DD") : null,
+			total : total,
+			status : status,
+			sentDate : status >= STATUSCODE[Const.Sent] ? moment().add(i, "days").format("YYYY-MM-DD") : null,
 			projectDate : moment().add(i, "days").format("YYYY-MM-DD")
+		});
+		var detail = addReimburseDetail({
+			reimburseId : parent.id,
+			name : "Merchant"+i,
+			description : "znnfhtdkjugkjfxgffdhgfhhhlkjhhgdgfbkbjtddfdgfhfsggfshfkhkjh sadpouoiyrtyu",
+			amount : total,
+			status : status,
+			urlImageSmall : "/icon/ic_action_photo.png",
+			urlImageMedium : "/icon/ic_action_photo.png",
+			receiptDate : moment().add(i, "days").format("YYYY-MM-DD")
 		});
 	}
 }

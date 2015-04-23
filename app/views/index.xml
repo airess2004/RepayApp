@@ -8,9 +8,7 @@
         </Menu-->
         
 		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">
-			<ScrollView>
-				<Label id="label1" onClick="doClick">Home Page</Label>
-			</ScrollView>
+			<Require src='homeList' id="homeList"/>
 			
 			<Require src='reimburseList' id="reimburseList"/>
 			

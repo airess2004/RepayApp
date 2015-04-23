@@ -12,6 +12,8 @@ exports.definition = {
 		    "status": "integer",
 		    "sentTo": "string",
 		    "userId": "bigint",
+		    "userName" : "text",
+		    "userAvatar" : "text",
 		    "dateCreated": "datetime",
 		    "lastUpdated": "datetime",
 		    "lastUpdate": "datetime",
@@ -128,7 +130,8 @@ exports.definition = {
                             // return require('naturalSort').normalSort(left, right, direction);
                         // }
                     // }), 'value');
-            // }                               
+            // },
+                            
         });
  
         return Collection;

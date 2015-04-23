@@ -12,34 +12,72 @@
  	backgroundSelectedColor: "gray",
 }
 
-".avatar" : {
+"#avatar" : {
  	height: "64dp",
  	width: "64dp",
- 	image: "/icon/ic_action_copy.png",
+ 	image: "/icon/ic_action_user.png",
+ 	touchEnabled : false,
+ 	borderRadius: "32dp",
+}
+
+".midView" : {
+	width: "55%",
+ 	height: Titanium.UI.FILL,
  	touchEnabled : false,
 }
 
+"#userName" : {
+	top: "8dp",
+ 	width: Titanium.UI.FILL,
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
+ 	color: "navy",
+ 	font: {
+ 		fontSize: "12dp",
+ 	}
+}
+
 "#title" : {
- 	width: "60%",
+ 	width: Titanium.UI.FILL,
  	touchEnabled : false,
  	horizontalWrap: false,
  	color: "black",
+ 	font: {
+ 		fontSize: "14dp",
+ 	}
+}
+
+"#date" : {
+ 	width: Titanium.UI.FILL,
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
+ 	bottom: "8dp",
+ 	color: "darkgray",
+ 	font: {
+ 		fontSize: "10dp",
+ 		//fontStyle: "italic",
+ 	}
 }
 
 ".rightView" : {
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.FILL,
- 	touchEnabled : false,
+ 	touchEnabled : true,
 }
 
-"#status" : {
+"#approveBtn" : {
  	width: Titanium.UI.FILL,
  	right: "8dp",
  	top: "8dp",
+ 	//style: Ti.UI.Android.SWITCH_STYLE_TOGGLEBUTTON,
+ 	text: "Approve",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
- 	touchEnabled : false,
+ 	touchEnabled : true,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	backgroundColor: "#0bd",
+ 	backgroundSelectedColor: "#0df",
+ 	borderRadius: "3dp",
  	borderColor: "black",
  	borderWidth: "1dp",
  	color: "black",
@@ -54,4 +92,5 @@
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
  	color: "navy",
+ 	minimumFontSize: "8sp",
 }
