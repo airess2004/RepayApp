@@ -1,6 +1,14 @@
 ".container" : {
 }
 
+"#tableView" : {
+ 	height: Titanium.UI.FILL,
+ 	separatorColor: "gray",
+ 	filterAttribute: "title",
+ 	//searchHidden: true,
+ 	//rowHeight: "80dp",
+}
+
 ".centeredVertical": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,

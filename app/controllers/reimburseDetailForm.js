@@ -2,8 +2,24 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
-function winOpen(e) {
+var reimburseDetails = Alloy.Collections.reimburseDetail;
 
+var reimburses = Alloy.Collections.reimburse;
+reimburseDetails && reimburseDetails.fetch();
+var data;
+
+if (args.id != null) {
+	data = reimburseDetails.get(args.id);
+}
+
+function winOpen(e) {
+	if (data) {
+		$.titleField.value = data.get('name');
+		$.dateField.value = moment.parseZone(data.get('receiptDate')).local().format("YYYY-MM-DD");
+		$.amountField.value = data.get('amount');
+		$.descriptionField.value = data.get('description');
+		$.image.image = data.get('urlImageOriginal');
+	}
 }
 
 function doMenuClick(evt) {
@@ -24,41 +40,55 @@ function doSearch(e) {
 
 function doSave(e) {
 	var reimburses = Alloy.Collections.reimburse;
-	var reimburseDetails = Alloy.Collections.reimburseDetail;
-	var reimburseDetail = Alloy.createModel("reimburseDetail", {
-		reimburseId : args.reimburseId,
-		name : $.titleField.value,
-		description : $.descriptionField.value,
-		receiptDate : moment($.dateField.value).utc().toISOString(),
-		isDeleted : 0,
-		amount :  parseFloat($.amountField.value),
-		urlImageOriginal : $.image.image
+	var reimburseId;
+	if (args.reimburseId == null) {
+		var reimburseDetail = reimburseDetails.get(args.id);
+		if (reimburseDetail) {
+			reimburseDetail.set({
+				name : $.titleField.value,
+				description : $.descriptionField.value,
+				receiptDate : moment($.dateField.value).utc().toISOString(),
+				amount : parseFloat($.amountField.value),
+				urlImageOriginal : $.image.image
+			}).save();
+			reimburseId = reimburseDetail.get("reimburseId");
+		}
+	} else {
+		var reimburseDetail = Alloy.createModel("reimburseDetail", {
+			reimburseId : args.reimburseId,
+			name : $.titleField.value,
+			description : $.descriptionField.value,
+			receiptDate : moment($.dateField.value).utc().toISOString(),
+			isDeleted : 0,
+			amount : parseFloat($.amountField.value),
+			urlImageOriginal : $.image.image
 
-	});
-
-	reimburseDetail.save();
-	reimburseDetails.add(reimburseDetail);
-	var detail = reimburseDetails.where({
-		isDeleted : 0,
-		reimburseId : args.reimburseId
-	});
-	
-	var total = 0 ;  
-	
-	if (detail != null) {
-		_.each(detail,function(model) {
-			total += parseFloat(model.amount);
 		});
+		reimburseDetail.save();
+		reimburseDetails.add(reimburseDetail);
+		reimburseId = args.reimburseId;
 	}
 
-	var reimburse = reimburses.get(args.reimburseId);
+	var detail = reimburseDetails.where({
+		isDeleted : 0,
+		reimburseId : reimburseId
+	});
+
+	var total = 0;
+
+	for (var i in detail) {
+		total += parseFloat(detail[i].get("amount"));
+	}
+
+	var reimburse = reimburses.get(reimburseId);
 
 	reimburse.set({
-		"total" : total
+		"total" : parseFloat(total)
 	}).save();
 
 	// reload the tasks
 	reimburseDetails.fetch();
+	Alloy.Globals.reimburseDetailList.fireEvent("open");
 	$.reimburseDetailForm.close();
 }
 

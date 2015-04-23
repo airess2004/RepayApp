@@ -12,7 +12,8 @@ var data = reimburses.get(args.id);
 // that you would like to render.
 
 function windowOpen(e) {
-	//Alloy.Globals.abx = require('com.alcoapps.actionbarextras');
+	Alloy.Globals.reimburseDetailList = $.reimburseDetailList;
+	data = reimburses.get(args.id);
 	var activity = $.reimburseDetailList.getActivity();
 	if (activity) {
 		var actionBar = activity.getActionBar();
@@ -26,7 +27,7 @@ function windowOpen(e) {
 }
 
 function newDetailClick(e) {
-	Alloy.createController("reimburseDetailForm", {reimburseId : args.id}).getView().open();
+	Alloy.createController("reimburseDetailForm", {reimburseId : args.id, id : null}).getView().open();
 }
 
 function doEdit() {
@@ -47,7 +48,8 @@ function doMenuClick(evt) {
 
 function whereFunction(collection) {
 	var ret = collection.where({
-		isDeleted : 0
+		isDeleted : 0,
+		reimburseId : args.id
 	});
 	if (!ret)
 		ret = [];
@@ -64,10 +66,10 @@ function whereFunction(collection) {
 // easiest way to do that is to clone the model and return its
 // attributes with the toJSON() function.
 function transformFunction(model) {
-	var transform = model.toJSON();
-	transform.status = STATUS[transform.desctiption];
-	transform.total = transform.amount + " IDR";
-	if (String.format(transform.title).length > 30)
+	var transform = model.toJSON(); 
+	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format("YYYY-MM-DD");
+	transform.amount = transform.amount + " IDR";
+	if (String.format(transform.name).length > 30)
 		transform.name = transform.name.substring(0, 27) + "...";
 	return transform;
 }
