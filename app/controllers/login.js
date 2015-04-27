@@ -4,6 +4,7 @@ var register = Alloy.createController("register");
 
 function onSignInClick(e) {
 	if (String.format($.userField.value).trim().toUpperCase() == "ADMIN" && $.passField.value == "sysadmin") {
+		if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
 		$.loginForm.close();
 	} else {
 		alert("Access Denied!\nInvalid username / password.");
@@ -32,8 +33,13 @@ function userFocus(e){
 };
 
 function loginOpen(e) {
+	if ($.userField.value && $.userField.value!="") $.passField.value = "";
 	$.userField.blur();
 	$.signIn.focus();	
+}
+
+function loginClose(e) {
+	//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");	
 }
 
 $.signIn.focus();

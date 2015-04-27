@@ -3,7 +3,7 @@ var args = arguments[0] || {};
 var reimburseDetails = Alloy.Collections.reimburseDetail;
 var reimburses = Alloy.Collections.reimburse;
 // fetch existing todo items from storage
-reimburses && reimburses.fetch();
+//reimburses && reimburses.fetch();
 reimburseDetails && reimburseDetails.fetch();
 var data = reimburses.get(args.id);
 
@@ -24,6 +24,13 @@ function windowOpen(e) {
 		$.totalField.value = data.get("total");
 	}
 	
+}
+
+function windowClose(e) {
+	$.destroy();
+	reimburseDetails = null;
+	reimburses = null;
+	data = null;
 }
 
 function newDetailClick(e) {

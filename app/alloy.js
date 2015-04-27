@@ -89,15 +89,43 @@ function addReimburseDetail(item) {
     return reimburseDetail;
 }
 
+function addComment(item) {
+    var comments = Alloy.Collections.comment;
+
+    // Create a new model for the todo collection
+    var comment = Alloy.createModel('comment', {
+    	reimburseDetailId : item.reimburseDetailId,
+        message : item.message,
+        commentsDate : moment(item.commentsDate).utc().toISOString(),
+        userId : 2,
+        username : "Johan",
+    });
+
+    // add new model to the global collection
+    comments.add(comment);
+
+    // save the model to persistent storage
+    comment.save();
+
+    // reload the tasks
+    //reimburses.fetch();
+    return comment;
+}
+
 function fillTestData() {
 	// delete all data from last to first
+	var comments = Alloy.Collections.comment;
+	comments.fetch(); // Make sure collection is in sync
+	for (var i = comments.models.length-1; i >= 0; i--) {
+  		comments.models[i].destroy();        
+	}
 	var reimburseDetails = Alloy.Collections.reimburseDetail;
-	reimburseDetails.fetch();
+	reimburseDetails.fetch(); // Make sure collection is in sync
 	for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
   		reimburseDetails.models[i].destroy();        
 	}
 	var reimburses = Alloy.Collections.reimburse;
-	reimburses.fetch();
+	reimburses.fetch(); // Make sure collection is in sync
 	for (var i = reimburses.models.length-1; i >= 0; i--) {
   		reimburses.models[i].destroy();        
 	}
@@ -124,6 +152,11 @@ function fillTestData() {
 			urlImageMedium : "/icon/ic_action_photo.png",
 			urlImageOriginal : "/icon/ic_action_photo.png",
 			receiptDate : moment().add(i, "days").format("YYYY-MM-DD")
+		});
+		var comment = addComment({
+			reimburseDetailId : detail.id,
+			message : "Ok thanks "+i,
+			commentsDate : moment().add(i, "days").format("YYYY-MM-DD")
 		});
 	}
 }

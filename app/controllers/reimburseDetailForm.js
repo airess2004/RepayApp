@@ -5,7 +5,7 @@ Alloy.Globals.cameraShown = false;
 var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 var reimburses = Alloy.Collections.reimburse;
-reimburseDetails && reimburseDetails.fetch();
+//reimburseDetails && reimburseDetails.fetch();
 var data;
 
 if (args.id != null) {
@@ -20,6 +20,12 @@ function winOpen(e) {
 		$.descriptionField.value = data.get('description');
 		$.image.image = data.get('urlImageOriginal');
 	}
+}
+
+function winClose(e) {
+	reimburseDetails = null;
+	reimburses = null;
+	data = null;
 }
 
 function doMenuClick(evt) {
@@ -87,7 +93,7 @@ function doSave(e) {
 	}).save();
 
 	// reload the tasks
-	reimburseDetails.fetch();
+	//reimburseDetails.fetch();
 	Alloy.Globals.reimburseDetailList.fireEvent("open");
 	$.reimburseDetailForm.close();
 }

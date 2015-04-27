@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 
 var reimburses = Alloy.Collections.reimburse;
-reimburses && reimburses.fetch();
+//reimburses && reimburses.fetch();
 var data = reimburses.get(args.id);
 
 function winOpen(e) {
@@ -12,6 +12,11 @@ function winOpen(e) {
 		// $.dateField.value = data.get('projectDate');
 		
 	}
+}
+
+function winClose(e) {
+	reimburses = null;
+	data = null;
 }
 
 function doMenuClick(evt) {
@@ -57,7 +62,7 @@ function doSave(e) {
 	}
 
 	// reload the tasks
-	reimburses.fetch();
+	//reimburses.fetch();
 	Alloy.createController("reimburseDetailList", {
 		id : reimburse.id
 	}).getView().open();

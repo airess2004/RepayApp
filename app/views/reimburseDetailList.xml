@@ -1,5 +1,5 @@
 <Alloy>
-	<Window onOpen="windowOpen">
+	<Window onOpen="windowOpen" onClose="windowClose">
 		<ActionBar id="actionBar" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
 			<MenuItem id="editMenu" title="Edit" onClick="doEdit" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />

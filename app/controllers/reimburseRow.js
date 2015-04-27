@@ -67,8 +67,7 @@ function rowClick(e) {
 	id = e.source.parent.rowid;
 	Alloy.createController("reimburseDetailList",{
 					id : id
-				}
-	).getView().open();
+				}).getView().open();
 }
 
 function rowLongClick(e) {

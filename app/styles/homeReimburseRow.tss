@@ -12,6 +12,13 @@
  	backgroundSelectedColor: "gray",
 }
 
+"#avatarView" : {
+ 	height: "64dp",
+ 	width: "64dp",
+ 	touchEnabled : false,
+ 	borderRadius: "32dp",
+}
+
 "#avatar" : {
  	height: "64dp",
  	width: "64dp",

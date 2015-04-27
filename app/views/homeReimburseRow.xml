@@ -1,7 +1,9 @@
 <Alloy>
   <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
-    	<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
+  		<View id="avatarView">
+    		<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
+    	</View>
     	<View class="midView">
     		<Label id="userName" text="{userName}" />
     		<Label id="title" text="{title}" />

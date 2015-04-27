@@ -5,7 +5,7 @@ var reimburses = Alloy.Collections.reimburse;
 var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch();
+//reimburses && reimburses.fetch();
 
 // Sort Descending
 reimburses.comparator = function(model) {
@@ -57,7 +57,7 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses.fetch();
+	//reimburses.fetch();
 	reimburseDetails.fetch();
 }
 

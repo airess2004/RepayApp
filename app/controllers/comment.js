@@ -6,7 +6,8 @@ var reimburseDetails = Alloy.Collections.reimburseDetail;
 var comments = Alloy.Collections.comment;
 var reimburses = Alloy.Collections.reimburse;
 
-reimburseDetails && reimburseDetails.fetch();
+//reimburseDetails && reimburseDetails.fetch();
+comments && comments.fetch();
 
 var data;
 
@@ -31,8 +32,16 @@ function winOpen(e) {
 		// actionBar.title = args.title;
 		// $.totalField.value = data.get("total");
 		// }
-
+		//comments && comments.fetch();
 	}
+}
+
+function winClose(e) {
+	$.destroy();
+	comments = null;
+	reimburseDetails = null;
+	reimburses = null;
+	data = null;
 }
 
 function whereFunction(collection) {
@@ -63,7 +72,7 @@ function newDetailClick(e) {
 		comment.save();
 		$.commentField.value = "";
 		// reload the tasks
-		comments.fetch();
+		//comments.fetch();
 	}
 }
 

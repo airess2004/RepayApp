@@ -1,5 +1,5 @@
 <Alloy>
-	<Window onOpen="winOpen">
+	<Window onOpen="winOpen" onClose="winClose">
 		<ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" />
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">

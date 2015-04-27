@@ -4,7 +4,7 @@ var moment = require('alloy/moment');
 var reimburses = Alloy.Collections.reimburse;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch();
+//reimburses && reimburses.fetch();
 
 // Sort Descending
 reimburses.comparator = function(model) {

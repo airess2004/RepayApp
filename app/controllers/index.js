@@ -5,6 +5,8 @@ Alloy.Globals.login = Alloy.createController("login");
 
 // use action bar search view
 Alloy.Globals.searchView = Alloy.createController("searchView").getView();
+Alloy.Globals.index = $.index;
+Alloy.Globals.scrollableView = $.scrollableView;
 
 function doClick(e) {
     //alert($.label1.text);
@@ -64,7 +66,7 @@ function settingBtnClick(e) {
 }
 
 function mainViewOpen(e) {
-	Alloy.Globals.index = $.index;
+	//Alloy.Globals.index = $.index;
 	//Alloy.Globals.searchView = $.searchView;
 	//Alloy.Globals.abx = require('com.alcoapps.actionbarextras');
 	var activity = $.index.getActivity();
@@ -102,10 +104,18 @@ function mainViewOpen(e) {
 	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
 		//Alloy.Globals.CURRENT_USER = "Admin"; 
 		Alloy.Globals.login.getView().open();
-	} else {
-		$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open");
 	}
+	
+	Alloy.Collections.reimburse.fetch();
+	Alloy.Collections.reimburseDetail.fetch();
+	Alloy.Collections.comment.fetch();
 }
+
+// Need to destroy when binding to data collection to prevent memory leaks
+function mainViewClose() {
+    $.destroy();
+}
+
 
 function scrollableViewScrollEnd(e) {
 	if (e.view) e.view.fireEvent("open");
@@ -123,9 +133,5 @@ function scrollableViewScrollEnd(e) {
 	// };
 // });
 
-// Need to destroy when binding to data collection to prevent memory leaks
-function cleanUp() {
-    $.destroy();
-}
 
 $.index.open();
