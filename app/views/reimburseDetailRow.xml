@@ -1,5 +1,5 @@
 <Alloy>
-  <TableViewRow id="reimburseDetailRow" title="{title}">
+  <TableViewRow id="reimburseDetailRow" title="{title}" className="detailRow1">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
     	<ImageView class="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>
     	<Label id="title" text="{name}" />

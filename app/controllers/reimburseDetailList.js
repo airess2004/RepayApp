@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 
-var reimburseDetails = Alloy.Collections.reimburseDetail;
-var reimburses = Alloy.Collections.reimburse;
+var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
+var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 // fetch existing todo items from storage
 //reimburses && reimburses.fetch();
 reimburseDetails && reimburseDetails.fetch();
@@ -10,6 +10,12 @@ var data = reimburses.get(args.id);
 // Filter the fetched collection before rendering. Don't return the
 // collection itself, but instead return an array of models
 // that you would like to render.
+
+// Sort Descending
+reimburseDetails.comparator = function(model) {
+  return -(moment.parseZone(model.get('receiptDate')).unix());
+};
+//reimburseDetails.sort();
 
 function windowOpen(e) {
 	Alloy.Globals.reimburseDetailList = $.reimburseDetailList;

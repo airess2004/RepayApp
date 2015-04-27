@@ -5,6 +5,12 @@ var reimburses = Alloy.Collections.reimburse;
 var reimburseDetails = Alloy.Collections.reimburseDetail;
 var id;
 
+// Sort Descending
+reimburseDetails.comparator = function(model) {
+  return -(moment.parseZone(model.get('receiptDate')).unix());
+};
+//reimburseDetails.sort();
+
 function whereFunction(collection) {
 	if (!$.homeReimburseRow.rowid) alert("invalid id : "+id);
 	var ret = collection.where({

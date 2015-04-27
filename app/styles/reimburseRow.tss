@@ -20,10 +20,13 @@
 }
 
 "#title" : {
- 	width: "60%",
+ 	width: "55%",
  	touchEnabled : false,
  	horizontalWrap: false,
  	color: "black",
+ 	font: {
+ 		fontSize: "14dp",
+ 	}
 }
 
 ".rightView" : {

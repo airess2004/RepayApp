@@ -15,6 +15,12 @@ if (args.id != null) {
 	data = reimburseDetails.get(args.id);
 }
 
+// Sort Descending
+comments.comparator = function(model) {
+  return -(moment.parseZone(model.get('commentsDate')).unix());
+};
+//comments.sort();
+
 function winOpen(e) {
 	if (data) {
 		$.titleField.text = data.get('name');
