@@ -3,8 +3,8 @@ var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
 var reimburseDetails = Alloy.Collections.reimburseDetail;
-var comments = Alloy.Collections.comment;
-var reimburses = Alloy.Collections.reimburse;
+var comments = Alloy.Collections.comment; //$.localComment; //
+//var reimburses = Alloy.Collections.reimburse;
 
 //reimburseDetails && reimburseDetails.fetch();
 comments && comments.fetch();
@@ -16,9 +16,9 @@ if (args.id != null) {
 }
 
 // Sort Descending
-comments.comparator = function(model) {
-  return -(moment.parseZone(model.get('commentsDate')).unix());
-};
+// comments.comparator = function(model) {
+  // return -(moment.parseZone(model.get('commentsDate')).unix());
+// };
 //comments.sort();
 
 function winOpen(e) {
@@ -46,8 +46,9 @@ function winClose(e) {
 	$.destroy();
 	comments = null;
 	reimburseDetails = null;
-	reimburses = null;
+	//reimburses = null;
 	data = null;
+	Alloy.Globals.index.fireEvent("refresh");
 }
 
 function whereFunction(collection) {

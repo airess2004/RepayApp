@@ -3,7 +3,7 @@ var moment = require('alloy/moment');
 exports.definition = {
 	config: {
 		columns: {
-			//"id": "INTEGER PRIMARY KEY",
+			"id": "INTEGER PRIMARY KEY",
 		    "title": "string",
 		    "total": "double",
 		    "projectDate": "datetime",
@@ -22,7 +22,7 @@ exports.definition = {
 		adapter: {
 			type: "sql",
 			collection_name: "reimburse",
-			//idAttribute: "id",
+			idAttribute: "id",
 		}
 	},
 	extendModel: function(Model) {
@@ -110,6 +110,9 @@ exports.definition = {
             // comparator: function(collection) {
                 // return collection.get(this.sortField);
             // },
+            comparator : function(model) {
+  				return -(moment.parseZone(model.get('projectDate')).unix());
+			},
             // //*** Override sortBy to allow sort on any field, either direction 
             // sortBy: function (iterator, context) {
                 // var obj = this.models;

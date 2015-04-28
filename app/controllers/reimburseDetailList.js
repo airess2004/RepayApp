@@ -1,6 +1,6 @@
 var args = arguments[0] || {};
 
-var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
+var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
 var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 // fetch existing todo items from storage
 //reimburses && reimburses.fetch();
@@ -12,9 +12,9 @@ var data = reimburses.get(args.id);
 // that you would like to render.
 
 // Sort Descending
-reimburseDetails.comparator = function(model) {
-  return -(moment.parseZone(model.get('receiptDate')).unix());
-};
+// reimburseDetails.comparator = function(model) {
+  // return -(moment.parseZone(model.get('receiptDate')).unix());
+// };
 //reimburseDetails.sort();
 
 function windowOpen(e) {
@@ -37,6 +37,7 @@ function windowClose(e) {
 	reimburseDetails = null;
 	reimburses = null;
 	data = null;
+	Alloy.Globals.index.fireEvent("refresh");
 }
 
 function newDetailClick(e) {

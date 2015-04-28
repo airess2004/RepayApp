@@ -1,4 +1,5 @@
 <Alloy>
+  <Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
   <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical"  className="reimburseRow2">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
   		<View id="avatarView">
@@ -14,10 +15,10 @@
     		<Label id="total" text="{total}"/>
     	</View>
     </View>
-    <View layout="vertical" id="detailView" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+    <View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
     	<Require src="homeReimburseDetailRow"/>
     </View>
-  </TableViewRow>
+  </TableViewRow>  
   <AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
             message="Are you sure you want to approve selected receipts?" cancel="1">
             <!-- The ButtonNames tag sets the buttonNames property. -->
@@ -25,5 +26,5 @@
                 <ButtonName>Yes</ButtonName>
                 <ButtonName>No</ButtonName>
             </ButtonNames>
-    </AlertDialog>
+  	</AlertDialog> 	
 </Alloy>

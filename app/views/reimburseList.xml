@@ -1,6 +1,7 @@
 <Alloy>
+	<Collection id="localReimburse" src="reimburse" instance="true"/>
 	<View class="container" layout="vertical" onOpen="showList">
-		<TableView id="tableView" searchAsChild="false" dataCollection="reimburse" dataFilter="whereFunction" dataTransform="transformFunction">
+		<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
 			<Require src="reimburseRow"/>
 		</TableView>
 	</View>      

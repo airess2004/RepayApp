@@ -1,4 +1,5 @@
 <Alloy>
+	<Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
 	<Window onOpen="windowOpen" onClose="windowClose">
 		<ActionBar id="actionBar" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
@@ -12,7 +13,7 @@
 				<Button id="addNewButton" title="Add New" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
 				<View class="vSplitter" />
 			</ScrollView>
-			<TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+			<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
 				<Require src="reimburseDetailRow"/>
 			</TableView>
 		</View>

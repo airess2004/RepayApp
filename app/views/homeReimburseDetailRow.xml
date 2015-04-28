@@ -1,5 +1,7 @@
 <Alloy>
-	<View id="homeReimburseDetailRow" layout="vertical">
+	<!--Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/-->
+	<!--Collection id="localComment" src="comment" instance="true"/-->
+	<View id="homeReimburseDetailRow" class="homeDetailRow" layout="vertical" >
 		<View class="vSplitter" />
 		<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
 			<ImageView class="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>

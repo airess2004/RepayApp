@@ -35,34 +35,35 @@ function doLoginClick(e) {
     Alloy.Globals.login.getView().open();
 }
 
-
+Alloy.Globals.bottomBtnUsed = false;
 function homeBtnClick(e) {
-	var page = 0;
-	$.scrollableView.scrollToView(page);
-	//$.scrollableView.setCurrentPage(page);
-	var actionBar = $.index.getActivity().getActionBar();
-	actionBar.title = 'Home';
-	$.scrollableView.views[page].fireEvent("open");
-
+	if (!Alloy.Globals.bottomBtnUsed) {
+		Alloy.Globals.bottomBtnUsed = true;
+		var page = 0;
+		$.scrollableView.prevPage = $.scrollableView.currentPage;
+		$.scrollableView.scrollToView(page);
+		Alloy.Globals.bottomBtnUsed = false;
+	}
 }
 
 function reimburseBtnClick(e) {
-	var page = 1;
-	$.scrollableView.scrollToView(page);
-	//$.scrollableView.setCurrentPage(page);
-	var actionBar = $.index.getActivity().getActionBar();
-	actionBar.title = 'Reimburse';
-	$.scrollableView.views[page].fireEvent("open");
-	
+	if (!Alloy.Globals.bottomBtnUsed) {
+		Alloy.Globals.bottomBtnUsed = true;
+		var page = 1;
+		$.scrollableView.prevPage = $.scrollableView.currentPage;
+		$.scrollableView.scrollToView(page);
+		Alloy.Globals.bottomBtnUsed = false;
+	}
 }
 
 function settingBtnClick(e) {
-	var page = 2;
-	$.scrollableView.scrollToView(page);
-	//$.scrollableView.setCurrentPage(page);
-	$.scrollableView.views[page].fireEvent("open");
-	var actionBar = $.index.getActivity().getActionBar();
-	actionBar.title = 'Setting';
+	if (!Alloy.Globals.bottomBtnUsed) {
+		Alloy.Globals.bottomBtnUsed = true;
+		var page = 2;
+		$.scrollableView.prevPage = $.scrollableView.currentPage;
+		$.scrollableView.scrollToView(page);
+		Alloy.Globals.bottomBtnUsed = false;
+	}
 }
 
 function mainViewOpen(e) {
@@ -106,9 +107,9 @@ function mainViewOpen(e) {
 		Alloy.Globals.login.getView().open();
 	}
 	
-	Alloy.Collections.reimburse.fetch();
-	Alloy.Collections.reimburseDetail.fetch();
-	Alloy.Collections.comment.fetch();
+	//Alloy.Collections.reimburse.fetch();
+	//Alloy.Collections.reimburseDetail.fetch();
+	//Alloy.Collections.comment.fetch();
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks
@@ -118,8 +119,15 @@ function mainViewClose() {
 
 
 function scrollableViewScrollEnd(e) {
-	if (e.view) e.view.fireEvent("open");
+	if (e.view && e.currentPage != e.source.prevPage) {
+		e.view.fireEvent("open");
+		e.source.prevPage = e.currentPage;
+	}
 }
+
+$.index.addEventListener('refresh', function(e) {
+	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open");
+});
 
 // $.index.addEventListener('open', function() {
 	// var actionBar = $.index.getActivity().getActionBar();

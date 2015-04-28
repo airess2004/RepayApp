@@ -16,9 +16,21 @@ Alloy.Globals.CURRENT_USER = "";
 var moment = require('alloy/moment');
 
 if (OS_IOS || OS_ANDROID) {
+	// Create collections
 	Alloy.Collections.reimburse = Alloy.createCollection('reimburse');
 	Alloy.Collections.reimburseDetail = Alloy.createCollection('reimburseDetail');
 	Alloy.Collections.comment = Alloy.createCollection('comment');
+	// Change default sorting (descending by date)
+	// Alloy.Collections.comment.comparator = function(model) {
+  		// return -(moment.parseZone(model.get('commentsDate')).unix());
+	// };
+	// Alloy.Collections.reimburseDetail.comparator = function(model) {
+  		// return -(moment.parseZone(model.get('receiptDate')).unix());
+	// };
+	// Alloy.Collections.reimburse.comparator = function(model) {
+  		// return -(moment.parseZone(model.get('projectDate')).unix());
+	// };
+	//Seed data
 	fillTestData();
 	
 	//Alloy.Globals.top = 0;
