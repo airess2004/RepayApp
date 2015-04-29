@@ -93,7 +93,7 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburseDetails && reimburseDetails.fetch(e.param);
+	reimburseDetails && reimburseDetails.fetch(e.param ? e.param : {remove:false});
 }
 
 function thumbPopUp(e) {
