@@ -5,7 +5,7 @@ Alloy.Globals.cameraShown = false;
 var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 var reimburses = Alloy.Collections.reimburse;
-//reimburseDetails && reimburseDetails.fetch();
+//reimburseDetails && reimburseDetails.fetch({remove: false});
 var data;
 
 if (args.id != null) {
@@ -25,7 +25,10 @@ function winOpen(e) {
 function winClose(e) {
 	reimburseDetails = null;
 	reimburses = null;
-	data = null;
+	if (data) {
+		//Alloy.Globals.reimburseDetailList.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE id="+args.id*/}});
+		data = null;
+	}
 }
 
 function doMenuClick(evt) {
@@ -56,7 +59,8 @@ function doSave(e) {
 				receiptDate : moment($.dateField.value).utc().toISOString(),
 				amount : parseFloat($.amountField.value),
 				urlImageOriginal : $.image.image
-			}).save();
+			});
+			reimburseDetail.save();
 			reimburseId = reimburseDetail.get("reimburseId");
 		}
 	} else {
@@ -90,11 +94,15 @@ function doSave(e) {
 
 	reimburse.set({
 		"total" : parseFloat(total)
-	}).save();
+	});
+	reimburse.save();
 
 	// reload the tasks
-	//reimburseDetails.fetch();
-	Alloy.Globals.reimburseDetailList.fireEvent("open");
+	//reimburseDetails.fetch({remove: false});
+	if (reimburse.id) {
+		Alloy.Globals.reimburseDetailList.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
+	}
+	//Alloy.Globals.reimburseDetailList.fireEvent("open");
 	$.reimburseDetailForm.close();
 }
 

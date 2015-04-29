@@ -6,14 +6,15 @@ var reimburseDetails = Alloy.Collections.reimburseDetail;
 var comments = Alloy.Collections.comment; //$.localComment; //
 //var reimburses = Alloy.Collections.reimburse;
 
-//reimburseDetails && reimburseDetails.fetch();
-comments && comments.fetch();
+//reimburseDetails && reimburseDetails.fetch({remove: false});
 
 var data;
 
 if (args.id != null) {
 	data = reimburseDetails.get(args.id);
 }
+
+comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailId="+args.id});
 
 // Sort Descending
 // comments.comparator = function(model) {
@@ -38,7 +39,7 @@ function winOpen(e) {
 		// actionBar.title = args.title;
 		// $.totalField.value = data.get("total");
 		// }
-		//comments && comments.fetch();
+		//comments && comments.fetch({remove: false});
 	}
 }
 
@@ -47,8 +48,10 @@ function winClose(e) {
 	comments = null;
 	reimburseDetails = null;
 	//reimburses = null;
-	data = null;
-	Alloy.Globals.index.fireEvent("refresh");
+	if (data) {
+		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+data.get("reimburseId")*/}});
+		data = null;
+	}
 }
 
 function whereFunction(collection) {
@@ -79,7 +82,7 @@ function newDetailClick(e) {
 		comment.save();
 		$.commentField.value = "";
 		// reload the tasks
-		//comments.fetch();
+		//comments.fetch({remove: false});
 	}
 }
 

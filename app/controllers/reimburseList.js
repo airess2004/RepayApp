@@ -4,7 +4,7 @@ var moment = require('alloy/moment');
 var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
 
 // fetch existing todo items from storage
-//reimburses && reimburses.fetch();
+reimburses && reimburses.fetch({remove: false});
 Alloy.Globals.reimburseListReimburse = $.localReimburse;
 
 // Sort Descending
@@ -53,7 +53,7 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses && reimburses.fetch();
+	reimburses && reimburses.fetch(e.param);
 }
 
 function thumbPopUp(e) {

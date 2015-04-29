@@ -3,9 +3,9 @@ var args = arguments[0] || {};
 var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
 var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 // fetch existing todo items from storage
-//reimburses && reimburses.fetch();
-reimburseDetails && reimburseDetails.fetch();
+//reimburses && reimburses.fetch({remove: false});
 var data = reimburses.get(args.id);
+reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+args.id});
 
 // Filter the fetched collection before rendering. Don't return the
 // collection itself, but instead return an array of models
@@ -36,8 +36,10 @@ function windowClose(e) {
 	$.destroy();
 	reimburseDetails = null;
 	reimburses = null;
-	data = null;
-	Alloy.Globals.index.fireEvent("refresh");
+	if (data) {
+		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+args.id*/}});
+		data = null;
+	}
 }
 
 function newDetailClick(e) {
@@ -91,12 +93,16 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburseDetails.fetch();
+	reimburseDetails && reimburseDetails.fetch(e.param);
 }
 
 function thumbPopUp(e) {
 
 }
+
+$.reimburseDetailList.addEventListener('refresh', function(e) {
+	showList(e);
+});
 
 $.reimburseDetailList.addEventListener("open", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;

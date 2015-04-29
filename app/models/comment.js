@@ -1,18 +1,18 @@
 exports.definition = {
 	config: {
 		columns: {
-			"id": "INTEGER PRIMARY KEY",
-		    "reimburseDetailId": "bigint",
-		    "message": "string",
-		    "commentsDate": "datetime",
-		    "userId": "bigint",
-		    "username" : "string",
-		    "dateCreated": "date"
+			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
+		    reimburseDetailId: "bigint",
+		    message: "string",
+		    commentsDate: "datetime",
+		    userId: "bigint",
+		    username : "string",
+		    dateCreated: "date"
 		},
 		adapter: {
 			type: "sql",
 			collection_name: "comment",
-			idAttribute: "id",
+			idAttribute: 'id'
 		}
 	},
 	extendModel: function(Model) {

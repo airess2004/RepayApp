@@ -4,7 +4,7 @@ var moment = require('alloy/moment');
 //var reimburses = Alloy.Globals.homeListReimburse; //Alloy.Collections.reimburse; //
 var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //
 //$.localReimburseDetail = Alloy.Globals.homeListReimburseDetail;
-//reimburseDetails && reimburseDetails.fetch();
+//reimburseDetails && reimburseDetails.fetch({remove: false});
 //Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
 var id;
 
@@ -71,7 +71,7 @@ if ($model) {
 		//$.avatar.image = '/tick_64.png';
 	}
 	// wait for parent id to be available before fetching details
-	reimburseDetails && reimburseDetails.fetch();
+	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+$model.id});
 }
 
 // reimburses.on('change:status', function(e){
@@ -86,7 +86,7 @@ if ($model) {
 // });
 // 
 // reimburses.on('change', function(e){
-	// //reimburses.fetch();
+	// //reimburses.fetch({remove: false});
 // });
 
 // toggle the "done" status of the IDed todo
@@ -130,7 +130,7 @@ function approveReimburse(id) {
                 // alert("Error saving!");
             // }
         // });
-	//reimburses.fetch();
+	//reimburses.fetch({remove: false});
 	
 	return reimburse;
 }

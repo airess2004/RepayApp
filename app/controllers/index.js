@@ -107,9 +107,9 @@ function mainViewOpen(e) {
 		Alloy.Globals.login.getView().open();
 	}
 	
-	//Alloy.Collections.reimburse.fetch();
-	//Alloy.Collections.reimburseDetail.fetch();
-	//Alloy.Collections.comment.fetch();
+	//Alloy.Collections.reimburse.fetch({remove: false});
+	//Alloy.Collections.reimburseDetail.fetch({remove: false});
+	//Alloy.Collections.comment.fetch({remove: false});
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks
@@ -126,7 +126,7 @@ function scrollableViewScrollEnd(e) {
 }
 
 $.index.addEventListener('refresh', function(e) {
-	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open");
+	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
 });
 
 // $.index.addEventListener('open', function() {

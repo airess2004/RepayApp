@@ -3,7 +3,7 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
 // fetch existing todo items from storage
-//reimburses && reimburses.fetch();
+//reimburses && reimburses.fetch({remove: false});
 var id;
 
 // $model represents the current model accessible to this

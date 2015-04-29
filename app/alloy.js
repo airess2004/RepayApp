@@ -70,7 +70,7 @@ function addReimburse(item) {
     reimburse.save();
 
     // reload the tasks
-    //reimburses.fetch();
+    //reimburses.fetch({remove: false});
     return reimburse;
 }
 
@@ -97,7 +97,7 @@ function addReimburseDetail(item) {
     reimburseDetail.save();
 
     // reload the tasks
-    //reimburses.fetch();
+    //reimburses.fetch({remove: false});
     return reimburseDetail;
 }
 
@@ -120,24 +120,29 @@ function addComment(item) {
     comment.save();
 
     // reload the tasks
-    //reimburses.fetch();
+    //reimburses.fetch({remove: false});
     return comment;
 }
 
 function fillTestData() {
+	// var db = Ti.Database.open ('_alloy_');
+   	// db.execute ('DROP TABLE IF EXISTS comment;');
+   	// db.execute ('DROP TABLE IF EXISTS reimburseDetail;');
+   	// db.execute ('DROP TABLE IF EXISTS reimburse;');
+   	// db.close ();
 	// delete all data from last to first
 	var comments = Alloy.Collections.comment;
-	comments.fetch(); // Make sure collection is in sync
+	comments.fetch({remove: false}); // Make sure collection is in sync
 	for (var i = comments.models.length-1; i >= 0; i--) {
   		comments.models[i].destroy();        
 	}
 	var reimburseDetails = Alloy.Collections.reimburseDetail;
-	reimburseDetails.fetch(); // Make sure collection is in sync
+	reimburseDetails.fetch({remove: false}); // Make sure collection is in sync
 	for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
   		reimburseDetails.models[i].destroy();        
 	}
 	var reimburses = Alloy.Collections.reimburse;
-	reimburses.fetch(); // Make sure collection is in sync
+	reimburses.fetch({remove: false}); // Make sure collection is in sync
 	for (var i = reimburses.models.length-1; i >= 0; i--) {
   		reimburses.models[i].destroy();        
 	}

@@ -1,24 +1,24 @@
 exports.definition = {
 	config : {
 		columns : {
-			"id": "INTEGER PRIMARY KEY",
-			"reimburseId" : "bigint",
-			"name" : "string",
-			"receiptDate" : "datetime",
-			"isDeleted" : "boolean",
-			"amount" : "double",
-			"description" : "string",
-			"dateCreated" : "datetime",
-			"lastUpdated" : "datetime",
-			"lastUpdate" : "datetime",
-			"urlImageMedium" : "string",
-			"urlImageSmall" : "string",
-			"urlImageOriginal" : "string"
+			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
+			reimburseId : "bigint",
+			name : "string",
+			receiptDate : "datetime",
+			isDeleted : "boolean",
+			amount : "double",
+			description : "string",
+			dateCreated : "datetime",
+			lastUpdated : "datetime",
+			lastUpdate : "datetime",
+			urlImageMedium : "string",
+			urlImageSmall : "string",
+			urlImageOriginal : "string"
 		},
 		adapter : {
 			type : "sql",
 			collection_name : "reimburseDetail",
-			idAttribute: "id",
+			idAttribute: 'id'
 		}
 	},
 	extendModel : function(Model) {
