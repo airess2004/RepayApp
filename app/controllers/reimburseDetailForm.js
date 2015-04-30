@@ -100,9 +100,9 @@ function doSave(e) {
 	// reload the tasks
 	//reimburseDetails.fetch({remove: false});
 	if (reimburse.id) {
-		Alloy.Globals.reimburseDetailList.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
+		Alloy.Globals.reimburseDetailList.fireEvent("open", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
 	}
-	//Alloy.Globals.reimburseDetailList.fireEvent("open");
+	//Alloy.Globals.reimburseDetailList.fireEvent("refresh");
 	$.reimburseDetailForm.close();
 }
 

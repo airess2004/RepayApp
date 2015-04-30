@@ -19,12 +19,12 @@
     	<Require src="homeReimburseDetailRow"/>
     </View>
   </TableViewRow>  
-  <AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
+  <!-- AlertDialog should not be created in XML otherwise it will crash app sometimes -->
+  <!--AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
             message="Are you sure you want to approve selected receipts?" cancel="1">
-            <!-- The ButtonNames tag sets the buttonNames property. -->
             <ButtonNames>
                 <ButtonName>Yes</ButtonName>
                 <ButtonName>No</ButtonName>
             </ButtonNames>
-  	</AlertDialog> 	
+  	</AlertDialog--> 	
 </Alloy>

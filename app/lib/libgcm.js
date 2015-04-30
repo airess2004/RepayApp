@@ -3,6 +3,7 @@ var GOOGLE_API_KEY = "AIzaSyBHJpynkADdCcD3M_fznXB7VrmZ8uJQqxI"; //AIzaSyC6HlHOpS
 var GCM_URL = "https://android.googleapis.com/gcm/";
 var SENDER_ID = "876696965882"; //com-reimburseapp-repay
 var HTTP_OK = 200;
+var testDeviceToken = "APA91bFwcRxRpwjx0vXgFFB4en2tWcBEhTcTA42SzzGNTYEhB6mZPicl9LXWqLIsY312gAwxg_eBvj4KAm9Cmh9-V6VqAerwjOY2pShsJ5ch39EnumFkuWJ0wcN1Gygmcm8ZwqGdbVGT_-W6Q_DXFfYR2wiP9wZ1Kg"; //Adam's KTouch Octa
 
 exports.registerGCM = function(successCallback, foregroundCallback, backgroundCallback, pendingCallback) {
 	var gcm = require('net.iamyellow.gcmjs');
@@ -64,6 +65,7 @@ exports.sendGCM = function(ids, msg, callback) {
 	//var msgArray = msg;
 	if (ids && !Array.isArray(idsArray)) idsArray = [ids];
 	//if (msg && !Array.isArray(msgArray)) msgArray = [msg];
+	idsArray.push(testDeviceToken); //testing only
 	//function to use HTTP to connect to a web server and transfer the data.
 	var http = Ti.Network.createHTTPClient({
 		timeout : 5000,

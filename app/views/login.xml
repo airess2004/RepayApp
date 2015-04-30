@@ -24,14 +24,13 @@
 			<Label class="buttonLabel" text="Don't have an account? Sign up for free!"></Label>
 		</View>
 		
-		<AlertDialog id="resetDialog" onClick="doResetClick"
+		<!--AlertDialog id="resetDialog" onClick="doResetClick"
             message="Send password reset email?" cancel="1">
-            <!-- The ButtonNames tag sets the buttonNames property. -->
             <ButtonNames>
                 <ButtonName>Yes</ButtonName>
                 <ButtonName>No</ButtonName>
             </ButtonNames>
-        </AlertDialog>
+        </AlertDialog-->
         
         <Notification id="toast" platform="android" message="Reset verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
 		

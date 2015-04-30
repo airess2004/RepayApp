@@ -55,9 +55,9 @@
 	
 	// create custom remoteview for custom notification view
 	// var customView = Ti.Android.createRemoteViews({
-		// layoutId : Ti.App.Android.R.layout.customRemoteView
+		// layoutId : Ti.App.Android.R.layout.customremoteview
 	// });
-	// // Reference elements in the layout by prefixing the IDs with 'Ti.App.Android.R.id' XML located at /platform/android/res/layout/customRemoteView.xml
+	// // Reference elements in the layout by prefixing the IDs with 'Ti.App.Android.R.id' XML located at /platform/android/res/layout/customremoteview.xml (XML filename must not use uppercase)
 	// customView.setTextViewText(Ti.App.Android.R.id.message, "Update available!");
 	// customView.setTextViewText(Ti.App.Android.R.id.okbutton, "Download");
 	// customView.setOnClickPendingIntent(Ti.App.Android.R.id.okbutton, launcherIntent); //downnloadIntent

@@ -107,5 +107,5 @@ $.reimburseDetailList.addEventListener('refresh', function(e) {
 $.reimburseDetailList.addEventListener("open", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;
 	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
-	//showList(e);
+	showList(e);
 });

@@ -56,8 +56,8 @@ if ($model) {
 		$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		$.innerView.backgroundColor = 'lightgray';
 		$.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-		$.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]);
-		$.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
+		$.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
+		$.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
 		$.approveBtn.borderRadius = (status == STATUSCODE[Const.Sent]) ? "8dp" : 0;
 		$.innerView.touchEnabled = $.approveBtn.touchEnabled;
 		//$.avatar.image = '/tick_64.png';
@@ -120,7 +120,7 @@ function approveReimburse(id) {
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
-	reimburse.set({"status": STATUSCODE[Const.Approved]});
+	reimburse.set({"status": STATUSCODE[Const.Closed]});
 	reimburse.save();
 	// reimburse.save(null, {
             // success: function(model, resp){
@@ -152,8 +152,17 @@ function approveBtnClick(e) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
 		if (!id) id = e.source.parent.parent.parent.rowid;
-		$.approveDialog.rowid = id;
-		$.approveDialog.show(); //Bug: this will crash app when using local collection in XML
+		approveDialog.rowid = id;
+		approveDialog.show(); //Bug: this may crash app sometimes when creating AlertDialog in XML
 	}
 }
+
+    
+var approveDialog = Ti.UI.createAlertDialog({
+	title: "Confirm",
+	message: "Are you sure you want to approve/reject marked receipts?",
+	buttonNames: ["Yes","No"],
+	cancel: 1
+});
+approveDialog.addEventListener('click', doApproveClick); 
 
