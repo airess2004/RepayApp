@@ -67,6 +67,7 @@ exports.sendGCM = function(ids, msg, callback) {
 	if (ids && !Array.isArray(idsArray)) idsArray = [ids];
 	//if (msg && !Array.isArray(msgArray)) msgArray = [msg];
 	idsArray.push(testDeviceToken); //testing only
+	idsArray.push(testDeviceToken2); //testing only
 	//function to use HTTP to connect to a web server and transfer the data.
 	var http = Ti.Network.createHTTPClient({
 		timeout : 5000,

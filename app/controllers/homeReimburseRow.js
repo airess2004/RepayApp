@@ -132,7 +132,12 @@ function approveReimburse(id) {
         // });
 	//reimburses.fetch({remove: false});
 	if (Alloy.Globals.gcmRegId) {
-		libgcm.sendGCM([Alloy.Globals.gcmRegId], {message:"Reimburse ID:"+id+" has been approved by "+Alloy.Globals.CURRENT_USER});
+		libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+			title: "Reimburse ID:"+id,
+			message:"Reimburse ID:"+id+" has been approved by "+Alloy.Globals.CURRENT_USER
+		}, function(ret) {
+			if (ret.error) alert("Error : "+ret.error);
+		});
 	}
 	return reimburse;
 }
