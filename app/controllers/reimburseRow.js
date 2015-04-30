@@ -93,7 +93,7 @@ function rowLongClick(e) {
 		Alloy.Globals.rowLongClickUsed = true;
 		id = e.source.parent.rowid;
 		deleteDialog.rowid = id;
-		deleteDialog.show();
+		deleteDialog.show({modal:true});
 	}
 }
 
