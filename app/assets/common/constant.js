@@ -14,9 +14,9 @@ var isBB = Ti.Platform.osname == "blackberry";
 var isTizen = Ti.Platform.osname == "tizen";
 
 //$$.createMemoryPool();
-var memoryPool = require('/lib/mempool').MemoryPool;
+// var memoryPool = require('/lib/mempool').MemoryPool;
 
-var splitter = require('ui/common/splitter');
+// var splitter = require('ui/common/splitter');
 
 var moment = require('/lib/moment-with-locales');
 var dateFormat = "DD/MM/YYYY";
@@ -31,7 +31,7 @@ var refreshImage = '/icon/ic_action_refresh.png';
 var Transloadit = require('/lib/ti-transloadit');
 
 var SERVER_WEB = 'http://ReimburseApp.com';
-var SERVER_HOST = 'http://10.20.30.98:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
+var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
 //var SERVER_HOST = 'http://ReimburseApp.com:8080/APIREPAY'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
 var FORGOTPASSWORD_URL = SERVER_WEB + '/forgot/';
 var TOS_URL = SERVER_WEB + '/tos/';
