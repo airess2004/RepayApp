@@ -7,7 +7,7 @@
 		</Menu>
 		<View class="container" layout = "vertical">
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-				<Label class="labelView"   width="40%">Total</Label>
+				<Label class="labelView"   width="40%">Total :</Label>
 				<TextField id="totalField" hintText="0" width="60%" editable="false"></TextField>
 				<View class="vSplitter" />
 				<Button id="addNewButton" title="Add New" onClick="newDetailClick" width="Ti.UI.FILL"></Button>

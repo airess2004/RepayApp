@@ -1,6 +1,6 @@
 
 "#commentRow" : {
- 	height: "80dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.SIZE,
  	width: Titanium.UI.FILL,
 }
 
@@ -30,7 +30,7 @@
 
 ".rightView" : {
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.FILL,
+ 	height: "80dp",
  	touchEnabled : false,
 }
 
@@ -61,5 +61,5 @@
 	height: "1dp",
 	touchEnabled: false,
 	backgroundColor: "gray",
-	top: "8dp"
+	// top: "8dp"
 }
