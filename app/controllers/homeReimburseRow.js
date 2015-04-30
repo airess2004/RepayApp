@@ -153,7 +153,7 @@ function approveBtnClick(e) {
 		id = e.source.parent.rowid;
 		if (!id) id = e.source.parent.parent.parent.rowid;
 		approveDialog.rowid = id;
-		approveDialog.show(); //Bug: this may crash app sometimes when creating AlertDialog in XML
+		approveDialog.show({modal:true}); //Bug: this may crash app sometimes when creating AlertDialog in XML
 	}
 }
 

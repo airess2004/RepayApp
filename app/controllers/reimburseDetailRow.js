@@ -80,7 +80,7 @@ function rowClick(e) {
 function rowLongClick(e) {
 	id = e.source.parent.rowid;
 	deleteDialog.rowid = id;
-	deleteDialog.show();
+	deleteDialog.show({modal:true});
 }
 
 var deleteDialog = Ti.UI.createAlertDialog({

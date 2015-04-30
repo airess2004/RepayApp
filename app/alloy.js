@@ -10,7 +10,7 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
-//var Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
+//if (!Alloy) Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
 
 Titanium.include('/common/constant.js');
 Alloy.Globals.CURRENT_USER = "";
