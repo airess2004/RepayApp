@@ -52,6 +52,17 @@
 	// increase notification id
 	ntfId += 1;
 	Ti.App.Properties.setInt('ntfId', ntfId);
+	
+	// create custom remoteview for custom notification view
+	// var customView = Ti.Android.createRemoteViews({
+		// layoutId : Ti.App.Android.R.layout.customRemoteView
+	// });
+	// // Reference elements in the layout by prefixing the IDs with 'Ti.App.Android.R.id' XML located at /platform/android/res/layout/customRemoteView.xml
+	// customView.setTextViewText(Ti.App.Android.R.id.message, "Update available!");
+	// customView.setTextViewText(Ti.App.Android.R.id.okbutton, "Download");
+	// customView.setOnClickPendingIntent(Ti.App.Android.R.id.okbutton, launcherIntent); //downnloadIntent
+	// customView.setTextViewText(Ti.App.Android.R.id.cancelbutton, "Not now");
+	// customView.setOnClickPendingIntent(Ti.App.Android.R.id.cancelbutton, cancelIntent); 
 
 	// create notification
 	var pintent = Ti.Android.createPendingIntent({
@@ -59,6 +70,7 @@
 	}),
 	notification = Ti.Android.createNotification({
 		contentIntent: pintent,
+		//contentView: customView, //don't call setLatestEventInfo() method when using Ti.Android.RemoteViews otherwise it's reset to default view
 		contentTitle: title,
 		contentText: message,
 		tickerText: statusBarMessage,
