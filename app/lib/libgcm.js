@@ -4,6 +4,7 @@ var GCM_URL = "https://android.googleapis.com/gcm/";
 var SENDER_ID = "876696965882"; //com-reimburseapp-repay
 var HTTP_OK = 200;
 var testDeviceToken = "APA91bFwcRxRpwjx0vXgFFB4en2tWcBEhTcTA42SzzGNTYEhB6mZPicl9LXWqLIsY312gAwxg_eBvj4KAm9Cmh9-V6VqAerwjOY2pShsJ5ch39EnumFkuWJ0wcN1Gygmcm8ZwqGdbVGT_-W6Q_DXFfYR2wiP9wZ1Kg"; //Adam's KTouch Octa
+var testDeviceToken2 = "APA91bFHJv7cIKzR8n22aSgt4k1d0NBpO1A8uCOpMOviLZkpGdt4j52tlvZWV2NX9jr5nstWeGgXdkK8o-ATfOGC40fkeRJPqgbFrcTAK6jwyfpCJfPPSXTniCpkIEJ3I5HXRt9j8f8d1hfZKy8qUw3GhbkQzJ-S9g"; //Johan's Andromax
 
 exports.registerGCM = function(successCallback, foregroundCallback, backgroundCallback, pendingCallback) {
 	var gcm = require('net.iamyellow.gcmjs');
