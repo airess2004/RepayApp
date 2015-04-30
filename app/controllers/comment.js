@@ -105,7 +105,7 @@ function doSearch(e) {
 function imageClick(e) {
 	if (!Alloy.Globals.cameraShown) {
 		Alloy.Globals.cameraShown = true;
-		var camera = require('/lib/camera').getImage(function(media) {
+		var camera = require('camera').getImage(function(media) {
 			if (media != null) {
 				Ti.API.info("Click Image = " + media.nativePath);
 				$.image.image = media.nativePath;

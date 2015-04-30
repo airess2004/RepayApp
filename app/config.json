@@ -9,6 +9,8 @@
   "os:mobileweb": {},
   "dependencies": {
     "com.mattmcfarland.fontawesome": "1.4.1",
-    "com.jolicode.pullToRefresh": "1.2"
+    "com.jolicode.pullToRefresh": "1.2",
+    "nl.fokkezb.infiniteScroll": "1.4.4",
+    "nl.fokkezb.pullToRefresh": "2.1.0"
   }
 }

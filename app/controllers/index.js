@@ -110,6 +110,7 @@ function mainViewOpen(e) {
 	//Alloy.Collections.reimburse.fetch({remove: false});
 	//Alloy.Collections.reimburseDetail.fetch({remove: false});
 	//Alloy.Collections.comment.fetch({remove: false});
+	if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks

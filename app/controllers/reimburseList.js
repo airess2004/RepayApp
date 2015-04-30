@@ -53,7 +53,7 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses && reimburses.fetch(e.param);
+	reimburses && reimburses.fetch(e.param ? e.param : {remove:false});
 }
 
 function thumbPopUp(e) {
