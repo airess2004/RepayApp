@@ -2,6 +2,7 @@
 "#homeReimburseRow" : {
  	height: Titanium.UI.SIZE, //"200dp"
  	width: Titanium.UI.FILL,
+ 	position: "absolute",
 }
 
 "#innerView" : {
@@ -110,4 +111,5 @@
  	//filterAttribute: "title",
  	//searchHidden: true,
  	//rowHeight: "80dp",
+ 	position: "absolute",
 }

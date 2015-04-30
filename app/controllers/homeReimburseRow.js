@@ -1,14 +1,17 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses = Alloy.Collections.reimburse;
-var reimburseDetails = Alloy.Collections.reimburseDetail;
+//var reimburses = Alloy.Globals.homeListReimburse; //Alloy.Collections.reimburse; //
+var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //
+//$.localReimburseDetail = Alloy.Globals.homeListReimburseDetail;
+//reimburseDetails && reimburseDetails.fetch({remove: false});
+//Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
 var id;
 
 // Sort Descending
-reimburseDetails.comparator = function(model) {
-  return -(moment.parseZone(model.get('receiptDate')).unix());
-};
+// reimburseDetails.comparator = function(model) {
+  // return -(moment.parseZone(model.get('receiptDate')).unix());
+// };
 //reimburseDetails.sort();
 
 function whereFunction(collection) {
@@ -67,23 +70,24 @@ if ($model) {
 		$.innerView.touchEnabled = false;
 		//$.avatar.image = '/tick_64.png';
 	}
-	//reimburseDetails.fetch();
+	// wait for parent id to be available before fetching details
+	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+$model.id});
 }
 
-reimburses.on('change:status', function(e){
- 	// custom function to update the content on the view
- 	// var status = e.source.get('status');
-    // $.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-	// $.innerView.backgroundColor = 'lightgray';
-	// $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-	// $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]);
-	// $.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
-	// $.innerView.touchEnabled = $.approveBtn.touchEnabled;
-});
-
-reimburses.on('change', function(e){
-	//reimburses.fetch();
-});
+// reimburses.on('change:status', function(e){
+ 	// // custom function to update the content on the view
+ 	// // var status = e.source.get('status');
+    // // $.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
+	// // $.innerView.backgroundColor = 'lightgray';
+	// // $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
+	// // $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]);
+	// // $.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
+	// // $.innerView.touchEnabled = $.approveBtn.touchEnabled;
+// });
+// 
+// reimburses.on('change', function(e){
+	// //reimburses.fetch({remove: false});
+// });
 
 // toggle the "done" status of the IDed todo
 // function toggleStatus(e) {
@@ -99,16 +103,34 @@ reimburses.on('change', function(e){
 	// }).save();
 // }
 
+function thumbPopUp(e) {
+	
+}
+
+function rowClick(e) {
+	id = e.source.parent.rowid;
+	
+}
+
 // delete the IDed todo from the collection
 function approveReimburse(id) {
 	// find the todo task by id
-	var reimburse = reimburses.get(id);
+	var reimburse = Alloy.Globals.homeListReimburse.get(id);
 
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
-	reimburse.set({"status": STATUSCODE[Const.Approved]}).save;
-	reimburses.fetch();
+	reimburse.set({"status": STATUSCODE[Const.Approved]});
+	reimburse.save();
+	// reimburse.save(null, {
+            // success: function(model, resp){
+                // alert("Success saving.");
+            // },
+            // error: function(model, resp) {
+                // alert("Error saving!");
+            // }
+        // });
+	//reimburses.fetch({remove: false});
 	
 	return reimburse;
 }
@@ -119,21 +141,17 @@ function doApproveClick(e){
 		e.cancelBubble = true;
     	approveReimburse(e.source.rowid);
 	}
+	Alloy.Globals.approveBtnUsed = false;
 };
 
-function thumbPopUp(e) {
-	
-}
-
-function rowClick(e) {
-	id = e.source.parent.rowid;
-	
-}
-
+Alloy.Globals.approveBtnUsed = false;
 function approveBtnClick(e) {
-	id = e.source.parent.rowid;
-	if (!id) id = e.source.parent.parent.parent.rowid;
-	$.approveDialog.rowid = id;
-	$.approveDialog.show();
+	if (!Alloy.Globals.approveBtnUsed) {
+		Alloy.Globals.approveBtnUsed = true;
+		id = e.source.parent.rowid;
+		if (!id) id = e.source.parent.parent.parent.rowid;
+		$.approveDialog.rowid = id;
+		$.approveDialog.show(); //Bug: this will crash app when using local collection in XML
+	}
 }
 

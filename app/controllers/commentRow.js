@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var comments = Alloy.Collections.comment;
+//var comments = Alloy.Collections.comment;
 var id;
 
 // $model represents the current model accessible to this

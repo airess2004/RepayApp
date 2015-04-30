@@ -49,6 +49,8 @@ function deleteItem(id) {
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
 	reimburseDetail.destroy();
+	reimburseDetail = null;
+	reimburseDetails = null;
 }
 
 function doDeleteClick(e){

@@ -1,16 +1,20 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses = Alloy.Collections.reimburse;
-var reimburseDetails = Alloy.Collections.reimburseDetail;
+var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
+//var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 // fetch existing todo items from storage
-//reimburses && reimburses.fetch();
+reimburses && reimburses.fetch({remove: false});
+//reimburseDetails && reimburseDetails.fetch({remove: false});
+
+Alloy.Globals.homeListReimburse = $.localReimburse;
+//Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
 
 // Sort Descending
-reimburses.comparator = function(model) {
-  return -(moment.parseZone(model.get('projectDate')).unix());
-};
+// reimburses.comparator = function(model) {
+  // return -(moment.parseZone(model.get('projectDate')).unix());
+// };
 //reimburses.sort();
 
 // Filter the fetched collection before rendering. Don't return the
@@ -57,8 +61,9 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	//reimburses.fetch();
-	reimburseDetails.fetch();
+	reimburses && reimburses.fetch(e.param);
+	//reimburseDetails && reimburseDetails.fetch({remove: false});
+	//comments && comments.fetch({remove: false});
 }
 
 function thumbPopUp(e) {
@@ -70,6 +75,6 @@ $.homeList.addEventListener("open", function(e){
 	//Alloy.Globals.newMenu.visible = false;
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
-	//$.tableView.search = Alloy.Globals.searchView;
-	//showList(e);
+	$.tableView.search = Alloy.Globals.searchView;
+	showList(e);
 });

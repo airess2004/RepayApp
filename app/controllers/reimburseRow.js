@@ -1,7 +1,9 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses = Alloy.Collections.reimburse;
+var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
+// fetch existing todo items from storage
+//reimburses && reimburses.fetch({remove: false});
 var id;
 
 // $model represents the current model accessible to this
@@ -49,6 +51,31 @@ function deleteItem(id) {
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
 	reimburse.destroy();
+	reimburse = null;
+	reimburses = null;
+}
+
+function thumbPopUp(e) {
+	
+}
+
+Alloy.Globals.rowClickUsed = false;
+function rowClick(e) {
+	if (!Alloy.Globals.rowClickUsed) {
+		Alloy.Globals.rowClickUsed = true;
+		id = e.source.parent.rowid;
+		var detList = Alloy.createController("reimburseDetailList",{
+			id : id
+		}).getView();
+		detList.addEventListener("close", detListClose);
+		detList.open();
+		
+		function detListClose(e) {
+			this.removeEventListener("close", detListClose);
+			Alloy.Globals.rowClickUsed = false;
+			detList = null;
+		}
+	}
 }
 
 function doDeleteClick(e){
@@ -57,22 +84,16 @@ function doDeleteClick(e){
 		e.cancelBubble = true;
     	deleteItem(e.source.rowid);
 	}
+	Alloy.Globals.rowLongClickUsed = false;
 };
 
-function thumbPopUp(e) {
-	
-}
-
-function rowClick(e) {
-	id = e.source.parent.rowid;
-	Alloy.createController("reimburseDetailList",{
-					id : id
-				}).getView().open();
-}
-
+Alloy.Globals.rowLongClickUsed = false;
 function rowLongClick(e) {
-	id = e.source.parent.rowid;
-	$.deleteDialog.rowid = id;
-	$.deleteDialog.show();
+	if (!Alloy.Globals.rowLongClickUsed) {
+		Alloy.Globals.rowLongClickUsed = true;
+		id = e.source.parent.rowid;
+		$.deleteDialog.rowid = id;
+		$.deleteDialog.show();
+	}
 }
 

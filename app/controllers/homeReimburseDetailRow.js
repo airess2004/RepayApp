@@ -1,9 +1,10 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburseDetails = Alloy.Collections.reimburseDetail;
+var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
 var comments = Alloy.Collections.comment;
-
+//reimburseDetails && reimburseDetails.fetch({remove: false});
+//comments && comments.fetch({remove: false});
 var id;
 
 // $model represents the current model accessible to this
@@ -27,6 +28,8 @@ if ($model) {
 		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
 	}
+	// wait for parent id to be available before fetching details
+	//comments && comments.fetch({remove: false});
 }
 
 // toggle the "done" status of the IDed todo

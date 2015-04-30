@@ -1,4 +1,5 @@
 <Alloy>
+	<!--Collection id="localComment" src="comment" instance="true"/-->
 	<Window onOpen="winOpen" onClose="winClose">
 		<ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" />
 		<View class="container" layout = "vertical">
