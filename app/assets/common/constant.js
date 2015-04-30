@@ -18,11 +18,10 @@ var isTizen = Ti.Platform.osname == "tizen";
 
 // var splitter = require('ui/common/splitter');
 
+
 var moment = require('/lib/moment-with-locales');
 var dateFormat = "DD/MM/YYYY";
 var minDate = "01/01/2001";
-
-var ncpopup = require('nc.popup');
 
 var cameraImage = '/icon/ic_action_photo.png';
 var refreshImage = '/icon/ic_action_refresh.png';
@@ -213,7 +212,7 @@ allowOrdering = function()
 
 var orientModes = [Titanium.UI.PORTRAIT]; //[Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT];
 var templateName=getProperty('color','config')||'default'; // appstore
-var Template=require('ui/templates/'+templateName); // Change with one of the templates.
+//var Template=require('ui/templates/'+templateName); // Change with one of the templates.
 var borderColor = '#004455';
 var selectColor = '#007788';
 var shadowCol = '#ffee20';
@@ -476,38 +475,62 @@ var LoadRemoteImage = function(obj, url) {
 
 
 var Const = {
-	Pending : "Pending",
+	Open : "Open",
+	Closed : "Closed",
+	Unsent: "Unsent",
 	Sent: "Sent",
+	Pending : "Pending",
 	Approved: "Approved",
+	Rejected: "Rejected",
 	Denied: "Denied",
 };
 
 var STATUS = {
-	'0': Const.Pending,
-	'1': Const.Sent,
-	'2': Const.Approved,
-	'3': Const.Denied,
+	'0': Const.Open,
+	'1': Const.Sent, //Pending
+	'2': Const.Closed,
 };
 
 var STATUSCODE = {
-	"Pending" : 0,
-	"Sent" : 1,
-	"Approved" : 2,
-	"Denied" : 3,
+	"Open" : 0,
+	"Sent" : 1, //Pending
+	"Closed" : 2,
 };
 
 var STATUS_COLOR = {
-	'Pending': "#0be",
-	'Sent': "#bb0",
-	'Approved': "#0e8",
-	'Denied': "#aaa",
+	'Open': "#0be",
+	'Sent': "#bb0", //Pending
+	'Closed': "#aaa",
 };
 
 var STATUSCODE_COLOR = {
 	'0': "#0be",
 	'1': "#bb0",
+	'2': "#aaa",
+};
+
+var DETAILSTATUS = {
+	'0': Const.Open,
+	'1': Const.Rejected,
+	'2': Const.Approved,
+};
+
+var DETAILSTATUSCODE = {
+	"Open" : 0,
+	"Rejected" : 1,
+	"Approved" : 2,
+};
+
+var DETAILSTATUS_COLOR = {
+	'Open': "#0be",
+	'Rejected': "#aaa",
+	'Approved': "#0e8",
+};
+
+var DETAILSTATUSCODE_COLOR = {
+	'0': "#0be",
+	'1': "#aaa",
 	'2': "#0e8",
-	'3': "#aaa",
 };
 
 //var statusStr = STATUS['0'];

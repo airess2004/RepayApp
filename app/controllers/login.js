@@ -77,15 +77,19 @@ function onSignInClick(e) {
 		}
 	}
 	 
-
+Alloy.Globals.clickUsed = false;
 function showResetDialog(e) {
-	$.resetDialog.show();
+	if (!Alloy.Globals.clickUsed) {
+		Alloy.Globals.clickUsed = true;
+		resetDialog.show();
+	}
 };
 
 function doResetClick(e) {
 	if (e.index == 0) {
 		$.toast.show();
 	}
+	Alloy.Globals.clickUsed = false;
 };
 
 function showSignUpForm(e) {
@@ -109,5 +113,13 @@ function loginOpen(e) {
 function loginClose(e) {
 	//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");	
 }
+
+var resetDialog = Ti.UI.createAlertDialog({
+	//title: "Confirm",
+	message: "Send password reset email?",
+	buttonNames: ["Yes","No"],
+	cancel: 1
+});
+resetDialog.addEventListener('click', doResetClick); 
 
 $.signIn.focus();

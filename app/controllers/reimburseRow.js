@@ -92,8 +92,15 @@ function rowLongClick(e) {
 	if (!Alloy.Globals.rowLongClickUsed) {
 		Alloy.Globals.rowLongClickUsed = true;
 		id = e.source.parent.rowid;
-		$.deleteDialog.rowid = id;
-		$.deleteDialog.show();
+		deleteDialog.rowid = id;
+		deleteDialog.show();
 	}
 }
 
+var deleteDialog = Ti.UI.createAlertDialog({
+	title: "Confirm",
+	message: "Are you sure you want to delete this record?",
+	buttonNames: ["Yes","No"],
+	cancel: 1
+});
+deleteDialog.addEventListener('click', doDeleteClick); 

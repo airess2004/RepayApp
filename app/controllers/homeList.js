@@ -23,7 +23,7 @@ Alloy.Globals.homeListReimburse = $.localReimburse;
 function whereFunction(collection) {
 	var ret = collection.where({ isDeleted: 0});
 	ret = _.filter(ret, function(model){
-		return model.get('status') >= STATUSCODE[Const.Sent];
+		return model.get('status') > STATUSCODE[Const.Open];
 	});
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
