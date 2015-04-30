@@ -87,6 +87,14 @@ function doDeleteClick(e){
 	Alloy.Globals.rowLongClickUsed = false;
 };
 
+var deleteDialog = Ti.UI.createAlertDialog({
+	title: "Confirm",
+	message: "Are you sure you want to delete this record?",
+	buttonNames: ["Yes","No"],
+	cancel: 1
+});
+deleteDialog.addEventListener('click', doDeleteClick); 
+
 Alloy.Globals.rowLongClickUsed = false;
 function rowLongClick(e) {
 	if (!Alloy.Globals.rowLongClickUsed) {
@@ -96,11 +104,3 @@ function rowLongClick(e) {
 		deleteDialog.show({modal:true});
 	}
 }
-
-var deleteDialog = Ti.UI.createAlertDialog({
-	title: "Confirm",
-	message: "Are you sure you want to delete this record?",
-	buttonNames: ["Yes","No"],
-	cancel: 1
-});
-deleteDialog.addEventListener('click', doDeleteClick); 
