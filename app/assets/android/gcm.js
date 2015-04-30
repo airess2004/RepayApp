@@ -77,6 +77,7 @@
 		icon: Ti.App.Android.R.drawable.appicon,
 		flags: Ti.Android.FLAG_AUTO_CANCEL | Ti.Android.FLAG_SHOW_LIGHTS
 	});
+	notification.defaults |= Titanium.Android.DEFAULT_SOUND | Titanium.Android.DEFAULT_VIBRATE | Titanium.Android.DEFAULT_LIGHTS;
 	//notification.sound = Ti.Filesystem.getResRawDirectory() + "somesound.mp3"; // Raw Resource Dir is located at platform/android/res/raw
 	Ti.Android.NotificationManager.notify(notificationId, notification);
 
