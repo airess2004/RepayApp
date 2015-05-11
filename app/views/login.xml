@@ -34,6 +34,7 @@
         </AlertDialog-->
         
         <Notification id="toast" platform="android" message="Reset verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
+		<ActivityIndicator id="act" message="Loading..."/>
 		
 		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>
 	</Window>

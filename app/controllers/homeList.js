@@ -70,11 +70,23 @@ function thumbPopUp(e) {
 	
 }
 
+// $.tableView.addEventListener("swipe", function(e){
+	// e.bubbles = e.direction == "left" || e.direction == "right";
+	// e.cancelBubble = e.direction == "up" || e.direction == "down";
+// });
+// 
+// $.tableView.addEventListener("scroll", function(e){
+	// e.bubbles = false;
+	// e.cancelBubble = true;
+// });
+
 $.homeList.addEventListener("open", function(e){
+	e.bubbles = false;
 	Alloy.Globals.index.getActivity().getActionBar().title = "Home";
 	//Alloy.Globals.newMenu.visible = false;
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
-	showList(e);
+	//showList(e);
+	e.cancelBubble = true;
 });

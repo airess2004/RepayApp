@@ -1,6 +1,7 @@
 
 ".container" : {
  	height: Titanium.UI.FILL,
+ 	bubbleParent: false,
 }
 
 "#tableView" : {
@@ -9,4 +10,5 @@
  	filterAttribute: "title",
  	//searchHidden: true,
  	//rowHeight: "80dp",
+ 	//bubbleParent: false,
 }

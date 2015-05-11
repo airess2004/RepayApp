@@ -97,6 +97,18 @@
 	}
 }
 
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7777",
+	//visible: true,
+	modal: true,
+	zIndex: 99,
+}
+
 "TextField": {
 	color: "darkgray",
 	left: "8dp",

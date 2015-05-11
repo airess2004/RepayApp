@@ -17,6 +17,7 @@ function winOpen(e) {
 function winClose(e) {
 	reimburses = null;
 	data = null;
+	Alloy.Globals.newBtnUsed = false;
 }
 
 function doMenuClick(evt) {

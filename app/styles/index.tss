@@ -3,6 +3,16 @@
 	height: Titanium.UI.FILL,
 	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_ADJUST_SIZE,
 	orientationModes: Alloy.Globals.orientModes,
+	swipeable: true,
+	smoothScrollOnTabClick: true,
+	activeTabBackgroundColor: "white",
+}
+
+"Tab": {
+    font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp"
+	}
 }
 
 "MenuItem": {

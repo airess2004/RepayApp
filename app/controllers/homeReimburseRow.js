@@ -151,20 +151,21 @@ function doApproveClick(e){
 	Alloy.Globals.approveBtnUsed = false;
 };
 
-var approveDialog = Ti.UI.createAlertDialog({
-	title: "Confirm",
-	message: "Are you sure you want to approve/reject marked receipts?",
-	buttonNames: ["Yes","No"],
-	cancel: 1
-});
-approveDialog.addEventListener('click', doApproveClick); 
-
 Alloy.Globals.approveBtnUsed = false;
 function approveBtnClick(e) {
 	if (!Alloy.Globals.approveBtnUsed) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
 		if (!id) id = e.source.parent.parent.parent.rowid;
+		
+		var approveDialog = Ti.UI.createAlertDialog({
+			title : "Confirm",
+			message : "Are you sure you want to approve/reject marked receipts?",
+			buttonNames : ["Yes", "No"],
+			cancel : 1
+		});
+		approveDialog.addEventListener('click', doApproveClick);
+
 		approveDialog.rowid = id;
 		approveDialog.show({modal:true}); //Bug: this may crash app sometimes when creating AlertDialog in XML (or using local Collection?)
 	}

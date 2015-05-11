@@ -61,13 +61,7 @@ function doDeleteClick(e){
 	}
 };
 
-var deleteDialog = Ti.UI.createAlertDialog({
-	title: "Confirm",
-	message: "Are you sure you want to delete this record?",
-	buttonNames: ["Yes","No"],
-	cancel: 1
-});
-deleteDialog.addEventListener('click', doDeleteClick); 
+
 
 function thumbPopUp(e) {
 	
@@ -87,6 +81,15 @@ function rowClick(e) {
 
 function rowLongClick(e) {
 	id = e.source.parent.rowid;
+	
+	var deleteDialog = Ti.UI.createAlertDialog({
+		title : "Confirm",
+		message : "Are you sure you want to delete this record?",
+		buttonNames : ["Yes", "No"],
+		cancel : 1
+	});
+	deleteDialog.addEventListener('click', doDeleteClick);
+
 	deleteDialog.rowid = id;
 	deleteDialog.show({modal:true});
 }

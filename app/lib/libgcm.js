@@ -21,6 +21,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		if (pendingCallback) pendingCallback(pendingData);
 	}
 
+	/* Original registration code on v0.2 which could cause crash on some device
 	gcm.registerForPushNotifications({
 		success : function(ev) {
 			// on successful registration
@@ -51,7 +52,52 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 			alert("Background Data: "+dataStr);
 			if (backgroundCallback) backgroundCallback(data);
 		}
-	}); 
+	}); */
+	
+	// Alternative way to fix crash issue
+	
+	// Event return system
+	var receivePush = function(data) {
+		// when a gcm notification is received WHEN the app IS IN FOREGROUND
+		var dataStr = JSON.stringify(data);
+		alert("Data: "+dataStr);
+		if (foregroundCallback) foregroundCallback(data);
+	};
+
+	var deviceTokenSuccess = function(ev) {
+		// on successful registration
+		Ti.API.info('GCM ******* success,' + ev.deviceToken);
+		if (successCallback) successCallback(ev);
+	};
+
+	var deviceTokenError = function(ev) {
+		// when an error occurs
+		Ti.API.info('GCM ******* error,' + ev.error);
+		alert("Error registering GCM!");
+	};
+
+	var dataWhenResume = function(data) {
+		// if we're here is because user has clicked on the notification
+		// and we set extras in the intent
+		// and the app WAS RUNNING (=> RESUMED)
+		// (again don't worry, we'll see more of this later)
+		var dataStr = JSON.stringify(data);
+		Ti.API.info('******* data (resumed) ' + dataStr);
+		alert("Background Data: "+dataStr);
+		if (backgroundCallback) backgroundCallback(data);
+	};
+	
+	var unreg = function(ev) {
+		// on unregister
+		Ti.API.info('GCM ******* error,' + ev.deviceToken);
+	};
+
+	gcm.addEventListener('callback', receivePush);
+	gcm.addEventListener('success', deviceTokenSuccess);
+	gcm.addEventListener('error', deviceTokenError);
+	gcm.addEventListener('data', dataWhenResume);
+	gcm.addEventListener('unregister', unreg);
+	gcm.registerForPushNotifications({}); 
 };
 
 exports.unregGCM = function(callback) {

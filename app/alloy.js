@@ -12,9 +12,36 @@
 
 if (!Alloy) Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
 
+// Global Constant
 Titanium.include('/common/constant.js');
 Alloy.Globals.CURRENT_USER = "";
+Alloy.Globals.CURRENT_NAME = "";
 Alloy.Globals.orientModes = orientModes;
+
+// Cached ImageView
+Titanium.include('createRemoteImageView.js');
+
+// Sync Service
+Titanium.include('database/syncService.js');
+
+// Initialize local/remote storage
+var remoteUser = require('database/postgresql_user');	
+var remoteReimburse = require('database/postgresql_reimburse');
+var remoteReimburseDetail = require('database/postgresql_reimbursedetail');
+//var localReimburse = require('database/sqlite_reimburse');
+//localReimburse.createDb();
+//var localReimburseDetail = require('database/sqlite_reimbursedetail');
+//localReimburseDetail.createDb();
+//var localConfig = require('database/sqlite_config');
+//localConfig.createDb();
+
+// Initialize config
+// var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
+// var lastUsername = localConfig.findOrCreateObject("lastUsername",Alloy.Globals.CURRENT_USER,"");
+var lastSyncReimburseTime = {key:"lastSyncReimburseTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
+var lastSyncReimburseDetTime = {key:"lastSyncReimburseDetTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
+var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:Alloy.Globals.CURRENT_USER};
+var lastSyncReimburseDetToken = {key:"lastSyncReimburseDetToken", val:"", username:Alloy.Globals.CURRENT_USER};
 
 var moment = require('alloy/moment');
 
@@ -50,9 +77,9 @@ if (OS_IOS || OS_ANDROID) {
 	}
 	
 	var libgcm = require("libgcm");
-	libgcm.registerGCM(function(e) {
-		Alloy.Globals.gcmRegId = e.deviceToken;
-	});
+	// libgcm.registerGCM(function(e) {
+		// Alloy.Globals.gcmRegId = e.deviceToken;
+	// });
 }
 
 function hideActionBarCallback(e) {

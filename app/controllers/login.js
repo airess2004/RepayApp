@@ -13,9 +13,10 @@ var postData = {
 };
 var register = Alloy.createController("register");
 
+Alloy.Globals.logging = false;
 function onSignInClick(e) {
 	Ti.API.info("You clicked the button");
-	if (!logging) {
+	if (!Alloy.Globals.logging) {
 		// EXPIRED_TIME = moment().add(2, 'hours');
 		var item = {
 			username : $.userField.value ? $.userField.value : '',
@@ -30,14 +31,14 @@ function onSignInClick(e) {
 			alert(L('no_password'));
 			return false;
 		}
-		logging = true;
-		act.show({
+		Alloy.Globals.logging = true;
+		$.act.show({
 			modal : true
 		});
 		//var db = require('database/default/postgresql_user');
 		var LastTimeStamp = moment.utc();
 		remoteUser.login(item, function(result) {
-			act.hide();
+			$.act.hide();
 			if (result.error) {
 				alert(L('access_denied') + "\n" + result.error);
 			} else {
@@ -76,7 +77,7 @@ function onSignInClick(e) {
 				}
 			}
 		});
-		logging = false;
+		Alloy.Globals.logging = false;
 	}
 }
 

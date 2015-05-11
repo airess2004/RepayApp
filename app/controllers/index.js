@@ -8,6 +8,10 @@ Alloy.Globals.searchView = Alloy.createController("searchView").getView();
 Alloy.Globals.index = $.index;
 Alloy.Globals.scrollableView = $.scrollableView;
 
+libgcm.registerGCM(function(e) {
+	Alloy.Globals.gcmRegId = e.deviceToken;
+});
+
 function doClick(e) {
     //alert($.label1.text);
 }
@@ -27,8 +31,13 @@ function doSearch(e) {
 	alert("Search Clicked");
 }
 
+Alloy.Globals.newBtnUsed = false;
 function doNew(e) {
-	Alloy.createController("reimburseForm").getView().open();
+	if (!Alloy.Globals.newBtnUsed) {
+		Alloy.Globals.newBtnUsed = true;
+		Alloy.createController("reimburseForm").getView().open();
+		//Alloy.Globals.newBtnUsed = false;
+	}
 }
 
 function doLoginClick(e) {
@@ -110,7 +119,7 @@ function mainViewOpen(e) {
 	//Alloy.Collections.reimburse.fetch({remove: false});
 	//Alloy.Collections.reimburseDetail.fetch({remove: false});
 	//Alloy.Collections.comment.fetch({remove: false});
-	if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
+	//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks
@@ -118,6 +127,11 @@ function mainViewClose() {
     $.destroy();
 }
 
+function refreshTab(e) {
+	if (e.source == $.tab1 || e.source == $.tab2 || e.source == $.tab3) {
+		e.source.getWindow().fireEvent("open", e);
+	}
+}
 
 function scrollableViewScrollEnd(e) {
 	if (e.view && e.currentPage != e.source.prevPage) {
@@ -126,8 +140,14 @@ function scrollableViewScrollEnd(e) {
 	}
 }
 
+// $.index.addEventListener("swipe",function(e){
+    // var tabIndex = $.index.getActiveTab();  // using method
+//     
+// });
+
 $.index.addEventListener('refresh', function(e) {
-	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
+	//$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
+	$.index.getActiveTab().getWindow().fireEvent("open", e);
 });
 
 // $.index.addEventListener('open', function() {
