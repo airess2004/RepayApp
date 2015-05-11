@@ -1,28 +1,29 @@
 <Alloy>
 	<Window id="loginForm" class="noNavBar" backgroundColor="white" onOpen="loginOpen" onClose="loginClose">
-		<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
-			<ImageView class="fitWidth" image="/logo.png" />
+		<ScrollView class="centeredVertical" layout="vertical" width="75%" zIndex="1">
+			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
-				<Label color="darkgray" icon="fa-user"></Label>
-				<TextField id="userField" hintText="username / email" onFocus="userFocus"></TextField>
+				<Label color="#176d7e" icon="fa-user"></Label>
+				<TextField id="userField" hintText="EMAIL" onFocus="userFocus"></TextField>
 			</View>
 			<View class="vSplitter" />
 			<View class="centeredHorizontal">
-				<Label color="darkgray" icon="fa-lock"></Label>
-				<TextField id="passField" passwordMask="true" hintText="password"></TextField>
+				<Label color="#176d7e" icon="fa-lock"></Label>
+				<TextField id="passField" passwordMask="true" hintText="PASSWORD"></TextField>
 			</View>
 			<View class="vSplitter" />
-			<Button id="signIn" title="Sign In" onClick="onSignInClick"></Button>
+			<Button id="signIn" title="LOG IN" onClick="onSignInClick"></Button>
 			<View class="fitSize" layout="vertical" horizontalWrap="false">
 				<View class="centeredHorizontal" width="Ti.UI.SIZE">
-					<Button class="darkButton" id="companySignIn" title="Company SignIn"></Button>
-					<Button class="darkButton" id="forgotPassword" title="Forgot Password" onClick="showResetDialog"></Button>
+					<Button class="darkButton" id="companySignIn" title="Company Sign In" right="4dp"></Button>
+					<Button class="darkButton" id="forgotPassword" title="Forgot Password" left="4dp" onClick="showResetDialog"></Button>
 				</View>
 			</View>
+			<View class="bottomButton" onClick="showSignUpForm">
+				<Label class="buttonLabel" text="Not a member? Register for free!"></Label>
+			</View>
 		</ScrollView>
-		<View class="bottomButton" onClick="showSignUpForm">
-			<Label class="buttonLabel" text="Don't have an account? Sign up for free!"></Label>
-		</View>
+		
 		
 		<!--AlertDialog id="resetDialog" onClick="doResetClick"
             message="Send password reset email?" cancel="1">

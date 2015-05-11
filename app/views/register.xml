@@ -1,23 +1,34 @@
 <Alloy>
 	<Window id="registerForm" class="noNavBar" backgroundColor="white" onOpen="registerOpen">
-		<ScrollView class="centeredVertical" layout="vertical" width="80%" zIndex="1">
-			<ImageView class="fitWidth" image="/logo.png" />
+		<ScrollView class="centeredVertical" layout="vertical" width="75%" zIndex="1">
+			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
-				<Label color="darkgray" icon="fa-user"></Label>
-				<TextField id="userField" hintText="email" onFocus="userFocus"></TextField>
+				<Label color="#176d7e" icon="fa-user"></Label>
+				<TextField id="userField" hintText="EMAIL" onFocus="userFocus"></TextField>
 			</View>
 			<View class="vSplitter" />
-			<Button id="signUp" title="Sign Up" onClick="onSignUpClick"></Button>
-			<View class="fitSize" layout="vertical" horizontalWrap="false">
+			<View class="centeredHorizontal">
+				<Label color="#176d7e" icon="fa-lock"></Label>
+				<TextField id="passField" passwordMask="true" hintText="PASSWORD"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<View class="centeredHorizontal">
+				<Label color="#176d7e" icon="fa-lock"></Label>
+				<TextField id="passField2" passwordMask="true" hintText="CONFIRM PASSWORD"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<Button id="signUp" title="REGISTER" onClick="onSignUpClick"></Button>
+			<!--View class="fitSize" layout="vertical" horizontalWrap="false">
 				<Button class="darkButton" id="companySignIn" title="Learn more about RepayApp?"></Button>
 				<View class="centeredHorizontal" width="Ti.UI.FILL">
 					
 				</View>
+			</View-->
+			<View class="bottomButton" onClick="showSignInForm">
+				<Label class="buttonLabel" text="Already have an account? Sign In"></Label>
 			</View>
 		</ScrollView>
-		<View class="bottomButton" onClick="showSignInForm">
-			<Label class="buttonLabel" text="Already have an account? Sign In"></Label>
-		</View>
+		
         
         <Notification id="toast" platform="android" message="Verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
 		

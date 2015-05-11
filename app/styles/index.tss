@@ -2,6 +2,7 @@
 	backgroundColor:"white",
 	height: Titanium.UI.FILL,
 	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_ADJUST_SIZE,
+	orientationModes: Alloy.Globals.orientModes,
 }
 
 "MenuItem": {

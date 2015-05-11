@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.reimburseapp.repay</id>
     <name>RepayApp</name>
-    <version>0.8</version>
+    <version>0.9</version>
     <publisher>Willy</publisher>
     <url>http://reimburseapp.com</url>
     <description>undefined</description>
@@ -40,8 +40,9 @@
         </plist>
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:installLocation="auto" android:versionCode="8" android:versionName="0.8">
+        <manifest android:installLocation="auto" android:versionCode="9" android:versionName="0.9">
             <application android:debuggable="false" android:theme="@style/Theme.AppCompat.Light"/>
+            <!--application android:debuggable="false" android:theme="@style/Theme.Titanium"/-->
             <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="14"/>
             <uses-permission android:name="android.permission.VIBRATE"/>
             <uses-permission android:name="android.permission.SOUND"/>

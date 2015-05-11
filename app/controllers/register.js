@@ -24,7 +24,13 @@ function userFocus(e){
 };
 
 function registerOpen(e) {
+	if (this.getActivity()) {
+		var actionBar = this.getActivity().getActionBar();
+    	actionBar.hide();
+    }
 	$.userField.blur();
+	$.passField.blur();
+	$.passField2.blur();
 	$.signUp.focus();	
 }
 

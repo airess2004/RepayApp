@@ -1,5 +1,7 @@
 
-".container": {}
+".container": {
+	orientationModes: Alloy.Globals.orientModes,
+}
 
 
 "Label": {

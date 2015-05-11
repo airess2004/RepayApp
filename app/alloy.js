@@ -10,10 +10,11 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
-//if (!Alloy) Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
+if (!Alloy) Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
 
 Titanium.include('/common/constant.js');
 Alloy.Globals.CURRENT_USER = "";
+Alloy.Globals.orientModes = orientModes;
 
 var moment = require('alloy/moment');
 
@@ -52,6 +53,14 @@ if (OS_IOS || OS_ANDROID) {
 	libgcm.registerGCM(function(e) {
 		Alloy.Globals.gcmRegId = e.deviceToken;
 	});
+}
+
+function hideActionBarCallback(e) {
+	//this.removeEventListener(e.type, hideActionBarCallback);
+	if (this.getActivity()) {
+		var actionBar = this.getActivity().getActionBar();
+    	actionBar.hide();
+    }
 }
 
 function addReimburse(item) {

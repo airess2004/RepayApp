@@ -14,12 +14,15 @@ var isBB = Ti.Platform.osname == "blackberry";
 var isTizen = Ti.Platform.osname == "tizen";
 
 //$$.createMemoryPool();
-// var memoryPool = require('/lib/mempool').MemoryPool;
+// var memoryPool = require('mempool').MemoryPool;
 
 // var splitter = require('ui/common/splitter');
 
+var defaultFont = {
+	fontFamily: 'century-gothic'
+};
 
-var moment = require('/lib/moment-with-locales');
+var moment = require('moment-with-locales');
 var dateFormat = "DD/MM/YYYY";
 var minDate = "01/01/2001";
 
@@ -27,7 +30,7 @@ var cameraImage = '/icon/ic_action_photo.png';
 var refreshImage = '/icon/ic_action_refresh.png';
 
 //var crypto = require('crypto');
-var Transloadit = require('/lib/ti-transloadit');
+var Transloadit = require('ti-transloadit');
 
 var SERVER_WEB = 'http://ReimburseApp.com';
 var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //

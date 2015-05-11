@@ -3,6 +3,7 @@
   navBarHidden: true,
   fullscreen: true,
   exitOnClose: false,
+  orientationModes: Alloy.Globals.orientModes,
 }
 
 
@@ -20,8 +21,8 @@
 	height: "1dp",
 	touchEnabled: false,
 	backgroundColor: "gray",
-	top: "8dp",
-	//bottom: "8dp",
+	//top: "8dp",
+	bottom: "8dp",
 }
 
 ".centeredVertical": {
@@ -41,45 +42,58 @@
 	width: Titanium.UI.FILL,
 	height: Titanium.UI.SIZE,
 	color: "white",
-	backgroundColor: "#0be",
-	backgroundSelectedColor: "#0df",
+	backgroundColor: "#34b2b1",
+	backgroundSelectedColor: "#5dd",
 	top: "16dp",
 	//bottom: "8dp",
-	borderRadius: "3dp",
+	//borderRadius: "3dp",
 	focusable: true,
+	style: 'PLAIN',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp"
+	}
 }
 
 ".darkButton": {
-	width: "45%",
+	width: "50%",
 	height: Titanium.UI.SIZE,
-	color: "gray",
-	backgroundColor: "transparent",
-	backgroundSelectedColor: "#0df",
-	left: "8dp",
-	right: "8dp",
+	color: "white",
+	backgroundColor: '#34b2b1', //"transparent",
+	backgroundSelectedColor: "#5dd",
+	//left: "4dp",
+	//right: "4dp",
 	top: "16dp",
 	//bottom: "8dp",
-	borderColor: "gray",
-	borderRadius: "3dp",
+	//borderColor: "gray",
+	//borderRadius: "3dp",
+	style: 'PLAIN',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	font: {
-		fontSize: "12sp"
+		fontFamily: 'century-gothic',
+		fontSize: "14sp"
 	}
 }
 
 ".bottomButton": {
-	backgroundColor:"darkgray",
-	backgroundSelectedColor: "gray",
+	backgroundColor:"transparent",
+	backgroundSelectedColor: "lightgray",
 	width: Titanium.UI.FILL,
 	height: "64dp",
 	touchEnabled: true,
-	bottom: 0,
+	top: "32dp", //bottom: 0,
 	zIndex: 2,
 }
 
 ".buttonLabel": {
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	touchEnabled: false,
-	color: "white",
+	color: "darkgray",
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "16sp"
+	}
 }
 
 "TextField": {
@@ -90,4 +104,9 @@
 	horizontalWrap: false,
 	height: Titanium.UI.SIZE,
 	width: Titanium.UI.FILL,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp"
+	}
 }

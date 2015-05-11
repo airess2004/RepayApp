@@ -115,9 +115,14 @@ function userFocus(e) {
 };
 
 function loginOpen(e) {
+	if (this.getActivity()) {
+		var actionBar = this.getActivity().getActionBar();
+    	actionBar.hide();
+    }
 	if ($.userField.value && $.userField.value != "")
 		$.passField.value = "";
 	$.userField.blur();
+	$.passField.blur();
 	$.signIn.focus();
 }
 
