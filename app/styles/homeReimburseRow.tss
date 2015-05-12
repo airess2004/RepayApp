@@ -17,7 +17,9 @@
  	height: "64dp",
  	width: "64dp",
  	touchEnabled : false,
- 	borderRadius: "32dp",
+ 	//borderRadius: "32dp",
+ 	//borderColor: Alloy.Globals.darkColor,
+ 	//borderWidth: "2dp",
 }
 
 "#avatar" : {
@@ -26,6 +28,8 @@
  	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
  	borderRadius: "32dp",
+ 	borderColor: Alloy.Globals.darkColor,
+ 	borderWidth: "2dp",
 }
 
 ".midView" : {

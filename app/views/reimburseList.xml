@@ -1,8 +1,11 @@
 <Alloy>
 	<Collection id="localReimburse" src="reimburse" instance="true"/>
-	<Window class="container" layout="vertical" onOpen="showList">
+	<View class="container" layout="vertical" onOpen="showList">
+		<!--TitleControl>
+    		<Label id="tab2Title">Reimburse</Label>
+  		</TitleControl-->
 		<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
 			<Require src="reimburseRow"/>
 		</TableView>
-	</Window>      
+	</View>      
 </Alloy>

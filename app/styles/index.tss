@@ -1,18 +1,146 @@
 ".container": {
+	color: Alloy.Globals.darkColor,
 	backgroundColor:"white",
 	height: Titanium.UI.FILL,
 	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_ADJUST_SIZE,
 	orientationModes: Alloy.Globals.orientModes,
 	swipeable: true,
 	smoothScrollOnTabClick: true,
+	tabsBackgroundColor: "white",
+	//tabsBackgroundSelectedColor: "lightgray",
 	activeTabBackgroundColor: "white",
-}
-
-"Tab": {
+	translucent: 'false',
+    barColor: 'white',
     font: {
 		fontFamily: 'century-gothic',
 		fontSize: "14sp"
-	}
+	},
+	navBarHidden: true,
+  	//fullscreen: true,
+  	//exitOnClose: true,
+}
+
+"Tab": {
+	color: Alloy.Globals.darkColor,
+	backgroundColor:"white",
+	//backgroundFocusedColor: "lightgray",
+    font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp"
+	},
+	translucent: 'false',
+    barColor: 'white'
+}
+
+".hSplitter": {
+	height: "80%",
+	width: "1dp",
+	touchEnabled: false,
+	backgroundColor: "#dddd",
+	//top: "8dp",
+	//bottom: "8dp",
+}
+
+".outterWindow": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "vertical",
+}
+
+".action": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+}
+
+"#rightAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	right:"4dp", //workaround to right-align horizontal layout
+}
+
+"#leftAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	left:"4dp", //workaround to right-align horizontal layout
+}
+
+"#logo": {
+	height: "40dp",
+	touchEnabled: true,
+	image: "/smalllogo.png",
+	left: "4dp",
+}
+
+"#profile": {
+	height: "40dp",
+	width: "40dp",
+	touchEnabled: true,
+	image: "/icon/ic_action_user.png",
+	borderColor: Alloy.Globals.darkColor,
+	borderRadius: "20dp",
+	borderWidth: "2dp",
+	left: "4dp",
+}
+
+".tabGroup": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: Alloy.Globals.darkColor,
+}
+
+".tabBar": {
+	height: "47dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "white",
+	layout: "horizontal",
+	horizontalWrap: false,
+	top: 0,
+}
+
+".tab": {
+	height: Titanium.UI.FILL,
+	width: "31%",
+	touchEnabled: true,
+	backgroundColor: "white",
+	backgroundSelectedColor: "lightgray",
+	left: "4dp",
+	right: "4dp",
+}
+
+".tabTitle": {
+	color: Alloy.Globals.darkColor,
+	backgroundColor:"transparent",
+	//backgroundFocusedColor: "lightgray",
+    font: {
+		fontFamily: 'century-gothic',
+		fontSize: "16dp",
+		fontWeight: "bold",
+	},
+	touchEnabled: false,
+}
+
+"#activeTab": {
+	height: "3dp",
+	width: "31%",
+	touchEnabled: false,
+	backgroundColor: Alloy.Globals.darkColor,
+	left: "4dp",
+	right: "4dp",
+	bottom: 0,
 }
 
 "MenuItem": {

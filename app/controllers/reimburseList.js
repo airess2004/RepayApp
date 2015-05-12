@@ -60,16 +60,6 @@ function thumbPopUp(e) {
 	
 }
 
-// $.tableView.addEventListener("swipe", function(e){
-	// e.bubbles = e.direction == "left" || e.direction == "right";
-	// e.cancelBubble = e.direction == "up" || e.direction == "down";
-// });
-// 
-// $.tableView.addEventListener("scroll", function(e){
-	// e.bubbles = false;
-	// e.cancelBubble = true;
-// });
-
 $.reimburseList.addEventListener("open", function(e){
 	e.bubbles = false;
 	Alloy.Globals.index.getActivity().getActionBar().title = "Reimburse";

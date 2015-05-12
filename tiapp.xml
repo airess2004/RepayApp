@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.reimburseapp.repay</id>
     <name>RepayApp</name>
-    <version>0.9</version>
+    <version>1.1</version>
     <publisher>Willy</publisher>
     <url>http://reimburseapp.com</url>
     <description>undefined</description>
@@ -40,8 +40,24 @@
         </plist>
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:installLocation="auto" android:versionCode="10" android:versionName="1.0">
-            <application android:debuggable="false" android:theme="@style/Theme.AppCompat.Light"/>
+        <manifest android:installLocation="auto"
+            android:versionCode="11" android:versionName="1.1">
+            <!--application android:debuggable="false" android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light"-->
+            <application android:debuggable="false"
+                android:screenOrientation="portrait" android:theme="@style/Theme.Repayapp1">
+                <receiver
+                    android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+                    <!--intent-filter>      
+            			<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                   		<action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                        <category android:name="android.intent.category.DEFAULT" />
+                	</intent-filter-->
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>
+                </receiver>
+            </application>
             <!--application android:debuggable="false" android:theme="@style/Theme.Titanium"/-->
             <uses-sdk android:minSdkVersion="10"/>
             <uses-permission android:name="android.permission.VIBRATE"/>
@@ -60,6 +76,7 @@
     <property name="GCM_sender_id" type="string">876696965882</property>
     <modules>
         <module platform="android">net.iamyellow.gcmjs</module>
+        <module platform="android">com.alcoapps.actionbarextras</module>
     </modules>
     <deployment-targets>
         <target device="iphone">false</target>

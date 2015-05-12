@@ -33,8 +33,8 @@ var refreshImage = '/icon/ic_action_refresh.png';
 var Transloadit = require('ti-transloadit');
 
 var SERVER_WEB = 'http://ReimburseApp.com';
-var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
-//var SERVER_HOST = 'http://ReimburseApp.com:8080/APIREPAY'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
+//var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
+var SERVER_HOST = 'http://ReimburseApp.com:8080/APIREPAY'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
 var FORGOTPASSWORD_URL = SERVER_WEB + '/forgot/';
 var TOS_URL = SERVER_WEB + '/tos/';
 var POLICY_URL = SERVER_WEB + '/policy/';

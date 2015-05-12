@@ -1,25 +1,51 @@
 <Alloy>
-	<TabGroup id="index" class="container" onOpen="mainViewOpen" onClose="mainViewClose">
+	<Window id="index" class="container" backgroundColor="white" onOpen="mainViewOpen" onClose="mainViewClose">
 		<!--ActionBar id="actionBar" title="RepayApp" onHomeIconItemSelected="doMenuClick" /-->
 		<!--SearchView id="searchView" ns="Ti.UI.Android" platform="android" hintText="List Search" submitEnabled="true" /-->
 		<!--Menu>
 		<!MenuItem id="itemSearch" title="Search" onClick="doSearch" />
 		<MenuItem id="itemNew" title="NEW" onClick="doNew"/>
 		</Menu-->
-		<Tab id="tab1" title="Home" icon="fa-home" onClick="refreshTab">
+		<!--Tab id="tab1" title="Home" backgroundColor="white" onClick="refreshTab">
 			<Require src='homeList' id="homeList"/>
 		</Tab>
-		<Tab id="tab2" title="Reimburse" icon="fa-file-text" onClick="refreshTab">
+		<Tab id="tab2" backgroundColor="white" title="Reimburse" icon="fa-file-text" onClick="refreshTab">
 			<Require src='reimburseList' id="reimburseList"/>
 		</Tab>
-		<Tab id="tab3" title="Setting" icon="fa-gear" onClick="refreshTab">
+		<Tab id="tab3" backgroundColor="white" title="Setting" icon="fa-gear" onClick="refreshTab">
 			<Require src='setting' id="setting"/>
-		</Tab>
-		<!--ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd">
+		</Tab-->
+		<View class="outterWindow" layout="vertical">
+		<View class="action">
+			<View id="rightAction" layout="horizontal">
+				<ImageView id="profile"></ImageView>
+			</View>
+			<View id="leftAction">
+				<ImageView id="logo"></ImageView>
+			</View>
+		</View>
+		<View class="tabGroup">
+			<View class="tabBar" layout="horizontal">
+				<View class="tab" id="tab1" onClick="homeBtnClick">
+					<Label class="tabTitle" id="tab1title">Home</Label>
+				</View>
+				<View class="hSplitter" />
+				<View class="tab" id="tab2" onClick="reimburseBtnClick">
+					<Label class="tabTitle" id="tab2title">Reimburse</Label>
+				</View>
+				<View class="hSplitter" />
+				<View class="tab" id="tab3" onClick="settingBtnClick">
+					<Label class="tabTitle" id="tab3title">Setting</Label>
+				</View>
+			</View>
+			<View id="activeTab"></View>
+		</View>
+		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd" onScroll="scrollableViewScroll">
 			<Require src='homeList' id="homeList"/>
 			<Require src='reimburseList' id="reimburseList"/>
 			<Require src='setting' id="setting"/>
-		</ScrollableView-->
+		</ScrollableView>
+		</View>
 		<!--View class="buttonBar" >
 			<View class="buttonBarInner" >
 				<View class="homeBtn" onClick="homeBtnClick">
@@ -37,5 +63,5 @@
 			</View>
 		</View-->
 		<!--Widget id="fa" src="/com.mattmcfarland.fontawesome"/-->
-	</TabGroup>
+	</Window>
 </Alloy>

@@ -7,6 +7,10 @@ Alloy.Globals.login = Alloy.createController("login");
 Alloy.Globals.searchView = Alloy.createController("searchView").getView();
 Alloy.Globals.index = $.index;
 Alloy.Globals.scrollableView = $.scrollableView;
+Alloy.Globals.leftAction = $.leftAction;
+Alloy.Globals.rightAction = $.rightAction;
+
+var abx = require('com.alcoapps.actionbarextras');
 
 libgcm.registerGCM(function(e) {
 	Alloy.Globals.gcmRegId = e.deviceToken;
@@ -82,8 +86,11 @@ function mainViewOpen(e) {
 	var activity = $.index.getActivity();
 	if (activity) {
 		var actionBar = activity.getActionBar();
+		actionBar.hide();
 		// get a handle to the action bar
 		actionBar.title = 'RepayApp';
+		actionBar.logo = "smalllogo.png";
+		//abx.backgroundColor = "white";
 		// change the App Title
 		//actionBar.displayHomeAsUp = true; // back icon
 		// Show the "angle" pointing back
@@ -133,21 +140,72 @@ function refreshTab(e) {
 	}
 }
 
+function scrollableViewScroll(e) {
+	var val = e.currentPageAsFloat;
+	var lowval = Math.floor(val);
+	var hival = Math.ceil(val);
+	var frac = val - lowval;
+	var prevtab = lowval == 0 ? $.tab1 : lowval == 1 ? $.tab2 : $.tab3;
+	var nexttab = hival == 0 ? $.tab1 : hival == 1 ? $.tab2 : $.tab3;
+	if (prevtab != nexttab) {
+		var prevrect = prevtab && prevtab.getRect();
+		var nextrect = nexttab && nexttab.getRect();
+		if (prevtab && nexttab) {
+			$.activeTab.left = Math.round((nextrect.x - prevrect.x)*frac + prevrect.x);
+		}
+	}
+}
+
 function scrollableViewScrollEnd(e) {
 	if (e.view && e.currentPage != e.source.prevPage) {
+		$.activeTab.left = (e.currentPage == 0 ? $.tab1 : e.currentPage == 1 ? $.tab2 : $.tab3).getRect().x;  
+		var style1 = $.createStyle({
+			classes : "tabTitle",
+			apiName : 'Label',
+			//touchEnabled: false,
+			//color: Alloy.Globals.darkColor,
+			//backgroundColor:"transparent",
+			font: {
+				fontFamily: 'century-gothic',
+				fontSize: "16dp",
+				fontWeight: (e.currentPage == 0) ? "bold" : "normal",
+			}
+		});
+		$.tab1title.applyProperties(style1);
+		var style2 = $.createStyle({
+			classes : "tabTitle",
+			apiName : 'Label',
+			//touchEnabled: false,
+			//color: Alloy.Globals.darkColor,
+			//backgroundColor:"transparent",
+			font: {
+				fontFamily: 'century-gothic',
+				fontSize: "16dp",
+				fontWeight: (e.currentPage == 1) ? "bold" : "normal",
+			}
+		});
+		$.tab2title.applyProperties(style2);
+		var style3 = $.createStyle({
+			classes : "tabTitle",
+			apiName : 'Label',
+			//touchEnabled: false,
+			//color: Alloy.Globals.darkColor,
+			//backgroundColor:"transparent",
+			font: {
+				fontFamily: 'century-gothic',
+				fontSize: "16dp",
+				fontWeight: (e.currentPage == 2) ? "bold" : "normal",
+			}
+		});
+		$.tab3title.applyProperties(style3);
 		e.view.fireEvent("open");
 		e.source.prevPage = e.currentPage;
 	}
 }
 
-// $.index.addEventListener("swipe",function(e){
-    // var tabIndex = $.index.getActiveTab();  // using method
-//     
-// });
-
 $.index.addEventListener('refresh', function(e) {
-	//$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
-	$.index.getActiveTab().getWindow().fireEvent("open", e);
+	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
+	//$.index.getActiveTab().getWindow().fireEvent("open", e);
 });
 
 // $.index.addEventListener('open', function() {

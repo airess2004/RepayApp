@@ -1,10 +1,13 @@
 <Alloy>
-	<Window class="container">
+	<View class="container">
+		<!--TitleControl>
+    		<Label id="tab3Title">Setting</Label>
+  		</TitleControl-->
 		<View layout = "vertical">
 			<ImageView class="avatar"></ImageView>
 			<Label id="status" text="username@repay.com"/>
 			<Button id="signOutButton" title="Sign Out" onClick="signOutClick" width="Ti.UI.FILL"></Button>
 			<Button id="syncButton" title="Sync Now" onClick="syncClick" width="Ti.UI.FILL"></Button>
 		</View>
-	</Window>
+	</View>
 </Alloy>

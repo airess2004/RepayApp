@@ -17,6 +17,8 @@ Titanium.include('/common/constant.js');
 Alloy.Globals.CURRENT_USER = "";
 Alloy.Globals.CURRENT_NAME = "";
 Alloy.Globals.orientModes = orientModes;
+Alloy.Globals.lightColor = "#34b2b1";
+Alloy.Globals.darkColor = "#176d7e";
 
 // Cached ImageView
 Titanium.include('createRemoteImageView.js');
