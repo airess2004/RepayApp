@@ -25,7 +25,7 @@ comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE rei
 function winOpen(e) {
 	if (data) {
 		$.titleField.text = data.get('name');
-		$.dateField.text = moment.parseZone(data.get('receiptDate')).local().format("YYYY-MM-DD");
+		$.dateField.text = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.text = data.get('amount');
 		$.descriptionField.text = data.get('description');
 		$.image.image = data.get('urlImageOriginal');

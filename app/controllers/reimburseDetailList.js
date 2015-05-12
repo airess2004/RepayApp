@@ -74,7 +74,7 @@ function whereFunction(collection) {
 
 function transformFunction(model) {
 	var transform = model.toJSON(); 
-	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format("YYYY-MM-DD");
+	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = transform.amount + " IDR";
 	if (String.format(transform.name).length > 30)
 		transform.name = transform.name.substring(0, 27) + "...";

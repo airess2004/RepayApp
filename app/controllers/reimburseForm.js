@@ -8,7 +8,7 @@ var data = reimburses.get(args.id);
 function winOpen(e) {
 	if (data) {
 		$.titleField.value = data.get('title');
-		$.dateField.value = moment.parseZone(data.get('projectDate')).local().format("YYYY-MM-DD");
+		$.dateField.value = moment.parseZone(data.get('projectDate')).local().format(dateFormat);
 		// $.dateField.value = data.get('projectDate');
 		
 	}
@@ -42,7 +42,7 @@ function doSave(e) {
 		reimburse = Alloy.createModel('reimburse', {
 			userId : 1,
 			title : $.titleField.value,
-			projectDate : moment($.dateField.value).utc().toISOString(),
+			projectDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			total : 0,
 			isSent : 0,
 			//sentDate : item.sentDate,
@@ -57,7 +57,7 @@ function doSave(e) {
 			reimburse.set({
 				userId : 1,
 				title : $.titleField.value,
-				projectDate : moment($.dateField.value).utc().toISOString(),
+				projectDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			});
 			reimburse.save();
 		}
@@ -83,7 +83,7 @@ function dateFieldClick(e) {
 		callback : function(e) {
 			if (e.cancel) {
 			} else {
-				$.dateField.value = moment(e.value).format("YYYY-MM-DD");
+				$.dateField.value = moment(e.value).format(dateFormat);
 			}
 		}
 	});

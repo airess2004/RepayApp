@@ -15,7 +15,7 @@ if (args.id != null) {
 function winOpen(e) {
 	if (data) {
 		$.titleField.value = data.get('name');
-		$.dateField.value = moment.parseZone(data.get('receiptDate')).local().format("YYYY-MM-DD");
+		$.dateField.value = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.value = data.get('amount');
 		$.descriptionField.value = data.get('description');
 		$.image.image = data.get('urlImageOriginal');
@@ -56,7 +56,7 @@ function doSave(e) {
 			reimburseDetail.set({
 				name : $.titleField.value,
 				description : $.descriptionField.value,
-				receiptDate : moment($.dateField.value).utc().toISOString(),
+				receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 				amount : parseFloat($.amountField.value),
 				urlImageOriginal : $.image.image
 			});
@@ -68,7 +68,7 @@ function doSave(e) {
 			reimburseId : args.reimburseId,
 			name : $.titleField.value,
 			description : $.descriptionField.value,
-			receiptDate : moment($.dateField.value).utc().toISOString(),
+			receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			isDeleted : 0,
 			amount : parseFloat($.amountField.value),
 			urlImageOriginal : $.image.image
@@ -132,7 +132,7 @@ function dateFieldClick(e) {
 		callback : function(e) {
 			if (e.cancel) {
 			} else {
-				$.dateField.value = moment(e.value).format("YYYY-MM-DD");
+				$.dateField.value = moment(e.value).format(dateFormat);
 			}
 		}
 	});

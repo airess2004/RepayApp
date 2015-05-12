@@ -44,7 +44,7 @@ function transformFunction(model) {
 	var transform = model.toJSON();
 	transform.status = STATUS[transform.status];
 	transform.total = String.formatDecimal(transform.total) + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
-	transform.projectDate = moment.parseZone(transform.projectDate).local().format("YYYY-MM-DD");
+	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
 	if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
 	return transform;
 }

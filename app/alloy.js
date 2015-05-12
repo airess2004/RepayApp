@@ -199,8 +199,8 @@ function fillTestData() {
 			title : "Proyek"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
 			total : total,
 			status : status,
-			sentDate : status >= STATUSCODE[Const.Sent] ? moment().subtract(i, "days").format("YYYY-MM-DD") : null,
-			projectDate : moment().subtract(i, "days").format("YYYY-MM-DD")
+			sentDate : status >= STATUSCODE[Const.Sent] ? moment().subtract(i, "days").format(dateFormat) : null,
+			projectDate : moment().subtract(i, "days").format(dateFormat)
 		});
 		var detail = addReimburseDetail({
 			reimburseId : parent.id,
@@ -211,12 +211,12 @@ function fillTestData() {
 			urlImageSmall : "/icon/ic_action_photo.png",
 			urlImageMedium : "/icon/ic_action_photo.png",
 			urlImageOriginal : "/icon/ic_action_photo.png",
-			receiptDate : moment().subtract(i, "days").format("YYYY-MM-DD")
+			receiptDate : moment().subtract(i, "days").format(dateFormat)
 		});
 		var comment = addComment({
 			reimburseDetailId : detail.id,
 			message : "Ok thanks "+i,
-			commentsDate : moment().subtract(i, "days").format("YYYY-MM-DD")
+			commentsDate : moment().subtract(i, "days").format(dateFormat)
 		});
 	}
 }
