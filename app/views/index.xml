@@ -18,7 +18,9 @@
 		<View class="outterWindow" layout="vertical">
 		<View class="action">
 			<View id="rightAction" layout="horizontal">
-				<ImageView id="profile"></ImageView>
+				<View class="profileView">
+					<ImageView id="profile"></ImageView>
+				</View>
 			</View>
 			<View id="leftAction">
 				<ImageView id="logo"></ImageView>
@@ -30,7 +32,7 @@
 					<Label class="tabTitle" id="tab1title">Home</Label>
 				</View>
 				<View class="hSplitter" />
-				<View class="tab" id="tab2" onClick="reimburseBtnClick">
+				<View class="tab" id="tab2" onClick="reimburseBtnClick" >
 					<Label class="tabTitle" id="tab2title">Reimburse</Label>
 				</View>
 				<View class="hSplitter" />
@@ -46,22 +48,32 @@
 			<Require src='setting' id="setting"/>
 		</ScrollableView>
 		</View>
-		<!--View class="buttonBar" >
-			<View class="buttonBarInner" >
-				<View class="homeBtn" onClick="homeBtnClick">
-					<ImageView class="homeImg"></ImageView>
+		<View class="buttonBar" >
+			<View class="buttonBarInner">
+				<!--View class="homeBtn" onClick="homeBtnClick">
+					<ImageView id="homeImg"></ImageView>
 					<Label id="homeIcon" icon="fa-home"></Label>
 				</View>
 				<View class="reimburseBtn" onClick="reimburseBtnClick">
-					<ImageView class="reimburseImg"></ImageView>
+					<ImageView id="reimburseImg"></ImageView>
 					<Label id="reimburseIcon" icon="fa-file-text"></Label>
 				</View>
 				<View class="settingBtn" onClick="settingBtnClick">
 					<ImageView class="settingImg"></ImageView>
 					<Label id="settingIcon" icon="fa-gear"></Label>
+				</View-->
+				<View class="addBtn" onClick="doNew">
+					<ImageView id="addReceiptImg"></ImageView>
 				</View>
+				<View class="listBtn" visible="false">
+					<ImageView id="receiptImg"></ImageView>
+				</View>			
 			</View>
-		</View-->
+			<View class="moreBtn" >
+				<ImageView id="moreImg"></ImageView>
+			</View>
+		</View>
+		
 		<!--Widget id="fa" src="/com.mattmcfarland.fontawesome"/-->
 	</Window>
 </Alloy>

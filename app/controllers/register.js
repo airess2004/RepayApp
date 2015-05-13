@@ -24,8 +24,8 @@ function userFocus(e){
 };
 
 function registerOpen(e) {
-	if (this.getActivity()) {
-		var actionBar = this.getActivity().getActionBar();
+	if ($.registerForm.getActivity()) {
+		var actionBar = $.registerForm.getActivity().getActionBar();
     	actionBar.hide();
     }
 	$.userField.blur();

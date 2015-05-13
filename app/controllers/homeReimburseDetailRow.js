@@ -18,18 +18,21 @@ if ($model) {
 	$.homeReimburseDetailRow.title = $model.get('title');
 	$.commentLabel.text = comments.where({reimburseDetailId : id}).length;
 	if ($model.get('isDeleted') == 0) {
-		$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
-		$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUSCODE_COLOR[status];
+		//$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
+		//$.innerView.backgroundColor = 'lightgray';
+		//$.status.backgroundColor = STATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.homeReimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
+		//$.homeReimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
+		//$.innerView.backgroundColor = 'white';
+		//$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
 	}
 	// wait for parent id to be available before fetching details
 	//comments && comments.fetch({remove: false});
+	//$.switchBtn.removeEventListener("change", switchChange);
+	//$.switchBtn.addEventListener("change", switchChange);
+	$.switchBtn.value = true;
 }
 
 // toggle the "done" status of the IDed todo
@@ -80,5 +83,16 @@ function rowClick(e) {
 function rowLongClick(e) {
 	id = e.source.parent.rowid;
 	//$.deleteDialog.show();
+}
+
+function switchChange(e) {
+	e.source.value = !e.source.value;
+	var style = $.createStyle({
+		classes : ["switch"],
+		apiName : 'Switch',
+		//backgroundImage: e.value == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
+		backgroundImage: e.source.value == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
+	});
+	e.source.applyProperties(style); //bug? seems to cause other row's switch background to be changing on the first 3 rows, triggering some other's switch change event
 }
 

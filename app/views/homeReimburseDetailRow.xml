@@ -4,17 +4,22 @@
 	<View id="homeReimburseDetailRow" class="homeDetailRow" layout="vertical" >
 		<View class="vSplitter" />
 		<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
-			<ImageView class="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>
-			<Label id="title" text="{name}" />
-			<View class="rightView">
-				<Label id="status" text="{receiptDate}"/>
-				<Label id="total" text="{amount}"/>
+			<View class="avatarView">
+				<ImageView id="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>
 			</View>
-		</View>
-		<View height="Ti.UI.SIZE" width="Ti.UI.FILL">
-			<ImageView class="commentImg"></ImageView>
-			<Label id="commentLabel"></Label>
-			<Switch id="switchBtn" value="true"></Switch>
+			<View class="midView" layout="vertical">
+				<Label id="title" text="{name}" />
+				<Label id="date" text="{receiptDate}"/>
+				<Label id="amount" text="{amount}"/>
+				<View class="commentView" layout="horizontal">
+					<ImageView class="commentImg"></ImageView>
+					<Label id="commentLabel"></Label>
+				</View>
+			</View>
+			<View class="rightView">
+				<!--Switch class="switch" id="switchBtn" top="12dp" onClick="switchChange"></Switch-->
+				<Button class="switch" id="switchBtn" top="12dp" onClick="switchChange"></Button>
+			</View>
 		</View>
 	</View>
 </Alloy>

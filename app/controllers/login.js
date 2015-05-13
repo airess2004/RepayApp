@@ -116,8 +116,8 @@ function userFocus(e) {
 };
 
 function loginOpen(e) {
-	if (this.getActivity()) {
-		var actionBar = this.getActivity().getActionBar();
+	if ($.loginForm.getActivity()) {
+		var actionBar = $.loginForm.getActivity().getActionBar();
     	actionBar.hide();
     }
 	if ($.userField.value && $.userField.value != "")

@@ -33,7 +33,7 @@
 }
 
 ".hSplitter": {
-	height: "80%",
+	height: "75%",
 	width: "1dp",
 	touchEnabled: false,
 	backgroundColor: "#dddd",
@@ -47,6 +47,7 @@
 	touchEnabled: false,
 	backgroundColor: "transparent",
 	layout: "vertical",
+	bottom:"48dp",
 }
 
 ".action": {
@@ -83,15 +84,26 @@
 	left: "4dp",
 }
 
+".profileView": {
+ 	height: "40dp",
+ 	width: "40dp",
+ 	touchEnabled : true,
+ 	backgroundColor: "gray",
+ 	borderRadius: "20dp",
+ 	borderColor: Alloy.Globals.darkColor,
+ 	borderWidth: "2dp",
+ 	left: "4dp",
+}
+
 "#profile": {
-	height: "40dp",
-	width: "40dp",
-	touchEnabled: true,
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
 	image: "/icon/ic_action_user.png",
-	borderColor: Alloy.Globals.darkColor,
-	borderRadius: "20dp",
-	borderWidth: "2dp",
-	left: "4dp",
+	// borderColor: Alloy.Globals.darkColor,
+	// borderRadius: "20dp",
+	// borderWidth: "2dp",
+	// left: "4dp",
 }
 
 ".tabGroup": {
@@ -113,12 +125,12 @@
 
 ".tab": {
 	height: Titanium.UI.FILL,
-	width: "31%",
+	width: "33.3%",
 	touchEnabled: true,
 	backgroundColor: "white",
 	backgroundSelectedColor: "lightgray",
-	left: "4dp",
-	right: "4dp",
+	//left: "4dp",
+	//right: "4dp",
 }
 
 ".tabTitle": {
@@ -134,12 +146,12 @@
 }
 
 "#activeTab": {
-	height: "3dp",
-	width: "31%",
+	height: "4dp",
+	width: "33.3%",
 	touchEnabled: false,
 	backgroundColor: Alloy.Globals.darkColor,
-	left: "4dp",
-	right: "4dp",
+	left: 0,
+	//right: "4dp",
 	bottom: 0,
 }
 
@@ -178,25 +190,90 @@
 	scrollType: "vertical",
 	zIndex: 1,
 	top:0,
-	bottom:"72dp",
-}
-
-".buttonBarInner": {
-	backgroundColor:"darkgray",
-	width: Titanium.UI.SIZE,
-	height: Titanium.UI.SIZE,
-	layout: "horizontal",
-	bottom: 0,
-	zIndex: 2,
+	//bottom:"48dp",
 }
 
 ".buttonBar": {
-	backgroundColor:"darkgray",
+	backgroundColor: Alloy.Globals.darkColor,
 	width: Titanium.UI.FILL,
-	height: Titanium.UI.SIZE,
-	layout: "vertical",
+	height: "48dp", //Titanium.UI.SIZE,
+	//layout: "vertical",
 	bottom: 0,
 	zIndex: 2,
+}
+
+".buttonBarInner": {
+	backgroundColor:"transparent",
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	//layout: "horizontal",
+	horizontalWrap: false,
+	bottom: 0,
+	zIndex: 2,
+}
+
+".addBtn": {
+	backgroundColor:"transparent",
+	backgroundSelectedColor: "#8888",
+	touchEnabled: true,
+	width: "48dp", //Titanium.UI.SIZE,
+	height: "48dp",
+	zIndex: 2,
+	//top: "4dp",
+	//bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+"#addReceiptImg": {
+	image: "/icon/ic_addreceipt.png",
+	height: "40dp",
+	touchEnabled: false,
+	zIndex: 2,
+}
+
+".listBtn": {
+	backgroundColor:"transparent",
+	backgroundSelectedColor: "#8888",
+	touchEnabled: true,
+	width: "48dp", //Titanium.UI.SIZE,
+	height: "48dp",
+	zIndex: 2,
+	//top: "4dp",
+	//bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+"#receiptImg": {
+	image: "/icon/ic_receipt.png",
+	height: "40dp",
+	touchEnabled: false,
+	zIndex: 2,
+}
+
+".moreBtn": {
+	backgroundColor:"transparent",
+	backgroundSelectedColor: "#8888",
+	touchEnabled: true,
+	width: "48dp", //Titanium.UI.SIZE,
+	height: "48dp",
+	zIndex: 2,
+	//top: "4dp",
+	bottom: 0,
+	//left: "4dp",
+	right: "4dp",
+}
+
+"#moreImg": {
+	image: "/icon/ic_more.png",
+	height: "40dp",
+	touchEnabled: false,
+	zIndex: 2,
+	//top: "8dp",
+	//bottom: "8dp",
+	//left: "4dp",
+	//right: "4dp",
 }
 
 ".homeBtn": {

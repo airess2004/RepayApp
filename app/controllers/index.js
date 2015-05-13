@@ -16,6 +16,8 @@ libgcm.registerGCM(function(e) {
 	Alloy.Globals.gcmRegId = e.deviceToken;
 });
 
+$.scrollableView.prevPage = -1;
+
 function doClick(e) {
     //alert($.label1.text);
 }
@@ -127,6 +129,7 @@ function mainViewOpen(e) {
 	//Alloy.Collections.reimburseDetail.fetch({remove: false});
 	//Alloy.Collections.comment.fetch({remove: false});
 	//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
+	updateTitle($.scrollableView.currentPage);
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks
@@ -156,48 +159,52 @@ function scrollableViewScroll(e) {
 	}
 }
 
+function updateTitle(currentPage) {
+	$.activeTab.left = (currentPage == 0 ? $.tab1 : currentPage == 1 ? $.tab2 : $.tab3).getRect().x;
+	var style1 = $.createStyle({
+		classes : ["tabTitle"],
+		apiName : 'Label',
+		//touchEnabled: false,
+		//color: Alloy.Globals.darkColor,
+		//backgroundColor:"transparent",
+		font : {
+			fontFamily : 'century-gothic',
+			fontSize : "16dp",
+			fontWeight : (currentPage == 0) ? "bold" : "normal",
+		}
+	});
+	$.tab1title.applyProperties(style1);
+	var style2 = $.createStyle({
+		classes : ["tabTitle"],
+		apiName : 'Label',
+		//touchEnabled: false,
+		//color: Alloy.Globals.darkColor,
+		//backgroundColor:"transparent",
+		font : {
+			fontFamily : 'century-gothic',
+			fontSize : "16dp",
+			fontWeight : (currentPage == 1) ? "bold" : "normal",
+		}
+	});
+	$.tab2title.applyProperties(style2);
+	var style3 = $.createStyle({
+		classes : ["tabTitle"],
+		apiName : 'Label',
+		//touchEnabled: false,
+		//color: Alloy.Globals.darkColor,
+		//backgroundColor:"transparent",
+		font : {
+			fontFamily : 'century-gothic',
+			fontSize : "16dp",
+			fontWeight : (currentPage == 2) ? "bold" : "normal",
+		}
+	});
+	$.tab3title.applyProperties(style3); 
+}
+
 function scrollableViewScrollEnd(e) {
 	if (e.view && e.currentPage != e.source.prevPage) {
-		$.activeTab.left = (e.currentPage == 0 ? $.tab1 : e.currentPage == 1 ? $.tab2 : $.tab3).getRect().x;  
-		var style1 = $.createStyle({
-			classes : "tabTitle",
-			apiName : 'Label',
-			//touchEnabled: false,
-			//color: Alloy.Globals.darkColor,
-			//backgroundColor:"transparent",
-			font: {
-				fontFamily: 'century-gothic',
-				fontSize: "16dp",
-				fontWeight: (e.currentPage == 0) ? "bold" : "normal",
-			}
-		});
-		$.tab1title.applyProperties(style1);
-		var style2 = $.createStyle({
-			classes : "tabTitle",
-			apiName : 'Label',
-			//touchEnabled: false,
-			//color: Alloy.Globals.darkColor,
-			//backgroundColor:"transparent",
-			font: {
-				fontFamily: 'century-gothic',
-				fontSize: "16dp",
-				fontWeight: (e.currentPage == 1) ? "bold" : "normal",
-			}
-		});
-		$.tab2title.applyProperties(style2);
-		var style3 = $.createStyle({
-			classes : "tabTitle",
-			apiName : 'Label',
-			//touchEnabled: false,
-			//color: Alloy.Globals.darkColor,
-			//backgroundColor:"transparent",
-			font: {
-				fontFamily: 'century-gothic',
-				fontSize: "16dp",
-				fontWeight: (e.currentPage == 2) ? "bold" : "normal",
-			}
-		});
-		$.tab3title.applyProperties(style3);
+		updateTitle(e.currentPage);
 		e.view.fireEvent("open");
 		e.source.prevPage = e.currentPage;
 	}

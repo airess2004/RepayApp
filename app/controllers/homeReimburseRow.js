@@ -36,8 +36,9 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON(); 
+	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
-	transform.amount = String.formatDecimal(transform.amount) + " IDR";
+	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
 	if (transform.name && String.format(transform.name).length > 30)
 		transform.name = transform.name.substring(0, 27) + "...";
 	return transform;
@@ -53,20 +54,23 @@ if ($model) {
 	var status = $model.get('status');
 	$.homeReimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
 	if ($model.get('isDeleted') == 0) {
-		$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-		$.innerView.backgroundColor = 'lightgray';
-		$.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-		$.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
-		$.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
-		$.approveBtn.borderRadius = (status == STATUSCODE[Const.Sent]) ? "8dp" : 0;
-		$.innerView.touchEnabled = $.approveBtn.touchEnabled;
+		//$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
+		//$.innerView.backgroundColor = 'lightgray';
+		// $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
+		// $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
+		// $.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
+		// $.approveBtn.borderRadius = (status == STATUSCODE[Const.Sent]) ? "8dp" : 0;
+		$.innerView.touchEnabled = (status == STATUSCODE[Const.Sent]);
+		$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
+		$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
+		$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.homeReimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.innerView.backgroundColor = 'white';
-		$.approveBtn.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.approveBtn.touchEnabled = false;
-		$.approveBtn.text = STATUS[status];
+		//$.homeReimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
+		//$.innerView.backgroundColor = 'white';
+		// $.approveBtn.backgroundColor = status == 0 ? 'red' : 'purple';
+		// $.approveBtn.touchEnabled = false;
+		// $.approveBtn.text = STATUS[status];
 		$.innerView.touchEnabled = false;
 		//$.avatar.image = '/tick_64.png';
 	}
@@ -156,7 +160,7 @@ function approveBtnClick(e) {
 	if (!Alloy.Globals.approveBtnUsed) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
-		if (!id) id = e.source.parent.parent.parent.rowid;
+		if (!id) id = e.source.parent.parent.rowid;
 		
 		var approveDialog = Ti.UI.createAlertDialog({
 			title : "Confirm",

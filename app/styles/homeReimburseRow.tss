@@ -3,39 +3,55 @@
  	height: Titanium.UI.SIZE, //"200dp"
  	width: Titanium.UI.FILL,
  	position: "absolute",
+ 	//backgroundColor: "transparent",
 }
 
 "#innerView" : {
 	left: "4dp",
 	width: Titanium.UI.FILL,
- 	height: "80dp", //Titanium.UI.SIZE, 
+ 	height: Titanium.UI.SIZE, //"80dp" 
  	touchEnabled : true,
- 	backgroundSelectedColor: "gray",
+ 	backgroundSelectedColor: "#8888",
+ 	backgroundColor: "white",
 }
 
-"#avatarView" : {
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1",
+	touchEnabled: false,
+	backgroundColor: "#dddd",
+	//top: "8dp",
+	//bottom: "8dp",
+}
+
+".avatarView" : {
  	height: "64dp",
  	width: "64dp",
+ 	touchEnabled : false,
+ 	backgroundColor: "gray",
+ 	borderRadius: "32dp",
+ 	//borderColor: Alloy.Globals.darkColor,
+ 	//borderWidth: "2dp",
+ 	top: "4dp",
+ 	left: "4dp",
+}
+
+"#avatar" : {
+ 	height: Titanium.UI.FILL, //"64dp",
+ 	width: Titanium.UI.FILL, //"64dp",
+ 	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
  	//borderRadius: "32dp",
  	//borderColor: Alloy.Globals.darkColor,
  	//borderWidth: "2dp",
 }
 
-"#avatar" : {
- 	height: "64dp",
- 	width: "64dp",
- 	image: "/icon/ic_action_user.png",
- 	touchEnabled : false,
- 	borderRadius: "32dp",
- 	borderColor: Alloy.Globals.darkColor,
- 	borderWidth: "2dp",
-}
-
 ".midView" : {
-	width: "55%",
- 	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL, //"55%",
+ 	height: Titanium.UI.SIZE, //Titanium.UI.FILL,
  	touchEnabled : false,
+ 	left: "24dp",
+ 	bottom: "4dp",
 }
 
 "#userName" : {
@@ -45,6 +61,7 @@
  	horizontalWrap: false,
  	color: "navy",
  	font: {
+ 		fontFamily: 'century-gothic',
  		fontSize: "12dp",
  	}
 }
@@ -55,6 +72,7 @@
  	horizontalWrap: false,
  	color: "black",
  	font: {
+ 		fontFamily: 'century-gothic',
  		fontSize: "14dp",
  	}
 }
@@ -95,22 +113,83 @@
  	color: "black",
 }
 
-"#total" : {
- 	width: Titanium.UI.FILL,
+".bottomView": {
+	width: "33%" ,
+ 	height: Titanium.UI.SIZE,
+ 	touchEnabled : false, //true
+ 	top: "8dp",
  	right: "8dp",
  	bottom: "8dp",
+ 	layout: "vertical",
+}
+
+".totalView": {
+	width: Titanium.UI.FILL ,
+ 	height: Titanium.UI.SIZE,
+ 	touchEnabled : false, //true
+ 	layout: "horizontal",
+ 	horizontalWrap: "false",
+}
+
+".totalLabel" : {
+ 	width: Titanium.UI.SIZE,
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+ 	touchEnabled : false,
+ 	height: Titanium.UI.SIZE,
+ 	horizontalWrap: false,
+ 	color: "black",
+ 	minimumFontSize: "8sp",
+ 	font: {
+ 		fontFamily: 'century-gothic',
+ 		fontSize: "14dp",
+ 		fontWeight: "bold",
+ 	}
+}
+
+"#total" : {
+ 	width: Titanium.UI.FILL,
+ 	//right: "8dp",
+ 	//bottom: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
- 	color: "navy",
+ 	color: "black",
  	minimumFontSize: "8sp",
+ 	font: {
+ 		fontFamily: 'century-gothic',
+ 		fontSize: "14dp",
+ 		fontWeight: "bold",
+ 	}
+}
+
+"#confirmBtn" : {
+ 	width: Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE,
+ 	//right: "8dp",
+ 	//bottom: "8dp",
+ 	//style: Ti.UI.Android.SWITCH_STYLE_TOGGLEBUTTON,
+ 	text: " CONFIRM ",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	touchEnabled : true,
+ 	horizontalWrap: false,
+ 	backgroundColor: Alloy.Globals.lightColor,
+ 	backgroundSelectedColor: Alloy.Globals.darkColor,
+ 	//borderRadius: "3dp",
+ 	//borderColor: "black",
+ 	//borderWidth: "1dp",
+ 	color: "white",
+ 	font: {
+ 		fontFamily: 'century-gothic',
+ 		fontSize: "14dp",
+ 		//fontWeight: "bold",
+ 	}
 }
 
 "#detailView" : {
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.SIZE, //"100dp"
- 	backgroundColor: "#ddd",
+ 	backgroundColor: "transparent", //"#ddd",
  	//separatorColor: "gray",
  	//filterAttribute: "title",
  	//searchHidden: true,

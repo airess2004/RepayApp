@@ -2,21 +2,29 @@
   <Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
   <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical"  className="reimburseRow2">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
-  		<View id="avatarView">
+  		<View class="avatarView">
     		<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
     	</View>
     	<View class="midView">
-    		<Label id="userName" text="{userName}" />
+    		<!--Label id="userName" text="{userName}" /-->
     		<Label id="title" text="{title}" />
-    		<Label id="date" text="{projectDate}" />
+    		<!--Label id="date" text="{projectDate}" /-->
     	</View>
-    	<View class="rightView">
+    	<!--View class="rightView">
     		<Label id="approveBtn" onClick="approveBtnClick" />
     		<Label id="total" text="{total}"/>
-    	</View>
+    	</View-->
     </View>
     <View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
     	<Require src="homeReimburseDetailRow"/>
+    </View>
+    <View class="vSplitter" />
+    <View class="bottomView" layout="vertical">
+    	<View class="totalView">
+    		<Label class="totalLabel">Total : </Label>
+    		<Label id="total" text="{total}"/>
+    	</View>
+    	<Label id="confirmBtn" onClick="approveBtnClick" />
     </View>
   </TableViewRow>  
   <!-- AlertDialog should not be created in XML otherwise it will crash app sometimes -->

@@ -1,91 +1,147 @@
 ".homeDetailRow": {
 	layout: "vertical",	
+	backgroundColor: "white",
 }
 
 "#homeReimburseDetailRow" : {
  	height: Titanium.UI.SIZE, //"80dp"
  	width: Titanium.UI.FILL,
  	position: "absolute",
+ 	backgroundColor: "white",
 }
 
 ".vSplitter": {
 	width: Titanium.UI.FILL,
-	height: "1dp",
+	height: "1",
 	touchEnabled: false,
-	backgroundColor: "darkgray",
-	top: "8dp",
+	backgroundColor: "#dddd",
+	//top: "8dp",
 	//bottom: "8dp",
 }
 
 "#innerView" : {
 	left: "16dp",
 	width: Titanium.UI.FILL,
- 	height: "80dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.SIZE, //"88dp", //
  	touchEnabled : true,
- 	backgroundSelectedColor: "gray",
+ 	backgroundSelectedColor: "#8888",
+ 	backgroundColor: "white",
 }
 
-".avatar" : {
+".avatarView" : {
  	height: "64dp",
  	width: "64dp",
+ 	touchEnabled : true,
+ 	backgroundColor: "gray",
+ 	borderColor: "darkgray",
+ 	borderWidth: "1dp",
+ 	top: "4dp",
+}
+
+"#avatar" : {
+ 	height: Titanium.UI.FILL, //"64dp",
+ 	width: Titanium.UI.FILL, //"64dp",
  	image: "/icon/ic_action_photo.png",
  	touchEnabled : false,
 }
 
+".midView" : {
+	width: "50%",
+ 	height: Titanium.UI.SIZE,//"64dp",
+ 	touchEnabled : false,
+ 	left: "8dp",
+ 	top: "4dp",
+}
+
 "#title" : {
- 	width: "50%",
+ 	width: Titanium.UI.FILL,//"50%",
  	touchEnabled : false,
  	horizontalWrap: false,
  	color: "black",
- 	left : "4dp"
+ 	//left : "4dp",
+ 	font: {
+			fontFamily: 'century-gothic',
+			fontSize: "14sp",
+		},
 }
 
 ".rightView" : {
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE, //Titanium.UI.FILL,
  	touchEnabled : false,
 }
 
-"#status" : {
+"#date" : {
  	width: Titanium.UI.FILL,
- 	right: "8dp",
- 	top: "8dp",
- 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	//right: "8dp",
+ 	top: "4dp",
+ 	//textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
  	color: "black",
+ 	font: {
+			fontFamily: 'century-gothic',
+			fontSize: "14sp",
+		},
 }
 
-"#total" : {
+"#amount" : {
  	width: Titanium.UI.FILL,
- 	right: "8dp",
- 	bottom: "8dp",
- 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	//right: "8dp",
+ 	//bottom: "4dp",
+ 	top: "4dp",
+ 	//textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
- 	color: "navy",
+ 	color: "black",
+ 	font: {
+			fontFamily: 'century-gothic',
+			fontSize: "14sp",
+		},
+}
+
+".commentView" : {
+	//left: "4dp",
+ 	height: Titanium.UI.SIZE,
+ 	width: Titanium.UI.FILL,
+ 	image: "/icon/ic_comment.png",
+ 	touchEnabled : false,//true,
+ 	layout: "horizontal",
+ 	top: "4dp",
 }
 
 ".commentImg" : {
-	left: "8dp",
- 	height: "16dp",
- 	width: "16dp",
- 	image: "/icon/ic_action_attach.png",
- 	touchEnabled : true,
+	//left: "4dp",
+ 	height: "14dp", //Titanium.UI.SIZE
+ 	image: "/icon/ic_comment.png",
+ 	touchEnabled : false,
 }
 
 "#commentLabel" : {
-	left: "32dp",
+	left: "4dp",
  	height: Titanium.UI.SIZE,
  	width: Titanium.UI.SIZE,
- 	touchEnabled : true,
+ 	touchEnabled : false,
+ 	font: {
+			fontFamily: 'century-gothic',
+			fontSize: "12sp",
+		},
+	color: "#d54038",
 }
 
-"#switchBtn" : {
+".switch" : {
 	right: "8dp",
- 	height: Titanium.UI.SIZE,
- 	width: Titanium.UI.SIZE,
+ 	height: "24dp",
+ 	width: "64dp",
  	touchEnabled : true,
+ 	style: Titanium.UI.Android.SWITCH_STYLE_TOGGLEBUTTON, //Titanium.UI.Android.SWITCH_STYLE_SWITCH
+ 	//value: true,
+ 	backgroundImage: "/icon/sw_yes.png",
+ 	//backgroundColor: "transparent",
+ 	backgroundSelectedColor: "#8888",
+ 	titleOff: "",
+ 	titleOn: "",
+ 	bubbleParent: false,
 }
