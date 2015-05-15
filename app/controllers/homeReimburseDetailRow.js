@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
+var reimburses = Alloy.Collections.reimburse; //Alloy.Globals.homeListReimburse; //
 var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
 var comments = Alloy.Collections.comment;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
@@ -16,6 +17,7 @@ if ($model) {
 	$.homeReimburseDetailRow.rowid = $model.id;
 	var status = $model.get('status');
 	$.homeReimburseDetailRow.title = $model.get('title');
+	comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailId="+id});
 	$.commentLabel.text = comments.where({reimburseDetailId : id}).length;
 	if ($model.get('isDeleted') == 0) {
 		//$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
@@ -32,7 +34,12 @@ if ($model) {
 	//comments && comments.fetch({remove: false});
 	//$.switchBtn.removeEventListener("change", switchChange);
 	//$.switchBtn.addEventListener("change", switchChange);
-	$.switchBtn.value = true;
+	if ($.switchBtn.value == null) $.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
+	updateSwitch($.switchBtn, $.switchBtn.value);
+	var reimburse = reimburses.get($model.get('reimburseId'));
+	var parentstatus = reimburse.get('status');
+	$.switchBtn.touchEnabled = (parentstatus <= STATUSCODE[Const.Sent]);
+	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 }
 
 // toggle the "done" status of the IDed todo
@@ -69,7 +76,24 @@ function doDeleteClick(e){
 };
 
 function thumbPopUp(e) {
+	var aview = Ti.UI.createView({
+		width : "256dp",
+		height : "256dp",
+		backgroundColor : "#7777",
+		borderColor : Alloy.Globals.lightColor,
+		borderWidth : "1dp",
+		touchEnabled: false,
+	}); 
+	aview.add(Ti.UI.createImageView({
+		width: "256dp",
+		height : "256dp",
+		touchEnabled: false,
+		image: $.avatar.image,
+	}));
 	
+	Alloy.Globals.dialogView.removeAllChildren();
+	Alloy.Globals.dialogView.add(aview);
+	Alloy.Globals.dialogView.show();
 }
 
 function rowClick(e) {
@@ -85,14 +109,47 @@ function rowLongClick(e) {
 	//$.deleteDialog.show();
 }
 
-function switchChange(e) {
-	e.source.value = !e.source.value;
+function updateSwitch(sw, val) {
 	var style = $.createStyle({
 		classes : ["switch"],
 		apiName : 'Switch',
-		//backgroundImage: e.value == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
-		backgroundImage: e.source.value == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
+		//backgroundImage: val == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
+		backgroundImage: val == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
 	});
-	e.source.applyProperties(style); //bug? seems to cause other row's switch background to be changing on the first 3 rows, triggering some other's switch change event
+	sw.applyProperties(style); //bug? seems to cause other row's switch background to be changing on the first 3 rows, triggering some other's switch change event
+}
+
+Alloy.Globals.toggleUsed = false;
+function switchChange(e) {
+	if (!Alloy.Globals.toggleUsed) {
+		Alloy.Globals.toggleUsed = true;
+		if ($.switchBtn.touchEnabled) {
+			var reimburseDetail = reimburseDetails.get(id);
+			var reimburse = Alloy.Globals.homeListReimburse.get(reimburseDetail.get('reimburseId'));
+			if (reimburse.get('status') <= STATUSCODE[Const.Sent]) {	
+				$.switchBtn.value = !$.switchBtn.value;
+				updateSwitch($.switchBtn, $.switchBtn.value);
+
+				reimburseDetail.set({
+					"status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
+				});
+				reimburseDetail.save();
+				reimburseDetail.fetch({
+					remove : false
+				});
+
+				var amount = parseFloat(reimburseDetail.get('amount'));
+				reimburse.set({
+					"total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
+				});
+				reimburse.save();
+				reimburse.fetch({
+					remove : false
+				});
+				//Alloy.Globals.homeListReimburse.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});
+			}
+		}
+		Alloy.Globals.toggleUsed = false;
+	}
 }
 

@@ -109,15 +109,45 @@ function doSave(e) {
 function imageClick(e) {
 	if (!Alloy.Globals.cameraShown) {
 		Alloy.Globals.cameraShown = true;
-		var camera = require('camera').getImage(function(media) {
-			if (media != null) {
-				Ti.API.info("Click Image = " + media.nativePath);
-				$.image.image = media.nativePath;
-				//media;
-			}
-			Alloy.Globals.cameraShown = false;
+		//Create a dialog with options
+		var dialog = Ti.UI.createOptionDialog({
+			//title of dialog
+			title : 'Choose an image source...',
+			//options
+			options : ['Camera', 'Photo Gallery', 'Cancel'],
+			//index of cancel button
+			cancel : 2
 		});
-		//cameraShown = false;
+		
+		//add event listener
+		dialog.addEventListener('click', function(e) {
+			//if first option was selected
+			if (e.index == 0) {
+				var camera = require('camera').getImage(function(media) {
+					if (media != null) {
+						Ti.API.info("Click Image = " + media.nativePath);
+						$.image.image = media.nativePath; //media;
+					}
+					Alloy.Globals.cameraShown = false;
+				});
+				//cameraShown = false;
+			} 
+			else if(e.index == 1) {
+				//obtain an image from the gallery
+				var camera = require('camera').getImage(function(media) {
+					if (media != null) {
+						Ti.API.info("Click Image = " + media.nativePath);
+						$.image.image = media.nativePath; //media;
+					}
+					Alloy.Globals.cameraShown = false;
+				}, 1);
+			}
+			else {
+				//cancel was tapped
+				Alloy.Globals.cameraShown = false;
+			}
+		}); 
+		dialog.show();
 	}
 }
 

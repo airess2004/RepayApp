@@ -2,8 +2,8 @@
   <Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
   <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical"  className="reimburseRow2">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
-  		<View class="avatarView">
-    		<ImageView id="avatar" image="{userAvatar}" onClick="thumbPopUp"/>
+  		<View class="avatarView" onClick="thumbPopUp">
+    		<ImageView id="avatar" image="{userAvatar}" />
     	</View>
     	<View class="midView">
     		<!--Label id="userName" text="{userName}" /-->
@@ -19,7 +19,7 @@
     	<Require src="homeReimburseDetailRow"/>
     </View>
     <View class="vSplitter" />
-    <View class="bottomView" layout="vertical">
+    <View id="bottomView" layout="vertical" onLongclick="approveBtnClick">
     	<View class="totalView">
     		<Label class="totalLabel">Total : </Label>
     		<Label id="total" text="{total}"/>

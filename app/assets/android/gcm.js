@@ -80,7 +80,7 @@
 	notification.defaults |= Titanium.Android.DEFAULT_SOUND | Titanium.Android.DEFAULT_VIBRATE | Titanium.Android.DEFAULT_LIGHTS;
 	//notification.sound = Ti.Filesystem.getResRawDirectory() + "somesound.mp3"; // Raw Resource Dir is located at platform/android/res/raw
 	Ti.Android.NotificationManager.notify(notificationId, notification);
-
+	Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);
 	service.stop();
 
 })(Ti.Android.currentService);

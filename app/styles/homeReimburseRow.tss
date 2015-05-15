@@ -3,7 +3,8 @@
  	height: Titanium.UI.SIZE, //"200dp"
  	width: Titanium.UI.FILL,
  	position: "absolute",
- 	//backgroundColor: "transparent",
+ 	backgroundColor: "white",
+ 	backgroundSelectedColor: "white", //"#8888",
 }
 
 "#innerView" : {
@@ -19,7 +20,7 @@
 	width: Titanium.UI.FILL,
 	height: "1",
 	touchEnabled: false,
-	backgroundColor: "#dddd",
+	backgroundColor: "#eeee",
 	//top: "8dp",
 	//bottom: "8dp",
 }
@@ -27,13 +28,14 @@
 ".avatarView" : {
  	height: "64dp",
  	width: "64dp",
- 	touchEnabled : false,
+ 	touchEnabled : true,
  	backgroundColor: "gray",
  	borderRadius: "32dp",
- 	//borderColor: Alloy.Globals.darkColor,
- 	//borderWidth: "2dp",
+ 	borderColor: "#eeee",
+ 	borderWidth: "1dp",
  	top: "4dp",
  	left: "4dp",
+ 	bubbleParent: false,
 }
 
 "#avatar" : {
@@ -74,6 +76,7 @@
  	font: {
  		fontFamily: 'century-gothic',
  		fontSize: "14dp",
+ 		fontWeight: "bold",
  	}
 }
 
@@ -113,14 +116,16 @@
  	color: "black",
 }
 
-".bottomView": {
-	width: "33%" ,
+"#bottomView": {
+	width: "35%" ,
  	height: Titanium.UI.SIZE,
- 	touchEnabled : false, //true
  	top: "8dp",
  	right: "8dp",
  	bottom: "8dp",
  	layout: "vertical",
+ 	touchEnabled : true,
+ 	backgroundColor: "white",
+ 	backgroundSelectedColor: "#8888",
 }
 
 ".totalView": {
@@ -129,6 +134,7 @@
  	touchEnabled : false, //true
  	layout: "horizontal",
  	horizontalWrap: "false",
+ 	backgroundColor: "transparent",
 }
 
 ".totalLabel" : {
@@ -137,6 +143,7 @@
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	backgroundColor: "transparent",
  	color: "black",
  	minimumFontSize: "8sp",
  	font: {
@@ -154,6 +161,7 @@
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	backgroundColor: "transparent",
  	color: "black",
  	minimumFontSize: "8sp",
  	font: {
@@ -181,8 +189,8 @@
  	color: "white",
  	font: {
  		fontFamily: 'century-gothic',
- 		fontSize: "14dp",
- 		//fontWeight: "bold",
+ 		fontSize: "16dp",
+ 		fontWeight: "bold",
  	}
 }
 

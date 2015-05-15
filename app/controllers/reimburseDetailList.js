@@ -37,6 +37,7 @@ function windowClose(e) {
 	reimburseDetails = null;
 	reimburses = null;
 	if (data) {
+		Alloy.Globals.scrollableView.views[1].fireEvent("open", e);
 		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+args.id*/}});
 		data = null;
 	}

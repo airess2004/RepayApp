@@ -9,6 +9,7 @@ Alloy.Globals.index = $.index;
 Alloy.Globals.scrollableView = $.scrollableView;
 Alloy.Globals.leftAction = $.leftAction;
 Alloy.Globals.rightAction = $.rightAction;
+Alloy.Globals.dialogView = $.dialogView;
 
 var abx = require('com.alcoapps.actionbarextras');
 
@@ -20,6 +21,10 @@ $.scrollableView.prevPage = -1;
 
 function doClick(e) {
     //alert($.label1.text);
+}
+
+function dialogViewClick(e) {
+    $.dialogView.hide(); //visible = false;
 }
 
 function doMenuClick(evt) {
@@ -128,8 +133,8 @@ function mainViewOpen(e) {
 	//Alloy.Collections.reimburse.fetch({remove: false});
 	//Alloy.Collections.reimburseDetail.fetch({remove: false});
 	//Alloy.Collections.comment.fetch({remove: false});
-	//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("open");
-	updateTitle($.scrollableView.currentPage);
+	if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("refresh");
+	//updateTitle($.scrollableView.currentPage);
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks
@@ -205,13 +210,17 @@ function updateTitle(currentPage) {
 function scrollableViewScrollEnd(e) {
 	if (e.view && e.currentPage != e.source.prevPage) {
 		updateTitle(e.currentPage);
-		e.view.fireEvent("open");
+		e.view.fireEvent("refresh"); //"open"
 		e.source.prevPage = e.currentPage;
 	}
 }
 
+$.index.addEventListener('update', function(e) {
+	updateTitle($.scrollableView.currentPage);
+});
+
 $.index.addEventListener('refresh', function(e) {
-	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("open", e);
+	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("refresh", e);
 	//$.index.getActiveTab().getWindow().fireEvent("open", e);
 });
 

@@ -5,7 +5,7 @@ var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
 //var reimburseDetails = Alloy.Collections.reimburseDetail;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch({remove: false});
+reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 
 Alloy.Globals.homeListReimburse = $.localReimburse;
@@ -66,6 +66,11 @@ function showList(e) {
 	//comments && comments.fetch({remove: false});
 }
 
+$.homeList.addEventListener("refresh", function(e){
+	Alloy.Globals.index.fireEvent("update", e);
+	showList(e);
+});
+
 function thumbPopUp(e) {
 	
 }
@@ -77,6 +82,7 @@ $.homeList.addEventListener("open", function(e){
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
+	Alloy.Globals.scrollableView.scrollToView($.homeList);
 	//showList(e);
 	e.cancelBubble = true;
 });

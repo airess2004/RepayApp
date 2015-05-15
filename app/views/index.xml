@@ -73,7 +73,7 @@
 				<ImageView id="moreImg"></ImageView>
 			</View>
 		</View>
-		
+		<View id="dialogView" onClick="dialogViewClick" />
 		<!--Widget id="fa" src="/com.mattmcfarland.fontawesome"/-->
 	</Window>
 </Alloy>

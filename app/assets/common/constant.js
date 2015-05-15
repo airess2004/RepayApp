@@ -514,26 +514,26 @@ var STATUSCODE_COLOR = {
 
 var DETAILSTATUS = {
 	'0': Const.Open,
-	'1': Const.Rejected,
-	'2': Const.Approved,
+	'1': Const.Approved,
+	'2': Const.Rejected,
 };
 
 var DETAILSTATUSCODE = {
 	"Open" : 0,
-	"Rejected" : 1,
-	"Approved" : 2,
+	"Approved" : 1,
+	"Rejected" : 2,
 };
 
 var DETAILSTATUS_COLOR = {
 	'Open': "#0be",
-	'Rejected': "#aaa",
 	'Approved': "#0e8",
+	'Rejected': "#aaa",
 };
 
 var DETAILSTATUSCODE_COLOR = {
 	'0': "#0be",
-	'1': "#aaa",
-	'2': "#0e8",
+	'1': "#0e8",
+	'2': "#aaa",
 };
 
 //var statusStr = STATUS['0'];

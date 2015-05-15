@@ -4,7 +4,7 @@ var moment = require('alloy/moment');
 var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch({remove: false});
+reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0"});
 Alloy.Globals.reimburseListReimburse = $.localReimburse;
 
 // Sort Descending
@@ -56,6 +56,11 @@ function showList(e) {
 	reimburses && reimburses.fetch(e.param ? e.param : {remove:false});
 }
 
+$.reimburseList.addEventListener("refresh", function(e){
+	Alloy.Globals.index.fireEvent("update", e);
+	showList(e);
+});
+
 function thumbPopUp(e) {
 	
 }
@@ -67,6 +72,7 @@ $.reimburseList.addEventListener("open", function(e){
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
+	Alloy.Globals.scrollableView.scrollToView($.reimburseList);
 	//showList(e);
 	e.cancelBubble = true;
 });

@@ -1,12 +1,12 @@
 // For BlackBerry, you need to add the `use_camera` and `access_shared` permission in your project's tiapp.xml file.
 var maxImageResolution = 1280;
 
-exports.getImage = function(callback) {
+exports.getImage = function(callback, mode) {
 	//var win = Titanium.UI.currentWindow;
 
-	if (!Ti.Media.isCameraSupported) {
+	if (!Ti.Media.isCameraSupported || mode == 1) {
 		Ti.API.debug('Camera not found!');
-		alert('Camera not found!');
+		if (mode != 1) alert('Camera Not Found!');
 		if (Ti.Platform.name === 'mobileweb') {
 			if (callback) callback(null);
 			return null; // Mobile Web doesn't support camera/gallery? TODO: show dialog to browse for Image File
@@ -23,48 +23,50 @@ exports.getImage = function(callback) {
 			//allowEditing:true,
 			//mediaTypes:[Ti.Media.MEDIA_TYPE_VIDEO,Ti.Media.MEDIA_TYPE_PHOTO]
 		});
-	}
+	} else { // have camera
+		var overlay = Ti.UI.createView({
+			height : Ti.UI.SIZE,
+			width : Ti.UI.SIZE,
+			layout : 'vertical'
+		});
+		var cameraType = Ti.UI.createButton({
+			title : 'Front'
+		});
 
-	var overlay = Ti.UI.createView({
-		height : Ti.UI.SIZE,
-		width : Ti.UI.SIZE,
-		layout: 'vertical'
-	});
-	var cameraType = Ti.UI.createButton({title: 'Front'});
-
-	var cameras = Ti.Media.availableCameras;
-	if (cameras != null)
-	for (c = 0; c < cameras.length; c++) {
-		// if we have a rear camera ... we add switch button
-		if (cameras[c] == Ti.Media.CAMERA_REAR) {
-			overlay.add(cameraType);
-			cameraType.addEventListener('click', function() {
-				Ti.API.info('Current camera is: ' + Ti.Media.camera + ' (Front='+Ti.Media.CAMERA_FRONT+')');
-				// BUG: Couldn't switch back to Rear after switching from Rear to Front
-				if (Ti.Media.camera == Ti.Media.CAMERA_FRONT) {
-					cameraType.title = "Front";
-					Ti.Media.switchCamera(Ti.Media.CAMERA_REAR);
-				} else {
-					cameraType.title = "Rear";
-					Ti.Media.switchCamera(Ti.Media.CAMERA_FRONT);
+		var cameras = Ti.Media.availableCameras;
+		if (cameras != null)
+			for ( c = 0; c < cameras.length; c++) {
+				// if we have a rear camera ... we add switch button
+				if (cameras[c] == Ti.Media.CAMERA_REAR) {
+					overlay.add(cameraType);
+					cameraType.addEventListener('click', function() {
+						Ti.API.info('Current camera is: ' + Ti.Media.camera + ' (Front=' + Ti.Media.CAMERA_FRONT + ')');
+						// BUG: Couldn't switch back to Rear after switching from Rear to Front
+						if (Ti.Media.camera == Ti.Media.CAMERA_FRONT) {
+							cameraType.title = "Front";
+							Ti.Media.switchCamera(Ti.Media.CAMERA_REAR);
+						} else {
+							cameraType.title = "Rear";
+							Ti.Media.switchCamera(Ti.Media.CAMERA_FRONT);
+						}
+					});
+					break;
 				}
-			});
-			break;
-		}
-	}
+			}
 
-	//Ti.Media.switchCamera(Ti.Media.CAMERA_REAR);
-	Ti.Media.showCamera({//openPhotoGallery
-		success : callbackSuccess,
-		cancel : callbackCancel,
-		error : callbackError,
-		//overlay : overlay,
-		showControls : true,
-		saveToPhotoGallery : false,
-		// allowEditing and mediaTypes are iOS-only settings
-		//allowEditing:true,
-		//mediaTypes:[Ti.Media.MEDIA_TYPE_VIDEO,Ti.Media.MEDIA_TYPE_PHOTO]
-	});
+		//Ti.Media.switchCamera(Ti.Media.CAMERA_REAR);
+		Ti.Media.showCamera({//openPhotoGallery
+			success : callbackSuccess,
+			cancel : callbackCancel,
+			error : callbackError,
+			//overlay : overlay,
+			showControls : true,
+			saveToPhotoGallery : false,
+			// allowEditing and mediaTypes are iOS-only settings
+			//allowEditing:true,
+			//mediaTypes:[Ti.Media.MEDIA_TYPE_VIDEO,Ti.Media.MEDIA_TYPE_PHOTO]
+		}); 
+	}
 
 	function callbackSuccess(event) {
 		// called when media returned from the camera/gallery

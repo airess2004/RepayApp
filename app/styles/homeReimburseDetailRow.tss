@@ -14,7 +14,7 @@
 	width: Titanium.UI.FILL,
 	height: "1",
 	touchEnabled: false,
-	backgroundColor: "#dddd",
+	backgroundColor: "#eeee",
 	//top: "8dp",
 	//bottom: "8dp",
 }
@@ -36,6 +36,7 @@
  	borderColor: "darkgray",
  	borderWidth: "1dp",
  	top: "4dp",
+ 	bubbleParent: false,
 }
 
 "#avatar" : {
@@ -62,13 +63,15 @@
  	font: {
 			fontFamily: 'century-gothic',
 			fontSize: "14sp",
+			//fontWeight: "bold",
 		},
 }
 
-".rightView" : {
+"#rightView" : {
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.SIZE, //Titanium.UI.FILL,
- 	touchEnabled : false,
+ 	height: "64dp", //Titanium.UI.SIZE, //Titanium.UI.FILL,
+ 	touchEnabled : true,
+ 	bubbleParent: false,
 }
 
 "#date" : {

@@ -87,19 +87,18 @@ function doResetClick(e) {
 	}
 	Alloy.Globals.clickUsed = false;
 };
-	
-var resetDialog = Ti.UI.createAlertDialog({
-	//title: "Confirm",
-	message: "Send password reset email?",
-	buttonNames: ["Yes","No"],
-	cancel: 1
-});
-resetDialog.addEventListener('click', doResetClick); 
 	 
 Alloy.Globals.clickUsed = false;
 function showResetDialog(e) {
 	if (!Alloy.Globals.clickUsed) {
 		Alloy.Globals.clickUsed = true;
+		var resetDialog = Ti.UI.createAlertDialog({
+			//title: "Confirm",
+			message : "Send password reset email?",
+			buttonNames : ["Yes", "No"],
+			cancel : 1
+		});
+		resetDialog.addEventListener('click', doResetClick);
 		resetDialog.show();
 	}
 };

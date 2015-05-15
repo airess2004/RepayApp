@@ -4,7 +4,9 @@
     		<Label id="tab3Title">Setting</Label>
   		</TitleControl-->
 		<ScrollView layout = "vertical">
-			<ImageView class="avatar"></ImageView>
+			<View id="avatarView">
+				<ImageView class="avatar"></ImageView>
+			</View>
 			<Label id="status" text="username@repay.com"/>
 			<Button id="signOutButton" title="Sign Out" onClick="signOutClick" width="Ti.UI.FILL"></Button>
 			<Button id="syncButton" title="Sync Now" onClick="syncClick" width="Ti.UI.FILL"></Button>

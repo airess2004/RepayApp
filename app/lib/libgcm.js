@@ -61,6 +61,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		// when a gcm notification is received WHEN the app IS IN FOREGROUND
 		var dataStr = JSON.stringify(data);
 		alert("Data: "+dataStr);
+		Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);
 		if (foregroundCallback) foregroundCallback(data);
 	};
 
@@ -84,6 +85,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		var dataStr = JSON.stringify(data);
 		Ti.API.info('******* data (resumed) ' + dataStr);
 		alert("Background Data: "+dataStr);
+		Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);
 		if (backgroundCallback) backgroundCallback(data);
 	};
 	

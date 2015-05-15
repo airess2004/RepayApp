@@ -39,8 +39,8 @@ function transformFunction(model) {
 	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
-	if (transform.name && String.format(transform.name).length > 30)
-		transform.name = transform.name.substring(0, 27) + "...";
+	if (transform.name && String.format(transform.name).length > 25)
+		transform.name = transform.name.substring(0, 22) + "...";
 	return transform;
 }
 
@@ -61,6 +61,7 @@ if ($model) {
 		// $.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
 		// $.approveBtn.borderRadius = (status == STATUSCODE[Const.Sent]) ? "8dp" : 0;
 		$.innerView.touchEnabled = (status == STATUSCODE[Const.Sent]);
+		$.bottomView.touchEnabled = $.innerView.touchEnabled;
 		$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
 		$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
 		$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
@@ -72,10 +73,11 @@ if ($model) {
 		// $.approveBtn.touchEnabled = false;
 		// $.approveBtn.text = STATUS[status];
 		$.innerView.touchEnabled = false;
+		$.bottomView.touchEnabled = $.innerView.touchEnabled;
 		//$.avatar.image = '/tick_64.png';
 	}
 	// wait for parent id to be available before fetching details
-	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+$model.id});
+	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+$model.id});
 }
 
 // reimburses.on('change:status', function(e){
@@ -108,7 +110,24 @@ if ($model) {
 // }
 
 function thumbPopUp(e) {
+	var aview = Ti.UI.createView({
+		width : "256dp",
+		height : "256dp",
+		backgroundColor : "#7777",
+		borderColor : Alloy.Globals.lightColor,
+		borderWidth : "1dp",
+		touchEnabled: false,
+	}); 
+	aview.add(Ti.UI.createImageView({
+		width: "256dp",
+		height : "256dp",
+		touchEnabled: false,
+		image: $.avatar.image,
+	}));
 	
+	Alloy.Globals.dialogView.removeAllChildren();
+	Alloy.Globals.dialogView.add(aview);
+	Alloy.Globals.dialogView.show();
 }
 
 function rowClick(e) {
@@ -124,6 +143,12 @@ function approveReimburse(id) {
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
+	// var dets = reimburseDetails.where({
+		// isDeleted : 0,
+		// reimburseId : $.homeReimburseRow.rowid
+	// });
+	// if (!dets) dets = [];
+	// TODO: update detail's status
 	reimburse.set({"status": STATUSCODE[Const.Closed]});
 	reimburse.save();
 	// reimburse.save(null, {
@@ -135,6 +160,7 @@ function approveReimburse(id) {
             // }
         // });
 	//reimburses.fetch({remove: false});
+	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
 	if (Alloy.Globals.gcmRegId) {
 		libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 			title: "Reimburse ID:"+id,
@@ -161,7 +187,7 @@ function approveBtnClick(e) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
 		if (!id) id = e.source.parent.parent.rowid;
-		
+		// Creates AlertDialog on-the-fly to prevent crashing issue when showing alertdialog created in XML
 		var approveDialog = Ti.UI.createAlertDialog({
 			title : "Confirm",
 			message : "Are you sure you want to approve/reject marked receipts?",

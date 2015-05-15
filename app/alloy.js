@@ -132,6 +132,7 @@ function addReimburseDetail(item) {
         amount : item.amount,
         urlImageSmall: item.urlImageSmall,
         urlImageMedium: item.urlImageMedium,
+        urlImageOriginal: item.urlImageOriginal,
         isDeleted : 0,
     });
 
@@ -198,7 +199,7 @@ function fillTestData() {
 		var status = Math.round(Math.random()*2);
 		var total = Math.round(Math.random()*1000)*1000 + 10000;
 		var parent = addReimburse({
-			title : "Proyek"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgkjshgkjdhg",
+			title : "Proyek"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgk jshgkjdhg",
 			total : total,
 			status : status,
 			sentDate : status >= STATUSCODE[Const.Sent] ? moment().subtract(i, "days").format(dateFormat) : null,
@@ -206,10 +207,10 @@ function fillTestData() {
 		});
 		var detail = addReimburseDetail({
 			reimburseId : parent.id,
-			name : "Merchant"+i,
+			name : "Merchant"+i+"  lhltyhroihergksfsjfhsgkjkrjbkrjgbrjgbkjgbkjfgbkjbgjfgbjbgbjb kuryowerou",
 			description : "znnfhtdkjugkjfxgffdhgfhhhlkjhhgdgfbkbjtddfdgfhfsggfshfkhkjh sadpouoiyrtyu",
 			amount : total,
-			status : status,
+			status : status <= STATUSCODE[Const.Sent] ? DETAILSTATUSCODE[Const.Open] : Math.round(Math.random()+1),
 			urlImageSmall : "/icon/ic_action_photo.png",
 			urlImageMedium : "/icon/ic_action_photo.png",
 			urlImageOriginal : "/icon/ic_action_photo.png",

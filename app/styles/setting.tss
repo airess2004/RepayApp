@@ -3,12 +3,23 @@
  	bubbleParent: false,
 }
 
+"#avatarView" : {
+ 	height: "128dp",
+ 	width: "128dp",
+ 	touchEnabled : true,
+ 	backgroundColor : "gray",
+ 	top :"8dp",
+ 	borderColor: Alloy.Globals.darkColor,
+ 	borderRadius: "64dp",
+ 	borderWidth: "2dp",
+}
+
 ".avatar" : {
- 	height: "120dp",
- 	width: "120dp",
+ 	height: "128dp",
+ 	width: "128dp",
  	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
- 	backgroundColor : "gray",
- 	top :"8dp"
+ 	//backgroundColor : "gray",
+ 	//top :"8dp"
  	
 }

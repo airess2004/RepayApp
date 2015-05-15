@@ -6,6 +6,7 @@ exports.definition = {
 			name : "string",
 			receiptDate : "datetime",
 			isDeleted : "boolean",
+			status: "integer",
 			amount : "double",
 			description : "string",
 			dateCreated : "datetime",
