@@ -6,6 +6,7 @@
 	title = serviceIntent.hasExtra('title') ? serviceIntent.getStringExtra('title') : '',
 	statusBarMessage = serviceIntent.hasExtra('message') ? serviceIntent.getStringExtra('message') : '',
 	message = serviceIntent.hasExtra('message') ? serviceIntent.getStringExtra('message') : '',
+	date = serviceIntent.hasExtra('date') ? serviceIntent.getStringExtra('date') : '',
 	notificationId = (function () {
 		// android notifications ids are int32
 		// java int32 max value is 2.147.483.647, so we cannot use javascript millis timpestamp
@@ -41,8 +42,8 @@
 	// create launcher intent
 	var ntfId = Ti.App.Properties.getInt('ntfId', 0),
 	launcherIntent = Ti.Android.createIntent({
-		className: "com.reimburseapp.repay.RepayAppActivity", //'net.iamyellow.gcmjs.GcmjsActivity', //'<app_id>.<appname>Activity'
-		action: 'action' + ntfId, // we need an action identifier to be able to track click on notifications
+		className: Ti.App.id+".RepayappActivity", //'org.appcelerator.titanium.TiActivity' //'net.iamyellow.gcmjs.GcmjsActivity', //'<app_id>.<appname>Activity' //activity filename located in \build\android\bin\classes\<app_id>\
+		action: 'action' + ntfId, //Ti.Android.ACTION_MAIN // we need an action identifier to be able to track click on notifications
 		packageName: Ti.App.id,
 		flags: Ti.Android.FLAG_ACTIVITY_NEW_TASK | Ti.Android.FLAG_ACTIVITY_SINGLE_TOP
 	});
@@ -66,7 +67,10 @@
 
 	// create notification
 	var pintent = Ti.Android.createPendingIntent({
-		intent: launcherIntent
+		intent: launcherIntent,
+		//activity : Ti.Android.currentActivity,
+    	//type : Ti.Android.PENDING_INTENT_FOR_ACTIVITY, //Ti.Android.PENDING_INTENT_FOR_ACTIVITY
+    	//flags : Ti.Android.FLAG_ACTIVITY_NO_HISTORY
 	}),
 	notification = Ti.Android.createNotification({
 		contentIntent: pintent,
@@ -74,10 +78,13 @@
 		contentTitle: title,
 		contentText: message,
 		tickerText: statusBarMessage,
+		when: new Date(date), //(new Date()).getTime(), //show timing in notification
 		icon: Ti.App.Android.R.drawable.appicon,
+		//sound: "default",
+		defaults: Titanium.Android.DEFAULT_ALL, //Titanium.Android.NotificationManager.DEFAULT_ALL, //
 		flags: Ti.Android.FLAG_AUTO_CANCEL | Ti.Android.FLAG_SHOW_LIGHTS
 	});
-	notification.defaults |= Titanium.Android.DEFAULT_SOUND | Titanium.Android.DEFAULT_VIBRATE | Titanium.Android.DEFAULT_LIGHTS;
+	//notification.defaults |= Titanium.Android.DEFAULT_SOUND | Titanium.Android.DEFAULT_VIBRATE | Titanium.Android.DEFAULT_LIGHTS | Titanium.Android.DEFAULT_ALL;
 	//notification.sound = Ti.Filesystem.getResRawDirectory() + "somesound.mp3"; // Raw Resource Dir is located at platform/android/res/raw
 	Ti.Android.NotificationManager.notify(notificationId, notification);
 	Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);

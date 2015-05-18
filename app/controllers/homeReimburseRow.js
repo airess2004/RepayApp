@@ -159,12 +159,13 @@ function approveReimburse(id) {
                 // alert("Error saving!");
             // }
         // });
-	//reimburses.fetch({remove: false});
-	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+	reimburse.fetch({remove: false}); //reimburses.fetch({remove: false});
+	//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
 	if (Alloy.Globals.gcmRegId) {
 		libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 			title: "Reimburse ID:"+id,
-			message:"Reimburse ID:"+id+" has been approved by "+Alloy.Globals.CURRENT_USER
+			message:"Reimburse Titled:'"+reimburse.get('title')+"' has been approved by '"+Alloy.Globals.CURRENT_USER+"'",
+			date: moment().toISOString(),
 		}, function(ret) {
 			if (ret.error) alert("Error : "+ret.error);
 		});

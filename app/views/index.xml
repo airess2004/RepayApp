@@ -69,7 +69,7 @@
 					<ImageView id="receiptImg"></ImageView>
 				</View>			
 			</View>
-			<View class="moreBtn" >
+			<View class="moreBtn" visible="false">
 				<ImageView id="moreImg"></ImageView>
 			</View>
 		</View>

@@ -210,7 +210,7 @@ function fillTestData() {
 			name : "Merchant"+i+"  lhltyhroihergksfsjfhsgkjkrjbkrjgbrjgbkjgbkjfgbkjbgjfgbjbgbjb kuryowerou",
 			description : "znnfhtdkjugkjfxgffdhgfhhhlkjhhgdgfbkbjtddfdgfhfsggfshfkhkjh sadpouoiyrtyu",
 			amount : total,
-			status : status <= STATUSCODE[Const.Sent] ? DETAILSTATUSCODE[Const.Open] : Math.round(Math.random()+1),
+			status : status <= STATUSCODE[Const.Sent] ? DETAILSTATUSCODE[Const.Open] : DETAILSTATUSCODE[Const.Approved], //Math.round(Math.random()+1),
 			urlImageSmall : "/icon/ic_action_photo.png",
 			urlImageMedium : "/icon/ic_action_photo.png",
 			urlImageOriginal : "/icon/ic_action_photo.png",

@@ -130,26 +130,40 @@ function switchChange(e) {
 				$.switchBtn.value = !$.switchBtn.value;
 				updateSwitch($.switchBtn, $.switchBtn.value);
 
-				reimburseDetail.set({
+				// reimburseDetail.set({
+					// "status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
+				// });
+				reimburseDetail.save({
 					"status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
-				});
-				reimburseDetail.save();
-				reimburseDetail.fetch({
-					remove : false
-				});
-
-				var amount = parseFloat(reimburseDetail.get('amount'));
-				reimburse.set({
-					"total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
-				});
-				reimburse.save();
-				reimburse.fetch({
-					remove : false
-				});
-				//Alloy.Globals.homeListReimburse.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});
+				}, {success :function(mdl){
+					mdl.fetch({
+						remove : false
+					});
+					var amount = parseFloat(mdl.get('amount'));
+					var reimburse = Alloy.Globals.homeListReimburse.get(mdl.get('reimburseId'));
+					// reimburse.set({
+						// "total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
+					// });
+					reimburse.save({
+						"total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
+					}, {success :function(parmdl){
+						parmdl.fetch({
+							remove : false
+						});
+						Alloy.Globals.toggleUsed = false;
+					}, error: function(){
+						Alloy.Globals.toggleUsed = false;
+					}});
+					//Alloy.Globals.homeListReimburse.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});
+				}, error: function(){
+					Alloy.Globals.toggleUsed = false;
+				}});
+			} else {
+				Alloy.Globals.toggleUsed = false;
 			}
+		} else {
+			Alloy.Globals.toggleUsed = false;
 		}
-		Alloy.Globals.toggleUsed = false;
 	}
 }
 

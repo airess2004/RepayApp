@@ -45,25 +45,28 @@
             <!--application android:debuggable="false" android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light"-->
             <application android:debuggable="false"
                 android:screenOrientation="portrait" android:theme="@style/Theme.Repayapp1">
-                <receiver
-                    android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
-                    <!--intent-filter>      
-            			<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                   		<action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-                        <category android:name="android.intent.category.DEFAULT" />
-                	</intent-filter-->
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>
-                </receiver>
+                <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" />
+                <!--activity android:configChanges="keyboardHidden|orientation|screenSize"
+                	android:alwaysRetainTaskState="true"
+                	android:name=".RepayappActivity"
+                	android:launchMode="singleTop"-->
+                   	<!--intent-filter>
+                       	<action android:name="android.intent.action.MAIN"/>
+                       	<category android:name="android.intent.category.LAUNCHER"/>
+                   	</intent-filter-->
+                <!--/activity-->
             </application>
             <!--application android:debuggable="false" android:theme="@style/Theme.Titanium"/-->
             <uses-sdk android:minSdkVersion="10"/>
             <uses-permission android:name="android.permission.VIBRATE"/>
             <uses-permission android:name="android.permission.SOUND"/>
             <uses-permission android:name="android.permission.LIGHTS"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+    		<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
         </manifest>
+        <!--services>
+            <service type="interval" url="gcm.js"/>
+        </services-->
     </android>
     <mobileweb>
         <precache/>
@@ -73,6 +76,7 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
+    <property name="acs-grouped-notification-message" type="string">You have $number$ unread messages.</property>
     <property name="GCM_sender_id" type="string">876696965882</property>
     <modules>
         <module platform="android">net.iamyellow.gcmjs</module>

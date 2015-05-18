@@ -12,6 +12,16 @@
 		};
 	}
 	
+	if (intent.hasExtra('title')) {
+		// and then we'll use 'data' property to pass info to the app (see pendingData lines of the 1st snippet)
+		gcm.data.title = intent.getStringExtra('title', "");
+	}
+	
+	if (intent.hasExtra('message')) {
+		// and then we'll use 'data' property to pass info to the app (see pendingData lines of the 1st snippet)
+		gcm.data.msg = intent.getStringExtra('message', "");
+	}
+	
 	// 'isLauncherActivity' is a module property which tell us if the app is not running
 	if (gcm.isLauncherActivity) {
 		// if the app is not running, we need to start our app launcher activity

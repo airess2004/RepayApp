@@ -17,11 +17,17 @@ Alloy.Globals.logging = false;
 function onSignInClick(e) {
 	Ti.API.info("You clicked the button");
 	if (!Alloy.Globals.logging) {
+		if (Alloy.Globals.gcmRegId==null || Alloy.Globals.gcmRegId=="") {
+			libgcm.registerGCM(function(evt) {
+				Alloy.Globals.gcmRegId = evt.deviceToken;
+			});
+		}
 		// EXPIRED_TIME = moment().add(2, 'hours');
 		var item = {
 			username : $.userField.value ? $.userField.value : '',
 			passwordHash : $.passField.value,
 			//fullname : nameField.value,
+			deviceToken: Alloy.Globals.gcmRegId,
 		};
 		// Validation
 		if (item.username == null || item.username == "") {

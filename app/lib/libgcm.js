@@ -6,18 +6,35 @@ var HTTP_OK = 200;
 var testDeviceToken = "APA91bFwcRxRpwjx0vXgFFB4en2tWcBEhTcTA42SzzGNTYEhB6mZPicl9LXWqLIsY312gAwxg_eBvj4KAm9Cmh9-V6VqAerwjOY2pShsJ5ch39EnumFkuWJ0wcN1Gygmcm8ZwqGdbVGT_-W6Q_DXFfYR2wiP9wZ1Kg"; //Adam's KTouch Octa
 var testDeviceToken2 = "APA91bFHJv7cIKzR8n22aSgt4k1d0NBpO1A8uCOpMOviLZkpGdt4j52tlvZWV2NX9jr5nstWeGgXdkK8o-ATfOGC40fkeRJPqgbFrcTAK6jwyfpCJfPPSXTniCpkIEJ3I5HXRt9j8f8d1hfZKy8qUw3GhbkQzJ-S9g"; //Johan's Andromax
 
+exports.Bundle2JSON = function(bundle) {
+	var obj = bundle.replace("Bundle[{","").replace(/}]$/,"").split(", ");
+	for (var key in obj) {
+		var keyval = obj[key].split(/=(.+)/).filter(function(el) {return el.length != 0;});;
+		//keyval.length -= 1;
+		obj[key] = '"' + keyval.join('":"') + '"';
+	}
+	return JSON.parse("{"+obj.join(", ")+"}");
+};
+
 exports.registerGCM = function(successCallback, foregroundCallback, backgroundCallback, pendingCallback) {
 	var gcm = require('net.iamyellow.gcmjs');
-
 	var pendingData = gcm.data;
 	if (pendingData && pendingData !== null) {
 		// if we're here is because user has clicked on the notification
 		// and we set extras for the intent
 		// and the app WAS NOT running
 		// (don't worry, we'll see more of this later)
+		var ntfId = pendingData.ntfId; //Clicked notification Id
 		var pendingDataStr = JSON.stringify(pendingData);
-		Ti.API.info('******* data (started) ' +pendingDataStr );
-		alert("Pending Data: "+pendingDataStr);
+		var bundle = exports.Bundle2JSON(pendingData.message); //truncate "Bundle" prefix
+		Ti.API.info('******* data (started) ' +pendingDataStr  + pendingData.msg);
+		//alert("Pending Data: "+pendingDataStr);
+		Ti.UI.createAlertDialog({
+			title: bundle.title,
+			message: bundle.message,
+			buttonNames: ["OK"],
+			modal: true,
+		}).show({modal: true});
 		if (pendingCallback) pendingCallback(pendingData);
 	}
 
@@ -60,8 +77,16 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 	var receivePush = function(data) {
 		// when a gcm notification is received WHEN the app IS IN FOREGROUND
 		var dataStr = JSON.stringify(data);
-		alert("Data: "+dataStr);
+		var bundle = exports.Bundle2JSON(data.message); //truncate "Bundle" prefix
+		Ti.API.info('******* data (foreground) ' + dataStr+data.msg);
 		Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);
+		//alert("Data: "+dataStr);
+		Ti.UI.createAlertDialog({
+			title: bundle.title,
+			message: bundle.message,
+			buttonNames: ["OK"],
+			modal: true,
+		}).show({modal: true});
 		if (foregroundCallback) foregroundCallback(data);
 	};
 
@@ -83,9 +108,16 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		// and the app WAS RUNNING (=> RESUMED)
 		// (again don't worry, we'll see more of this later)
 		var dataStr = JSON.stringify(data);
-		Ti.API.info('******* data (resumed) ' + dataStr);
-		alert("Background Data: "+dataStr);
+		var bundle = exports.Bundle2JSON(data.message);
+		Ti.API.info('******* data (resumed) ' + dataStr+data.msg);
 		Ti.Media.vibrate([ 0, 250, 100, 250, 100, 250 ]);
+		//alert("Background Data: "+dataStr);
+		Ti.UI.createAlertDialog({
+			title: bundle.title,
+			message: bundle.message,
+			buttonNames: ["OK"],
+			modal: true,
+		}).show({modal: true});
 		if (backgroundCallback) backgroundCallback(data);
 	};
 	
