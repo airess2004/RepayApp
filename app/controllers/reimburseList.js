@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
+var filter = { isDeleted: 0 };
 
 // fetch existing todo items from storage
 reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0"});
@@ -17,7 +18,7 @@ Alloy.Globals.reimburseListReimburse = $.localReimburse;
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
-	var ret = collection.where({ isDeleted: 0 });
+	var ret = collection.where(filter);
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
 		 // return -(moment.parseZone(model.get('projectDate')).unix());
@@ -36,8 +37,9 @@ function whereFunction(collection) {
 function transformFunction(model) {
 	var transform = model.toJSON();
 	transform.status = STATUS[transform.status];
-	transform.total = String.formatDecimal(transform.total) + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
-	if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
+	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
+	transform.total = "Rp." + String.formatDecimal(transform.total); // + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
+	if (transform.title && String.format(transform.title).length > 25) transform.title = transform.title.substring(0,22)+"...";
 	return transform;
 }
 
@@ -56,14 +58,36 @@ function showList(e) {
 	reimburses && reimburses.fetch(e.param ? e.param : {remove:false});
 }
 
+function showAllClick(e) {
+	filter = { isDeleted: 0 };
+	showList(e);
+}
+
+function openBtnClick(e) {
+	filter = { isDeleted: 0, status: STATUSCODE[Const.Open] };
+	showList(e);
+}
+
+function pendBtnClick(e) {
+	filter = { isDeleted: 0, status: STATUSCODE[Const.Pending] };
+	showList(e);
+}
+
+function closedBtnClick(e) {
+	filter = { isDeleted: 0, status: STATUSCODE[Const.Closed] };
+	showList(e);
+}
+
+function thumbPopUp(e) {
+	
+}
+
 $.reimburseList.addEventListener("refresh", function(e){
 	Alloy.Globals.index.fireEvent("update", e);
 	showList(e);
 });
 
-function thumbPopUp(e) {
-	
-}
+
 
 $.reimburseList.addEventListener("open", function(e){
 	e.bubbles = false;

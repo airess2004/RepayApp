@@ -31,7 +31,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		//alert("Pending Data: "+pendingDataStr);
 		Ti.UI.createAlertDialog({
 			title: bundle.title,
-			message: bundle.message,
+			message: bundle.message+" on "+moment.parseZone(bundle.date).local().format("DD/MM/YYYY HH:mm"),
 			buttonNames: ["OK"],
 			modal: true,
 		}).show({modal: true});
@@ -83,7 +83,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		//alert("Data: "+dataStr);
 		Ti.UI.createAlertDialog({
 			title: bundle.title,
-			message: bundle.message,
+			message: bundle.message+" on "+moment.parseZone(bundle.date).local().format("DD/MM/YYYY HH:mm"),
 			buttonNames: ["OK"],
 			modal: true,
 		}).show({modal: true});
@@ -114,7 +114,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 		//alert("Background Data: "+dataStr);
 		Ti.UI.createAlertDialog({
 			title: bundle.title,
-			message: bundle.message,
+			message: bundle.message+" on "+moment.parseZone(bundle.date).local().format("DD/MM/YYYY HH:mm"),
 			buttonNames: ["OK"],
 			modal: true,
 		}).show({modal: true});

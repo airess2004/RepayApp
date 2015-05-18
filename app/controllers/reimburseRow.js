@@ -16,13 +16,13 @@ if ($model) {
 	var status = $model.get('status');
 	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-		$.innerView.backgroundColor = 'lightgray';
+		//$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
+		//$.innerView.backgroundColor = 'lightgray';
 		$.status.backgroundColor = STATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.innerView.backgroundColor = 'white';
+		//$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
+		//$.innerView.backgroundColor = 'white';
 		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
 	}
@@ -56,7 +56,24 @@ function deleteItem(id) {
 }
 
 function thumbPopUp(e) {
+	var aview = Ti.UI.createView({
+		width : "256dp",
+		height : "256dp",
+		backgroundColor : "#7777",
+		borderColor : Alloy.Globals.lightColor,
+		borderWidth : "1dp",
+		touchEnabled: false,
+	}); 
+	aview.add(Ti.UI.createImageView({
+		width: "256dp",
+		height : "256dp",
+		touchEnabled: false,
+		image: $.avatar.image,
+	}));
 	
+	Alloy.Globals.dialogView.removeAllChildren();
+	Alloy.Globals.dialogView.add(aview);
+	Alloy.Globals.dialogView.show();
 }
 
 Alloy.Globals.rowClickUsed = false;

@@ -202,7 +202,7 @@ function fillTestData() {
 			title : "Proyek"+i+"  sadjhgaskfjhadjfhldahsjghksdjghksjhgksjhgksjhgfjhgkjdshgk jshgkjdhg",
 			total : total,
 			status : status,
-			sentDate : status >= STATUSCODE[Const.Sent] ? moment().subtract(i, "days").format(dateFormat) : null,
+			sentDate : status >= STATUSCODE[Const.Pending] ? moment().subtract(i, "days").format(dateFormat) : null,
 			projectDate : moment().subtract(i, "days").format(dateFormat)
 		});
 		var detail = addReimburseDetail({
@@ -210,7 +210,7 @@ function fillTestData() {
 			name : "Merchant"+i+"  lhltyhroihergksfsjfhsgkjkrjbkrjgbrjgbkjgbkjfgbkjbgjfgbjbgbjb kuryowerou",
 			description : "znnfhtdkjugkjfxgffdhgfhhhlkjhhgdgfbkbjtddfdgfhfsggfshfkhkjh sadpouoiyrtyu",
 			amount : total,
-			status : status <= STATUSCODE[Const.Sent] ? DETAILSTATUSCODE[Const.Open] : DETAILSTATUSCODE[Const.Approved], //Math.round(Math.random()+1),
+			status : status <= STATUSCODE[Const.Pending] ? DETAILSTATUSCODE[Const.Open] : DETAILSTATUSCODE[Const.Approved], //Math.round(Math.random()+1),
 			urlImageSmall : "/icon/ic_action_photo.png",
 			urlImageMedium : "/icon/ic_action_photo.png",
 			urlImageOriginal : "/icon/ic_action_photo.png",

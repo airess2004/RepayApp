@@ -38,7 +38,7 @@ if ($model) {
 	updateSwitch($.switchBtn, $.switchBtn.value);
 	var reimburse = reimburses.get($model.get('reimburseId'));
 	var parentstatus = reimburse.get('status');
-	$.switchBtn.touchEnabled = (parentstatus <= STATUSCODE[Const.Sent]);
+	$.switchBtn.touchEnabled = (parentstatus <= STATUSCODE[Const.Pending]);
 	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 }
 
@@ -126,7 +126,7 @@ function switchChange(e) {
 		if ($.switchBtn.touchEnabled) {
 			var reimburseDetail = reimburseDetails.get(id);
 			var reimburse = Alloy.Globals.homeListReimburse.get(reimburseDetail.get('reimburseId'));
-			if (reimburse.get('status') <= STATUSCODE[Const.Sent]) {	
+			if (reimburse.get('status') <= STATUSCODE[Const.Pending]) {	
 				$.switchBtn.value = !$.switchBtn.value;
 				updateSwitch($.switchBtn, $.switchBtn.value);
 

@@ -4,6 +4,19 @@
 		<!--TitleControl>
     		<Label id="tab2Title">Reimburse</Label>
   		</TitleControl-->
+  		<View class="topBar" >
+  			<View id="openBtn" onClick="openBtnClick">
+  				<Label class="btnLabel">OPEN</Label>
+  			</View>
+  			<View id="pendBtn" onClick="pendBtnClick">
+  				<Label class="btnLabel">PENDING</Label>
+  			</View>
+  			<View id="closedBtn" onClick="closedBtnClick">
+  				<Label class="btnLabel">CLOSED</Label>
+  			</View>
+  			<Label id="showAll" onClick="showAllClick"> SHOW ALL </Label>
+  		</View>
+  		<View class="vSplitter" />
 		<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
 			<Require src="reimburseRow"/>
 		</TableView>

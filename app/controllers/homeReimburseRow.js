@@ -57,12 +57,12 @@ if ($model) {
 		//$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		//$.innerView.backgroundColor = 'lightgray';
 		// $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-		// $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
+		// $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Pending]); //Pending
 		// $.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
-		// $.approveBtn.borderRadius = (status == STATUSCODE[Const.Sent]) ? "8dp" : 0;
-		$.innerView.touchEnabled = (status == STATUSCODE[Const.Sent]);
+		// $.approveBtn.borderRadius = (status == STATUSCODE[Const.Pending]) ? "8dp" : 0;
+		$.innerView.touchEnabled = (status == STATUSCODE[Const.Pending]);
 		$.bottomView.touchEnabled = $.innerView.touchEnabled;
-		$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Sent]); //Pending
+		$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Pending]); //Pending
 		$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
 		$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
 		//$.avatar.image = '/tick_64.png';
@@ -86,7 +86,7 @@ if ($model) {
     // // $.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 	// // $.innerView.backgroundColor = 'lightgray';
 	// // $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-	// // $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Sent]);
+	// // $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Pending]);
 	// // $.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
 	// // $.innerView.touchEnabled = $.approveBtn.touchEnabled;
 // });

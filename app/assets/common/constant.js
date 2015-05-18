@@ -490,26 +490,26 @@ var Const = {
 
 var STATUS = {
 	'0': Const.Open,
-	'1': Const.Sent, //Pending
+	'1': Const.Pending, //Sent
 	'2': Const.Closed,
 };
 
 var STATUSCODE = {
 	"Open" : 0,
-	"Sent" : 1, //Pending
+	"Pending" : 1, //Sent
 	"Closed" : 2,
 };
 
 var STATUS_COLOR = {
-	'Open': "#0be",
-	'Sent': "#bb0", //Pending
-	'Closed': "#aaa",
+	'Open': "#2fb3b4",
+	'Pending': "#8a8e8e", //Sent
+	'Closed': "#b42f2f",
 };
 
 var STATUSCODE_COLOR = {
-	'0': "#0be",
-	'1': "#bb0",
-	'2': "#aaa",
+	'0': "#2fb3b4",
+	'1': "#8a8e8e",
+	'2': "#b42f2f",
 };
 
 var DETAILSTATUS = {

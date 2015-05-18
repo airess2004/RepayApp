@@ -2,6 +2,7 @@
 "#reimburseRow" : {
  	height: "80dp", //Titanium.UI.SIZE,
  	width: Titanium.UI.FILL,
+ 	backgroundColor: "white",
 }
 
 "#innerView" : {
@@ -9,24 +10,57 @@
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.SIZE,
  	touchEnabled : true,
- 	backgroundSelectedColor: "gray",
+ 	backgroundSelectedColor: "lightgray",
 }
 
-".avatar" : {
+"#avatarView" : {
  	height: "64dp",
  	width: "64dp",
+ 	touchEnabled : true,
+ 	backgroundColor: "gray",
+ 	borderColor: "darkgray",
+ 	borderWidth: "1dp",
+ 	top: "4dp",
+ 	bubbleParent: false,
+}
+
+"#avatar" : {
+ 	height: Titanium.UI.FILL,
+ 	width: Titanium.UI.FILL,
  	image: "/icon/ic_action_copy.png",
  	touchEnabled : false,
 }
 
+".midView" : {
+	width: "55%",
+ 	height: Titanium.UI.SIZE,//"64dp",
+ 	touchEnabled : false,
+ 	left: "8dp",
+ 	top: "4dp",
+}
+
 "#title" : {
- 	width: "55%",
+ 	width: Titanium.UI.FILL,
  	touchEnabled : false,
  	horizontalWrap: false,
  	color: "black",
  	font: {
- 		fontSize: "14dp",
- 	}
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
+}
+
+"#date" : {
+ 	width: Titanium.UI.FILL,
+ 	touchEnabled : false,
+ 	horizontalWrap: false,
+ 	color: "black",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
 }
 
 ".rightView" : {
@@ -43,19 +77,29 @@
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
- 	borderColor: "black",
- 	borderWidth: "1dp",
- 	color: "black",
+ 	//borderColor: "black",
+ 	//borderWidth: "1dp",
+ 	color: "white",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
 }
 
 "#total" : {
  	width: Titanium.UI.FILL,
  	right: "8dp",
  	bottom: "8dp",
- 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	//textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
- 	color: "navy",
+ 	color: "black",
  	minimumFontSize: "8sp",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
 }

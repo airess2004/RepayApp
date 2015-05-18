@@ -1,14 +1,96 @@
 
 ".container" : {
  	height: Titanium.UI.FILL,
+ 	backgroundColor: "white",
  	bubbleParent: false,
+}
+
+".vSplitter": {
+	width: Titanium.UI.FILL,
+	height: "1",
+	touchEnabled: false,
+	backgroundColor: "#eeee",
+	//top: "8dp",
+	//bottom: "8dp",
 }
 
 "#tableView" : {
  	height: Titanium.UI.SIZE,
- 	separatorColor: "gray",
+ 	backgroundColor: "white",
+ 	separatorColor: "#eeee",
  	filterAttribute: "title",
  	//searchHidden: true,
  	//rowHeight: "80dp",
  	//bubbleParent: false,
+}
+
+".topBar" : {
+ 	width: Titanium.UI.FILL,
+ 	height: "108dp", //Titanium.UI.SIZE,
+ 	backgroundColor: "white",
+ 	top: 0,
+ 	touchEnabled: false,
+}
+
+"#showAll" : {
+ 	width: "76dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.SIZE,
+ 	backgroundColor: "transparent",
+ 	backgroundSelectedColor: "lightgray",
+ 	color: "black",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "15sp",
+		//fontWeight: "bold"
+	},
+	horizontalWrap: false,
+	touchEnabled: true,
+	bottom: "8dp",
+	right: "16dp",
+}
+
+".btnLabel" : {
+ 	width: Titanium.UI.SIZE,
+ 	height: Titanium.UI.SIZE,
+ 	backgroundColor: "transparent",
+ 	color: "white",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "15sp",
+		//fontWeight: "bold"
+	},
+	touchEnabled: false,
+	//horizontalWrap: false,
+}
+
+"#openBtn" : {
+ 	width: "76dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.FILL,
+ 	backgroundColor: "#2fb3b4",
+ 	backgroundSelectedColor: "#3fc3c4",
+ 	touchEnabled: true,
+ 	top: "8dp",
+ 	bottom: "36dp",
+ 	left: "16dp",
+}
+
+"#pendBtn" : {
+ 	width: "76dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.FILL,
+ 	backgroundColor: "#8a8e8e",
+ 	backgroundSelectedColor: "#9a9e9e",
+ 	touchEnabled: true,
+ 	top: "8dp",
+ 	bottom: "36dp",
+}
+
+"#closedBtn" : {
+ 	width: "76dp", //Titanium.UI.SIZE,
+ 	height: Titanium.UI.FILL,
+ 	backgroundColor: "#b42f2f",
+ 	backgroundSelectedColor: "#c43f3f",
+ 	touchEnabled: true,
+ 	top: "8dp",
+ 	bottom: "36dp",
+ 	right: "16dp",
 }
