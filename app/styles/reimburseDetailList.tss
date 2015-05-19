@@ -1,28 +1,169 @@
 ".container" : {
+	backgroundColor: "white",
+	navBarHidden: true,
+	//fullscreen: true,
+}
+
+".outterWindow": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "vertical",
+	bottom:"48dp",
+}
+
+".action": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+}
+
+"#rightAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	right:"4dp", //workaround to right-align horizontal layout
+}
+
+"#leftAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	left:"4dp", 
+}
+
+"#midAction": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "vertical",
+	horizontalWrap: false,
+	left:"32dp", 
+	right: "32dp", //"4dp"
+}
+
+"#actionTitle": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "18sp",
+		fontWeight: "bold"
+	},
+	color: Alloy.Globals.darkColor,
+	horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+"#actionSubtitle": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "15sp",
+		fontWeight: "bold"
+	},
+	color: Alloy.Globals.lightColor,
+	horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+"#iconBtn": {
+ 	height: "40dp",
+ 	width: Titanium.UI.SIZE, //"40dp"
+ 	touchEnabled : true,
+ 	backgroundColor: "transparent",
+ 	backgroundSelectedColor: "lightgray",
+ 	//left: "4dp", 
+}
+
+"#icon": {
+	height: "24dp",
+	touchEnabled: false,
+	image: "/icon/ic_back.png",
+	//left: "4dp",
+}
+
+"#editMenu": {
+ 	height: "24dp",
+ 	width: Titanium.UI.SIZE, //"40dp"
+ 	touchEnabled : true,
+ 	backgroundColor: Alloy.Globals.lightColor,
+ 	backgroundSelectedColor: Alloy.Globals.darkColor,
+ 	left: "4dp", //workaround to right-align horizontal layout
+}
+
+"#editLabel": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
+	color: "white",
+	horizontalWrap: false,
 }
 
 "#tableView" : {
  	height: Titanium.UI.FILL,
  	separatorColor: "gray",
  	filterAttribute: "title",
+ 	backgroundColor: "transparent",
  	//searchHidden: true,
  	//rowHeight: "80dp",
 }
 
-".centeredVertical": {
-	height: Titanium.UI.SIZE,
+".topBar": {
+	height: "56dp",//Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,
 	scrollType: "vertical",
 }
 
-"Label": {
-	width: Ti.UI.SIZE,
-	left: "4dp"
+"#editBtn": {
+	backgroundColor: Alloy.Globals.lightColor,
+	backgroundSelectedColor: Alloy.Globals.darkColor,
+	color: "white",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.FILL,
+	touchEnabled: true,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
+	//top: "16dp",
+	//bottom: "16dp",
 }
 
-"TextField": {
-	width: Ti.UI.SIZE,
-	left: "4dp"
+"#addNewButton": {
+	backgroundColor: Alloy.Globals.lightColor,
+	backgroundSelectedColor: Alloy.Globals.darkColor,
+	color: "white",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.FILL,
+	touchEnabled: true,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "17sp",
+		//fontWeight: "bold"
+	},
+	top: "16dp",
+	bottom: "16dp",
 }
 
 ".verticalLayout": {
@@ -33,10 +174,52 @@
 	left: "4dp"
 }
 
-".labelView": {
+"#footerView": {
+	width: Titanium.UI.FILL, //"35%" ,
+ 	height: Titanium.UI.SIZE,
+ 	top: "8dp",
+ 	//right: "8dp",
+ 	bottom: "8dp",
+ 	layout: "vertical",
+ 	touchEnabled : true,
+ 	backgroundColor: "white",
+ 	backgroundSelectedColor: "#8888",
+}
+
+".totalView": {
+	width: Titanium.UI.SIZE, //"60%", //Titanium.UI.FILL,
+ 	height: Titanium.UI.SIZE,
+ 	touchEnabled : false, //true
+ 	layout: "horizontal",
+ 	horizontalWrap: false,
+ 	backgroundColor: "transparent",
+ 	right: "8dp",
+ 	top: "16dp",
+ 	bottom: "16dp",
+}
+
+".totalLabel": {
+	width: Titanium.UI.SIZE,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 	font: {
-		fontSize: "12sp", fontWeight:'bold'
-	}
+		fontFamily: 'century-gothic',
+		fontSize: "16sp",
+		//fontWeight: "bold"
+	},
+	color: "black",
+	left: 0,
+}
+
+"#total": {
+	width: Titanium.UI.SIZE,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "16sp",
+		fontWeight: "bold"
+	},
+	color: "black",
+	left: 0,
 }
 
 
@@ -47,12 +230,136 @@
 	height: Titanium.UI.SIZE,
 }
 
+"#footerView": {
+	layout: "horizontal",
+	horizontalWrap: false,
+	touchEnabled: true,
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.SIZE,
+	right: "8dp",
+	top: "8dp",
+	bottom: "8dp",
+}
+
+".buttonBar": {
+	backgroundColor: Alloy.Globals.darkColor,
+	width: Titanium.UI.FILL,
+	height: "48dp", //Titanium.UI.SIZE,
+	//layout: "vertical",
+	bottom: 0,
+	zIndex: 2,
+}
+
+".buttonBarInner": {
+	backgroundColor:"transparent",
+	width: Titanium.UI.SIZE,
+	height: Titanium.UI.SIZE,
+	//layout: "horizontal",
+	horizontalWrap: false,
+	bottom: 0,
+	zIndex: 2,
+}
+
+"#submitBtn": {
+	backgroundColor:"transparent",
+	backgroundSelectedColor: "#8888",
+	touchEnabled: true,
+	width: Titanium.UI.SIZE,
+	height: "48dp",
+	zIndex: 2,
+	//top: "4dp",
+	//bottom: "4dp",
+	left: "4dp",
+	right: "4dp",
+}
+
+".submitLabel": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "17sp",
+		//fontWeight: "bold"
+	},
+	color: "white",
+	horizontalWrap: false,
+}
+
+"#submitDialog": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: true,
+	backgroundColor: "#4000",
+	visible: false,
+	zIndex: 9999,
+}
+
+"#dialogView2": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: true,
+	backgroundColor: "#7777",
+	visible: false,
+	zIndex: 9999,
+}
+
+".dialogBox": {
+	height: Titanium.UI.SIZE,
+	width: "80%", //Titanium.UI.SIZE,
+	touchEnabled: true,
+	backgroundColor: "white",
+	borderColor: "#6000",
+	borderWidth: "3dp",
+	layout: "vertical",
+	zIndex: 9999,
+	bubbleParent: false,
+}
+
+".dialogTitle": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: Titanium.UI.SIZE,//"40dp",
+	touchEnabled: false,
+	font: {
+		//fontFamily: 'century-gothic',
+		fontSize: "20sp",
+		//fontWeight: "bold"
+	},
+	color: "#00a2e8", //Alloy.Globals.lightColor,
+	//horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+".dialogButton": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: Titanium.UI.SIZE,//"40dp",
+	touchEnabled: true,
+	backgroundSelectedColor: "lightgray",
+	borderColor:"lightgray",
+	borderWidth:"1",
+}
+
+".dialogButtonLabel": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: Titanium.UI.SIZE,//"40dp",
+	touchEnabled: false,
+	font: {
+		//fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
+	color: "black", //Alloy.Globals.lightColor,
+	//horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	top: "20dp",
+	bottom: "20dp",
+}
 
 ".vSplitter": {
 	width: Titanium.UI.FILL,
-	height: "1dp",
+	height: "1",
 	touchEnabled: false,
-	backgroundColor: "gray",
-	top: "8dp",
+	backgroundColor: "darkgray",
+	//top: "8dp",
 	//bottom: "8dp",
 }

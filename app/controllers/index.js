@@ -103,6 +103,7 @@ function mainViewOpen(e) {
 		// Show the "angle" pointing back
 		// actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
 			// Ti.API.info("Home icon clicked!");
+			//$.index.fireEvent('android:back');
 		// };
 	
 		activity.onCreateOptionsMenu = function(e) {
@@ -222,6 +223,12 @@ $.index.addEventListener('update', function(e) {
 $.index.addEventListener('refresh', function(e) {
 	$.scrollableView.views[$.scrollableView.currentPage].fireEvent("refresh", e);
 	//$.index.getActiveTab().getWindow().fireEvent("open", e);
+});
+
+$.index.addEventListener("android:back", function(e) {
+	//$.tableView.search = Alloy.Globals.searchView;
+	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
+	$.index.close(e);
 });
 
 // $.index.addEventListener('open', function() {

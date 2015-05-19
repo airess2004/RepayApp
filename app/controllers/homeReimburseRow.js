@@ -135,7 +135,7 @@ function rowClick(e) {
 	
 }
 
-// delete the IDed todo from the collection
+// confirm
 function approveReimburse(id) {
 	// find the todo task by id
 	var reimburse = Alloy.Globals.homeListReimburse.get(id);

@@ -83,7 +83,7 @@
 	backgroundColor: "transparent",
 	layout: "horizontal",
 	horizontalWrap: false,
-	left:"4dp", //workaround to right-align horizontal layout
+	left:"4dp", 
 }
 
 "#logo": {
@@ -101,7 +101,7 @@
  	borderRadius: "20dp",
  	borderColor: Alloy.Globals.darkColor,
  	borderWidth: "2dp",
- 	left: "4dp",
+ 	left: "4dp", //workaround to right-align horizontal layout
 }
 
 "#profile": {

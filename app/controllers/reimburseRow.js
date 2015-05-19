@@ -82,7 +82,8 @@ function rowClick(e) {
 		Alloy.Globals.rowClickUsed = true;
 		id = e.source.parent.rowid;
 		var detList = Alloy.createController("reimburseDetailList",{
-			id : id
+			id : id,
+			"$model": $model
 		}).getView();
 		detList.addEventListener("close", detListClose);
 		detList.open();

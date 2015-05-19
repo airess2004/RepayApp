@@ -12,18 +12,19 @@ if ($model) {
 	id = $model.id;
 	$.reimburseDetailRow.rowid = $model.id;
 	var status = $model.get('status');
-	$.reimburseDetailRow.title = $model.get('title');
+	$.reimburseDetailRow.title = $model.get('name');
 	if ($model.get('isDeleted') == 0) {
-		$.reimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
-		$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUSCODE_COLOR[status];
+		//$.reimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
+		//$.innerView.backgroundColor = 'lightgray';
+		$.status.backgroundColor = DETAILSTATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
 	} else {
-		$.reimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.innerView.backgroundColor = 'white';
+		//$.reimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
+		//$.innerView.backgroundColor = 'white';
 		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.avatar.image = '/tick_64.png';
 	}
+	$.status.visible = status > DETAILSTATUSCODE[Const.Open];
 }
 
 // toggle the "done" status of the IDed todo
@@ -64,13 +65,31 @@ function doDeleteClick(e){
 
 
 function thumbPopUp(e) {
+	var aview = Ti.UI.createView({
+		width : "256dp",
+		height : "256dp",
+		backgroundColor : "#7777",
+		borderColor : Alloy.Globals.lightColor,
+		borderWidth : "1dp",
+		touchEnabled: false,
+	}); 
+	aview.add(Ti.UI.createImageView({
+		width: "256dp",
+		height : "256dp",
+		touchEnabled: false,
+		image: $.avatar.image,
+	}));
 	
+	Alloy.Globals.dialogView2.removeAllChildren();
+	Alloy.Globals.dialogView2.add(aview);
+	Alloy.Globals.dialogView2.show();
 }
 
 function rowClick(e) {
 	id = e.source.parent.rowid;
 	Alloy.createController("reimburseDetailForm",{
-					id : id , reimburseId : null
+					id : id , reimburseId : null, 
+					"$model": $model
 				}
 	).getView().open();
 	// Alloy.createController("comment",{

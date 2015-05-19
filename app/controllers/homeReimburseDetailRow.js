@@ -99,7 +99,8 @@ function thumbPopUp(e) {
 function rowClick(e) {
 	id = e.source.parent.rowid;
 	Alloy.createController("comment",{
-					id : id , reimburseId : null
+					id : id , reimburseId : null,
+					"$model": $model
 				}
 	).getView().open();
 }

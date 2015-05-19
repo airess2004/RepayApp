@@ -53,24 +53,28 @@ function doSave(e) {
 	if (args.reimburseId == null) {
 		var reimburseDetail = reimburseDetails.get(args.id);
 		if (reimburseDetail) {
+			var amount = parseFloat($.amountField.value);
+			if (isNaN(amount)) amount = 0;
 			reimburseDetail.set({
 				name : $.titleField.value,
 				description : $.descriptionField.value,
 				receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
-				amount : parseFloat($.amountField.value),
+				amount : amount,
 				urlImageOriginal : $.image.image
 			});
 			reimburseDetail.save();
 			reimburseId = reimburseDetail.get("reimburseId");
 		}
 	} else {
+		var amount = parseFloat($.amountField.value);
+		if (isNaN(amount)) amount = 0;
 		var reimburseDetail = Alloy.createModel("reimburseDetail", {
 			reimburseId : args.reimburseId,
 			name : $.titleField.value,
 			description : $.descriptionField.value,
 			receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			isDeleted : 0,
-			amount : parseFloat($.amountField.value),
+			amount : amount,
 			urlImageOriginal : $.image.image
 
 		});

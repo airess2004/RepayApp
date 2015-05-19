@@ -525,15 +525,15 @@ var DETAILSTATUSCODE = {
 };
 
 var DETAILSTATUS_COLOR = {
-	'Open': "#0be",
-	'Approved': "#0e8",
-	'Rejected': "#aaa",
+	'Open': "#8a8e8e",
+	'Approved': "#2fb3b4",
+	'Rejected': "#b42f2f",
 };
 
 var DETAILSTATUSCODE_COLOR = {
-	'0': "#0be",
-	'1': "#0e8",
-	'2': "#aaa",
+	'0': "#8a8e8e",
+	'1': "#2fb3b4",
+	'2': "#b42f2f",
 };
 
 //var statusStr = STATUS['0'];

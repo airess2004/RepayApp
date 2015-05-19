@@ -1,21 +1,83 @@
 <Alloy>
 	<Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
-	<Window onOpen="windowOpen" onClose="windowClose">
-		<ActionBar id="actionBar" onHomeIconItemSelected="doMenuClick" />
-		<Menu>
-			<MenuItem id="editMenu" title="Edit" onClick="doEdit" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
-		</Menu>
-		<View class="container" layout = "vertical">
-			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-				<Label class="labelView"   width="40%">Total :</Label>
-				<TextField id="totalField" hintText="0" width="60%" editable="false"></TextField>
-				<View class="vSplitter" />
-				<Button id="addNewButton" title="Add New" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
-				<View class="vSplitter" />
-			</ScrollView>
+	<Window class="container" onOpen="windowOpen" onClose="windowClose">
+		<!--ActionBar id="actionBar" />
+		<Menu id="menu">
+			<MenuItem id="editMenu" title="Edit" onClick="doEdit" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS">
+				<ActionView>
+                    <Label ns="Ti.UI.Android" id="editBtn" text=" EDIT " />
+                </ActionView>
+			</MenuItem>
+		</Menu-->
+		<View class="outterWindow" layout="vertical">
+			<View class="action">
+				<View id="midAction" layout="vertical">
+					<Label id="actionTitle" text=" Title "></Label>
+					<Label id="actionSubtitle" text=" Subtitle "></Label>
+				</View>
+				<View id="rightAction" layout="horizontal">
+					<View id="editMenu" onClick="doEdit">
+						<Label id="editLabel" text="  EDIT  "></Label>
+					</View>
+				</View>
+				<View id="leftAction">
+					<View id="iconBtn" onClick="doBack">
+						<ImageView id="icon"></ImageView>
+					</View>
+				</View>
+			</View>
+			<View class="vSplitter" backgroundColor="#2fb3b4" />
+			<View class="topBar" layout="vertical" width="100%" zIndex="1">
+				<Label id="addNewButton" text="  NEW EXPENSE  " onClick="newDetailClick" ></Label>
+			</View>
+			<View class="vSplitter" />
 			<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+				<FooterView>
+					<View id="footerView" layout="vertical" >
+						<View class="vSplitter" backgroundColor="gray" />
+            			<View class="totalView">
+    						<Label class="totalLabel" text=" TOTAL : "></Label>
+    						<Label id="total" text="Rp.0"/>
+    					</View>
+    					<View class="vSplitter" />
+            		</View>
+        		</FooterView>
 				<Require src="reimburseDetailRow"/>
 			</TableView>
 		</View>
+		<View class="buttonBar" >
+			<View class="buttonBarInner">
+				<View id="submitBtn" onClick="doSubmit">
+					<Label class="submitLabel" text=" SUBMIT "></Label>
+				</View>
+			</View>
+		</View>
+		<View id="submitDialog" onClick="submitViewClick">
+			<View class="dialogBox" layout="vertical">
+				<Label class="dialogTitle" text="Confirm" left="20dp" right="20dp" top="20dp"></Label>
+				<View class="vSplitter" backgroundColor="#00a2e8" height="2dp" top="20dp" horizontalWrap="false" />
+				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
+					<Label width="20%" text="TO" color="black"></Label>
+					<TextArea id="toField" width="Ti.UI.FILL" hintText="email"></TextArea>
+				</View>
+				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
+					<Label width="20%" text="CC" color="black"></Label>
+					<TextArea id="ccField" width="Ti.UI.FILL" hintText="email"></TextArea>
+				</View>
+				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
+					<Label width="20%" text="BCC" color="black"></Label>
+					<TextArea id="bccField" width="Ti.UI.FILL" hintText="email"></TextArea>
+				</View>
+				<View layout="horizontal" width="Ti.UI.SIZE" horizontalWrap="false">
+					<View class="dialogButton" width="50%" onClick="submitViewClick">
+						<Label class="dialogButtonLabel" text="Cancel" ></Label>
+					</View>
+					<View class="dialogButton" width="50%" onClick="dialogSendClick">
+						<Label class="dialogButtonLabel" text="Send" ></Label>
+					</View>
+				</View>
+			</View>
+		</View>
+		<View id="dialogView2" onClick="dialogViewClick" />
 	</Window>
 </Alloy>

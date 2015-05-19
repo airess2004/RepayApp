@@ -1,11 +1,17 @@
 <Alloy>
   <TableViewRow id="reimburseDetailRow" title="{title}" className="detailRow1">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
-    	<ImageView class="avatar" image="{urlImageOriginal}" onClick="thumbPopUp"/>
-    	<Label id="title" text="{name}" />
-    	<View class="rightView">
-    		<Label id="status" text="{receiptDate}"/>
+  		<View id="avatarView" onClick="thumbPopUp">
+    		<ImageView id="avatar" image="{urlImageOriginal}" />
+    	</View>
+    	<View class="midView" layout="vertical">
+    		<Label id="title" text="{name}" />
+    		
+    	</View>
+    	<View class="rightView" layout="vertical">
+    		<Label id="date" text="{receiptDate}"/>
     		<Label id="total" text="{amount}"/>
+    		<Label id="status" text="{status}" />
     	</View>
     </View>
   </TableViewRow>
