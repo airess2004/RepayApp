@@ -2,6 +2,8 @@
 	backgroundColor: "white",
 	navBarHidden: true,
 	//fullscreen: true,
+	theme: "Theme.AppCompat.Light.NoActionBar",
+	orientationModes: Alloy.Globals.orientModes,
 }
 
 ".outterWindow": {
@@ -290,7 +292,7 @@
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL,
 	touchEnabled: true,
-	backgroundColor: "#4000",
+	backgroundColor: "#5000",
 	visible: false,
 	zIndex: 9999,
 }
@@ -299,7 +301,7 @@
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL,
 	touchEnabled: true,
-	backgroundColor: "#7777",
+	backgroundColor: "#5000",
 	visible: false,
 	zIndex: 9999,
 }
@@ -310,7 +312,8 @@
 	touchEnabled: true,
 	backgroundColor: "white",
 	borderColor: "#6000",
-	borderWidth: "3dp",
+	borderWidth: "3",
+	borderRadius: "3",
 	layout: "vertical",
 	zIndex: 9999,
 	bubbleParent: false,

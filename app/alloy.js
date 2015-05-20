@@ -54,7 +54,7 @@ if (OS_IOS || OS_ANDROID) {
 	Alloy.Collections.comment = Alloy.createCollection('comment');
 	// Change default sorting (descending by date)
 	// Alloy.Collections.comment.comparator = function(model) {
-  		// return -(moment.parseZone(model.get('commentsDate')).unix());
+  		// return -(moment.parseZone(model.get('commentDate')).unix());
 	// };
 	// Alloy.Collections.reimburseDetail.comparator = function(model) {
   		// return -(moment.parseZone(model.get('receiptDate')).unix());
@@ -154,7 +154,7 @@ function addComment(item) {
     var comment = Alloy.createModel('comment', {
     	reimburseDetailId : item.reimburseDetailId,
         message : item.message,
-        commentsDate : moment(item.commentsDate).utc().toISOString(),
+        commentDate : moment(item.commentDate).utc().toISOString(),
         userId : 2,
         username : "Johan",
     });
@@ -219,7 +219,7 @@ function fillTestData() {
 		var comment = addComment({
 			reimburseDetailId : detail.id,
 			message : "Ok thanks "+i,
-			commentsDate : moment().subtract(i, "days").format(dateFormat)
+			commentDate : moment().subtract(i, "days").format(dateFormat)
 		});
 	}
 }

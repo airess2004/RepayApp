@@ -1,33 +1,61 @@
 <Alloy>
 	<!--Collection id="localComment" src="comment" instance="true"/-->
-	<Window onOpen="winOpen" onClose="winClose">
-		<ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" />
-		<View class="container" layout = "vertical">
-			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-				<View class="centeredHorizontal" >
-					<View class="verticalLayout" width="80%">
-						<Label  class="labelView">Title</Label>
-						<Label id="titleField" ></Label>
+	<Window class="container" onOpen="winOpen" onClose="winClose">
+		<!--ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" /-->
+		<View class="outterWindow" layout="vertical">
+			<View class="action">
+				<View id="midAction" layout="vertical">
+					<Label id="actionTitle" text=" Title "></Label>
+					<Label id="actionSubtitle" text=" Subtitle "></Label>
+				</View>
+				<View id="rightAction" layout="horizontal">
+					<View id="editMenu" visible="false">
+						<Label id="editLabel" text="  EDIT  "></Label>
 					</View>
-					<ImageView id= "image" class="fitWidth" image="/icon/ic_action_photo.png" width="20%" onClick="imageClick"/>
+				</View>
+				<View id="leftAction">
+					<View id="iconBtn" onClick="doBack">
+						<ImageView id="icon"></ImageView>
+					</View>
+				</View>
+			</View>
+			<View class="vSplitter" backgroundColor="#2fb3b4" />
+			<ScrollView class="centeredVertical" layout="vertical" width="Ti.UI.FILL" zIndex="1">
+				<View class="centeredHorizontal" width="Ti.UI.FILL" right="16dp" left="16dp">
+					<View class="verticalLayout" width="80%">
+						<Label  class="labelName" left="0" right="0">Title</Label>
+						<Label class="labelContent" left="0" right="0" id="titleField" ></Label>
+					</View>
+					<View width="20%" height="Ti.UI.SIZE" backgroundColor="gray" >
+						<ImageView id="image" class="fitWidth" image="/icon/ic_action_photo.png" onClick="thumbPopUp" />
+					</View>
 				</View>
 				<View class="vSplitter" />
-				<Label class="labelView" >Amount</Label>
-				<Label id="amountField" ></Label>
+				<Label class="labelName" >Date</Label>
+				<Label class="labelContent" id="dateField"></Label>
 				<View class="vSplitter" />
-				<Label  class="labelView" >Date</Label>
-				<Label id="dateField"></Label>
+				<Label class="labelName" >Description</Label>
+				<Label class="labelContent" id="descriptionField" ></Label>
 				<View class="vSplitter" />
-				<Label  class="labelView" >Description</Label>
-				<Label id="descriptionField" ></Label>
+				<Label class="labelName" >Amount</Label>
+				<Label class="labelContent" id="amountField" ></Label>
 				<View class="vSplitter" />
-				<Label>Comment :</Label>
-				<TextArea id="commentField"></TextArea>
-				<Button id="addNewButton" title="Add Comment" onClick="newDetailClick" width="Ti.UI.FILL"></Button>
+				<Label class="labelName">Comments :</Label>
+				<!--Button id="addNewButton" title="Add Comment" onClick="newCommentClick" width="Ti.UI.FILL"></Button-->
 				<View id="tableView" searchAsChild="false" dataCollection="comment" dataFilter="whereFunction" dataTransform="transformFunction" layout="vertical">
 					<Require src="commentRow"/>
 				</View>
 			</ScrollView>
 		</View>
+		<View class="bottomView">
+			<View class="vSplitter" />
+			<View class="commentView">
+				<TextArea id="commentField" hintText="comment" ></TextArea>
+				<View id="commentBtn" onClick="newCommentClick">
+					<ImageView class="buttonIcon" />
+				</View>
+			</View>
+		</View>
+		<View id="dialogView3" onClick="dialogViewClick" />
 	</Window>
 </Alloy>

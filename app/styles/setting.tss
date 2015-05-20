@@ -14,12 +14,15 @@
  	borderWidth: "2dp",
 }
 
-".avatar" : {
+"#image" : {
  	height: "128dp",
  	width: "128dp",
  	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
  	//backgroundColor : "gray",
- 	//top :"8dp"
+ 	//top :"8dp",
+ 	// borderColor: Alloy.Globals.darkColor,
+ 	// borderRadius: "64dp",
+ 	// borderWidth: "2dp",
  	
 }

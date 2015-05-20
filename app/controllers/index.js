@@ -10,6 +10,7 @@ Alloy.Globals.scrollableView = $.scrollableView;
 Alloy.Globals.leftAction = $.leftAction;
 Alloy.Globals.rightAction = $.rightAction;
 Alloy.Globals.dialogView = $.dialogView;
+Alloy.Globals.profileImage = $.profile;
 
 var abx = require('com.alcoapps.actionbarextras');
 

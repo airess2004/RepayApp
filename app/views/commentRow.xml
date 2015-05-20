@@ -1,12 +1,14 @@
 <Alloy>
-	<View id="commentRow" title="{title}">
-		<View id="innerView" layout="horizontal">
-			<ImageView class="avatar" onClick="thumbPopUp"/>
-			<Label id="message" text="{message}"/>
-			<View class="rightView">
-				<Label id="commentDate" text="{commentDate}"/>
-				<Label id="username" text="{username}" />
+	<View id="commentRow" title="{title}" layout="vertical">
+		<View id="innerView" horizontalWrap="false">
+			<View class="avatarView" id="avatarView" onClick="thumbPopUp">
+				<ImageView id="avatar" />
 			</View>
+			<Label class="message" id="message" text="{message}"/>
+		</View>
+		<View id="innerView" horizontalWrap="false">
+			<Label class="username" id="username" text="{username}" />
+			<Label class="commentDate" id="commentDate" text="{commentDate}"/>
 		</View>
 	</View>
 	<View class="vSplitter" />

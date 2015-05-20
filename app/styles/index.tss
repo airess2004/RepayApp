@@ -18,13 +18,14 @@
 	navBarHidden: true,
   	//fullscreen: true,
   	//exitOnClose: true,
+  	theme: "Theme.AppCompat.Light.NoActionBar",
 }
 
 "#dialogView": {
 	height: Titanium.UI.FILL,
 	width: Titanium.UI.FILL,
 	touchEnabled: true,
-	backgroundColor: "#7777",
+	backgroundColor: "#5000",
 	visible: false,
 	zIndex: 9999,
 }

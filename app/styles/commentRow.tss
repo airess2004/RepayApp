@@ -5,27 +5,70 @@
 }
 
 "#innerView" : {
-	left: "4dp",
+	left: "16dp",
+	right: "16dp",
+	top: "4dp",
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.SIZE,
- 	touchEnabled : true,
- 	backgroundSelectedColor: "gray",
+ 	//touchEnabled : true,
+ 	//backgroundSelectedColor: "gray",
 }
 
+".avatarView" : {
+ 	height: "64dp",
+ 	width: "64dp",
+ 	touchEnabled : true,
+ 	backgroundColor: "gray",
+ 	//borderColor: "darkgray",
+ 	//borderWidth: "1dp",
+ 	//borderRadius: "32dp",
+ 	//top: "8dp",
+ 	left: null,//"0",
+ 	right: "0",
+ 	bubbleParent: false,
+}
 
-".avatar" : {
+"#avatar" : {
  	height: "64dp",
  	width: "64dp",
  	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
 }
 
-"#message" : {
- 	width: "50%",
+".username" : {
+ 	width: "20%", //Titanium.UI.FILL,
+ 	left: null, //"0",
+ 	right: "0",
+ 	top: "0",
+ 	bottom: "8dp",
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
- 	horizontalWrap: false,
+ 	height: Titanium.UI.SIZE,
+ 	//horizontalWrap: false,
+ 	color: Alloy.Globals.darkColor,
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		fontWeight: 'bold'
+	},
+	//backgroundColor: "yellow",
+}
+
+".message" : {
+ 	width: "75%", //Titanium.UI.FILL, //"50%",
+ 	touchEnabled : false,
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	//horizontalWrap: false,
  	color: "black",
- 	left : "4dp"
+ 	left : "0", //"80dp",
+ 	right: "80dp", //"0",
+ 	top: "0",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: 'bold'
+	},
+	//backgroundColor: "green",
 }
 
 ".rightView" : {
@@ -34,32 +77,29 @@
  	touchEnabled : false,
 }
 
-"#commentDate" : {
- 	width: Titanium.UI.FILL,
- 	right: "8dp",
- 	top: "8dp",
- 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
- 	touchEnabled : false,
- 	height: Titanium.UI.SIZE,
- 	horizontalWrap: false,
- 	color: "black",
-}
-
-"#username" : {
- 	width: Titanium.UI.FILL,
- 	right: "8dp",
+".commentDate" : {
+ 	width: "75%", //Titanium.UI.FILL,
+ 	left: "0", //"80dp",
+ 	right: "80dp", //"0",
+ 	top: "0",
  	bottom: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
- 	color: "navy",
+ 	color: "black",
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "12sp",
+		//fontWeight: 'bold'
+	},
+	//backgroundColor: "cyan",
 }
 
 ".vSplitter": {
 	width: Titanium.UI.FILL,
-	height: "1dp",
+	height: "1",
 	touchEnabled: false,
-	backgroundColor: "gray",
+	backgroundColor: "#eeee",
 	// top: "8dp"
 }

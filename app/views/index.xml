@@ -18,7 +18,7 @@
 		<View class="outterWindow" layout="vertical">
 		<View class="action">
 			<View id="rightAction" layout="horizontal">
-				<View class="profileView">
+				<View class="profileView" onClick="settingBtnClick">
 					<ImageView id="profile"></ImageView>
 				</View>
 			</View>

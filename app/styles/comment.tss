@@ -1,42 +1,168 @@
-
-".container": {
+".container" : {
+	backgroundColor: "white",
+	navBarHidden: true,
+	//fullscreen: true,
+	theme: "Theme.AppCompat.Light.NoActionBar",
 	orientationModes: Alloy.Globals.orientModes,
 }
 
-
-"Label": {
-	width: Ti.UI.SIZE,
-	left: "4dp"
+".outterWindow": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "vertical",
+	bottom:"44dp",
 }
 
-"TextArea": {
-	width: Ti.UI.FILL,
-	height: "80dp",
-	left: "4dp",
-	borderColor: "black",
- 	borderWidth: "1dp",
- 	color: "black",
+".action": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+}
+
+"#rightAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	right:"4dp", //workaround to right-align horizontal layout
+}
+
+"#leftAction": {
+	height: "48dp",
+	width: Titanium.UI.SIZE,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	horizontalWrap: false,
+	left:"4dp", 
+}
+
+"#midAction": {
+	height: "48dp",
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	layout: "vertical",
+	horizontalWrap: false,
+	left:"32dp", 
+	right: "32dp", //"4dp"
+}
+
+"#actionTitle": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "18sp",
+		fontWeight: "bold"
+	},
+	color: Alloy.Globals.darkColor,
+	horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+"#actionSubtitle": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "15sp",
+		fontWeight: "bold"
+	},
+	color: Alloy.Globals.lightColor,
+	horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+}
+
+"#iconBtn": {
+ 	height: "40dp",
+ 	width: Titanium.UI.SIZE, //"40dp"
+ 	touchEnabled : true,
+ 	backgroundColor: "transparent",
+ 	backgroundSelectedColor: "lightgray",
+ 	//left: "4dp", 
+}
+
+"#icon": {
+	height: "24dp",
+	touchEnabled: false,
+	image: "/icon/ic_back.png",
+	//left: "4dp",
+}
+
+"#editMenu": {
+ 	height: "24dp",
+ 	width: Titanium.UI.SIZE, //"40dp"
+ 	touchEnabled : true,
+ 	backgroundColor: Alloy.Globals.lightColor,
+ 	backgroundSelectedColor: Alloy.Globals.darkColor,
+ 	left: "4dp", //workaround to right-align horizontal layout
+}
+
+"#editLabel": {
+	height: Titanium.UI.FILL,//"40dp",
+	width: Titanium.UI.FILL,//"40dp",
+	touchEnabled: false,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: "bold"
+	},
+	color: "white",
+	horizontalWrap: false,
 }
 
 ".centeredVertical": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,
-	scrollType: "vertical"
+	scrollType: "vertical",
 }
 
 ".verticalLayout": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,
 	layout: "vertical",
-	top: "8dp",
-	left: "4dp"
+	top: "4dp",
+	//left: "4dp"
 }
 
-".labelView": {
+".fitWidth": {
+  height: "64dp",
+  width: "64dp",
+  borderColor :"darkgray",
+  borderWidth :"1dp",
+  //right : "4dp"
+}
+
+".labelName": {
 	font: {
+		fontFamily: 'century-gothic',
 		fontSize: "12sp",
 		fontWeight: 'bold'
-	}
+	},
+	left: "16dp",
+	right: "16dp",
+	top: "4dp",
+	color: "black",
+}
+
+".labelContent": {
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "16sp",
+		//fontWeight: 'bold'
+	},
+	left: "16dp",
+	right: "16dp",
+	bottom: "8dp",
+	color: Alloy.Globals.darkColor,
 }
 
 ".centeredHorizontal": {
@@ -50,6 +176,72 @@
 	width: Titanium.UI.FILL,
 	height: "1dp",
 	touchEnabled: false,
-	backgroundColor: "gray",
-	top: "8dp"
+	backgroundColor: Alloy.Globals.lightColor,
+	//top: "8dp",
+	//bottom: "8dp",
+}
+
+".bottomView": {
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "white",
+	layout: "vertical",
+	bottom: 0,
+	zIndex: 99,
+}
+
+".commentView": {
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL,
+	touchEnabled: false,
+	backgroundColor: "transparent",
+	borderColor: Alloy.Globals.darkColor,
+	borderWidth: "1dp",
+	borderRadius: "3",
+	left: "16dp",
+	right: "16dp",
+	bottom: "4dp",
+	top: "4dp",
+}
+
+"#commentField": {
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL,
+	backgroundColor: "transparent",
+	color: "black",
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14sp",
+		//fontWeight: 'bold'
+	},
+	right: "35dp",
+}
+
+"#commentBtn": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.SIZE,
+	touchEnabled: true,
+	backgroundColor: Alloy.Globals.lightColor,
+	backgroundSelectedColor: "#7777",
+	borderRadius: "3",
+	right: "1dp",
+	bottom: "1dp",
+	//top: "1dp",
+}
+
+".buttonIcon": {
+	height: "34dp",
+	width: "34dp",
+	touchEnabled: false,
+	image: "/icon/ic_newcomment.png",
+}
+
+"#dialogView3": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: true,
+	backgroundColor: "#5000",
+	visible: false,
+	zIndex: 9999,
 }

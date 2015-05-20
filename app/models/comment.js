@@ -4,7 +4,7 @@ exports.definition = {
 			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
 		    reimburseDetailId: "bigint",
 		    message: "string",
-		    commentsDate: "datetime",
+		    commentDate: "datetime",
 		    userId: "bigint",
 		    username : "string",
 		    dateCreated: "date"
@@ -26,7 +26,7 @@ exports.definition = {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
 			comparator : function(model) {
-  				return -(moment.parseZone(model.get('commentsDate')).unix());
+  				return -(moment.parseZone(model.get('commentDate')).unix());
 			},
 		});
 

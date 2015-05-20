@@ -1,5 +1,5 @@
 <Alloy>
-	<Window onOpen="winOpen" onClose="winClose">
+	<Window onOpen="winOpen" onClose="winClose" >
 		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
 			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
