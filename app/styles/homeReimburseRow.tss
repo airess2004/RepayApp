@@ -145,7 +145,7 @@
  	horizontalWrap: false,
  	backgroundColor: "transparent",
  	color: "black",
- 	minimumFontSize: "8sp",
+ 	minimumFontSize: "8dp",
  	font: {
  		fontFamily: 'century-gothic',
  		fontSize: "14dp",
@@ -163,7 +163,7 @@
  	horizontalWrap: false,
  	backgroundColor: "transparent",
  	color: "black",
- 	minimumFontSize: "8sp",
+ 	minimumFontSize: "8dp",
  	font: {
  		fontFamily: 'century-gothic',
  		fontSize: "14dp",

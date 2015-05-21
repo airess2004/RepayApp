@@ -28,7 +28,7 @@
 
 ".labelView": {
 	font: {
-		fontSize: "12sp", fontWeight:'bold'
+		fontSize: "12dp", fontWeight:'bold'
 	}
 }
 

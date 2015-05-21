@@ -7,9 +7,9 @@
 			<View id="avatarView" onClick="imageClick">
 				<ImageView id="image"></ImageView>
 			</View>
-			<Label id="status" text="username@repay.com"/>
-			<Button id="signOutButton" title="Sign Out" onClick="signOutClick" width="Ti.UI.FILL"></Button>
-			<Button id="syncButton" title="Sync Now" onClick="syncClick" width="Ti.UI.FILL"></Button>
+			<Label id="email" text="username@repay.com"/>
+			<Button id="signOutButton" onClick="signOutClick" title="Sign Out" ></Button>
+			<Button id="syncButton" onClick="syncClick" title="Sync Now" ></Button>
 		</ScrollView>
 	</View>
 </Alloy>

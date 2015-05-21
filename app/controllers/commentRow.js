@@ -13,6 +13,7 @@ if ($model) {
 	$.commentRow.rowid = $model.id;
 	
 	var isodd = ($model.get('userId') % 2) == 1;
+	$.avatar.image = (isodd || Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
 	$.avatarView.left = isodd ? null : "0";
 	$.avatarView.right = isodd ? "0" : null;
 	$.username.left = isodd ? null : "0";

@@ -13,7 +13,7 @@
     barColor: 'white',
     font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp"
+		fontSize: "14dp"
 	},
 	navBarHidden: true,
   	//fullscreen: true,
@@ -36,7 +36,7 @@
 	//backgroundFocusedColor: "lightgray",
     font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp"
+		fontSize: "14dp"
 	},
 	translucent: 'false',
     barColor: 'white'
@@ -44,7 +44,7 @@
 
 ".hSplitter": {
 	height: "75%",
-	width: "1dp",
+	width: "1",
 	touchEnabled: false,
 	backgroundColor: "#dddd",
 	//top: "8dp",
@@ -88,7 +88,7 @@
 }
 
 "#logo": {
-	height: "40dp",
+	height: "48dp", //"40dp",
 	touchEnabled: true,
 	image: "/smalllogo.png",
 	left: "4dp",
@@ -117,14 +117,14 @@
 }
 
 ".tabGroup": {
-	height: "48dp",
+	height: "41dp", //"48dp"
 	width: Titanium.UI.FILL,
 	touchEnabled: false,
-	backgroundColor: Alloy.Globals.darkColor,
+	backgroundColor: "lightgray", //Alloy.Globals.darkColor,
 }
 
 ".tabBar": {
-	height: "47dp",
+	height: "40dp", //"47dp"
 	width: Titanium.UI.FILL,
 	touchEnabled: false,
 	backgroundColor: "white",
@@ -149,10 +149,11 @@
 	//backgroundFocusedColor: "lightgray",
     font: {
 		fontFamily: 'century-gothic',
-		fontSize: "16dp",
+		fontSize: "18dp", //"16dp"
 		fontWeight: "bold",
 	},
 	touchEnabled: false,
+	bottom: "4dp",
 }
 
 "#activeTab": {
@@ -178,18 +179,6 @@
     icon: "/actionicon.png",
     //displayHomeAsUp: true,
     backgroundImage: "/actionbackground.png"
-}
-
-"Label": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	color: "#000"
-}
-
-"#label1": {
-	font: {
-		fontSize: "12sp"
-	}
 }
 
 ".mainView": {
@@ -236,7 +225,7 @@
 }
 
 "#addReceiptImg": {
-	image: "/icon/ic_addreceipt.png",
+	image: "/icon/ic_receipt.png", //"/icon/ic_addreceipt.png",
 	height: "40dp",
 	touchEnabled: false,
 	zIndex: 2,

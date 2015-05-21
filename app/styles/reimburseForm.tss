@@ -30,7 +30,7 @@
 
 ".labelView": {
 	font: {
-		fontSize: "12sp",
+		fontSize: "12dp",
 		fontWeight: 'bold'
 	}
 }

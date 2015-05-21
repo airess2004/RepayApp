@@ -48,7 +48,7 @@
  	color: Alloy.Globals.darkColor,
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		fontWeight: 'bold'
 	},
 	//backgroundColor: "yellow",
@@ -65,7 +65,7 @@
  	top: "0",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: 'bold'
 	},
 	//backgroundColor: "green",
@@ -90,7 +90,7 @@
  	color: "black",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "12sp",
+		fontSize: "12dp",
 		//fontWeight: 'bold'
 	},
 	//backgroundColor: "cyan",

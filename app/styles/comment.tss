@@ -59,7 +59,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "18sp",
+		fontSize: "18dp",
 		fontWeight: "bold"
 	},
 	color: Alloy.Globals.darkColor,
@@ -73,7 +73,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "15sp",
+		fontSize: "15dp",
 		fontWeight: "bold"
 	},
 	color: Alloy.Globals.lightColor,
@@ -112,7 +112,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: "bold"
 	},
 	color: "white",
@@ -144,7 +144,7 @@
 ".labelName": {
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "12sp",
+		fontSize: "12dp",
 		fontWeight: 'bold'
 	},
 	left: "16dp",
@@ -156,7 +156,7 @@
 ".labelContent": {
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "16sp",
+		fontSize: "16dp",
 		//fontWeight: 'bold'
 	},
 	left: "16dp",
@@ -212,7 +212,7 @@
 	color: "black",
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: 'bold'
 	},
 	right: "35dp",

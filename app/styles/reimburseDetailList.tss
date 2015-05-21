@@ -59,7 +59,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "18sp",
+		fontSize: "18dp",
 		fontWeight: "bold"
 	},
 	color: Alloy.Globals.darkColor,
@@ -73,7 +73,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "15sp",
+		fontSize: "15dp",
 		fontWeight: "bold"
 	},
 	color: Alloy.Globals.lightColor,
@@ -112,7 +112,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: "bold"
 	},
 	color: "white",
@@ -144,7 +144,7 @@
 	touchEnabled: true,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: "bold"
 	},
 	//top: "16dp",
@@ -161,7 +161,7 @@
 	touchEnabled: true,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "17sp",
+		fontSize: "17dp",
 		//fontWeight: "bold"
 	},
 	top: "16dp",
@@ -205,7 +205,7 @@
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "16sp",
+		fontSize: "16dp",
 		//fontWeight: "bold"
 	},
 	color: "black",
@@ -217,7 +217,7 @@
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "16sp",
+		fontSize: "16dp",
 		fontWeight: "bold"
 	},
 	color: "black",
@@ -281,7 +281,7 @@
 	touchEnabled: false,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "17sp",
+		fontSize: "17dp",
 		//fontWeight: "bold"
 	},
 	color: "white",
@@ -325,7 +325,7 @@
 	touchEnabled: false,
 	font: {
 		//fontFamily: 'century-gothic',
-		fontSize: "20sp",
+		fontSize: "20dp",
 		//fontWeight: "bold"
 	},
 	color: "#00a2e8", //Alloy.Globals.lightColor,
@@ -348,7 +348,7 @@
 	touchEnabled: false,
 	font: {
 		//fontFamily: 'century-gothic',
-		fontSize: "14sp",
+		fontSize: "14dp",
 		//fontWeight: "bold"
 	},
 	color: "black", //Alloy.Globals.lightColor,

@@ -26,3 +26,49 @@
  	// borderWidth: "2dp",
  	
 }
+
+"#email" : {
+ 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14dp"
+	},
+	color: "black",
+}
+
+
+"#signOutButton": {
+	width: "80%", //Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	color: "white",
+	backgroundColor: "#34b2b1",
+	backgroundSelectedColor: "#5dd",
+	top: "16dp",
+	//bottom: "8dp",
+	//borderRadius: "3dp",
+	focusable: true,
+	style: 'PLAIN',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14dp"
+	}
+}
+
+"#syncButton": {
+	width: "80%", //Titanium.UI.FILL,
+	height: Titanium.UI.SIZE,
+	color: "white",
+	backgroundColor: "#34b2b1",
+	backgroundSelectedColor: "#5dd",
+	top: "16dp",
+	//bottom: "8dp",
+	//borderRadius: "3dp",
+	focusable: true,
+	style: 'PLAIN',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14dp"
+	}
+}

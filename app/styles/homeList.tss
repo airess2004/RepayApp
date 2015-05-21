@@ -3,6 +3,7 @@
  	height: Titanium.UI.FILL,
  	position: "absolute",
  	bubbleParent: false,
+ 	top: "4dp",
 }
 
 "#tableView" : {

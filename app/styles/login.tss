@@ -53,7 +53,7 @@
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp"
+		fontSize: "14dp"
 	}
 }
 
@@ -73,7 +73,7 @@
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp"
+		fontSize: "14dp"
 	}
 }
 
@@ -93,7 +93,7 @@
 	color: "darkgray",
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "16sp"
+		fontSize: "16dp"
 	}
 }
 
@@ -120,6 +120,6 @@
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14sp"
+		fontSize: "14dp"
 	}
 }

@@ -19,11 +19,13 @@ if ($model) {
 		//$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		//$.innerView.backgroundColor = 'lightgray';
 		$.status.backgroundColor = STATUSCODE_COLOR[status];
+		$.statusView.backgroundColor = $.status.backgroundColor;
 		//$.avatar.image = '/tick_64.png';
 	} else {
 		//$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
 		//$.innerView.backgroundColor = 'white';
 		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
+		$.statusView.backgroundColor = $.status.backgroundColor;
 		//$.avatar.image = '/tick_64.png';
 	}
 }
@@ -110,16 +112,31 @@ function rowLongClick(e) {
 	if (!Alloy.Globals.rowLongClickUsed) {
 		Alloy.Globals.rowLongClickUsed = true;
 		id = e.source.parent.rowid;
-		
-		var deleteDialog = Ti.UI.createAlertDialog({
-			title : "Confirm",
-			message : "Are you sure you want to delete this record?",
-			buttonNames : ["Yes", "No"],
-			cancel : 1
-		});
-		deleteDialog.addEventListener('click', doDeleteClick);
+		var status = $model.get('status');
+		if (status == STATUSCODE[Const.Open]) {
+			var deleteDialog = Ti.UI.createAlertDialog({
+				title : "Confirm",
+				message : "Are you sure you want to Delete this record?",
+				buttonNames : ["Yes", "No"],
+				cancel : 1
+			});
+			deleteDialog.addEventListener('click', doDeleteClick);
 
-		deleteDialog.rowid = id;
-		deleteDialog.show({modal:true});
+			deleteDialog.rowid = id;
+			deleteDialog.show({modal:true});
+		} else {
+			var deleteDialog = Ti.UI.createAlertDialog({
+				title : "Delete",
+				message : "Pending/Closed records can't be Deleted!",
+				buttonNames : ["OK"],
+				cancel : 0
+			});
+			deleteDialog.addEventListener('click', function(evt) {
+				e.cancelBubble = true;
+				Alloy.Globals.rowLongClickUsed = false;
+			});
+			deleteDialog.rowid = id;
+			deleteDialog.show({modal:true});
+		}
 	}
 }

@@ -62,7 +62,7 @@
  	//left : "4dp",
  	font: {
 			fontFamily: 'century-gothic',
-			fontSize: "14sp",
+			fontSize: "14dp",
 			//fontWeight: "bold",
 		},
 }
@@ -85,7 +85,7 @@
  	color: "black",
  	font: {
 			fontFamily: 'century-gothic',
-			fontSize: "14sp",
+			fontSize: "14dp",
 		},
 }
 
@@ -101,7 +101,7 @@
  	color: "black",
  	font: {
 			fontFamily: 'century-gothic',
-			fontSize: "14sp",
+			fontSize: "14dp",
 		},
 }
 
@@ -129,7 +129,7 @@
  	touchEnabled : false,
  	font: {
 			fontFamily: 'century-gothic',
-			fontSize: "12sp",
+			fontSize: "12dp",
 		},
 	color: "#d54038",
 }

@@ -47,7 +47,7 @@ function windowOpen(e) {
 		// abx.subtitleFont = "century-gothic";
 		// abx.titleColor = Alloy.Globals.darkColor;
 		// abx.subtitleColor = Alloy.Globals.lightColor;
-		$.total.text = "Rp." + String.formatDecimal($model.get("total")); // +" IDR";; //data.get("total");
+		$.total.text = "Rp." + String.formatDecimal(data.get("total")); // +" IDR";; //data.get("total");
 		activity.invalidateOptionsMenu();
 	}
 	showList(e);

@@ -36,7 +36,7 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON();
-	transform.status = STATUS[transform.status];
+	transform.status = STATUS[transform.status].toUpperCase();
 	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
 	transform.total = "Rp." + String.formatDecimal(transform.total); // + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
 	if (transform.title && String.format(transform.title).length > 25) transform.title = transform.title.substring(0,22)+"...";

@@ -32,21 +32,32 @@
  	touchEnabled: false,
 }
 
+".centeredBtnView": {
+	height: Titanium.UI.FILL,
+	width: "33.3%",
+	touchEnabled: false,
+	//backgroundColor: "white",
+	//backgroundSelectedColor: "lightgray",
+	//left: "4dp",
+	//right: "4dp",
+}
+
 "#showAll" : {
- 	width: "76dp", //Titanium.UI.SIZE,
- 	height: Titanium.UI.SIZE,
+ 	width: "80dp", //Titanium.UI.SIZE,
+ 	height: "24dp", //Titanium.UI.SIZE,
  	backgroundColor: "transparent",
  	backgroundSelectedColor: "lightgray",
  	color: "black",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "15sp",
+		fontSize: "15dp",
 		//fontWeight: "bold"
 	},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER, //RIGHT
 	horizontalWrap: false,
 	touchEnabled: true,
 	bottom: "8dp",
-	right: "16dp",
+	right: "20dp",
 }
 
 ".btnLabel" : {
@@ -56,7 +67,7 @@
  	color: "white",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "15sp",
+		fontSize: "15dp",
 		//fontWeight: "bold"
 	},
 	touchEnabled: false,
@@ -64,33 +75,34 @@
 }
 
 "#openBtn" : {
- 	width: "76dp", //Titanium.UI.SIZE,
+ 	width: "80dp", //Titanium.UI.SIZE,
  	height: Titanium.UI.FILL,
  	backgroundColor: "#2fb3b4",
  	backgroundSelectedColor: "#3fc3c4",
  	touchEnabled: true,
  	top: "8dp",
  	bottom: "36dp",
- 	left: "16dp",
+ 	//left: "16dp",
 }
 
 "#pendBtn" : {
- 	width: "76dp", //Titanium.UI.SIZE,
+ 	width: "80dp", //Titanium.UI.SIZE,
  	height: Titanium.UI.FILL,
  	backgroundColor: "#8a8e8e",
  	backgroundSelectedColor: "#9a9e9e",
  	touchEnabled: true,
  	top: "8dp",
  	bottom: "36dp",
+ 	left: "20dp",
 }
 
 "#closedBtn" : {
- 	width: "76dp", //Titanium.UI.SIZE,
+ 	width: "80dp", //Titanium.UI.SIZE,
  	height: Titanium.UI.FILL,
  	backgroundColor: "#b42f2f",
  	backgroundSelectedColor: "#c43f3f",
  	touchEnabled: true,
  	top: "8dp",
  	bottom: "36dp",
- 	right: "16dp",
+ 	right: "20dp",
 }

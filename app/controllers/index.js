@@ -176,7 +176,7 @@ function updateTitle(currentPage) {
 		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
-			fontSize : "16dp",
+			fontSize : "18dp", //"16dp",
 			fontWeight : (currentPage == 0) ? "bold" : "normal",
 		}
 	});
@@ -189,7 +189,7 @@ function updateTitle(currentPage) {
 		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
-			fontSize : "16dp",
+			fontSize : "18dp", //"16dp",
 			fontWeight : (currentPage == 1) ? "bold" : "normal",
 		}
 	});
@@ -202,7 +202,7 @@ function updateTitle(currentPage) {
 		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
-			fontSize : "16dp",
+			fontSize : "18dp", //"16dp",
 			fontWeight : (currentPage == 2) ? "bold" : "normal",
 		}
 	});
