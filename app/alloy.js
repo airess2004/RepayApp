@@ -211,9 +211,9 @@ function fillTestData() {
 			description : "znnfhtdkjugkjfxgffdhgfhhhlkjhhgdgfbkbjtddfdgfhfsggfshfkhkjh sadpouoiyrtyu",
 			amount : total,
 			status : status <= STATUSCODE[Const.Pending] ? DETAILSTATUSCODE[Const.Open] : DETAILSTATUSCODE[Const.Approved], //Math.round(Math.random()+1),
-			urlImageSmall : "/icon/ic_action_photo.png",
-			urlImageMedium : "/icon/ic_action_photo.png",
-			urlImageOriginal : "/icon/ic_action_photo.png",
+			urlImageSmall : "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
+			urlImageMedium : "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
+			urlImageOriginal : "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
 			receiptDate : moment().subtract(i, "days").format(dateFormat)
 		});
 		var comment = addComment({

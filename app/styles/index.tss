@@ -120,7 +120,7 @@
 	height: "41dp", //"48dp"
 	width: Titanium.UI.FILL,
 	touchEnabled: false,
-	backgroundColor: "lightgray", //Alloy.Globals.darkColor,
+	backgroundColor: Alloy.Globals.darkColor, //"lightgray",
 }
 
 ".tabBar": {

@@ -3,17 +3,21 @@
 	<!--Collection id="localComment" src="comment" instance="true"/-->
 	<View id="homeReimburseDetailRow" class="homeDetailRow" layout="vertical" >
 		<View class="vSplitter" />
-		<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
-			<View class="avatarView" onClick="thumbPopUp">
-				<ImageView id="avatar" image="{urlImageOriginal}" />
-			</View>
-			<View class="midView" layout="vertical">
-				<Label id="title" text="{name}" />
-				<Label id="date" text="{receiptDate}"/>
-				<Label id="amount" text="{amount}"/>
-				<View class="commentView" layout="horizontal">
-					<ImageView class="commentImg"></ImageView>
-					<Label id="commentLabel"></Label>
+		<View id="innerView"  onClick="rowClick" onLongclick="rowLongClick">
+			<View layout="horizontal" touchEnabled="false" horizontalWrap="false" right="20dp">
+				<!--View class="centeredBtnView" left="0"-->
+					<View class="avatarView" onClick="thumbPopUp">
+						<ImageView id="avatar" image="{urlImageOriginal}" />
+					</View>
+				<!--/View-->
+				<View class="midView" layout="vertical">
+					<Label id="title" text="{name}" />
+					<Label id="date" text="{receiptDate}"/>
+					<Label id="amount" text="{amount}"/>
+					<View class="commentView" layout="horizontal">
+						<ImageView class="commentImg"></ImageView>
+						<Label id="commentLabel"></Label>
+					</View>
 				</View>
 			</View>
 			<View id="rightView" onClick="switchChange">
@@ -21,5 +25,6 @@
 				<Label class="switch" id="switchBtn" top="12dp" onClick="switchChange"></Label>
 			</View>
 		</View>
+		<View width="Ti.UI.FILL" height="32dp"></View>
 	</View>
 </Alloy>

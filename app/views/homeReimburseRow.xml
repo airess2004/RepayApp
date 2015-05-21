@@ -2,8 +2,10 @@
   <Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
   <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical"  className="reimburseRow2">
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
-  		<View class="avatarView" onClick="thumbPopUp">
-    		<ImageView id="avatar" image="{userAvatar}" />
+  		<View class="centeredBtnView" left="0">
+  			<View class="avatarView" onClick="thumbPopUp">
+    			<ImageView id="avatar" image="{userAvatar}" />
+    		</View>
     	</View>
     	<View class="midView">
     		<!--Label id="userName" text="{userName}" /-->
@@ -15,6 +17,7 @@
     		<Label id="total" text="{total}"/>
     	</View-->
     </View>
+    <View width="Ti.UI.FILL" height="30dp"></View>
     <View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
     	<Require src="homeReimburseDetailRow"/>
     </View>

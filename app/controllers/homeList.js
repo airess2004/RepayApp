@@ -46,6 +46,7 @@ function transformFunction(model) {
 	transform.total = "Rp." + String.formatDecimal(transform.total); //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
 	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
 	//if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
+	transform.userAvatar = "/icon/thumb_reimburse.png";
 	return transform;
 }
 

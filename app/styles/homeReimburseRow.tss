@@ -8,12 +8,14 @@
 }
 
 "#innerView" : {
-	left: "4dp",
+	//left: "4dp",
 	width: Titanium.UI.FILL,
- 	height: Titanium.UI.SIZE, //"80dp" 
+ 	height: "80dp", //Titanium.UI.SIZE, //"80dp" 
  	touchEnabled : true,
  	backgroundSelectedColor: "#8888",
  	backgroundColor: "white",
+ 	//bottom: "30dp",
+ 	top: "8dp",
 }
 
 ".vSplitter": {
@@ -25,35 +27,48 @@
 	//bottom: "8dp",
 }
 
+".centeredBtnView": {
+	height: Titanium.UI.SIZE,
+	width: "33.3%",
+	touchEnabled: false,
+	//backgroundColor: "white",
+	//backgroundSelectedColor: "lightgray",
+	//left: "4dp",
+	//right: "4dp",
+}
+
 ".avatarView" : {
- 	height: "64dp",
- 	width: "64dp",
+ 	height: Titanium.UI.FILL, //"72dp",
+ 	width: Titanium.UI.FILL, //"64dp",
  	touchEnabled : true,
- 	backgroundColor: "gray",
- 	borderRadius: "32dp",
+ 	backgroundColor: "transparent",
+ 	//borderRadius: "32dp",
  	//borderColor: "#eeee",
  	//borderWidth: "1dp",
- 	top: "4dp",
- 	left: "4dp",
+ 	//top: "4dp",
+ 	left: "20dp", //"4dp",
  	bubbleParent: false,
 }
 
 "#avatar" : {
- 	height: Titanium.UI.FILL, //"64dp",
+ 	//height: Titanium.UI.FILL, //"64dp",
  	width: Titanium.UI.FILL, //"64dp",
- 	image: "/icon/ic_action_user.png",
+ 	image: "/icon/ic_action_user.png", //"/icon/thumb_reimburse.png", //
  	touchEnabled : false,
  	//borderRadius: "32dp",
  	//borderColor: Alloy.Globals.darkColor,
  	//borderWidth: "2dp",
+ 	left: "0",
+ 	bottom: "0",
 }
 
 ".midView" : {
 	width: Titanium.UI.FILL, //"55%",
- 	height: Titanium.UI.SIZE, //Titanium.UI.FILL,
+ 	height: Titanium.UI.FILL, //Titanium.UI.FILL,
  	touchEnabled : false,
- 	left: "24dp",
- 	bottom: "4dp",
+ 	left: "8dp",
+ 	bottom: "0",
+ 	right: "20dp",
 }
 
 "#userName" : {
@@ -76,8 +91,10 @@
  	font: {
  		fontFamily: 'century-gothic',
  		fontSize: "14dp",
- 		fontWeight: "bold",
- 	}
+ 		//fontWeight: "bold",
+ 	},
+ 	//wordWrap: false,
+ 	bottom: "0",
 }
 
 "#date" : {
@@ -120,7 +137,7 @@
 	width: "35%" ,
  	height: Titanium.UI.SIZE,
  	top: "8dp",
- 	right: "8dp",
+ 	right: "20dp",
  	bottom: "8dp",
  	layout: "vertical",
  	touchEnabled : true,

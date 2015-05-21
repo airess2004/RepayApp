@@ -38,7 +38,7 @@ if ($model) {
 	updateSwitch($.switchBtn, $.switchBtn.value);
 	var reimburse = reimburses.get($model.get('reimburseId'));
 	var parentstatus = reimburse.get('status');
-	$.switchBtn.touchEnabled = (parentstatus <= STATUSCODE[Const.Pending]);
+	$.switchBtn.touchEnabled = true; //(parentstatus <= STATUSCODE[Const.Pending]);
 	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 }
 
@@ -127,7 +127,7 @@ function switchChange(e) {
 		if ($.switchBtn.touchEnabled) {
 			var reimburseDetail = reimburseDetails.get(id);
 			var reimburse = Alloy.Globals.homeListReimburse.get(reimburseDetail.get('reimburseId'));
-			if (reimburse.get('status') <= STATUSCODE[Const.Pending]) {	
+			if (reimburse.get('status') <= STATUSCODE[Const.Pending]) {
 				$.switchBtn.value = !$.switchBtn.value;
 				updateSwitch($.switchBtn, $.switchBtn.value);
 
@@ -160,7 +160,19 @@ function switchChange(e) {
 					Alloy.Globals.toggleUsed = false;
 				}});
 			} else {
-				Alloy.Globals.toggleUsed = false;
+				var switchDialog = Ti.UI.createAlertDialog({
+					title : "Toggle",
+					message : "Closed records can't be Changed!",
+					buttonNames : ["OK"],
+					cancel : 0
+				});
+				switchDialog.addEventListener('click', function(evt) {
+					e.cancelBubble = true;
+					Alloy.Globals.toggleUsed = false;
+				});
+				switchDialog.rowid = id;
+				switchDialog.show({modal:true});
+				//Alloy.Globals.toggleUsed = false;
 			}
 		} else {
 			Alloy.Globals.toggleUsed = false;

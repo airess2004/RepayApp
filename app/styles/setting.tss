@@ -6,19 +6,21 @@
 "#avatarView" : {
  	height: "128dp",
  	width: "128dp",
- 	touchEnabled : true,
  	backgroundColor : "gray",
  	top :"8dp",
  	borderColor: Alloy.Globals.darkColor,
  	borderRadius: "64dp",
  	borderWidth: "2dp",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
 }
 
 "#image" : {
- 	height: "128dp",
+ 	//height: "128dp",
  	width: "128dp",
  	image: "/icon/ic_action_user.png",
- 	touchEnabled : false,
+ 	touchEnabled : false, //true,
+ 	bubbleParent:false,
  	//backgroundColor : "gray",
  	//top :"8dp",
  	// borderColor: Alloy.Globals.darkColor,
@@ -31,7 +33,7 @@
  	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14dp"
+		fontSize: "15dp"
 	},
 	color: "black",
 }

@@ -29,6 +29,11 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
+						delete $.image.left;
+						delete $.image.top;
+						delete $.image.width;
+						delete $.image.height;
+						delete $.image.rect;
 						$.image.image = media.nativePath; //media;
 						Alloy.Globals.profileImage.image = media.nativePath;
 					}
@@ -41,6 +46,12 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
+						delete $.image.left;
+						delete $.image.top;
+						delete $.image.width;
+						delete $.image.height;
+						delete $.image.size;
+						delete $.image.rect;
 						$.image.image = media.nativePath; //media;
 						Alloy.Globals.profileImage.image = media.nativePath;
 					}
@@ -54,6 +65,26 @@ function imageClick(e) {
 		}); 
 		dialog.show();
 	}
+}
+
+function touchStart(e) {
+	e.cancelBubble = true;
+	e.bubbles = false;
+	var rect = $.image.getRect();
+	
+	rectStartX = rect.x;
+	rectStartY = rect.y;
+	touchStartX = e.x;
+	touchStartY = e.y;
+}
+
+function touchMove(e) {
+	e.cancelBubble = true;
+	e.bubbles = false;
+	var rect = $.image.getRect();
+	
+	$.image.left = rectStartX + (e.x - touchStartX);
+	$.image.top = rectStartY + (e.y - touchStartY);
 }
 
 $.setting.addEventListener("refresh", function(e){
