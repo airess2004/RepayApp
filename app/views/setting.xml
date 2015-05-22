@@ -5,7 +5,7 @@
   		</TitleControl-->
 		<ScrollView layout = "vertical">
 			<View id="avatarView" onClick="imageClick" onTouchmove="touchMove" onTouchstart ="touchStart">
-				<ImageView id="image" onTouchmove="touchMove" onTouchstart ="touchStart"></ImageView>
+				<ImageView id="avatar" onTouchmove="touchMove" onTouchstart ="touchStart"></ImageView>
 			</View>
 			<Label id="email" text="username@repay.com"/>
 			<Button id="signOutButton" onClick="signOutClick" title="Sign Out" ></Button>

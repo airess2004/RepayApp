@@ -29,7 +29,7 @@ function winOpen(e) {
 		$.dateField.text = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.text = "Rp." + String.formatDecimal(data.get('amount'));// + " IDR";
 		$.descriptionField.text = data.get('description');
-		$.image.image = data.get('urlImageOriginal');
+		$.photo.image = data.get('urlImageOriginal');
 		// var activity = $.comment.getActivity();
 		// if (activity) {
 		// var actionBar = activity.getActionBar();
@@ -130,7 +130,7 @@ function thumbPopUp(e) {
 		width: "256dp",
 		height : "256dp",
 		touchEnabled: false,
-		image: $.image.image,
+		image: $.photo.image,
 	}));
 	
 	$.dialogView3.removeAllChildren();
@@ -138,13 +138,13 @@ function thumbPopUp(e) {
 	$.dialogView3.show();
 }
 
-function imageClick(e) {
+function photoClick(e) {
 	if (!Alloy.Globals.cameraShown) {
 		Alloy.Globals.cameraShown = true;
 		var camera = require('camera').getImage(function(media) {
 			if (media != null) {
 				Ti.API.info("Click Image = " + media.nativePath);
-				$.image.image = media.nativePath;
+				$.photo.image = media.nativePath;
 				//media;
 			}
 			Alloy.Globals.cameraShown = false;

@@ -29,12 +29,14 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						delete $.image.left;
-						delete $.image.top;
-						delete $.image.width;
-						delete $.image.height;
-						delete $.image.rect;
-						$.image.image = media.nativePath; //media;
+						delete $.avatar.size;
+						delete $.avatar.rect;
+						delete $.avatar.center;
+						delete $.avatar.left;
+						delete $.avatar.top;
+						delete $.avatar.width;
+						delete $.avatar.height;
+						$.avatar.image = media.nativePath; //media;
 						Alloy.Globals.profileImage.image = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
@@ -46,13 +48,14 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						delete $.image.left;
-						delete $.image.top;
-						delete $.image.width;
-						delete $.image.height;
-						delete $.image.size;
-						delete $.image.rect;
-						$.image.image = media.nativePath; //media;
+						delete $.avatar.size;
+						delete $.avatar.rect;
+						delete $.avatar.center;
+						delete $.avatar.left;
+						delete $.avatar.top;
+						delete $.avatar.width;
+						delete $.avatar.height;
+						$.avatar.image = media.nativePath; //media;
 						Alloy.Globals.profileImage.image = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
@@ -70,10 +73,12 @@ function imageClick(e) {
 function touchStart(e) {
 	e.cancelBubble = true;
 	e.bubbles = false;
-	var rect = $.image.getRect();
-	
-	rectStartX = rect.x;
-	rectStartY = rect.y;
+	var center = $.avatar.getCenter();
+	centerStartX = center.x;
+	centerStartY = center.y;
+	//var rect = $.avatar.getRect();
+	//rectStartX = rect.x;
+	//rectStartY = rect.y;
 	touchStartX = e.x;
 	touchStartY = e.y;
 }
@@ -81,10 +86,10 @@ function touchStart(e) {
 function touchMove(e) {
 	e.cancelBubble = true;
 	e.bubbles = false;
-	var rect = $.image.getRect();
-	
-	$.image.left = rectStartX + (e.x - touchStartX);
-	$.image.top = rectStartY + (e.y - touchStartY);
+	//var rect = $.avatar.getRect();
+	//$.avatar.left = rectStartX + (e.x - touchStartX);
+	//$.avatar.top = rectStartY + (e.y - touchStartY);
+	$.avatar.setCenter({x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)});
 }
 
 $.setting.addEventListener("refresh", function(e){

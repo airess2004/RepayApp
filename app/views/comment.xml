@@ -26,8 +26,8 @@
 						<Label  class="labelName" left="0" right="0">Title</Label>
 						<Label class="labelContent" left="0" right="0" id="titleField" ></Label>
 					</View>
-					<View width="20%" height="Ti.UI.SIZE" backgroundColor="gray" >
-						<ImageView id="image" class="fitWidth" image="/icon/ic_action_photo.png" onClick="thumbPopUp" />
+					<View id="imageView" onClick="thumbPopUp">
+						<ImageView id="photo" />
 					</View>
 				</View>
 				<View class="vSplitter" />
