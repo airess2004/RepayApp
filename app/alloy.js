@@ -101,7 +101,7 @@ function addReimburse(item) {
     	userName : "Adam", //Alloy.Globals.CURRENT_USER,
     	userAvatar : "/icon/ic_action_user.png",
         title : item.title,
-        projectDate : moment(item.projectDate).utc().toISOString(),
+        projectDate : moment(item.projectDate, dateFormat).utc().toISOString(),
         sentDate : item.sentDate,
         status : item.status,
         total : item.total,
@@ -127,7 +127,7 @@ function addReimburseDetail(item) {
     	reimburseId : item.reimburseId,
         name : item.name,
         description : item.description,
-        receiptDate : moment(item.receiptDate).utc().toISOString(),
+        receiptDate : moment(item.receiptDate, dateFormat).utc().toISOString(),
         status : item.status,
         amount : item.amount,
         urlImageSmall: item.urlImageSmall,
@@ -219,7 +219,7 @@ function fillTestData() {
 		var comment = addComment({
 			reimburseDetailId : detail.id,
 			message : "Ok thanks "+i,
-			commentDate : moment().subtract(i, "days").format(dateFormat)
+			commentDate : moment().subtract(i, "days").utc().toISOString() //.format(dateFormat)
 		});
 	}
 }

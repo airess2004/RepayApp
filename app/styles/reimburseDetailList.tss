@@ -335,7 +335,7 @@
 
 ".dialogButton": {
 	height: Titanium.UI.SIZE,//"40dp",
-	width: Titanium.UI.SIZE,//"40dp",
+	width: "50%", //Titanium.UI.SIZE,//"40dp",
 	touchEnabled: true,
 	backgroundSelectedColor: "lightgray",
 	borderColor:"lightgray",

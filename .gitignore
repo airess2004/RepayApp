@@ -9,3 +9,4 @@ tmp
 .settings
 Thumbs.db
 i18n/
+plugins/ti.alloy/hooks/alloy.js

@@ -1,5 +1,7 @@
 var args = arguments[0] || {};
 
+Alloy.Globals.avatar = $.avatar;
+
 
 function signOutClick(e) {
 	Alloy.Globals.login.getView().open();;
@@ -9,7 +11,7 @@ function syncClick(e) {
 	
 }
 
-function imageClick(e) {
+function avatarClick(e) {
 	if (!Alloy.Globals.cameraShown) {
 		Alloy.Globals.cameraShown = true;
 		//Create a dialog with options
@@ -29,15 +31,18 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						delete $.avatar.size;
-						delete $.avatar.rect;
-						delete $.avatar.center;
-						delete $.avatar.left;
-						delete $.avatar.top;
-						delete $.avatar.width;
-						delete $.avatar.height;
-						$.avatar.image = media.nativePath; //media;
-						Alloy.Globals.profileImage.image = media.nativePath;
+						delete Alloy.Globals.fullImage.size;
+						delete Alloy.Globals.fullImage.rect;
+						delete Alloy.Globals.fullImage.center;
+						delete Alloy.Globals.fullImage.left;
+						delete Alloy.Globals.fullImage.top;
+						delete Alloy.Globals.fullImage.width;
+						//delete $.fullImage.height;
+						delete Alloy.Globals.cropperView.center;
+						Alloy.Globals.fullImage.image = media.nativePath; //media;
+						Alloy.Globals.fullImage.width = Ti.UI.FILL;
+						Alloy.Globals.overlayView.show({modal:true});
+						//Alloy.Globals.profileImage.image = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				});
@@ -48,15 +53,18 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						delete $.avatar.size;
-						delete $.avatar.rect;
-						delete $.avatar.center;
-						delete $.avatar.left;
-						delete $.avatar.top;
-						delete $.avatar.width;
-						delete $.avatar.height;
-						$.avatar.image = media.nativePath; //media;
-						Alloy.Globals.profileImage.image = media.nativePath;
+						delete Alloy.Globals.fullImage.size;
+						delete Alloy.Globals.fullImage.rect;
+						delete Alloy.Globals.fullImage.center;
+						delete Alloy.Globals.fullImage.left;
+						delete Alloy.Globals.fullImage.top;
+						delete Alloy.Globals.fullImage.width;
+						//delete $.fullImage.height;
+						delete Alloy.Globals.cropperView.center;
+						Alloy.Globals.fullImage.image = media.nativePath; //media;
+						Alloy.Globals.fullImage.width = Ti.UI.FILL;
+						Alloy.Globals.overlayView.show({modal:true});
+						//Alloy.Globals.profileImage.image = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				}, 1);
@@ -68,28 +76,6 @@ function imageClick(e) {
 		}); 
 		dialog.show();
 	}
-}
-
-function touchStart(e) {
-	e.cancelBubble = true;
-	e.bubbles = false;
-	var center = $.avatar.getCenter();
-	centerStartX = center.x;
-	centerStartY = center.y;
-	//var rect = $.avatar.getRect();
-	//rectStartX = rect.x;
-	//rectStartY = rect.y;
-	touchStartX = e.x;
-	touchStartY = e.y;
-}
-
-function touchMove(e) {
-	e.cancelBubble = true;
-	e.bubbles = false;
-	//var rect = $.avatar.getRect();
-	//$.avatar.left = rectStartX + (e.x - touchStartX);
-	//$.avatar.top = rectStartY + (e.y - touchStartY);
-	$.avatar.setCenter({x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)});
 }
 
 $.setting.addEventListener("refresh", function(e){
@@ -105,6 +91,9 @@ $.setting.addEventListener("open", function(e){
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	//$.tableView.search = Alloy.Globals.searchView;
 	Alloy.Globals.scrollableView.scrollToView($.setting);
+	$.avatar.image = Alloy.Globals.profileImage.image;
+	
 	//showList(e);
 	e.cancelBubble = true;
+	//Alloy.Globals.dialogView.show();
 });

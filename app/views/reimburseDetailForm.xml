@@ -18,7 +18,7 @@
 				<TextField id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
 				<View class="vSplitter" />
 				<Label  class="labelView" >Date</Label>
-				<TextField id="dateField" hintText="YYYY-MM-DD"  onFocus="dateFieldClick" editable="false"></TextField>
+				<TextField id="dateField" hintText="DD/MM/YYYY"  onFocus="dateFieldClick" editable="false"></TextField>
 				<View class="vSplitter" />
 				<Label  class="labelView" >Description</Label>
 				<TextField id="descriptionField" hintText="Description" ></TextField>

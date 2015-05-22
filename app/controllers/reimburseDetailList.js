@@ -93,8 +93,11 @@ function newDetailClick(e) {
 }
 
 function doEdit(e) {
-	Alloy.createController("reimburseForm", {id : args.id}).getView().open();
-	$.reimburseDetailList.close();
+	var newview = Alloy.createController("reimburseForm", {id : args.id}).getView(); //.open();
+	Alloy.Globals.dialogView2.removeAllChildren();
+	Alloy.Globals.dialogView2.add(newview);
+	newview.fireEvent("open");
+	//$.reimburseDetailList.close();
 }
 
 // confirm
@@ -196,5 +199,11 @@ $.reimburseDetailList.addEventListener('refresh', function(e) {
 $.reimburseDetailList.addEventListener("android:back", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;
 	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
-	$.reimburseDetailList.close(e);
+	if ($.dialogView2.visible) {
+		$.dialogView2.hide();
+	} else if($.submitDialog.visible) {
+		$.submitDialog.hide();
+	} else {
+		$.reimburseDetailList.close(e);
+	}
 });

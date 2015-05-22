@@ -128,6 +128,7 @@ function switchChange(e) {
 			var reimburseDetail = reimburseDetails.get(id);
 			var reimburse = Alloy.Globals.homeListReimburse.get(reimburseDetail.get('reimburseId'));
 			if (reimburse.get('status') <= STATUSCODE[Const.Pending]) {
+				Alloy.Globals.act.show({modal:true});
 				$.switchBtn.value = !$.switchBtn.value;
 				updateSwitch($.switchBtn, $.switchBtn.value);
 
@@ -151,8 +152,10 @@ function switchChange(e) {
 						parmdl.fetch({
 							remove : false
 						});
+						Alloy.Globals.act.hide();
 						Alloy.Globals.toggleUsed = false;
 					}, error: function(){
+						Alloy.Globals.act.hide();
 						Alloy.Globals.toggleUsed = false;
 					}});
 					//Alloy.Globals.homeListReimburse.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});

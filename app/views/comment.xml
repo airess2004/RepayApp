@@ -20,7 +20,7 @@
 				</View>
 			</View>
 			<View class="vSplitter" backgroundColor="#2fb3b4" />
-			<ScrollView class="centeredVertical" layout="vertical" width="Ti.UI.FILL" zIndex="1">
+			<ScrollView class="centeredVertical" id="scrollView" layout="vertical" width="Ti.UI.FILL" zIndex="1">
 				<View class="centeredHorizontal" width="Ti.UI.FILL" right="16dp" left="16dp">
 					<View class="verticalLayout" width="80%">
 						<Label  class="labelName" left="0" right="0">Title</Label>
@@ -50,7 +50,7 @@
 		<View class="bottomView">
 			<View class="vSplitter" />
 			<View class="commentView">
-				<TextArea id="commentField" hintText="comment" ></TextArea>
+				<TextArea id="commentField" hintText="comment" onFocus="commentFocus" ></TextArea>
 				<View id="commentBtn" onClick="newCommentClick">
 					<ImageView class="buttonIcon" />
 				</View>

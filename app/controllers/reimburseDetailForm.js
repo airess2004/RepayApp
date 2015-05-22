@@ -155,19 +155,22 @@ function imageClick(e) {
 	}
 }
 
-var picker = Ti.UI.createPicker({
-	type : Ti.UI.PICKER_TYPE_DATE,
-	value : new Date()
-});
+function dateFieldClick(evt) {
+	Ti.UI.Android.hideSoftKeyboard();
+	
+	var picker = Ti.UI.createPicker({
+		type : Ti.UI.PICKER_TYPE_DATE,
+		value : ($.dateField.value == null || $.dateField.value == "") ? new Date() : moment($.dateField.value, dateFormat).toDate()
+	});
 
-function dateFieldClick(e) {
 	picker.showDatePickerDialog({
-		value : moment().toDate(),
+		value : ($.dateField.value == null || $.dateField.value == "") ? moment().toDate() : moment($.dateField.value, dateFormat).toDate(),
 		callback : function(e) {
 			if (e.cancel) {
 			} else {
 				$.dateField.value = moment(e.value).format(dateFormat);
 			}
+			$.dateField.blur();
 		}
 	});
 }

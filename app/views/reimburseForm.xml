@@ -1,18 +1,28 @@
 <Alloy>
-	<Window onOpen="winOpen" onClose="winClose" >
-		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
+	<View class="container" id="reimburseForm" onOpen="winOpen" onClose="winClose" >
+		<!--ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
 			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
-		</Menu>
-		<View class="container" layout = "vertical">
+		</Menu-->
+		<View class="dialogBox" layout="vertical">
+			<Label class="dialogTitle" text="New Reimburse" left="20dp" right="20dp" top="20dp"></Label>
+			<View class="vSplitter" backgroundColor="#00a2e8" height="2dp" top="20dp" horizontalWrap="false" />
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-					<Label class="labelView">Title</Label>
-					<TextField id="titleField" hintText="Title" ></TextField>
+					<Label class="labelName">Title</Label>
+					<TextField class="textField" id="titleField" hintText="Title" ></TextField>
 					<View class="vSplitter" />
-					<Label class="labelView">Date</Label>
-					<TextField id="dateField" hintText="YYYY-MM-DD" width="60%" onFocus="dateFieldClick" editable="false"></TextField>
+					<Label class="labelName">Date</Label>
+					<TextField class="textField" id="dateField" hintText="DD/MM/YYYY" onFocus="dateFieldClick" editable="false"></TextField>
 					<View class="vSplitter" />
 			</ScrollView>
+			<View layout="horizontal" width="Ti.UI.SIZE" horizontalWrap="false">
+				<View class="dialogButton" width="50%" onClick="dialogCancelClick">
+					<Label class="dialogButtonLabel" text="Cancel" ></Label>
+				</View>
+				<View class="dialogButton" width="50%" onClick="dialogSaveClick">
+					<Label class="dialogButtonLabel" text="Save" ></Label>
+				</View>
+			</View>
 		</View>
-	</Window>
+	</View>
 </Alloy>

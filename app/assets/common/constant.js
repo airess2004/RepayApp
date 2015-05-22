@@ -23,7 +23,7 @@ var defaultFont = {
 };
 
 var moment = require('moment-with-locales');
-var dateFormat = "YYYY-MM-DD"; //"DD/MM/YYYY";
+var dateFormat = "DD/MM/YYYY"; //"YYYY-MM-DD";
 var minDate = "01/01/2001";
 
 var cameraImage = '/icon/ic_action_photo.png';

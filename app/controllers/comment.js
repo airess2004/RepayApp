@@ -22,6 +22,10 @@ comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE rei
 // };
 //comments.sort();
 
+function commentFocus(e) {
+	$.scrollView.scrollToBottom();
+}
+
 function winOpen(e) {
 	Alloy.Globals.dialogView3 = $.dialogView3;
 	if (data) {
@@ -45,6 +49,7 @@ function winOpen(e) {
 	$.actionTitle.text = "EXPENSE";
 	$.commentField.blur();
 	Ti.UI.Android.hideSoftKeyboard();
+	//$.commentField.addEventListener("focus", commentFocus);
 }
 
 function winClose(e) {
@@ -74,7 +79,7 @@ function whereFunction(collection) {
 
 function transformFunction(model) {
 	var transform = model.toJSON();
-	transform.commentDate = moment.parseZone(transform.commentDate).local().format("YYYY-MM-DD HH:mm:ss");
+	transform.commentDate = moment.parseZone(transform.commentDate).local().format("DD-MM-YYYY HH:mm:ss");
 	return transform;
 }
 
@@ -94,6 +99,7 @@ function newCommentClick(e) {
 		comment.fetch({remove: false});
 	}
 	$.commentField.value = "";
+	$.commentField.blur();
 	Ti.UI.Android.hideSoftKeyboard();
 }
 

@@ -12,12 +12,14 @@ function winOpen(e) {
 		// $.dateField.value = data.get('projectDate');
 		
 	}
+	$.reimburseForm.parent.show();
 }
 
 function winClose(e) {
 	reimburses = null;
 	data = null;
 	Alloy.Globals.newBtnUsed = false;
+	$.reimburseForm.parent.hide();
 }
 
 function doMenuClick(evt) {
@@ -36,6 +38,14 @@ function doSearch(e) {
 	alert("Search Clicked");
 }
 
+function dialogCancelClick(e) {
+	$.reimburseForm.fireEvent("close");
+}
+
+function dialogSaveClick(e) {
+	doSave(e);
+}
+
 function doSave(e) {
 	var reimburse;
 	if (args == null || args.id == null) {
@@ -51,6 +61,7 @@ function doSave(e) {
 		});
 		reimburses.add(reimburse);
 		reimburse.save();
+		reimburse.fetch({remove:false});
 	} else {
 		reimburse = reimburses.get(args.id);
 		if (reimburse) {
@@ -60,31 +71,35 @@ function doSave(e) {
 				projectDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			});
 			reimburse.save();
+			reimburse.fetch({remove:false});
 		}
 	}
 
 	// reload the tasks
 	//reimburses.fetch({remove: false});
-	Alloy.createController("reimburseDetailList", {
-		id : reimburse.id
-	}).getView().open();
-	$.reimburseForm.close();
+	if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
+		Alloy.createController("reimburseDetailList", {
+			id : reimburse.id
+		}).getView().open();
+	};
+	$.reimburseForm.fireEvent("close"); //close();
 
 }
 
-var picker = Ti.UI.createPicker({
-	type : Ti.UI.PICKER_TYPE_DATE,
-	value : new Date()
-});
-
-function dateFieldClick(e) {
-	picker.showDatePickerDialog({
-		value : moment().toDate(),
-		callback : function(e) {
+function dateFieldClick(evt) {
+	Ti.UI.Android.hideSoftKeyboard();
+	//var picker = 
+	Ti.UI.createPicker({
+		type : Ti.UI.PICKER_TYPE_DATE,
+		value : ($.dateField.value == null || $.dateField.value == "") ? new Date() : moment($.dateField.value, dateFormat).toDate() //
+	}).showDatePickerDialog({
+		value : ($.dateField.value == null || $.dateField.value == "") ? moment().toDate() : moment($.dateField.value, dateFormat).toDate(), //,
+		callback : function (e) {
 			if (e.cancel) {
 			} else {
 				$.dateField.value = moment(e.value).format(dateFormat);
 			}
+			$.dateField.blur();
 		}
 	});
 }

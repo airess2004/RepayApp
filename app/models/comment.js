@@ -26,7 +26,7 @@ exports.definition = {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
 			comparator : function(model) {
-  				return -(moment.parseZone(model.get('commentDate')).unix());
+  				return (moment.parseZone(model.get('commentDate')).unix());
 			},
 		});
 

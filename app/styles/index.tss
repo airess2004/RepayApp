@@ -364,3 +364,121 @@
 		fontSize: "40dp"
 	}
 }
+
+"#overlayView" : {
+ 	height: Titanium.UI.FILL,
+ 	width: Titanium.UI.FILL,
+ 	backgroundColor : "#7000",
+ 	//borderColor: Alloy.Globals.darkColor,
+ 	//borderRadius: "64dp",
+ 	//borderWidth: "2dp",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
+ 	visible: false,
+ 	modal: true,
+ 	zIndex: 9,
+}
+
+
+"#fullView" : {
+ 	height: Titanium.UI.FILL,
+ 	width: Titanium.UI.FILL,
+ 	backgroundColor : "black",
+ 	//borderColor: Alloy.Globals.darkColor,
+ 	//borderRadius: "64dp",
+ 	//borderWidth: "2dp",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
+ 	bottom: "48dp",
+ 	top:0,
+}
+
+"#fullImage" : {
+ 	height: Titanium.UI.FILL,
+ 	//width: Titanium.UI.FILL,
+ 	image: "/icon/ic_action_user.png",
+ 	autorotate: true,
+ 	touchEnabled : false, //true,
+ 	//bubbleParent:false,
+ 	//backgroundColor : "gray",
+ 	//top :"8dp",
+ 	// borderColor: Alloy.Globals.darkColor,
+ 	// borderRadius: "64dp",
+ 	// borderWidth: "2dp",
+ 	enableZoomControls: true, 
+}
+
+".cropperView": {
+ 	height: "128dp",
+ 	width: "128dp",
+ 	backgroundColor : "transparent",
+ 	borderColor: "#71f1",
+ 	borderRadius: "64dp",
+ 	borderWidth: "1",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
+ 	zIndex: 10,
+}
+
+".okCancelView": {
+ 	height: "48dp",
+ 	width: Titanium.UI.FILL,
+ 	backgroundColor : Alloy.Globals.darkColor,
+ 	//backgroundSelectedColor: Alloy.Globals.lightColor,
+ 	//borderColor: "white",
+ 	//borderRadius: "64dp",
+ 	//borderWidth: "1",
+ 	touchEnabled : false,
+ 	bubbleParent: false,
+ 	horizontalWrap: false,
+ 	bottom: "0",
+ 	zIndex: 9,
+}
+
+"#okBtn" : {
+ 	height: Titanium.UI.FILL,
+ 	width: "50%",
+ 	color: "white",
+ 	backgroundColor : Alloy.Globals.darkColor,
+ 	backgroundSelectedColor: Alloy.Globals.lightColor,
+ 	borderColor: "white",
+ 	borderWidth: "1",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14dp"
+	},
+	left: 0,
+}
+
+"#cancelBtn" : {
+ 	height: Titanium.UI.FILL,
+ 	width: "50%",
+ 	color: "white",
+ 	backgroundColor : Alloy.Globals.darkColor,
+ 	backgroundSelectedColor: Alloy.Globals.lightColor,
+ 	borderColor: "white",
+ 	borderWidth: "1",
+ 	touchEnabled : true,
+ 	bubbleParent:false,
+ 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+ 	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "14dp"
+	},
+	right: 0,
+}
+
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7000",
+	visible: false,
+	modal: true,
+	zIndex: 9999,
+}

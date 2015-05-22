@@ -1,18 +1,90 @@
 
 ".container": {
 	orientationModes: Alloy.Globals.orientModes,
+	height: Titanium.UI.SIZE,
+	width: "80%", //Titanium.UI.SIZE,
+	touchEnabled: true,
+	backgroundColor: "white",
+	borderColor: "#6000",
+	borderWidth: "3",
+	borderRadius: "3",
+	layout: "vertical",
+	zIndex: 9999,
+	bubbleParent: false,
 }
 
-
-"Label": {
-	width: Ti.UI.SIZE,
-	left: "4dp"
+".dialogTitle": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: Titanium.UI.SIZE,//"40dp",
+	touchEnabled: false,
+	font: {
+		//fontFamily: 'century-gothic',
+		fontSize: "20dp",
+		//fontWeight: "bold"
+	},
+	color: "#00a2e8", //Alloy.Globals.lightColor,
+	//horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 }
 
-"TextField": {
-	width: Ti.UI.SIZE,
-	left: "4dp"
+".dialogButton": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: "50%",//"40dp",
+	touchEnabled: true,
+	backgroundSelectedColor: "lightgray",
+	borderColor:"lightgray",
+	borderWidth:"1",
 }
+
+".dialogButtonLabel": {
+	height: Titanium.UI.SIZE,//"40dp",
+	width: Titanium.UI.SIZE,//"40dp",
+	touchEnabled: false,
+	font: {
+		//fontFamily: 'century-gothic',
+		fontSize: "14dp",
+		//fontWeight: "bold"
+	},
+	color: "black", //Alloy.Globals.lightColor,
+	//horizontalWrap: false,
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	top: "20dp",
+	bottom: "20dp",
+}
+
+".labelName": {
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "12dp",
+		fontWeight: 'bold'
+	},
+	left: "16dp",
+	right: "16dp",
+	top: "4dp",
+	color: "black",
+}
+
+".textField": {
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "16dp",
+		//fontWeight: 'bold'
+	},
+	left: "16dp",
+	right: "16dp",
+	bottom: "8dp",
+	color: Alloy.Globals.darkColor,
+}
+
+// "Label": {
+	// width: Ti.UI.SIZE,
+	// left: "4dp"
+// }
+// 
+// "TextField": {
+	// width: Ti.UI.SIZE,
+	// left: "4dp"
+// }
 
 ".centeredVertical": {
 	height: Titanium.UI.SIZE,
@@ -28,12 +100,6 @@
 	left: "4dp"
 }
 
-".labelView": {
-	font: {
-		fontSize: "12dp",
-		fontWeight: 'bold'
-	}
-}
 
 ".centeredHorizontal": {
 	layout: "horizontal",

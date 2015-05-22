@@ -11,6 +11,10 @@ Alloy.Globals.leftAction = $.leftAction;
 Alloy.Globals.rightAction = $.rightAction;
 Alloy.Globals.dialogView = $.dialogView;
 Alloy.Globals.profileImage = $.profile;
+Alloy.Globals.overlayView = $.overlayView;
+Alloy.Globals.fullImage = $.fullImage;
+Alloy.Globals.cropperView = $.cropperView;
+Alloy.Globals.act = $.act;
 
 var abx = require('com.alcoapps.actionbarextras');
 
@@ -47,8 +51,12 @@ Alloy.Globals.newBtnUsed = false;
 function doNew(e) {
 	if (!Alloy.Globals.newBtnUsed) {
 		Alloy.Globals.newBtnUsed = true;
-		Alloy.createController("reimburseForm").getView().open();
-		//Alloy.Globals.newBtnUsed = false;
+		var newview = Alloy.createController("reimburseForm").getView(); //.open();
+		Alloy.Globals.dialogView.removeAllChildren();
+		Alloy.Globals.dialogView.add(newview);
+		newview.fireEvent("open");
+		//Alloy.Globals.dialogView.show();
+		Alloy.Globals.newBtnUsed = false;
 	}
 }
 
@@ -217,6 +225,73 @@ function scrollableViewScrollEnd(e) {
 	}
 }
 
+function fullClick(e) {
+	if (e.source == $.fullView) {
+		e.cancelBubble = true;
+		e.bubbles = false;
+		//var parsz = $.fullView.getSize();
+		var center = {x: e.x, y: e.y}; //{x: parsz.width/2, y: parsz.height/2};
+		$.cropperView.center = center; //setCenter(center);
+		var style = $.createStyle({
+			classes : ["cropperView"],
+			apiName : 'View',
+			center: center,
+		});
+		$.cropperView.applyProperties(style); 
+	}
+}
+
+function touchStart(e) {
+	if (e.source == $.cropperView) {
+		e.cancelBubble = true;
+		e.bubbles = false;
+		var center = $.cropperView.center; //getCenter();
+		if (!center) {
+			var parsz = $.fullView.getSize();
+			center = {x: parsz.width/2, y: parsz.height/2};
+			$.cropperView.center = center; //setCenter(center);
+			var style = $.createStyle({
+				classes : ["cropperView"],
+				apiName : 'View',
+				center: center,
+			});
+			$.cropperView.applyProperties(style); 
+		}
+		// centerStartX = center.x;
+		// centerStartY = center.y;
+		// touchStartX = e.x;
+		// touchStartY = e.y;
+		$.cropperView.ox = e.x - center.x;
+  		$.cropperView.oy = e.y - center.y;
+	}
+}
+
+function touchMove(e) {
+	if (e.source == $.cropperView) {
+		e.cancelBubble = true;
+		e.bubbles = false;
+		var center = {x: (e.x - $.cropperView.ox), y: (e.y - $.cropperView.oy)}; //{x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)};
+		$.cropperView.center = center; //setCenter(center);
+		var style = $.createStyle({
+			classes : ["cropperView"],
+			apiName : 'View',
+			center: center,
+		});
+		$.cropperView.applyProperties(style); 
+	}
+}
+
+function okClick(e) {
+	Alloy.Globals.profileImage.image = $.fullImage.toBlob();
+	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	$.overlayView.hide();
+}
+
+function cancelClick(e) {
+	$.overlayView.hide();
+	$.fullImage.image = null;
+}
+
 $.index.addEventListener('update', function(e) {
 	updateTitle($.scrollableView.currentPage);
 });
@@ -229,7 +304,13 @@ $.index.addEventListener('refresh', function(e) {
 $.index.addEventListener("android:back", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;
 	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
-	$.index.close(e);
+	if ($.overlayView.visible) {
+		$.overlayView.hide();
+	} else if ($.dialogView.visible) {
+		$.dialogView.hide();
+	} else {
+		$.index.close(e);
+	}
 });
 
 // $.index.addEventListener('open', function() {
