@@ -90,7 +90,7 @@ exports.init = function (logger, config, cli, appc) {
 					paths[bin] = process.env[envName];
 					if (paths[bin]) {
 						done();
-					} else if (process.platform === 'win32' && bin === 'alloy') {
+					} else if (process.platform === 'win32' /*&& bin === 'alloy'*/) {
 						paths.alloy = 'alloy.cmd';
 						done();
 					} else {
