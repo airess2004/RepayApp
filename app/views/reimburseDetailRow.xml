@@ -1,10 +1,10 @@
 <Alloy>
   <TableViewRow id="reimburseDetailRow" title="{title}" className="detailRow1">
-  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="rowLongClick">
+  	<View id="innerView"  onClick="rowClick" onLongclick="rowLongClick">
   		<View id="avatarView" onClick="thumbPopUp">
     		<ImageView id="avatar" image="{urlImageOriginal}" />
     	</View>
-    	<View class="midView" layout="vertical">
+    	<View class="midView" >
     		<Label id="title" text="{name}" />
     		
     	</View>

@@ -2,6 +2,7 @@
 	color: Alloy.Globals.darkColor,
 	backgroundColor:"white",
 	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
 	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_ADJUST_SIZE,
 	orientationModes: Alloy.Globals.orientModes,
 	swipeable: true,
@@ -46,7 +47,7 @@
 	height: "75%",
 	width: "1",
 	touchEnabled: false,
-	backgroundColor: "#dddd",
+	backgroundColor: "#eeee",
 	//top: "8dp",
 	//bottom: "8dp",
 }
@@ -106,10 +107,11 @@
 }
 
 "#profile": {
-	height: Titanium.UI.FILL,//"40dp",
-	width: Titanium.UI.FILL,//"40dp",
+	height: "80dp", //Titanium.UI.FILL,//"40dp",
+	//width: Titanium.UI.FILL,//"40dp",
 	touchEnabled: false,
 	image: "/icon/ic_action_user.png",
+	autorotate: true,
 	// borderColor: Alloy.Globals.darkColor,
 	// borderRadius: "20dp",
 	// borderWidth: "2dp",
@@ -405,7 +407,7 @@
  	// borderColor: Alloy.Globals.darkColor,
  	// borderRadius: "64dp",
  	// borderWidth: "2dp",
- 	enableZoomControls: true, 
+ 	//enableZoomControls: true, //may cause click event not to trigger
 }
 
 ".cropperView": {
@@ -415,9 +417,18 @@
  	borderColor: "#71f1",
  	borderRadius: "64dp",
  	borderWidth: "1",
- 	touchEnabled : true,
- 	bubbleParent:false,
+ 	touchEnabled : false, //true,
+ 	//bubbleParent:false,
  	zIndex: 10,
+}
+
+"#croppedImage" : {
+ 	//height: Titanium.UI.FILL,
+ 	//width: Titanium.UI.FILL,
+ 	image: null,
+ 	autorotate: true,
+ 	touchEnabled : false, //true,
+ 	visible: false,
 }
 
 ".okCancelView": {

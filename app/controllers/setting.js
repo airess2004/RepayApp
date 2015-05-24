@@ -31,13 +31,14 @@ function avatarClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
+						Alloy.Globals.fullImage.image = null;
 						delete Alloy.Globals.fullImage.size;
 						delete Alloy.Globals.fullImage.rect;
 						delete Alloy.Globals.fullImage.center;
 						delete Alloy.Globals.fullImage.left;
 						delete Alloy.Globals.fullImage.top;
 						delete Alloy.Globals.fullImage.width;
-						//delete $.fullImage.height;
+						//delete Alloy.Globals.fullImage.height;
 						delete Alloy.Globals.cropperView.center;
 						Alloy.Globals.fullImage.image = media.nativePath; //media;
 						Alloy.Globals.fullImage.width = Ti.UI.FILL;
@@ -53,13 +54,14 @@ function avatarClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
+						Alloy.Globals.fullImage.image = null;
 						delete Alloy.Globals.fullImage.size;
 						delete Alloy.Globals.fullImage.rect;
 						delete Alloy.Globals.fullImage.center;
 						delete Alloy.Globals.fullImage.left;
 						delete Alloy.Globals.fullImage.top;
 						delete Alloy.Globals.fullImage.width;
-						//delete $.fullImage.height;
+						//delete Alloy.Globals.fullImage.height;
 						delete Alloy.Globals.cropperView.center;
 						Alloy.Globals.fullImage.image = media.nativePath; //media;
 						Alloy.Globals.fullImage.width = Ti.UI.FILL;

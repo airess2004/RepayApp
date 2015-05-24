@@ -15,8 +15,8 @@
 }
 
 ".avatarView" : {
- 	height: "64dp",
- 	width: "64dp",
+ 	height: "40dp",
+ 	width: "40dp",
  	touchEnabled : true,
  	backgroundColor: "gray",
  	//borderColor: "darkgray",
@@ -29,14 +29,15 @@
 }
 
 "#avatar" : {
- 	height: "64dp",
- 	width: "64dp",
+ 	height: "80dp", //Titanium.UI.FILL,
+ 	//width: "40dp",
  	image: "/icon/ic_action_user.png",
  	touchEnabled : false,
+ 	autorotate: true,
 }
 
 ".username" : {
- 	width: "20%", //Titanium.UI.FILL,
+ 	width: "40dp", //"20%", //Titanium.UI.FILL,
  	left: null, //"0",
  	right: "0",
  	top: "0",
@@ -44,28 +45,29 @@
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
- 	//horizontalWrap: false,
- 	color: Alloy.Globals.darkColor,
+ 	horizontalWrap: false,
+ 	color: "black", //Alloy.Globals.darkColor,
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14dp",
+		fontSize: "12dp",
 		fontWeight: 'bold'
 	},
+	wordWrap: false,
 	//backgroundColor: "yellow",
 }
 
 ".message" : {
- 	width: "75%", //Titanium.UI.FILL, //"50%",
+ 	width: Titanium.UI.FILL, //"75%", //Titanium.UI.FILL, //"50%",
  	touchEnabled : false,
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	//horizontalWrap: false,
  	color: "black",
  	left : "0", //"80dp",
- 	right: "80dp", //"0",
+ 	right: "56dp", //"0",
  	top: "0",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14dp",
+		fontSize: "12dp",
 		//fontWeight: 'bold'
 	},
 	//backgroundColor: "green",
@@ -73,14 +75,14 @@
 
 ".rightView" : {
 	width: Titanium.UI.FILL,
- 	height: "80dp",
+ 	height: "56dp",
  	touchEnabled : false,
 }
 
 ".commentDate" : {
- 	width: "75%", //Titanium.UI.FILL,
+ 	width: Titanium.UI.FILL, //"75%", //Titanium.UI.FILL,
  	left: "0", //"80dp",
- 	right: "80dp", //"0",
+ 	right: "56dp", //"0",
  	top: "0",
  	bottom: "8dp",
  	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,

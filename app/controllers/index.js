@@ -229,62 +229,93 @@ function fullClick(e) {
 	if (e.source == $.fullView) {
 		e.cancelBubble = true;
 		e.bubbles = false;
+		var dpPoint = { // convert coordinate from "pt" to "dp"
+        	"x" : (e.x / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.width), //normalize to 0..1
+            "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
+        };
 		//var parsz = $.fullView.getSize();
-		var center = {x: e.x, y: e.y}; //{x: parsz.width/2, y: parsz.height/2};
-		$.cropperView.center = center; //setCenter(center);
-		var style = $.createStyle({
-			classes : ["cropperView"],
-			apiName : 'View',
-			center: center,
-		});
-		$.cropperView.applyProperties(style); 
+		var center = {x: dpPoint.x, y: dpPoint.y}; //{x: parsz.width/2, y: parsz.height/2};
+		// $.cropperView.center = center; //setCenter(center);
+		// var style = $.createStyle({
+			// classes : ["cropperView"],
+			// apiName : 'View',
+			// center: center,
+		// });
+		//$.cropperView.applyProperties(style); 
+		$.cropperView.animate({center: center});
 	}
 }
 
 function touchStart(e) {
-	if (e.source == $.cropperView) {
+	if (e.source == $.fullView) {
 		e.cancelBubble = true;
 		e.bubbles = false;
-		var center = $.cropperView.center; //getCenter();
-		if (!center) {
-			var parsz = $.fullView.getSize();
-			center = {x: parsz.width/2, y: parsz.height/2};
-			$.cropperView.center = center; //setCenter(center);
-			var style = $.createStyle({
-				classes : ["cropperView"],
-				apiName : 'View',
-				center: center,
-			});
-			$.cropperView.applyProperties(style); 
-		}
+		var dpPoint = { // convert coordinate from "pt" to "dp"
+        	"x" : (e.x / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.width), //normalize to 0..1
+            "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
+        };
+		// var center = $.cropperView.center; //getCenter();
+		// if (!center) 
+		// {
+			// var parsz = $.cropperView.parent.getSize();
+			// center = {x: parsz.width/2, y: parsz.height/2};
+			// $.cropperView.center = center; //setCenter(center);
+			// var style = $.createStyle({
+				// classes : ["cropperView"],
+				// apiName : 'View',
+				// center: center,
+			// });
+			// $.cropperView.applyProperties(style); 
+		// }
+		var newcenter = {x: dpPoint.x, y: dpPoint.y}; //
+		$.cropperView.animate({center: newcenter});
 		// centerStartX = center.x;
 		// centerStartY = center.y;
 		// touchStartX = e.x;
 		// touchStartY = e.y;
-		$.cropperView.ox = e.x - center.x;
-  		$.cropperView.oy = e.y - center.y;
+		$.cropperView.ox = dpPoint.x - newcenter.x;
+  		$.cropperView.oy = dpPoint.y - newcenter.y;
 	}
 }
 
 function touchMove(e) {
-	if (e.source == $.cropperView) {
+	if (e.source == $.fullView) {
 		e.cancelBubble = true;
 		e.bubbles = false;
-		var center = {x: (e.x - $.cropperView.ox), y: (e.y - $.cropperView.oy)}; //{x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)};
-		$.cropperView.center = center; //setCenter(center);
-		var style = $.createStyle({
-			classes : ["cropperView"],
-			apiName : 'View',
-			center: center,
-		});
-		$.cropperView.applyProperties(style); 
+		var dpPoint = { // convert coordinate from "pt" to "dp"
+        	"x" : (e.x / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.width), //normalize to 0..1
+            "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
+        };
+		var center = {x: (dpPoint.x - $.cropperView.ox), y: (dpPoint.y - $.cropperView.oy)}; //{x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)};
+		// $.cropperView.center = center; //setCenter(center);
+		// var style = $.createStyle({
+			// classes : ["cropperView"],
+			// apiName : 'View',
+			// center: center,
+		// });
+		//$.cropperView.applyProperties(style); 
+		//if ($.cropperView.center) 
+		$.cropperView.animate({center: center});
 	}
 }
 
 function okClick(e) {
-	Alloy.Globals.profileImage.image = $.fullImage.toBlob();
+	// var rect = $.cropperView.getRect();
+	//$.cropperView.borderWidth = 0;
+	//$.cropperView.borderRadius = 0;
+	// $.croppedImage.image = $.fullView.toImage();
+	// $.croppedImage.top = -rect.y;
+	// $.croppedImage.left = -rect.x;
+	// $.croppedImage.visible = true;
+	Alloy.Globals.profileImage.image = null;
+	Alloy.Globals.avatar.image = null;
+	Alloy.Globals.profileImage.image = $.fullImage.toBlob(); //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 	$.overlayView.hide();
+	// $.croppedImage.visible = false;
+	//$.cropperView.borderWidth = "1";
+	//$.cropperView.borderRadius = "64dp";
+	//$.croppedImage.image = null;
 }
 
 function cancelClick(e) {

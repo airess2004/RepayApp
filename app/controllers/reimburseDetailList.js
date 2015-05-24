@@ -166,10 +166,10 @@ function whereFunction(collection) {
 function transformFunction(model) {
 	var transform = model.toJSON(); 
 	transform.status = DETAILSTATUS[transform.status];
-	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
+	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format("DD-MM-YYYY"); //dateFormat
 	transform.amount = "Rp." + String.formatDecimal(transform.amount); // +" IDR";
-	// if (String.format(transform.name).length > 25)
-		// transform.name = transform.name.substring(0, 22) + "...";
+	if (String.format(transform.name).length > 23)
+		transform.name = transform.name.substring(0, 20) + "...";
 	return transform;
 }
 

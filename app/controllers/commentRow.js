@@ -18,11 +18,11 @@ if ($model) {
 	$.avatarView.right = isodd ? "0" : null;
 	$.username.left = isodd ? null : "0";
 	$.username.right = isodd ? "0" : null;
-	$.message.left = isodd ? "0" : "80dp";
-	$.message.right = isodd ? "80dp" : "0";
+	$.message.left = isodd ? "0" : "56dp";
+	$.message.right = isodd ? "56dp" : "0";
 	$.message.textAlign = isodd ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
-	$.commentDate.left = isodd ? "0" : "80dp";
-	$.commentDate.right = isodd ? "80dp" : "0";
+	$.commentDate.left = isodd ? "0" : "56dp";
+	$.commentDate.right = isodd ? "56dp" : "0";
 	$.commentDate.textAlign = isodd ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
 	
 	// var avatar = $.createStyle({

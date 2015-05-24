@@ -5,7 +5,7 @@
 			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
 		</Menu-->
 		<View class="dialogBox" layout="vertical">
-			<Label class="dialogTitle" text="New Reimburse" left="20dp" right="20dp" top="20dp"></Label>
+			<Label class="dialogTitle" id="dialogTitle" text="New Reimburse" left="20dp" right="20dp" top="20dp"></Label>
 			<View class="vSplitter" backgroundColor="#00a2e8" height="2dp" top="20dp" horizontalWrap="false" />
 			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
 					<Label class="labelName">Title</Label>

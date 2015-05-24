@@ -12,6 +12,7 @@ function winOpen(e) {
 		// $.dateField.value = data.get('projectDate');
 		
 	}
+	$.dialogTitle.text = data ? "Edit Reimburse" : "New Reimburse";
 	$.reimburseForm.parent.show();
 }
 

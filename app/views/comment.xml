@@ -50,7 +50,7 @@
 		<View class="bottomView">
 			<View class="vSplitter" />
 			<View class="commentView">
-				<TextArea id="commentField" hintText="comment" onFocus="commentFocus" ></TextArea>
+				<TextArea id="commentField" hintText="comment" onClick="commentFocus" onFocus="commentFocus" ></TextArea>
 				<View id="commentBtn" onClick="newCommentClick">
 					<ImageView class="buttonIcon" />
 				</View>

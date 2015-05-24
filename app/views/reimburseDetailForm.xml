@@ -1,29 +1,55 @@
 <Alloy>
-	<Window onOpen="winOpen" winClose="winClose">
-		<ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
+	<Window class="container" onOpen="winOpen" winClose="winClose">
+		<!--ActionBar id="actionBar" title="New Reimburse" onHomeIconItemSelected="doMenuClick" />
 		<Menu>
 			<MenuItem id="saveMenu" title="SAVE" onClick="doSave" showAsAction = "Ti.Android.SHOW_AS_ACTION_ALWAYS" />
-		</Menu>
-		<View class="container" layout = "vertical">
-			<ScrollView class="centeredVertical" layout="vertical" width="100%" zIndex="1">
-				<View class="centeredHorizontal" >
-					<View class="verticalLayout" width="80%">
-						<Label  class="labelView">Title</Label>
-						<TextField id="titleField" hintText="Title" ></TextField>
+		</Menu-->
+		<View class="outterWindow" layout="vertical">
+			<View class="action">
+				<View id="midAction" layout="vertical">
+					<Label id="actionTitle" text=" Title "></Label>
+					<Label id="actionSubtitle" text=" Subtitle "></Label>
+				</View>
+				<View id="rightAction" layout="horizontal">
+					<View id="editMenu" visible="false">
+						<Label id="editLabel" text="  EDIT  "></Label>
 					</View>
-					<ImageView id= "image" class="fitWidth" image="/icon/ic_action_photo.png" width="20%" onClick="imageClick"/>
+				</View>
+				<View id="leftAction">
+					<View id="iconBtn" onClick="doBack">
+						<ImageView id="icon"></ImageView>
+					</View>
+				</View>
+			</View>
+			<View class="vSplitter" backgroundColor="#2fb3b4" />
+			<ScrollView class="centeredVertical" id="scrollView" layout="vertical" width="Ti.UI.FILL" zIndex="1">
+				<View class="centeredHorizontal" width="Ti.UI.FILL" right="16dp" left="16dp">
+					<View class="verticalLayout" width="80%">
+						<Label class="labelName" left="0" right="0">Title</Label>
+						<TextField class="textField" left="0" right="0" id="titleField" hintText="Title" ></TextField>
+					</View>
+					<View id="imageView" onClick="imageClick">
+						<ImageView id="photo" />
+					</View>
 				</View>
 				<View class="vSplitter" />
-				<Label class="labelView" >Amount</Label>
-				<TextField id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
+				<Label class="labelName" >Amount</Label>
+				<TextField class="textField" id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
 				<View class="vSplitter" />
-				<Label  class="labelView" >Date</Label>
-				<TextField id="dateField" hintText="DD/MM/YYYY"  onFocus="dateFieldClick" editable="false"></TextField>
+				<Label class="labelName" >Date</Label>
+				<TextField class="textField" id="dateField" hintText="DD/MM/YYYY"  onFocus="dateFieldClick" editable="false"></TextField>
 				<View class="vSplitter" />
-				<Label  class="labelView" >Description</Label>
-				<TextField id="descriptionField" hintText="Description" ></TextField>
+				<Label  class="labelName" >Description</Label>
+				<TextArea class="textField" id="descriptionField" hintText="Description" ></TextArea>
 				<View class="vSplitter" />
 			</ScrollView>
+		</View>
+		<View class="buttonBar" >
+			<View class="buttonBarInner">
+				<View id="saveBtn" onClick="doSave">
+					<Label class="saveLabel" text=" SAVE "></Label>
+				</View>
+			</View>
 		</View>
 	</Window>
 </Alloy>

@@ -16,10 +16,10 @@
 }
 
 "#avatar" : {
- 	//height: "128dp",
- 	width: "256dp",
+ 	height: "256dp",
+ 	//width: "256dp",
  	image: "/icon/ic_action_user.png",
- 	autorotate: false,
+ 	autorotate: true,
  	touchEnabled : false, //true,
  	//bubbleParent:false,
  	//backgroundColor : "gray",

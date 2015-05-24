@@ -1,44 +1,48 @@
 
 "#reimburseDetailRow" : {
- 	height: "80dp", //Titanium.UI.SIZE,
+ 	height: "96dp", //Titanium.UI.SIZE,
  	width: Titanium.UI.FILL,
  	backgroundColor: "white",
 }
 
 "#innerView" : {
-	left: "4dp",
+	//left: "4dp",
 	width: Titanium.UI.FILL,
  	height: Titanium.UI.SIZE,
  	touchEnabled : true,
  	backgroundColor: "transparent",
  	backgroundSelectedColor: "lightgray",
+ 	//layout: "horizontal",
 }
 
 "#avatarView" : {
  	height: "64dp",
  	width: "64dp",
  	touchEnabled : true,
- 	backgroundColor: "gray",
- 	borderColor: "darkgray",
+ 	backgroundColor: "transparent",
+ 	borderColor: "gray",
  	borderWidth: "1dp",
- 	top: "8dp",
- 	left: "4dp",
+ 	top: "16dp",
+ 	left: "20dp",
  	bubbleParent: false,
 }
 
 "#avatar" : {
- 	height: "64dp",
+ 	//height: "64dp",
  	width: "64dp",
  	image: "/icon/ic_action_copy.png",
  	touchEnabled : false,
 }
 
 ".midView" : {
-	width: "50%",
- 	height: Titanium.UI.SIZE,//"64dp",
+	width: Titanium.UI.FILL,//"50%",
+ 	height: Titanium.UI.FILL,//"64dp",
  	touchEnabled : false,
- 	left: "8dp",
- 	top: "8dp",
+ 	left: "104dp",
+ 	top: "16dp",
+ 	bottom: "16dp",
+ 	right: "108dp"
+ 	//layout: "vertical",
 }
 
 
@@ -46,50 +50,54 @@
  	width: Titanium.UI.FILL,
  	touchEnabled : false,
  	horizontalWrap: false,
+ 	wordWrap: false,
  	color: "black",
  	right : "8dp",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "14dp",
+		fontSize: "13dp",
 		//fontWeight: "bold"
 	},
 }
 
 ".rightView" : {
-	width: Titanium.UI.FILL,
+	width: "80dp", //Titanium.UI.FILL,
  	height: Titanium.UI.FILL,
  	touchEnabled : false,
  	horizontalWrap: false,
+ 	right: "20dp",
 }
 
 "#date" : {
  	width: Titanium.UI.FILL,
- 	right: "8dp",
- 	top: "8dp",
+ 	//right: "8dp",
+ 	top: "32dp",
  	//textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	wordWrap: false,
  	color: "black",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "12dp",
+		fontSize: "11dp",
 		//fontWeight: "bold"
 	},
 }
 
 "#total" : {
  	width: Titanium.UI.FILL,
- 	right: "8dp",
- 	top: "4dp",
+ 	//right: "20dp",
+ 	//top: "2dp",
  	//textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
+ 	wordWrap: false,
  	color: "black",
  	font: {
 		fontFamily: 'century-gothic',
-		fontSize: "15dp",
+		fontSize: "14dp",
 		//fontWeight: "bold"
 	},
 }

@@ -29,7 +29,7 @@
 	backgroundColor: "transparent",
 	layout: "horizontal",
 	horizontalWrap: false,
-	right:"4dp", //workaround to right-align horizontal layout
+	right:"8dp", //workaround to right-align horizontal layout
 }
 
 "#leftAction": {
@@ -195,7 +195,7 @@
  	layout: "horizontal",
  	horizontalWrap: false,
  	backgroundColor: "transparent",
- 	right: "8dp",
+ 	right: "20dp",
  	top: "16dp",
  	bottom: "16dp",
 }
@@ -238,7 +238,7 @@
 	touchEnabled: true,
 	height: Titanium.UI.SIZE,
 	width: Titanium.UI.SIZE,
-	right: "8dp",
+	right: "0",
 	top: "8dp",
 	bottom: "8dp",
 }

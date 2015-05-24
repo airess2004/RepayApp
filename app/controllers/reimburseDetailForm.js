@@ -18,8 +18,12 @@ function winOpen(e) {
 		$.dateField.value = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.value = data.get('amount');
 		$.descriptionField.value = data.get('description');
-		$.image.image = data.get('urlImageOriginal');
+		$.photo.image = data.get('urlImageOriginal');
+		Ti.UI.Android.hideSoftKeyboard();
 	}
+	$.actionTitle.text = data ? "EDIT EXPENSE" : "NEW EXPENSE";
+	//$.titleField.blur();
+	//Ti.UI.Android.hideSoftKeyboard();
 }
 
 function winClose(e) {
@@ -29,6 +33,11 @@ function winClose(e) {
 		//Alloy.Globals.reimburseDetailList.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE id="+args.id*/}});
 		data = null;
 	}
+}
+
+function doBack(evt) {// what to do when the "home" icon is pressed
+	Ti.API.info("Home icon clicked!");
+	$.reimburseDetailForm.fireEvent('android:back', evt);
 }
 
 function doMenuClick(evt) {
@@ -60,9 +69,10 @@ function doSave(e) {
 				description : $.descriptionField.value,
 				receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 				amount : amount,
-				urlImageOriginal : $.image.image
+				urlImageOriginal : $.photo.image
 			});
 			reimburseDetail.save();
+			reimburseDetail.fetch({remove: false});
 			reimburseId = reimburseDetail.get("reimburseId");
 		}
 	} else {
@@ -75,11 +85,12 @@ function doSave(e) {
 			receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			isDeleted : 0,
 			amount : amount,
-			urlImageOriginal : $.image.image
+			urlImageOriginal : $.photo.image
 
 		});
 		reimburseDetail.save();
 		reimburseDetails.add(reimburseDetail);
+		reimburseDetail.fetch({remove: false});
 		reimburseId = args.reimburseId;
 	}
 
@@ -100,6 +111,7 @@ function doSave(e) {
 		"total" : parseFloat(total)
 	});
 	reimburse.save();
+	reimburse.fetch({remove: false});
 
 	// reload the tasks
 	//reimburseDetails.fetch({remove: false});
@@ -130,7 +142,7 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						$.image.image = media.nativePath; //media;
+						$.photo.image = media.nativePath; //media;
 					}
 					Alloy.Globals.cameraShown = false;
 				});
@@ -141,7 +153,7 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						$.image.image = media.nativePath; //media;
+						$.photo.image = media.nativePath; //media;
 					}
 					Alloy.Globals.cameraShown = false;
 				}, 1);
@@ -175,3 +187,8 @@ function dateFieldClick(evt) {
 	});
 }
 
+$.reimburseDetailForm.addEventListener("android:back", function(e) {
+	//$.tableView.search = Alloy.Globals.searchView;
+	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
+	$.reimburseDetailForm.close(e);
+});
