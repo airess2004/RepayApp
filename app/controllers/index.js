@@ -305,16 +305,19 @@ function cropImage(in_img) {
 		var ImageFactory = require('ti.imagefactory');
 		var rect = $.cropperView.getRect();
 		// convert coordinate from "dp" to "pt"
-		rect.width = Math.min(in_img.width, rect.width * Ti.Platform.displayCaps.logicalDensityFactor); // x+width must be <= image.width
-		rect.height = Math.min(in_img.height, rect.height * Ti.Platform.displayCaps.logicalDensityFactor); // y+height must be <= image.height
+		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
 		rect.x = Math.max(0, rect.x * Ti.Platform.displayCaps.logicalDensityFactor); //x must be >= 0
 		rect.y = Math.max(0, rect.y * Ti.Platform.displayCaps.logicalDensityFactor); //y must be >= 0
+		if (rect.x+rect.width > in_img.width) rect.width = in_img.width - rect.x; // x+width must be <= image.width
+		if (rect.y+rect.height > in_img.height) rect.height = in_img.height - rect.y; // y+height must be <= image.height
 		out_img = ImageFactory.imageAsCropped(in_img.media || in_img, rect);
 	}
 	return out_img;
 }
 
 function okClick(e) {
+	$.cropperView.hide();
 	// var rect = $.cropperView.getRect();
 	//$.cropperView.borderWidth = 0;
 	//$.cropperView.borderRadius = 0;
@@ -326,6 +329,7 @@ function okClick(e) {
 	Alloy.Globals.avatar.image = null;
 	Alloy.Globals.profileImage.image = cropImage($.fullView.toImage()); //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	$.cropperView.show();
 	$.overlayView.hide();
 	// $.croppedImage.visible = false;
 	//$.cropperView.borderWidth = "1";
