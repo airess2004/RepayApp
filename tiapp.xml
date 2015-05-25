@@ -44,7 +44,7 @@
             android:versionCode="19" android:versionName="1.9">
             <!--application android:debuggable="false" android:screenOrientation="portrait" android:theme="@style/Theme.Repayapp1"-->
             <application android:debuggable="false"
-                android:screenOrientation="portrait" android:theme="@style/Theme.Repayapp1">
+                android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light">
                 <receiver
                     android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND"/>
                 <!--activity android:configChanges="keyboardHidden|orientation|screenSize"

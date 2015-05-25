@@ -305,10 +305,10 @@ function cropImage(in_img) {
 		var ImageFactory = require('ti.imagefactory');
 		var rect = $.cropperView.getRect();
 		// convert coordinate from "dp" to "pt"
-		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
-		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
-		rect.x *= Ti.Platform.displayCaps.logicalDensityFactor;
-		rect.y *= Ti.Platform.displayCaps.logicalDensityFactor; 
+		rect.width = Math.min(in_img.width, rect.width * Ti.Platform.displayCaps.logicalDensityFactor); // x+width must be <= image.width
+		rect.height = Math.min(in_img.height, rect.height * Ti.Platform.displayCaps.logicalDensityFactor); // y+height must be <= image.height
+		rect.x = Math.max(0, rect.x * Ti.Platform.displayCaps.logicalDensityFactor); //x must be >= 0
+		rect.y = Math.max(0, rect.y * Ti.Platform.displayCaps.logicalDensityFactor); //y must be >= 0
 		out_img = ImageFactory.imageAsCropped(in_img.media || in_img, rect);
 	}
 	return out_img;
