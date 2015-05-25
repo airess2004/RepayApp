@@ -385,7 +385,7 @@
 "#fullView" : {
  	height: Titanium.UI.FILL,
  	width: Titanium.UI.FILL,
- 	backgroundColor : "black",
+ 	backgroundColor : "#0000",
  	//borderColor: Alloy.Globals.darkColor,
  	//borderRadius: "64dp",
  	//borderWidth: "2dp",

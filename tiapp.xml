@@ -80,9 +80,10 @@
     <property name="acs-grouped-notification-message" type="string">You have $number$ unread messages.</property>
     <property name="GCM_sender_id" type="string">876696965882</property>
     <modules>
-        <module platform="android">net.iamyellow.gcmjs</module>
-        <module platform="android">com.alcoapps.actionbarextras</module>
-    </modules>
+    <module platform="android">net.iamyellow.gcmjs</module>
+    <module platform="android">com.alcoapps.actionbarextras</module>
+    <module platform="android" version="2.2.1">ti.imagefactory</module>
+  </modules>
     <deployment-targets>
         <target device="iphone">false</target>
         <target device="ipad">false</target>

@@ -75,14 +75,16 @@
 		</View>
 		<View id="dialogView" onClick="dialogViewClick" />
 		<View id="overlayView">
-			<View id="fullView"  onTouchmove="touchMove" onTouchstart ="touchStart">
-				<ImageView id="fullImage" ></ImageView>
-				<View class="cropperView" id="cropperView">
+			<View id="blackView" width="Ti.UI.FILL" height="Ti.UI.FILL" backgroundColor="black">
+				<View id="fullView"  onTouchmove="touchMove" onTouchstart ="touchStart">
+					<ImageView id="fullImage" ></ImageView>
+					<View class="cropperView" id="cropperView">
+					</View>
 				</View>
-			</View>
-			<View class="okCancelView" >
-				<Label id="okBtn" text="OK" width="50%" onClick="okClick"></Label>
-				<Label id="cancelBtn" text="Cancel" width="50%" onClick="cancelClick"></Label>
+				<View class="okCancelView" >
+					<Label id="okBtn" text="OK" width="50%" onClick="okClick"></Label>
+					<Label id="cancelBtn" text="Cancel" width="50%" onClick="cancelClick"></Label>
+				</View>
 			</View>
 		</View>
 		<ActivityIndicator id="act" />

@@ -299,6 +299,21 @@ function touchMove(e) {
 	}
 }
 
+function cropImage(in_img) {
+	var out_img = null;
+	if (in_img) {
+		var ImageFactory = require('ti.imagefactory');
+		var rect = $.cropperView.getRect();
+		// convert coordinate from "dp" to "pt"
+		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.x *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.y *= Ti.Platform.displayCaps.logicalDensityFactor; 
+		out_img = ImageFactory.imageAsCropped(in_img.media || in_img, rect);
+	}
+	return out_img;
+}
+
 function okClick(e) {
 	// var rect = $.cropperView.getRect();
 	//$.cropperView.borderWidth = 0;
@@ -309,7 +324,7 @@ function okClick(e) {
 	// $.croppedImage.visible = true;
 	Alloy.Globals.profileImage.image = null;
 	Alloy.Globals.avatar.image = null;
-	Alloy.Globals.profileImage.image = $.fullImage.toBlob(); //$.fullView.toImage();  //$.cropperView.toImage(); //
+	Alloy.Globals.profileImage.image = cropImage($.fullView.toImage()); //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 	$.overlayView.hide();
 	// $.croppedImage.visible = false;
