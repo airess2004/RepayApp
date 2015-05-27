@@ -1,23 +1,23 @@
 <Alloy>
-  <TableViewRow id="reimburseRow" title="{title}" className="reimburseRow1">
-  	<View id="innerView" onClick="rowClick" onLongclick="rowLongClick">
+  <ItemTemplate name="reimburseRow" bindId="reimburseRow" id="reimburseRow" className="reimburseRow1"> <!--title="{title}"/-->
+  	<View bindId="innerView" id="innerView" onClick="rowClick" onLongclick="rowLongClick">
   		<View layout="horizontal" horizontalWrap="false" touchEnabled="false">
-  			<View id="avatarView" onClick="thumbPopUp">
-    			<ImageView id="avatar" />
+  			<View bindId="avatarView" id="avatarView" onClick="thumbPopUp">
+    			<ImageView bindId="avatar" id="avatar" />
     		</View>
     		<View class="midView" layout="vertical">
-    			<Label id="title" text="{title}" />
-    			<Label id="date" text="{projectDate}" />
-    			<Label id="total" text="{total}"/>
+    			<Label bindId="title" id="title"  /> <!--text="{title}"/-->
+    			<Label bindId="date" id="date"  /> <!--text="{projectDate}" /-->
+    			<Label bindId="total" id="total" /> <!--text="{total}" /-->
     		</View>
     	</View>
     	<View class="rightView">
-    		<View id="statusView">
-    			<Label id="status" text="{status}"/>
+    		<View bindId="statusView" id="statusView">
+    			<Label bindId="status" id="status" /> <!--text="{status}" /-->
     		</View>
     	</View>
     </View>
-  </TableViewRow>
+  </ItemTemplate>
   <!--AlertDialog id="deleteDialog" onClick="doDeleteClick" title="Confirm"
             message="Are you sure you want to delete this record?" cancel="1">
             <ButtonNames>

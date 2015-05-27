@@ -23,8 +23,16 @@
   			<Label id="showAll" wordWrap="false" onClick="showAllClick"> SHOW ALL </Label>
   		</View>
   		<View class="vSplitter" />
-		<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
-			<Require src="reimburseRow"/>
-		</TableView>
+  		<!--Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="doRefresh"-->
+		<ListView id="tableView" searchAsChild="false" onItemclick="listItemHandler" defaultItemTemplate="reimburseRow" >
+			<Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="listLoader" />
+			<Templates>
+    			<Require src="reimburseRow"/>
+			</Templates>
+			<ListSection id="listSection" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
+				<ListItem itemId="{id}" title:text="{title}" date:text="{projectDate}" total:text="{total}" status:text="{status}" status:backgroundColor="{status_backgroundColor}" statusView:backgroundColor="{statusView_backgroundColor}" searchableText="{searchableText}" /> 
+			</ListSection>	
+		</ListView>
+		<!--/Widget-->
 	</View>      
 </Alloy>

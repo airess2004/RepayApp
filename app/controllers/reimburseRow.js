@@ -46,6 +46,7 @@ if ($model) {
 
 // delete the IDed todo from the collection
 function deleteItem(id) {
+	var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
 	// find the todo task by id
 	var reimburse = reimburses.get(id);
 
@@ -82,10 +83,14 @@ Alloy.Globals.rowClickUsed = false;
 function rowClick(e) {
 	if (!Alloy.Globals.rowClickUsed) {
 		Alloy.Globals.rowClickUsed = true;
-		id = e.source.parent.rowid;
+		id = e.itemId;
+		//id = e.source.parent.rowid;
+		//id = $.reimburseRow.rowid;
+		var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
+		$model = reimburses.get(id);
 		var detList = Alloy.createController("reimburseDetailList",{
+			"$model": $model,
 			id : id,
-			"$model": $model
 		}).getView();
 		detList.addEventListener("close", detListClose);
 		detList.open();
@@ -111,7 +116,11 @@ Alloy.Globals.rowLongClickUsed = false;
 function rowLongClick(e) {
 	if (!Alloy.Globals.rowLongClickUsed) {
 		Alloy.Globals.rowLongClickUsed = true;
-		id = e.source.parent.rowid;
+		id = e.itemId;
+		//id = e.source.parent.rowid;
+		//id = $.reimburseRow.rowid;
+		var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
+		$model = reimburses.get(id);
 		var status = $model.get('status');
 		if (status == STATUSCODE[Const.Open]) {
 			var deleteDialog = Ti.UI.createAlertDialog({
