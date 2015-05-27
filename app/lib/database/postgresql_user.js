@@ -37,18 +37,18 @@ exports.login = function(_item, callback) {
 				var json = JSON.parse(this.responseText);
 				Ti.API.debug(json);
 				//this.responseData / this.responseXML
+				//retData = json;
 				//convert array/model as necessary
-				if(!json.error) {
+				if(!json.message) {
 					retData = {
-						token: json.auth_token,
-						signature: json.signature,
-						params: json.params,
-						error: json.message,
-						email: json.email,
-						role: json.role,
+						token : json.auth_token,
+						signature : json.signature,
+						params : json.params,
+						error : json.message,
+						email : json.email,
+						role : json.role,
+					};
 				};
-				retData = json;
-				//};
 				
 				if (callback)
 					callback(retData);
@@ -69,10 +69,9 @@ exports.login = function(_item, callback) {
 					email: _item.username,
 					password : _item.passwordHash,
 				},
-				deviceToken: _item.deviceToken.
+				deviceToken: _item.deviceToken,
 				//expDate : EXPIRED_TIME,//.format("yyyy/MM/dd HH:mm:ss+00:00"),
-			},
-		};
+			};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(JSON.stringify(postData));
 
