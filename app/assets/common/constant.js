@@ -34,12 +34,12 @@ var Transloadit = require('ti-transloadit');
 
 var SERVER_WEB = 'http://ReimburseApp.com';
 //var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
-var SERVER_HOST = 'http://ReimburseApp.com:8080/APIREPAY'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
+var SERVER_HOST = 'http://ReimburseApp.com'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
 var FORGOTPASSWORD_URL = SERVER_WEB + '/forgot/';
 var TOS_URL = SERVER_WEB + '/tos/';
 var POLICY_URL = SERVER_WEB + '/policy/';
 
-var SERVER_API = SERVER_HOST + '/api/'; //'http://10.20.30.98:8080/APIREPAY/api/'; //'http://192.168.10.179:8080/APIREPAY/'; // use 10.0.2.2 instead of 127.0.0.1 when running on an emulator
+var SERVER_API = SERVER_HOST + '/api2/'; //'http://10.20.30.98:8080/APIREPAY/api/'; //'http://192.168.10.179:8080/APIREPAY/'; // use 10.0.2.2 instead of 127.0.0.1 when running on an emulator
 var EXPIRED_TIME = (moment().add(2, 'hours')).format("yyyy/MM/dd HH:mm:ss+00:00");
 var SERVER_KEY = ''; //CURRENT USER TOKEN
 //var CURRENT_USER = '';

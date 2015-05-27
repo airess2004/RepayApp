@@ -1,5 +1,5 @@
 
-var ModelName = 'User/';
+var ModelName = 'Users/';
 
 var postData = {
 	token : SERVER_KEY,
@@ -15,7 +15,7 @@ var postData = {
 
 exports.login = function(_item, callback) {
 	var retData = {};
-	var url = SERVER_API + ModelName;
+	var url = SERVER_API + ModelName + "sign_in";
 	var ready = false;
 	//function to use HTTP to connect to a web server and transfer the data.
 	var http = Ti.Network.createHTTPClient({
@@ -38,13 +38,15 @@ exports.login = function(_item, callback) {
 				Ti.API.debug(json);
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				//if(!json.error) {
-				// retData = {
-				// token : json.token,
-				// signature : json.signature,
-				// params : json.model,
-				// error : json.error,
-				// };
+				if(!json.error) {
+					retData = {
+						token: json.auth_token,
+						signature: json.signature,
+						params: json.params,
+						error: json.message,
+						email: json.email,
+						role: json.role,
+				};
 				retData = json;
 				//};
 				
@@ -63,10 +65,11 @@ exports.login = function(_item, callback) {
 	http.setRequestHeader('Content-Type', 'application/json');
 	try {
 		var postData = {
-			method : 'login',
-			model : {
-				username : _item.username,
-				passwordHash : _item.passwordHash,
+				user_login: {
+					email: _item.username,
+					password : _item.passwordHash,
+				},
+				deviceToken: _item.deviceToken.
 				//expDate : EXPIRED_TIME,//.format("yyyy/MM/dd HH:mm:ss+00:00"),
 			},
 		};
