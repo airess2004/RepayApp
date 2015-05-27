@@ -50,8 +50,34 @@ function deleteItem(id) {
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
 	reimburseDetail.destroy();
+	
+	//--- start of update parent
+	var reimburseId = reimburseDetail.get('reimburseId');
+	var detail = reimburseDetails.where({
+		isDeleted : 0,
+		reimburseId : reimburseId
+	});
+	
+	var total = 0;
+
+	for (var i in detail) {
+		total += parseFloat(detail[i].get("amount"));
+	}
+
+	var reimburses = Alloy.Collections.reimburse;
+	var reimburse = reimburses.get(reimburseId);
+
+	reimburse.set({
+		"total" : parseFloat(total)
+	});
+	reimburse.save();
+	reimburse.fetch({remove: false});
+	//--- end of update parent
+	
 	reimburseDetail = null;
 	reimburseDetails = null;
+	
+	Alloy.Globals.reimburseDetailList.fireEvent("open", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
 }
 
 function doDeleteClick(e){

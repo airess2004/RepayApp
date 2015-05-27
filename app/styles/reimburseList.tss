@@ -58,6 +58,9 @@
 	touchEnabled: true,
 	bottom: "8dp",
 	right: "20dp",
+	borderColor: "black",
+	borderRadius: "3dp",
+	borderWidth: "3dp",
 }
 
 ".btnLabel" : {
@@ -83,6 +86,9 @@
  	top: "8dp",
  	bottom: "36dp",
  	//left: "16dp",
+ 	borderColor: "black",
+	borderRadius: "0",
+	borderWidth: "0",
 }
 
 "#pendBtn" : {
@@ -94,6 +100,9 @@
  	top: "8dp",
  	bottom: "36dp",
  	left: "20dp",
+ 	borderColor: "black",
+	borderRadius: "0",
+	borderWidth: "0",
 }
 
 "#closedBtn" : {
@@ -105,4 +114,7 @@
  	top: "8dp",
  	bottom: "36dp",
  	right: "20dp",
+ 	borderColor: "black",
+	borderRadius: "0",
+	borderWidth: "0",
 }

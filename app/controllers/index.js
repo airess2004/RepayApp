@@ -317,6 +317,7 @@ function cropImage(in_img) {
 }
 
 function okClick(e) {
+	$.act.show();
 	$.cropperView.hide();
 	// var rect = $.cropperView.getRect();
 	//$.cropperView.borderWidth = 0;
@@ -330,6 +331,7 @@ function okClick(e) {
 	Alloy.Globals.profileImage.image = cropImage($.fullView.toImage()); //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 	$.cropperView.show();
+	$.act.hide();
 	$.overlayView.hide();
 	// $.croppedImage.visible = false;
 	//$.cropperView.borderWidth = "1";

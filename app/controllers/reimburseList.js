@@ -47,6 +47,7 @@ function transformFunction(model) {
 	transform.searchableText = model.get('title') + " " + STATUS[stat] + " " + model.get('total') + " " + model.get('projectDate');
 	transform.status_backgroundColor = STATUSCODE_COLOR[stat];
 	transform.statusView_backgroundColor = transform.status_backgroundColor;
+	transform.avatar = "/icon/thumb_receipt.png"; //"/icon/ic_action_copy.png"
 	//-- end of workaround
 	return transform;
 }
@@ -69,30 +70,79 @@ function showList(e) {
 function showAllClick(e) {
 	filter = { isDeleted: 0 };
 	showList(e);
+	updateBorder(e);
 }
 
 function openBtnClick(e) {
 	filter = { isDeleted: 0, status: STATUSCODE[Const.Open] };
 	showList(e);
+	updateBorder(e);
 }
 
 function pendBtnClick(e) {
 	filter = { isDeleted: 0, status: STATUSCODE[Const.Pending] };
 	showList(e);
+	updateBorder(e);
 }
 
 function closedBtnClick(e) {
 	filter = { isDeleted: 0, status: STATUSCODE[Const.Closed] };
 	showList(e);
+	updateBorder(e);
 }
 
-function thumbPopUp(e) {
+function updateBorder(e) {
+	$.pendBtn.borderWidth = "0";
+	$.openBtn.borderWidth = "0";
+	$.closedBtn.borderWidth = "0";
+	$.showAll.borderWidth = "0";
 	
+	$.pendBtn.borderRadius = "0";
+	$.openBtn.borderRadius = "0";
+	$.closedBtn.borderRadius = "0";
+	$.showAll.borderRadius = "0";
+	
+	switch (e.source) {
+		case $.pendBtn: $.pendBtn.borderWidth = "3dp"; $.pendBtn.borderRadius = "3dp"; break;
+		case $.openBtn: $.openBtn.borderWidth = "3dp"; $.openBtn.borderRadius = "3dp"; break;
+		case $.closedBtn: $.closedBtn.borderWidth = "3dp"; $.closedBtn.borderRadius = "3dp"; break;
+		case $.showAll: $.showAll.borderWidth = "3dp"; $.showAll.borderRadius = "3dp"; break;
+	}
 }
+
+// function thumbPopUp(e, img) {
+	// var aview = Ti.UI.createView({
+		// width : "256dp",
+		// height : "256dp",
+		// backgroundColor : "#7777",
+		// borderColor : Alloy.Globals.lightColor,
+		// borderWidth : "1dp",
+		// touchEnabled: false,
+	// }); 
+	// aview.add(Ti.UI.createImageView({
+		// width: "256dp",
+		// height : "256dp",
+		// touchEnabled: false,
+		// image: img ? img.image : $.avatar.image,
+	// }));
+// 	
+	// Alloy.Globals.dialogView.removeAllChildren();
+	// Alloy.Globals.dialogView.add(aview);
+	// Alloy.Globals.dialogView.show();
+// }
 
 function listItemHandler(e) {
-	var item = $.listSection.getItemAt(e.itemIndex);
+	//var section = $.tableView.sections[e.sectionIndex];
+	var item = $.listSection.getItemAt(e.itemIndex); //e.section.items[e.itemIndex];
 	//alert("Clicked Item Idx:"+e.itemIndex+" (rowid:"+item.properties.itemId+")");
+	
+	//handling event of binded component
+    // if (e.bindId === 'avatarView') {
+    	// var img = item.avatar;
+    	// thumbPopUp(e, img);
+    // }
+    
+    //section.updateItemAt(e.itemIndex, item);
 }
 
 function doRefresh(e) {

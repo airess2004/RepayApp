@@ -5,11 +5,11 @@
 		<View class="vSplitter" />
 		<View id="innerView"  onClick="rowClick" onLongclick="rowLongClick">
 			<View layout="horizontal" touchEnabled="false" horizontalWrap="false" right="20dp">
-				<!--View class="centeredBtnView" left="0"-->
+				<View class="centeredBtnView" left="0">
 					<View class="avatarView" onClick="thumbPopUp">
 						<ImageView id="avatar" image="{urlImageOriginal}" />
 					</View>
-				<!--/View-->
+				</View>
 				<View class="midView" layout="vertical">
 					<Label id="title" text="{name}" />
 					<Label id="date" text="{receiptDate}"/>

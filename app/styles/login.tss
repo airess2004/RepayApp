@@ -103,7 +103,7 @@
 	//left : '10dp',
 	height: Ti.UI.FILL,
 	width: Ti.UI.FILL,
-	backgroundColor: "#7777",
+	backgroundColor: "#7000",
 	//visible: true,
 	modal: true,
 	zIndex: 99,

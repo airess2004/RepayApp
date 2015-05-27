@@ -1,5 +1,5 @@
 <Alloy>
-	<Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/>
+	<!--Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/-->
 	<Window class="container" onOpen="windowOpen" onClose="windowClose">
 		<!--ActionBar id="actionBar" />
 		<Menu id="menu">
@@ -31,7 +31,7 @@
 				<Label id="addNewButton" text="  NEW EXPENSE  " onClick="newDetailClick" ></Label>
 			</View>
 			<View class="vSplitter" />
-			<TableView id="tableView" searchAsChild="false" dataCollection="$.localReimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
+			<TableView id="tableView" searchAsChild="false" dataCollection="reimburseDetail" dataFilter="whereFunction" dataTransform="transformFunction">
 				<FooterView>
 					<View id="footerView" layout="vertical" >
 						<View class="vSplitter" backgroundColor="gray" />

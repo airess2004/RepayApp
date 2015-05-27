@@ -1,6 +1,6 @@
 var args = arguments[0] || {};
 
-var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
+var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetails; //
 var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 // fetch existing todo items from storage
 //reimburses && reimburses.fetch({remove: false});
@@ -156,7 +156,7 @@ function doMenuClick(evt) {
 function whereFunction(collection) {
 	var ret = collection.where({
 		isDeleted : 0,
-		reimburseId : args.id
+		reimburseId : parseInt(args.id) //id need to be integer/can't auto cast?
 	});
 	if (!ret)
 		ret = [];

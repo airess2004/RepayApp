@@ -1,7 +1,7 @@
 <Alloy>
-  <ItemTemplate name="reimburseRow" bindId="reimburseRow" id="reimburseRow" className="reimburseRow1"> <!--title="{title}"/-->
+  <ItemTemplate name="reimburseRow" bindId="reimburseRow" id="reimburseRow" className="reimburseRow1" > <!--title="{title}"/-->
   	<View bindId="innerView" id="innerView" onClick="rowClick" onLongclick="rowLongClick">
-  		<View layout="horizontal" horizontalWrap="false" touchEnabled="false">
+  		<View bindId="view1" id="view1" layout="horizontal" > <!-- each component need to have bindId otherwise it's children properties will be buggy -->
   			<View bindId="avatarView" id="avatarView" onClick="thumbPopUp">
     			<ImageView bindId="avatar" id="avatar" />
     		</View>

@@ -51,5 +51,6 @@
 				</View>
 			</View>
 		</View>
+		<ActivityIndicator id="act" />
 	</Window>
 </Alloy>

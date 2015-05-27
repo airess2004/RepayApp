@@ -59,10 +59,11 @@ function deleteItem(id) {
 }
 
 function thumbPopUp(e) {
+	var item = e.section.items[e.itemIndex]; //$.avatar
 	var aview = Ti.UI.createView({
 		width : "256dp",
 		height : "256dp",
-		backgroundColor : "#7777",
+		backgroundColor : "#7000",
 		borderColor : Alloy.Globals.lightColor,
 		borderWidth : "1dp",
 		touchEnabled: false,
@@ -71,7 +72,7 @@ function thumbPopUp(e) {
 		width: "256dp",
 		height : "256dp",
 		touchEnabled: false,
-		image: $.avatar.image,
+		image: item.avatar.image,
 	}));
 	
 	Alloy.Globals.dialogView.removeAllChildren();
@@ -83,13 +84,13 @@ Alloy.Globals.rowClickUsed = false;
 function rowClick(e) {
 	if (!Alloy.Globals.rowClickUsed) {
 		Alloy.Globals.rowClickUsed = true;
-		id = e.itemId;
+		id = parseInt(e.itemId);
 		//id = e.source.parent.rowid;
 		//id = $.reimburseRow.rowid;
 		var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
 		$model = reimburses.get(id);
 		var detList = Alloy.createController("reimburseDetailList",{
-			"$model": $model,
+			//"$model": $model,
 			id : id,
 		}).getView();
 		detList.addEventListener("close", detListClose);
@@ -116,7 +117,7 @@ Alloy.Globals.rowLongClickUsed = false;
 function rowLongClick(e) {
 	if (!Alloy.Globals.rowLongClickUsed) {
 		Alloy.Globals.rowLongClickUsed = true;
-		id = e.itemId;
+		id = parseInt(e.itemId);
 		//id = e.source.parent.rowid;
 		//id = $.reimburseRow.rowid;
 		var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;

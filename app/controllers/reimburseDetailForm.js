@@ -57,6 +57,7 @@ function doSearch(e) {
 }
 
 function doSave(e) {
+	$.act.show();
 	var reimburses = Alloy.Collections.reimburse;
 	var reimburseId;
 	if (args.reimburseId == null) {
@@ -119,6 +120,7 @@ function doSave(e) {
 		Alloy.Globals.reimburseDetailList.fireEvent("open", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
 	}
 	//Alloy.Globals.reimburseDetailList.fireEvent("refresh");
+	$.act.hide();
 	$.reimburseDetailForm.close();
 }
 

@@ -55,13 +55,15 @@
  	width: Titanium.UI.FILL, //"64dp",
  	image: "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
  	touchEnabled : false,
+ 	left: "0",
+ 	top: "0",
 }
 
 ".midView" : {
 	width: "55%",
  	height: Titanium.UI.SIZE,//"64dp",
  	touchEnabled : false,
- 	left: "24dp", //"4dp",
+ 	left: "8dp", //"24dp", //"4dp",
  	//top: "4dp",
  	backgroundColor: "transparent",
 }

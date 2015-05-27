@@ -6,7 +6,7 @@
 "#avatarView" : {
  	height: "128dp",
  	width: "128dp",
- 	backgroundColor : "gray",
+ 	backgroundColor : "lightgray",
  	top :"8dp",
  	borderColor: Alloy.Globals.darkColor,
  	borderRadius: "64dp",

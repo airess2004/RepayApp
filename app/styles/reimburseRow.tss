@@ -12,25 +12,34 @@
  	touchEnabled : true,
  	backgroundSelectedColor: "lightgray",
  	top: "0",
+ 	//zIndex: 1,
+}
+
+"#view1": {
+	layout: "horizontal",
+	horizontalWrap: false,
+	touchEnabled: false,
 }
 
 "#avatarView" : {
  	height: "64dp",
  	width: "64dp",
- 	touchEnabled : true,
+ 	touchEnabled: true,
  	backgroundColor: "transparent", //"lightgray",
+ 	//backgroundSelectedColor: "yellow",
  	borderColor: "gray",
  	borderWidth: "1dp",
  	top: "0",
  	bubbleParent: false,
  	left: "20dp",
+ 	//zIndex: 2,
 }
 
 "#avatar" : {
  	//height: Titanium.UI.FILL,
  	width: "64dp", //Titanium.UI.FILL,
  	image: "/icon/thumb_receipt.png", //"/icon/ic_action_copy.png",
- 	touchEnabled : false,
+ 	touchEnabled: false,
 }
 
 ".midView" : {
