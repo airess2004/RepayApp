@@ -104,6 +104,7 @@
  	backgroundColor: Alloy.Globals.lightColor,
  	backgroundSelectedColor: Alloy.Globals.darkColor,
  	left: "4dp", //workaround to right-align horizontal layout
+ 	visible: false,
 }
 
 "#editLabel": {
@@ -166,6 +167,7 @@
 	},
 	top: "16dp",
 	bottom: "16dp",
+	visible: false,
 }
 
 ".verticalLayout": {
@@ -273,6 +275,7 @@
 	//bottom: "4dp",
 	left: "4dp",
 	right: "4dp",
+	visible: false,
 }
 
 ".submitLabel": {
@@ -284,6 +287,7 @@
 		fontSize: "17dp",
 		//fontWeight: "bold"
 	},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	color: "white",
 	horizontalWrap: false,
 }
@@ -365,4 +369,16 @@
 	backgroundColor: "darkgray",
 	//top: "8dp",
 	//bottom: "8dp",
+}
+
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7000",
+	visible: false,
+	modal: true,
+	zIndex: 9999,
 }

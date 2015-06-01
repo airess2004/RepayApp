@@ -3,25 +3,22 @@ exports.definition = {
 		columns : {
 			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
 			gid: "INTEGER",
-			reimburseId : "bigint",
+			reimburseId : "integer",
 			reimburseGid: "INTEGER",
 			name : "string",
 			receiptDate : "datetime",
-			isDeleted : "boolean",
-			isRejected: "boolean",
-			status: "integer",
+			isRejected : "boolean",
 			amount : "double",
 			description : "string",
-			dateCreated : "datetime",
-			lastUpdated : "datetime",
-			lastUpdate : "datetime",
+			totalComments: "integer",
 			urlImageMedium : "string",
 			urlImageSmall : "string",
-			urlImageOriginal : "string"
+			urlImageOriginal : "string",
+			isSync: "boolean",
 		},
 		adapter : {
 			type : "sql",
-			collection_name : "reimburseDetail",
+			collection_name : "reimburseDetail_ass",
 			idAttribute: 'id'
 		}
 	},

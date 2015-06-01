@@ -70,7 +70,8 @@ function doSave(e) {
 				description : $.descriptionField.value,
 				receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 				amount : amount,
-				urlImageOriginal : $.photo.image
+				urlImageOriginal : $.photo.image,
+				IsSync: 0,
 			});
 			reimburseDetail.save();
 			reimburseDetail.fetch({remove: false});
@@ -86,8 +87,8 @@ function doSave(e) {
 			receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			isDeleted : 0,
 			amount : amount,
-			urlImageOriginal : $.photo.image
-
+			urlImageOriginal : $.photo.image,
+			IsSync: 0,
 		});
 		reimburseDetail.save();
 		reimburseDetails.add(reimburseDetail);
@@ -109,7 +110,8 @@ function doSave(e) {
 	var reimburse = reimburses.get(reimburseId);
 
 	reimburse.set({
-		"total" : parseFloat(total)
+		"total" : parseFloat(total),
+		//IsSync: 0,
 	});
 	reimburse.save();
 	reimburse.fetch({remove: false});

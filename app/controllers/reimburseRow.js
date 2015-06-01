@@ -14,7 +14,7 @@ if ($model) {
 	id = $model.id;
 	$.reimburseRow.rowid = $model.id;
 	var status = $model.get('status');
-	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
+	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + moment.parseZone($model.get('projectDate')).local().format(dateFormat);
 	if ($model.get('isDeleted') == 0) {
 		//$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		//$.innerView.backgroundColor = 'lightgray';
@@ -49,13 +49,28 @@ function deleteItem(id) {
 	var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
 	// find the todo task by id
 	var reimburse = reimburses.get(id);
-
-	// destroy the model from persistence, which will in turn remove
-	// it from the collection, and model-view binding will automatically
-	// reflect this in the tableview
-	reimburse.destroy();
-	reimburse = null;
-	reimburses = null;
+	if (!reimburse) {
+		alert("Record not found!");
+	} else {
+		remoteReimburse.deleteObject(reimburse.get('gid'), function(result) {
+			if (result.error) {
+				alert(result.error);
+				// TODO : delete on local when no longer exist on server
+				if (!result.message) {
+					reimburse.destroy();
+					reimburse = null;
+					reimburses = null;
+				}
+			} else {
+				// destroy the model from persistence, which will in turn remove
+				// it from the collection, and model-view binding will automatically
+				// reflect this in the tableview
+				reimburse.destroy();
+				reimburse = null;
+				reimburses = null;
+			}
+		}); 
+	}
 }
 
 function thumbPopUp(e) {

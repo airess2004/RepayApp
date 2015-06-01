@@ -1,4 +1,4 @@
-var ModelName = 'reimburseDetail/';
+var ModelName = 'reimburse_details/';
 
 var postData = {
 	token : SERVER_KEY,
@@ -295,6 +295,7 @@ exports.getDetailListFrom = function(_parentid, fromDate, sortBy, order, start, 
 };
 
 exports.updateDetailObject = function(_item, callback) {
+	var orgItem = _item;
 	Ti.API.info("Item Desc = " + _item.description);
 	var retData = {};
 	var url = SERVER_API + ModelName;
@@ -323,6 +324,7 @@ exports.updateDetailObject = function(_item, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
+					retData = orgItem;
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -330,24 +332,28 @@ exports.updateDetailObject = function(_item, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.model) {
+				if (json.success) {
 					retData = {
-						name : json.model.name, //title,
-						description : json.model.description, //description,
-						amount : json.model.amount, //amount,
-						receiptDate : json.model.receiptDate, //date,
-						urlImageOri : json.model.urlImageOri, //pic
-						urlImageMedium : json.model.urlImageMedium,
-						urlImageSmall : json.model.urlImageSmall,
-						gid : json.model.id,
-						reimburse_gid : json.model.reimburse.id, //reimburseId,
-						isDeleted : json.model.isDeleted ? 1:0,
-						dateCreated : json.model.dateCreated,
-						lastUpdate : json.model.lastUpdate,
+						name : json.title,
+						description : json.description, //description,
+						amount : parseFloat(json.amount)||0, //amount,
+						receiptDate : json.transaction_datetime, //date,
+						urlImageOri : json.receipt_original_url, //pic
+						//urlImageMedium : obj.urlImageMedium,
+						urlImageSmall : json.receipt_mini_url,
+						gid : json.id || orgItem.gid,
+						reimburse_gid : json.reimburse.id, //reimburseId,
+						isDeleted : 0, //obj.isDeleted ? 1:0,
+						isRejected: (json.is_rejected == "true" || json.is_rejected == "1") ? 1 : 0,
+						dateCreated : json.created_at,
+						lastUpdate : json.updated_at,
 						isSynced : 1,
 					};
-					if (_item.id) retData.id = _item.id;
-				};
+					retData.status = retData.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];
+					if (orgItem.id) retData.id = orgItem.id;
+				} else {
+					retData.error = errors2string(json.message.errors);
+				} 
 				if (callback)
 					callback(retData);
 			}
@@ -356,29 +362,29 @@ exports.updateDetailObject = function(_item, callback) {
 	});
 
 	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
-	http.open('POST', url, false);
+	http.open('PUT', url + "/" + _item.gid + "?auth_token="+SERVER_KEY, false);
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
 		var postData = {
-			token : SERVER_KEY,
-			method : 'update',
-			model : {
-				id : _item.gid,
-				reimburseId : _item.reimburse_gid,
-				name : _item.name, //title,
+			reimburse_detail : {
+				//id : _item.gid,
+				reimburse_id : _item.reimburse_gid,
+				title : _item.name, //title,
 				description : _item.description, //description,
 				amount : _item.amount?_item.amount:0, //amount,
-				receiptDate : _item.receiptDate, //date,
-				urlImageOri : _item.urlImageOri, //pic
-				urlImageMedium : _item.urlImageMedium,
-				urlImageSmall : _item.urlImageSmall,
-				lastUpdate : _item.lastUpdate,
-				isDeleted : _item.isDeleted == 1 ? true:false,
+				transaction_datetime : _item.receiptDate, //date,
+				receipt_url_original : _item.urlImageOri, //pic
+				//urlImageMedium : _item.urlImageMedium,
+				receipt_url_mini : _item.urlImageSmall,
+				created_at : _item.dateCreated,
+				updated_at : _item.lastUpdate,
+				//isDeleted : false,
 			},
 		};
+		var jsonstr = JSON.stringify(postData);
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
-		http.send(JSON.stringify(postData));
+		http.send(jsonstr);
 
 		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
@@ -419,6 +425,7 @@ exports.addDetailObject = function(_item, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
+					retData = orgItem;
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -426,24 +433,29 @@ exports.addDetailObject = function(_item, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.model) {
+				if (json.success) {
+					var obj = json.reimburse_details[0];
 					retData = {
-						name : json.model.name, //title,
-						description : json.model.description, //description,
-						amount : json.model.amount, //amount,
-						receiptDate : json.model.receiptDate, //date,
-						urlImageOri : json.model.urlImageOri, //pic
-						urlImageMedium : json.model.urlImageMedium,
-						urlImageSmall : json.model.urlImageSmall,
-						gid : json.model.id,
-						reimburse_gid : json.model.reimburse.id, //reimburseId,
-						isDeleted : json.model.isDeleted ? 1:0,
-						dateCreated : json.model.dateCreated,
-						lastUpdate : json.model.lastUpdate,
+						name : obj.title,
+						description : obj.description, //description,
+						amount : parseFloat(obj.amount)||0, //amount,
+						receiptDate : obj.transaction_datetime, //date,
+						urlImageOri : obj.receipt_original_url, //pic
+						//urlImageMedium : obj.urlImageMedium,
+						urlImageSmall : obj.receipt_mini_url,
+						gid : obj.id,
+						reimburse_gid : obj.reimburse.id, //reimburseId,
+						isDeleted : 0, //obj.isDeleted ? 1:0,
+						isRejected: (obj.is_rejected == "true" || obj.is_rejected == "1") ? 1 : 0,
+						dateCreated : obj.created_at,
+						lastUpdate : obj.updated_at,
 						isSynced : 1,
 					};
-					if (_item.id) retData.id = _item.id;
-				};
+					retData.status = retData.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];
+					if (orgItem.id) retData.id = orgItem.id;
+				} else {
+					retData.error = errors2string(json.message.errors);
+				} 
 				if (callback)
 					callback(retData, orgItem);
 			}
@@ -452,30 +464,29 @@ exports.addDetailObject = function(_item, callback) {
 	});
 
 	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
-	http.open('POST', url, false);
+	http.open('POST', url + "?auth_token="+SERVER_KEY, false);
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
 		var postData = {
-			token : SERVER_KEY,
-			method : 'create',
-			model : {
+			reimburse_detail : {
 				//id : _item.gid,
-				reimburseId : _item.reimburse_gid,
-				name : _item.name, //title,
+				reimburse_id : _item.reimburse_gid,
+				title : _item.name, //title,
 				description : _item.description, //description,
 				amount : _item.amount?_item.amount:0, //amount,
-				receiptDate : _item.receiptDate, //date,
-				urlImageOri : _item.urlImageOri, //pic
-				urlImageMedium : _item.urlImageMedium,
-				urlImageSmall : _item.urlImageSmall,
-				dateCreated : _item.dateCreated,
-				lastUpdate : _item.lastUpdate,
-				isDeleted : false,
+				transaction_datetime : _item.receiptDate, //date,
+				receipt_url_original : _item.urlImageOri, //pic
+				//urlImageMedium : _item.urlImageMedium,
+				receipt_url_mini : _item.urlImageSmall,
+				created_at : _item.dateCreated,
+				updated_at : _item.lastUpdate,
+				//isDeleted : false,
 			},
 		};
+		var jsonstr = JSON.stringify(postData);
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
-		http.send(JSON.stringify(postData));
+		http.send(jsonstr);
 
 		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
@@ -619,23 +630,29 @@ exports.deleteDetailObject = function(_gid, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.model) {
-					retData = {
-						name : json.model.name, //title,
-						description : json.model.description, //description,
-						amount : json.model.amount, //amount,
-						receiptDate : json.model.receiptDate, //date,
-						urlImageOri : json.model.urlImageOri, //pic
-						urlImageMedium : json.model.urlImageMedium,
-						urlImageSmall : json.model.urlImageSmall,
-						gid : json.model.id,
-						reimburse_gid : json.model.reimburse.id, //reimburseId,
-						isDeleted : json.model.isDeleted ? 1:0,
-						dateCreated : json.model.dateCreated,
-						lastUpdate : json.model.lastUpdate,
-						isSynced : 1,
-					};
-				};
+				if (!json.success) {
+					retData.message = json.message;
+					retData.error = json.message ? "Can't delete submitted record!" : "Record not found!";
+				} else {
+					retData = {};
+				}
+				// if (json.model) {
+					// retData = {
+						// name : json.model.name, //title,
+						// description : json.model.description, //description,
+						// amount : json.model.amount, //amount,
+						// receiptDate : json.model.receiptDate, //date,
+						// urlImageOri : json.model.urlImageOri, //pic
+						// urlImageMedium : json.model.urlImageMedium,
+						// urlImageSmall : json.model.urlImageSmall,
+						// gid : json.model.id,
+						// reimburse_gid : json.model.reimburse.id, //reimburseId,
+						// isDeleted : json.model.isDeleted ? 1:0,
+						// dateCreated : json.model.dateCreated,
+						// lastUpdate : json.model.lastUpdate,
+						// isSynced : 1,
+					// };
+				// };
 				if (callback)
 					callback(retData);
 			}
@@ -644,21 +661,20 @@ exports.deleteDetailObject = function(_gid, callback) {
 	});
 
 	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
-	http.open('POST', url, false);
+	http.open('DELETE', url + _gid + "?auth_token="+SERVER_KEY, false);
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
-		var postData = {
-			token : SERVER_KEY,
-			method : 'delete',
-			model : {
-				id : _gid,
-				dateDeleted : moment().toISOString(),
-				//isDeleted : true,
-			},
-		};
+		// var postData = {
+			// model : {
+				// id : _gid,
+				// dateDeleted : moment().toISOString(),
+				// //isDeleted : true,
+			// },
+		// };
+		//var jsonstr = JSON.stringify(postData);
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
-		http.send(JSON.stringify(postData));
+		http.send();
 
 		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {

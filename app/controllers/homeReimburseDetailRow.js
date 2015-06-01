@@ -1,12 +1,13 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses = Alloy.Collections.reimburse; //Alloy.Globals.homeListReimburse; //
-var reimburseDetails = Alloy.Collections.reimburseDetail; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
-var comments = Alloy.Collections.comment;
+var reimburses_ass = Alloy.Collections.reimburse_ass; //Alloy.Globals.homeListReimburse; //
+var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
+//var comments = Alloy.Collections.comment;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 //comments && comments.fetch({remove: false});
 var id;
+var gid;
 
 // $model represents the current model accessible to this
 // controller from the markup's model-view binding. $model
@@ -14,30 +15,31 @@ var id;
 
 if ($model) {
 	id = $model.id;
-	$.homeReimburseDetailRow.rowid = $model.id;
-	var status = $model.get('status');
-	$.homeReimburseDetailRow.title = $model.get('title');
-	comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailId="+id});
-	$.commentLabel.text = comments.where({reimburseDetailId : id}).length;
-	if ($model.get('isDeleted') == 0) {
+	gid = $model.get('gid');
+	$.homeReimburseDetailRow.rowid = id;
+	$.homeReimburseDetailRow.rowgid = gid;
+	var status = DETAILSTATUSCODE[$model.get('isRejected') == true ? Const.Rejected : Const.Approved];
+	$.homeReimburseDetailRow.title = $model.get('name')+" "+$model.get('amount')+" "+moment.parseZone($model.get('receiptDate')).local().format(dateFormat);
+	//comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+$model.get("gid")});
+	$.commentLabel.text = $model.get('totalComments'); //comments.where({reimburseDetailId : id}).length;
+	//if ($model.get('isDeleted') == 0) 
+	{
 		//$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
 		//$.innerView.backgroundColor = 'lightgray';
 		//$.status.backgroundColor = STATUSCODE_COLOR[status];
 		//$.avatar.image = '/tick_64.png';
-	} else {
-		//$.homeReimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.innerView.backgroundColor = 'white';
-		//$.status.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.avatar.image = '/tick_64.png';
-	}
+	} 
 	// wait for parent id to be available before fetching details
 	//comments && comments.fetch({remove: false});
 	//$.switchBtn.removeEventListener("change", switchChange);
 	//$.switchBtn.addEventListener("change", switchChange);
 	if ($.switchBtn.value == null) $.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
 	updateSwitch($.switchBtn, $.switchBtn.value);
-	var reimburse = reimburses.get($model.get('reimburseId'));
-	var parentstatus = reimburse.get('status');
+	var reimburse = reimburses_ass.find(function(mdl) {
+			return mdl.get('reimburse_gid') == $model.get('reimburseGid');
+	}); //findWhere({reimburse_gid: $model.get('reimburseGid')}); //reimburses_ass.get($model.get('reimburseId'));
+	//if (reimburse && reimburse.length > 0) reimburse = reimburse[0];
+	var parentstatus = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
 	$.switchBtn.touchEnabled = true; //(parentstatus <= STATUSCODE[Const.Pending]);
 	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 }
@@ -59,12 +61,13 @@ if ($model) {
 // delete the IDed todo from the collection
 function deleteItem(id) {
 	// find the todo task by id
-	var reimburseDetail = reimburseDetails.get(id);
+	var reimburseDetail = reimburseDetails_ass.get(id);
 
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
 	reimburseDetail.destroy();
+	reimburseDetail = null;
 }
 
 function doDeleteClick(e){
@@ -98,8 +101,11 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	id = e.source.parent.rowid;
+	gid = e.source.parent.rowgid;
 	Alloy.createController("comment",{
-					id : id , reimburseId : null,
+					id : id , 
+					gid : gid,
+					reimburseId : null,
 					"$model": $model
 				}
 	).getView().open();
@@ -107,6 +113,7 @@ function rowClick(e) {
 
 function rowLongClick(e) {
 	id = e.source.parent.rowid;
+	gid = e.source.parent.rowgid;
 	//$.deleteDialog.show();
 }
 
@@ -125,9 +132,13 @@ function switchChange(e) {
 	if (!Alloy.Globals.toggleUsed) {
 		Alloy.Globals.toggleUsed = true;
 		if ($.switchBtn.touchEnabled) {
-			var reimburseDetail = reimburseDetails.get(id);
-			var reimburse = Alloy.Globals.homeListReimburse.get(reimburseDetail.get('reimburseId'));
-			if (reimburse.get('status') <= STATUSCODE[Const.Pending]) {
+			var reimburseDetail = reimburseDetails_ass.get(id);
+			var reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl) {
+				return mdl.get('reimburse_gid') == reimburseDetail.get('reimburseGid');
+			}); //findWhere({reimburse_gid: reimburseDetail.get('reimburseGid')});
+			//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
+			var status = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending]; //reimburse.get('status');
+			if (status <= STATUSCODE[Const.Pending]) {
 				Alloy.Globals.act.show({modal:true});
 				$.switchBtn.value = !$.switchBtn.value;
 				updateSwitch($.switchBtn, $.switchBtn.value);
@@ -136,18 +147,23 @@ function switchChange(e) {
 					// "status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
 				// });
 				reimburseDetail.save({
-					"status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
+					"isRejected" : !$.switchBtn.value, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
+					"isSync" : 0,
 				}, {success :function(mdl){
 					mdl.fetch({
 						remove : false
 					});
 					var amount = parseFloat(mdl.get('amount'));
-					var reimburse = Alloy.Globals.homeListReimburse.get(mdl.get('reimburseId'));
+					var reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
+						return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
+					}); //findWhere({reimburse_gid: mdl.get('reimburseGid')});
+					//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
 					// reimburse.set({
 						// "total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
 					// });
 					reimburse.save({
-						"total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
+						"reimburse_total_approved" : parseFloat(reimburse.get('reimburse_total_approved')) + ($.switchBtn.value ? amount : -amount),
+						"isSync" : 0,
 					}, {success :function(parmdl){
 						parmdl.fetch({
 							remove : false

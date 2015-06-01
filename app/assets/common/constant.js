@@ -32,9 +32,9 @@ var refreshImage = '/icon/ic_action_refresh.png';
 //var crypto = require('crypto');
 var Transloadit = require('ti-transloadit');
 
-var SERVER_WEB = 'http://ReimburseApp.com';
-//var SERVER_HOST = 'http://10.20.30.90:8080/APIREPAY'; //'http://192.168.43.235:8080/APIREPAY'; //
-var SERVER_HOST = 'http://ReimburseApp.com'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
+var SERVER_WEB = 'https://repay-staging.herokuapp.com'; //'http://ReimburseApp.com';
+var SERVER_HOST = 'https://repay-staging.herokuapp.com'; //'http://ReimburseApp.com'; //; //'http://128.199.174.241:8080/APIREPAY'; //'http://playssd.jelastic.skali.net/APIREPAY';
+//var SERVER_HOST = 'http://10.20.30.93:3000'; //'http://192.168.43.235:8080/APIREPAY'; //
 var FORGOTPASSWORD_URL = SERVER_WEB + '/forgot/';
 var TOS_URL = SERVER_WEB + '/tos/';
 var POLICY_URL = SERVER_WEB + '/policy/';
@@ -52,41 +52,49 @@ var TRANSLOADIT_SIGNATURE = '';
 var TRANSLOADIT_PARAMS = '';
 var TRANSLOADIT_FIELDS = {customFormField : true};
 
+var TRANSLOADIT_ACCESS_DENIED = "S3_STORE_ACCESS_DENIED";
 var TRANSLOADIT_AUTH_EXPIRED = 'AUTH_EXPIRED';
 var TRANSLOADIT_EXECUTING = 'ASSEMBLY_EXECUTING';
 var TRANSLOADIT_COMPLETED = 'ASSEMBLY_COMPLETED';
+var TRANSLOADIT_CANCELED = 'ASSEMBLY_CANCELED';
+var TRANSLOADIT_REQUEST_ABORTED = 'REQUEST_ABORTED';
+
 var INVALID_TOKEN = 'Invalid Token';
 
 function getSignatureFromServer(obj, callback) {
-	var url = SERVER_API + 'User/'; //'http://192.168.10.179:8080/API-TESTING/city/';
+	var url = SERVER_API + 'transloadit_signature/'; //'http://192.168.10.179:8080/API-TESTING/city/';
 	var xhr = Ti.Network.createHTTPClient({
 		autoEncodeUrl:false,
 		onerror : function(e) {
 			Ti.API.debug(e.error);
 			//alert('Connection error');
-			callback(e.error, TRANSLOADIT_SIGNATURE);
+			callback(e.error, TRANSLOADIT_SIGNATURE, obj);
 		},
 		onload : function() {
 			Ti.API.info('Response = '+this.responseText);
 			var json = JSON.parse(this.responseText);
-			callback(null, json.model);
+			callback(null, json.signature, JSON.parse(json.params));
 		},
 	}); //Titanium.Network.createHTTPClient();
 	
 	// open the client
-	xhr.open('POST', url, true);
+	xhr.open('GET', url + "?auth_token="+SERVER_KEY, true);
+	
+	// workaround for PUT/DELETE method when not supported
+	// xhr.setRequestHeader('X-HTTP-Method-Override', 'DELETE');
+	// xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded'); //used when getting authentication error, which is default content type for POST
 	
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	xhr.setRequestHeader('Content-Type','application/json');
 
-	var jsonobj = {
-		method : 'getHash',
-		token : SERVER_KEY,
-		model : obj
-	};
-	
+	// var jsonobj = {
+		// method : 'getHash',
+		// token : SERVER_KEY,
+		// model : obj
+	// };
+	// var jsonstr = JSON.stringify(jsonobj);
 	// send the data
-	xhr.send(JSON.stringify(jsonobj));
+	xhr.send();
 }; 
 
 function isTimeInSync(serverTimeStamp, clientTimeStamp) {
@@ -120,6 +128,64 @@ function utcDateString(time) {
 
 	return result;
 }; 
+
+function upload2trans (filename, callback, wait) {
+	getSignatureFromServer(null, function(er, hash, params) {
+		if (!er) {
+			EXPIRED_TIME = params.auth.expires;
+			TRANSLOADIT_KEY = params.auth.key;
+			TRANSLOADIT_TEMPLATEID = params.template_id;
+			TRANSLOADIT_SIGNATURE = hash;
+			Transloadit.upload({
+				expDate : EXPIRED_TIME, //.format("yyyy/MM/dd HH:mm:ss+00:00"),
+				key : TRANSLOADIT_KEY,
+				//notify_url : TRANSLOADIT_NOTIFY, //'http://my-api/hey/file/is/done',
+				template : TRANSLOADIT_TEMPLATEID,
+				//fields : TRANSLOADIT_FIELDS, //{customFormField : true},
+				wait : wait || true, //
+				getSignature : function(params, next) {
+					//Ti.API.info(params);
+					//https://transloadit.com/docs/api-docs#authentication
+					// getSignatureFromServer(params, function(err, hash) {
+					// next(err, hash);
+					// });
+					next(null, TRANSLOADIT_SIGNATURE);
+				},
+				file : Ti.Filesystem.getFile(filename)
+			}, function(err, assembly) {
+				Ti.API.info(err || assembly);
+				//console.log(err || assembly);
+				if (!err) {
+					// if (assembly.results.thumb)
+					// obj.urlImageSmall = assembly.results.thumb[0].url;
+					// if (assembly.results.optimized)
+					// obj.urlImageOri = assembly.results.optimized[0].url;
+					// // ":origin"
+					// if (assembly.results.medium)
+					// obj.urlImageMedium = assembly.results.medium[0].url;
+					if (callback)
+						callback(assembly);
+				} else {
+					//act.hide();
+					var msg = err;
+					if (err.error == TRANSLOADIT_AUTH_EXPIRED) {
+						msg = L('session_expired');
+						alert(msg);
+					} else {
+						if (err.source) {
+							msg = err.source.status + " : " + err.error;
+						} else
+						if (err.message && err.message != "") msg = err.message + ((err.reason && err.reason!="") ? "\n"+err.reason : "");
+						alert('Error ' + msg);
+					}
+					if (callback) callback(msg);
+				}
+			}); 
+		} else {
+			if (callback) callback(er);
+		}
+	});
+}
 
 function string2array(str) {
       return str.match(/[^\r\n]+/g); //str.replace(/(\r\n|\r|\n)/g, '\n');
@@ -195,6 +261,23 @@ function createLocalThumb(srcImg, tgtWidth, tgtHeight, callback) {
 	return ret;
 };
 
+function cropImage(in_img, rect) {
+	var out_img = null;
+	if (in_img) {
+		var ImageFactory = require('ti.imagefactory');
+		//var rect = $.cropperView.getRect();
+		// convert coordinate from "dp" to "pt"
+		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
+		rect.x = Math.max(0, rect.x * Ti.Platform.displayCaps.logicalDensityFactor); //x must be >= 0
+		rect.y = Math.max(0, rect.y * Ti.Platform.displayCaps.logicalDensityFactor); //y must be >= 0
+		if (rect.x+rect.width > in_img.width) rect.width = in_img.width - rect.x; // x+width must be <= image.width
+		if (rect.y+rect.height > in_img.height) rect.height = in_img.height - rect.y; // y+height must be <= image.height
+		out_img = ImageFactory.imageAsCropped(in_img.media || in_img, rect);
+	}
+	return out_img;
+}
+
 //################# PROPERTIES GET - DO NOT CHANGE ################
 var settings=Ti.App.Properties.getObject('settings',{});
 
@@ -234,119 +317,7 @@ var _typeOfGallery=getProperty('type','gallery')||_FLICKR;  // Possible Values: 
 //####################### LINKS ########################
 var contactLogoBackground="#00FFFFFF";
 var contactLogoImage=isIPad?"/images/logoipad.png":"/images/logo.png";
-var contactListData=[
-    [
-        {
-            "value": "Facebook",
-            "name": "Title"
-        },
-        {
-            "value": getProperty('facebookName','contact')|| "fb.com\PlaySSD",
-            "name": "SubTitle"
-        },
-        {
-            "value": getProperty('facebooklink','contact')|| "http://www.facebook.com/PlaySSD",
-            "name": "Value"
-        },
-        {
-            "value": "#00547bbc",
-            "name": "List Color"
-        },
-        {
-            "value": "Facebook",
-            "name": "Type",
-        }
-    ],
-    [
-        {
-            "value": "Phone",
-            "name": "Title"
-        },
-        {
-            "value": getProperty('phone','contact')||"+6212345678",
-            "name": "SubTitle"
-        },
-        {
-            "value": getProperty('phone','contact') ? "tel:"+(getProperty('phone','contact').replace(/ /g,'')) : "tel:6212345678",
-            "name": "Value"
-        },
-        {
-            "value": "#00e44690",
-            "name": "List Color"
-        },
-        {
-            "value": "Phone",
-            "name": "Type",
-        }
-    ],
-    [
-        {
-            "value": "E-Mail",
-            "name": "Title"
-        },
-        {
-            "value": getProperty('email','contact')||"contact@playssd.com",
-            "name": "SubTitle"
-        },
-        {
-            "value": getProperty('email','contact') ? "mailto:"+getProperty('email','contact') :"mailto:contact@playssd.com",
-            "name": "Value"
-        },
-        {
-            "value": "#0094ce46",
-            "name": "List Color"
-        },
-        {
-            "value": "Email",
-            "name": "Type",
-        }
-    ],
-    [
-        {
-            "value": "WebSite",
-            "name": "Title"
-        },
-        {
-            "value": getProperty('website','contact')||"playssd.com",
-            "name": "SubTitle"
-        },
-        {
-            "value": getProperty('website','contact')||"http://www.playssd.com",
-            "name": "Value"
-        },
-        {
-            "value": "#004a4a4a",
-            "name": "List Color"
-        },
-        {
-            "value": "WebLink",
-            "name": "Type",
-        }
-    ],
-    [
-        {
-            "value": "Location",
-            "name": "Title"
-        },
-        {
-            "value": getProperty('adress','contact')||"Jakarta, Indonesia",
-            
-            "name": "SubTitle"
-        },
-        {
-            "value": getProperty('adress','contact')?"https://www.google.it/maps?q="+getProperty('adress','contact'):"https://www.google.it/maps?q=Jakarta",
-            "name": "Value"
-        },
-        {
-            "value": "#00547bbc",
-            "name": "List Color"
-        },
-        {
-            "value": "Map",
-            "name": "Type",
-        }
-    ]
-];
+
 
 //Web Site
 var _hasWebPage=getProperty('website','about')!=null&&getProperty('website','about')!="";
@@ -475,6 +446,15 @@ var LoadRemoteImage = function(obj, url) {
 	// send the data
 	xhr.send();
 };
+
+function errors2string(errorsJSON) {
+	var ret = "";
+	for (var key in errorsJSON) {
+		ret += ((key == "generic_errors") ? "Error" : key ) + " : "+errorsJSON[key]+"\n";
+	}
+	if (ret == "") ret = null;
+	return ret;
+}
 
 
 var Const = {

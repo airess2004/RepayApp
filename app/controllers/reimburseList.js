@@ -5,7 +5,7 @@ var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
 var filter = { isDeleted: 0 };
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0"});
+reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and username='"+Alloy.Globals.CURRENT_USER+"'"});
 Alloy.Globals.reimburseListReimburse = $.localReimburse;
 
 // Sort Descending
@@ -18,6 +18,7 @@ Alloy.Globals.reimburseListReimburse = $.localReimburse;
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
+	if (filter) filter.username = Alloy.Globals.CURRENT_USER;
 	var ret = collection.where(filter);
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
@@ -64,7 +65,7 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses && reimburses.fetch(e.param ? e.param : {remove:false});
+	reimburses && reimburses.fetch({remove:false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
 }
 
 function showAllClick(e) {
@@ -106,7 +107,7 @@ function updateBorder(e) {
 		case $.pendBtn: $.pendBtn.borderWidth = "3dp"; $.pendBtn.borderRadius = "3dp"; break;
 		case $.openBtn: $.openBtn.borderWidth = "3dp"; $.openBtn.borderRadius = "3dp"; break;
 		case $.closedBtn: $.closedBtn.borderWidth = "3dp"; $.closedBtn.borderRadius = "3dp"; break;
-		case $.showAll: $.showAll.borderWidth = "3dp"; $.showAll.borderRadius = "3dp"; break;
+		//case $.showAll: $.showAll.borderWidth = "3dp"; $.showAll.borderRadius = "3dp"; break;
 	}
 }
 

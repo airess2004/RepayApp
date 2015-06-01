@@ -115,3 +115,15 @@
 	backgroundColor: "gray",
 	top: "8dp"
 }
+
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7000",
+	//visible: true,
+	modal: true,
+	zIndex: 99,
+}

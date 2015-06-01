@@ -1,15 +1,15 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses = $.localReimburse; //Alloy.Collections.reimburse;
-//var reimburseDetails = Alloy.Collections.reimburseDetail;
+var reimburses_ass = $.localReimburse_ass; //Alloy.Collections.reimburse;
+//var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
 
 // fetch existing todo items from storage
-reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and status>="+STATUSCODE[Const.Open]});
-//reimburseDetails && reimburseDetails.fetch({remove: false});
+reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
+//reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 
-Alloy.Globals.homeListReimburse = $.localReimburse;
-//Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
+Alloy.Globals.homeListReimburse_ass = $.localReimburse_ass;
+//Alloy.Globals.homeListReimburseDetail_ass = $.localReimburseDetail_ass;
 
 // Sort Descending
 // reimburses.comparator = function(model) {
@@ -21,10 +21,10 @@ Alloy.Globals.homeListReimburse = $.localReimburse;
 // collection itself, but instead return an array of models
 // that you would like to render.
 function whereFunction(collection) {
-	var ret = collection.where({ isDeleted: 0});
-	ret = _.filter(ret, function(model){
-		return model.get('status') > STATUSCODE[Const.Open];
-	});
+	var ret = collection.where({ username: Alloy.Globals.CURRENT_USER });
+	// ret = _.filter(ret, function(model){
+		// return model.get('status') > STATUSCODE[Const.Open];
+	// });
 	if (!ret) ret = [];
 	// ret = _.sortBy(ret, function(model){
 		 // return -(moment.parseZone(model.get('projectDate')).unix());
@@ -42,11 +42,12 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON();
-	transform.status = STATUS[transform.status];
-	transform.total = "Rp." + String.formatDecimal(transform.total); //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
-	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
+	transform.status = transform.reimburse_is_confirmed == true ? Const.Closed : Const.Pending; //transform.status
+	transform.total = "Rp." + String.formatDecimal(transform.reimburse_total_approved); //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
+	transform.projectDate = moment.parseZone(transform.reimburse_application_date).local().format(dateFormat);
+	transform.title = transform.reimburse_title;
 	//if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
-	transform.userAvatar = "/icon/thumb_reimburse.png";
+	transform.userAvatar = transform.source_userAvatar || "/icon/thumb_reimburse.png";
 	return transform;
 }
 
@@ -62,7 +63,7 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses && reimburses.fetch(e.param ? e.param : {remove:false});
+	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
 	//reimburseDetails && reimburseDetails.fetch({remove: false});
 	//comments && comments.fetch({remove: false});
 }

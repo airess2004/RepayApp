@@ -2,10 +2,12 @@ exports.definition = {
 	config: {
 		columns: {
 			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
+			gid: "INTEGER",
 		    reimburseDetailId: "bigint",
+		    reimburseDetailGid: "integer",
 		    message: "string",
 		    commentDate: "datetime",
-		    userId: "bigint",
+		    userId: "integer",
 		    username : "string",
 		    dateCreated: "date"
 		},

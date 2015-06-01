@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
-var reimburseDetails = Alloy.Collections.reimburseDetail;
+var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
 var comments = Alloy.Collections.comment; //$.localComment; //
 //var reimburses = Alloy.Collections.reimburse;
 
@@ -11,10 +11,10 @@ var comments = Alloy.Collections.comment; //$.localComment; //
 var data;
 
 if (args.id != null) {
-	data = reimburseDetails.get(args.id);
+	data = reimburseDetails_ass.get(args.id);
 }
 
-comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailId="+args.id});
+comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+args.gid});
 
 // Sort Descending
 // comments.comparator = function(model) {
@@ -55,7 +55,7 @@ function winOpen(e) {
 function winClose(e) {
 	$.destroy();
 	comments = null;
-	reimburseDetails = null;
+	reimburseDetails_ass = null;
 	//reimburses = null;
 	if (data) {
 		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+data.get("reimburseId")*/}});
@@ -70,7 +70,7 @@ function doBack(evt) {// what to do when the "home" icon is pressed
 
 function whereFunction(collection) {
 	var ret = collection.where({
-		reimburseDetailId : args.id
+		reimburseDetailGid : args.gid
 	});
 	if (!ret)
 		ret = [];
@@ -85,13 +85,14 @@ function transformFunction(model) {
 
 function newCommentClick(e) {
 	if ($.commentField.value != null && String.format($.commentField.value).trim().length > 0) {
-		var isodd = (comments.where({reimburseDetailId : args.id}).length % 2) == 1;
+		//var isodd = (comments.where({reimburseDetailId : args.id}).length % 2) == 1;
 		var comment = Alloy.createModel('comment', {
 			message : $.commentField.value,
 			commentDate : moment().utc().toISOString(),
-			userId : isodd ? 1 : 2,
-			username : isodd ? "Adam" : "Johan",
+			//userId : data.get('user_id'),
+			username : Alloy.Globals.CURRENT_USER,
 			reimburseDetailId : args.id,
+			reimburseDetailGid : args.gid,
 		});
 		comments.add(comment);
 		comment.save();

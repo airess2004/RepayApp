@@ -29,7 +29,7 @@
 		<View class="tabGroup">
 			<View class="tabBar" layout="horizontal">
 				<View class="tab" id="tab1" width="33.325%" onClick="homeBtnClick">
-					<Label class="tabTitle" id="tab1title" left="20dp">Home</Label>
+					<Label class="tabTitle" id="tab1title" >Home</Label> <!--left="20dp"-->
 				</View>
 				<View class="hSplitter" />
 				<View class="tab" id="tab2" onClick="reimburseBtnClick" >
@@ -37,7 +37,7 @@
 				</View>
 				<View class="hSplitter" />
 				<View class="tab" id="tab3" right="0" onClick="settingBtnClick">
-					<Label class="tabTitle" id="tab3title" right="20dp">Setting</Label>
+					<Label class="tabTitle" id="tab3title" >Setting</Label> <!--right="20dp"-->
 				</View>
 			</View>
 			<View id="activeTab"></View>
@@ -82,8 +82,8 @@
 					</View>
 				</View>
 				<View class="okCancelView" >
-					<Label id="okBtn" text="OK" width="50%" onClick="okClick"></Label>
 					<Label id="cancelBtn" text="Cancel" width="50%" onClick="cancelClick"></Label>
+					<Label id="okBtn" text="OK" width="50%" onClick="okClick"></Label>
 				</View>
 			</View>
 		</View>

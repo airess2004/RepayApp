@@ -2,11 +2,12 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 //var reimburses = Alloy.Globals.homeListReimburse; //Alloy.Collections.reimburse; //
-var reimburseDetails = $.localReimburseDetail; //Alloy.Collections.reimburseDetail; //
+var reimburseDetails_ass = $.localReimburseDetail_ass; //Alloy.Collections.reimburseDetail; //
 //$.localReimburseDetail = Alloy.Globals.homeListReimburseDetail;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 //Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
 var id;
+var gid;
 
 // Sort Descending
 // reimburseDetails.comparator = function(model) {
@@ -15,10 +16,10 @@ var id;
 //reimburseDetails.sort();
 
 function whereFunction(collection) {
-	if (!$.homeReimburseRow.rowid) alert("invalid id : "+id);
+	if (!$.homeReimburseRow.rowgid) alert("invalid gid : "+gid);
 	var ret = collection.where({
-		isDeleted : 0,
-		reimburseId : $.homeReimburseRow.rowid
+		//isDeleted : 0,
+		reimburseGid : $.homeReimburseRow.rowgid
 	});
 	if (!ret)
 		ret = [];
@@ -36,6 +37,7 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON(); 
+	transform.status = transform.isRejected == true ? Const.Rejected : Const.Approved;
 	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
@@ -49,11 +51,14 @@ function transformFunction(model) {
 // will be null if there is no binding in place.
 
 if ($model) {
-	id = $model.id;
-	$.homeReimburseRow.rowid = $model.id;
-	var status = $model.get('status');
-	$.homeReimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + $model.get('projectDate');
-	if ($model.get('isDeleted') == 0) {
+	id =  $model.id;
+	gid = $model.get('reimburse_gid'); //'gid'
+	$.homeReimburseRow.rowid = id;
+	$.homeReimburseRow.rowgid = gid;
+	var status = STATUSCODE[$model.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
+	$.homeReimburseRow.title = $model.get('reimburse_title') + " " + STATUS[status] + " " + $model.get('reimburse_total_approved') + " " + $model.get('reimburse_application_date');
+	//if ($model.get('isDeleted') == 0) 
+	{
 		//$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
 		//$.innerView.backgroundColor = 'lightgray';
 		// $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
@@ -66,18 +71,9 @@ if ($model) {
 		$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
 		$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
 		//$.avatar.image = '/tick_64.png';
-	} else {
-		//$.homeReimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.innerView.backgroundColor = 'white';
-		// $.approveBtn.backgroundColor = status == 0 ? 'red' : 'purple';
-		// $.approveBtn.touchEnabled = false;
-		// $.approveBtn.text = STATUS[status];
-		$.innerView.touchEnabled = false;
-		$.bottomView.touchEnabled = $.innerView.touchEnabled;
-		//$.avatar.image = '/tick_64.png';
-	}
+	} 
 	// wait for parent id to be available before fetching details
-	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+$model.id});
+	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+$model.get('reimburse_gid')});
 }
 
 // reimburses.on('change:status', function(e){
@@ -132,13 +128,14 @@ function thumbPopUp(e) {
 
 function rowClick(e) {
 	id = e.source.parent.rowid;
+	gid = e.source.parent.rowgid;
 	
 }
 
 // confirm
 function approveReimburse(id) {
 	// find the todo task by id
-	var reimburse = Alloy.Globals.homeListReimburse.get(id);
+	var reimburse = Alloy.Globals.homeListReimburse_ass.get(id);
 
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
@@ -149,27 +146,41 @@ function approveReimburse(id) {
 	// });
 	// if (!dets) dets = [];
 	// TODO: update detail's status
-	reimburse.set({"status": STATUSCODE[Const.Closed]});
-	reimburse.save();
-	// reimburse.save(null, {
-            // success: function(model, resp){
-                // alert("Success saving.");
-            // },
-            // error: function(model, resp) {
-                // alert("Error saving!");
-            // }
-        // });
-	reimburse.fetch({remove: false}); //reimburses.fetch({remove: false});
-	//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
-	if (Alloy.Globals.gcmRegId) {
-		libgcm.sendGCM([Alloy.Globals.gcmRegId], {
-			title: "Reimburse ID:"+id,
-			message:"Reimburse Titled:'"+reimburse.get('title')+"' has been approved by '"+Alloy.Globals.CURRENT_USER+"'",
-			date: moment().toISOString(),
-		}, function(ret) {
-			if (ret.error) alert("Error : "+ret.error);
-		});
-	}
+	remoteReimburse.confirmObject(reimburse.get('reimburse_gid'), function(result) {
+		if (result.error) {
+			alert(result.error);
+		} else {
+			reimburse.set({
+				"reimburse_is_confirmed" : result.isDone,
+				reimburse_confirmed_at : result.doneDate,
+			});
+			reimburse.save();
+			// reimburse.save(null, {
+			// success: function(model, resp){
+			// alert("Success saving.");
+			// },
+			// error: function(model, resp) {
+			// alert("Error saving!");
+			// }
+			// });
+			reimburse.fetch({
+				remove : false
+			});
+			//reimburses.fetch({remove: false});
+			//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+			if (result.isDone && Alloy.Globals.gcmRegId) {
+				libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+					title : "Reimburse ID:" + reimburse.get('reimburse_gid'),
+					message : "Reimburse Titled:'" + reimburse.get('reimburse_title') + "' has been approved by '" + Alloy.Globals.CURRENT_USER + "'",
+					date : reimburse.get('reimburse_confirmed_at'), //moment().toISOString(),
+				}, function(ret) {
+					if (ret.error)
+						alert("Error : " + ret.error);
+				});
+			}
+		}
+	});
+	
 	return reimburse;
 }
 
@@ -187,7 +198,11 @@ function approveBtnClick(e) {
 	if (!Alloy.Globals.approveBtnUsed) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
-		if (!id) id = e.source.parent.parent.rowid;
+		gid = e.source.parent.rowgid;
+		if (!id) {
+			id = e.source.parent.parent.rowid;
+			gid = e.source.parent.parent.rowgid;
+		}
 		// Creates AlertDialog on-the-fly to prevent crashing issue when showing alertdialog created in XML
 		var approveDialog = Ti.UI.createAlertDialog({
 			title : "Confirm",
@@ -198,6 +213,7 @@ function approveBtnClick(e) {
 		approveDialog.addEventListener('click', doApproveClick);
 
 		approveDialog.rowid = id;
+		//approveDialog.rowgid = gid;
 		approveDialog.show({modal:true}); //Bug: this may crash app sometimes when creating AlertDialog in XML (or using local Collection?)
 	}
 }

@@ -4,7 +4,12 @@
 			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
 				<Label color="#176d7e" icon="fa-user"></Label>
-				<TextField id="userField" hintText="EMAIL" onFocus="userFocus"></TextField>
+				<TextField id="nameField" hintText="FULLNAME" onFocus="nameFocus"></TextField>
+			</View>
+			<View class="vSplitter" />
+			<View class="centeredHorizontal">
+				<Label color="#176d7e" icon="fa-user"></Label>
+				<TextField id="userField" hintText="EMAIL" ></TextField>
 			</View>
 			<View class="vSplitter" />
 			<View class="centeredHorizontal">
@@ -31,7 +36,7 @@
 		
         
         <Notification id="toast" platform="android" message="Verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
-		<ActivityIndicator id="act" message="Loading..."/>
+		<ActivityIndicator id="act" />
 		
 		<Widget id="fa" src="com.mattmcfarland.fontawesome"/>
 	</Window>

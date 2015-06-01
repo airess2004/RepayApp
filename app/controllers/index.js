@@ -18,9 +18,9 @@ Alloy.Globals.act = $.act;
 
 var abx = require('com.alcoapps.actionbarextras');
 
-libgcm.registerGCM(function(e) {
-	Alloy.Globals.gcmRegId = e.deviceToken;
-});
+// libgcm.registerGCM(function(e) {
+	// Alloy.Globals.gcmRegId = e.deviceToken;
+// });
 
 $.scrollableView.prevPage = -1;
 
@@ -51,11 +51,16 @@ Alloy.Globals.newBtnUsed = false;
 function doNew(e) {
 	if (!Alloy.Globals.newBtnUsed) {
 		Alloy.Globals.newBtnUsed = true;
-		var newview = Alloy.createController("reimburseForm").getView(); //.open();
-		Alloy.Globals.dialogView.removeAllChildren();
-		Alloy.Globals.dialogView.add(newview);
-		newview.fireEvent("open");
-		//Alloy.Globals.dialogView.show();
+		if (Alloy.Globals.CURRENT_USER && Alloy.Globals.CURRENT_USER!="") {
+			var newview = Alloy.createController("reimburseForm").getView(); //.open();
+			Alloy.Globals.dialogView.removeAllChildren();
+			Alloy.Globals.dialogView.add(newview);
+			newview.fireEvent("open");
+			//Alloy.Globals.dialogView.show();
+		} else {
+			alert("Please login first!");
+			Alloy.Globals.login.getView().open();
+		}
 		Alloy.Globals.newBtnUsed = false;
 	}
 }
@@ -299,23 +304,6 @@ function touchMove(e) {
 	}
 }
 
-function cropImage(in_img) {
-	var out_img = null;
-	if (in_img) {
-		var ImageFactory = require('ti.imagefactory');
-		var rect = $.cropperView.getRect();
-		// convert coordinate from "dp" to "pt"
-		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
-		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
-		rect.x = Math.max(0, rect.x * Ti.Platform.displayCaps.logicalDensityFactor); //x must be >= 0
-		rect.y = Math.max(0, rect.y * Ti.Platform.displayCaps.logicalDensityFactor); //y must be >= 0
-		if (rect.x+rect.width > in_img.width) rect.width = in_img.width - rect.x; // x+width must be <= image.width
-		if (rect.y+rect.height > in_img.height) rect.height = in_img.height - rect.y; // y+height must be <= image.height
-		out_img = ImageFactory.imageAsCropped(in_img.media || in_img, rect);
-	}
-	return out_img;
-}
-
 function okClick(e) {
 	$.act.show();
 	$.cropperView.hide();
@@ -328,8 +316,41 @@ function okClick(e) {
 	// $.croppedImage.visible = true;
 	Alloy.Globals.profileImage.image = null;
 	Alloy.Globals.avatar.image = null;
-	Alloy.Globals.profileImage.image = cropImage($.fullView.toImage()); //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
+	var croppedImg = cropImage($.fullView.toImage(), $.cropperView.getRect());
+	var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(Alloy.Globals.CURRENT_USER).toString()+".jpg");
+	file.write(croppedImg);
+	Alloy.Globals.profileImage.image = file.nativePath; //croppedImg; //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	upload2trans(file.nativePath, function(asm) {
+		if (typeof asm == "object") {
+			//var rv = asm.bytes_received;
+			//var sz = asm.bytes_expected;
+			if (asm.ok == "ASSEMBLY_COMPLETED") { //ASSEMBLY_CANCELED, ASSEMBLY_COMPLETED, REQUEST_ABORTED, or error means done
+				Alloy.Globals.profileImage.image = asm.results.optimized[0].url;
+				Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+				//Ti.API.info(JSON.stringify(asm.results));
+				var item = {
+					email: Alloy.Globals.CURRENT_USER,
+					original_avatar_url: asm.results.optimized[0].url,
+					mini_avatar_url: asm.results.thumb[0].url,
+				};
+				remoteUser.updateObject(item, function(result) {
+					if(!result.error) {
+						var users = Alloy.Collections.user;
+						var user = users.find(function(mdl){
+							return mdl.get('email').trim().toUpperCase() == result.email.trim().toUpperCase();
+						});
+						if (!user) {
+							user = Alloy.createModel("user", result);
+							users.add(user, {merge:true});
+						}
+						user.save(result);
+						user.fetch({remove:false});
+					}
+				});
+			}
+		}
+	});
 	$.cropperView.show();
 	$.act.hide();
 	$.overlayView.hide();

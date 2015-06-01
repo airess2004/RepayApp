@@ -126,6 +126,7 @@ function pingAssembly(assembly, callback) {
         setTimeout(function() {
             var get = request('GET', assembly.assembly_url);
             get.exec(null, function(err, data) {
+            	callback(null, data);
                 pingAssembly(data, callback);
             });
         }, PING_TIMEOUT);

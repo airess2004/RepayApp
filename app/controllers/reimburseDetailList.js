@@ -5,7 +5,7 @@ var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 // fetch existing todo items from storage
 //reimburses && reimburses.fetch({remove: false});
 var data = reimburses.get(args.id);
-reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+args.id});
+reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id});
 
 // Filter the fetched collection before rendering. Don't return the
 // collection itself, but instead return an array of models
@@ -22,6 +22,7 @@ reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM r
 function windowOpen(e) {
 	Alloy.Globals.reimburseDetailList = $.reimburseDetailList;
 	Alloy.Globals.dialogView2 = $.dialogView2;
+	Alloy.Globals.act2 = $.act;
 	data = reimburses.get(args.id);
 	var activity = $.reimburseDetailList.getActivity();
 	if (activity) {
@@ -83,9 +84,14 @@ function submitViewClick(e) {
 }
 
 function dialogSendClick(e) {
-    sendReimburse(args.id);
-    $.submitDialog.hide();
-    $.reimburseDetailList.close();
+    sendReimburse(args.id, function(result) {
+    	if (result.error) {
+    		alert(result.error);
+    	} else {
+    		$.submitDialog.hide();
+    		$.reimburseDetailList.close();
+    	}
+    }); 
 }
 
 function newDetailClick(e) {
@@ -101,40 +107,60 @@ function doEdit(e) {
 }
 
 // confirm
-function sendReimburse(id) {
-	// find the todo task by id
+function sendReimburse(id, callback) {
+	// find by id
 	var reimburse = reimburses.get(id);
-
-	// destroy the model from persistence, which will in turn remove
-	// it from the collection, and model-view binding will automatically
-	// reflect this in the tableview
-	// var dets = reimburseDetails.where({
-		// isDeleted : 0,
-		// reimburseId : $.homeReimburseRow.rowid
-	// });
-	// if (!dets) dets = [];
-	// TODO: update detail's status
-	reimburse.set({"status": STATUSCODE[Const.Pending]});
-	reimburse.save();
-	// reimburse.save(null, {
-            // success: function(model, resp){
-                // alert("Success saving.");
-            // },
-            // error: function(model, resp) {
-                // alert("Error saving!");
-            // }
-        // });
-	reimburse.fetch({remove: false}); //reimburses.fetch({remove: false});
-	//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
-	if (Alloy.Globals.gcmRegId) {
-		libgcm.sendGCM([Alloy.Globals.gcmRegId], {
-			title: "Pending Approval ID:"+id,
-			message:"You have new pending Reimburse Approval Titled:'"+reimburse.get('title')+"' from '"+Alloy.Globals.CURRENT_USER+"'",
-			date: moment().toISOString(),
-		}, function(ret) {
-			if (ret.error) alert("Error : "+ret.error);
+	if (reimburseDetails.length > 0) {
+		var tolist = string2array($.toField.value);					
+		var cclist = string2array($.ccField.value);
+		var bcclist = string2array($.bccField.value);
+		if (tolist == null) tolist = [];
+		if (cclist == null) cclist = [];
+		if (bcclist == null) bcclist = [];
+		remoteReimburse.sendObject(reimburse.get('gid'), tolist, cclist, bcclist, function(result) {
+			if (result.error) {
+				alert(result.error);
+			} else {			
+				// var dets = reimburseDetails.where({
+				// isDeleted : 0,
+				// reimburseId : $.homeReimburseRow.rowid
+				// });
+				// if (!dets) dets = [];
+				// TODO: update detail's status
+				reimburse.set({
+					"status" : STATUSCODE[result.isSent ? Const.Pending : Const.Open],
+					isSent : result.isSent,
+				});
+				reimburse.save();
+				// reimburse.save(null, {
+				// success: function(model, resp){
+				// alert("Success saving.");
+				// },
+				// error: function(model, resp) {
+				// alert("Error saving!");
+				// }
+				// });
+				reimburse.fetch({
+					remove : false
+				});
+				//reimburses.fetch({remove: false});
+				//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+				if (result.isSent && Alloy.Globals.gcmRegId) {
+					libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+						title : "Pending Approval ID:" + reimburse.get('gid'),
+						message : "You have new pending Reimburse Approval Titled:'" + reimburse.get('title') + "' from '" + Alloy.Globals.CURRENT_USER + "'",
+						date : reimburse.get('sentDate'), //moment().toISOString(),
+					}, function(ret) {
+						if (ret.error)
+							alert("Error : " + ret.error);
+					});
+				}
+			}
 		});
+	} else {
+		alert("You don't have any Expense!");
 	}
+	Ti.UI.Android.hideSoftKeyboard();
 	return reimburse;
 }
 
@@ -185,7 +211,7 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburseDetails && reimburseDetails.fetch(e.param ? e.param : {remove:false});
+	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id}); //fetch(e.param ? e.param : {remove:false});
 }
 
 function thumbPopUp(e) {

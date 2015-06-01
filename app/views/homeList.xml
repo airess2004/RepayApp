@@ -1,10 +1,10 @@
 <Alloy>
-	<Collection id="localReimburse" src="reimburse" instance="true"/>
+	<Collection id="localReimburse_ass" src="reimburse_ass" instance="true"/>
 	<View class="container" layout="vertical" onOpen="showList">
 		<!--TitleControl>
     		<Label id="tab1Title">Home</Label>
   		</TitleControl-->
-		<TableView layout="vertical" id="tableView" searchAsChild="false" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
+		<TableView layout="vertical" id="tableView" searchAsChild="false" dataCollection="$.localReimburse_ass" dataFilter="whereFunction" dataTransform="transformFunction">
 			<Require src="homeReimburseRow"/>
 		</TableView>
 	</View>      

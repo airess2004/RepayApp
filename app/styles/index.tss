@@ -461,7 +461,7 @@
 		fontFamily: 'century-gothic',
 		fontSize: "14dp"
 	},
-	left: 0,
+	right: 0,
 }
 
 "#cancelBtn" : {
@@ -479,7 +479,7 @@
 		fontFamily: 'century-gothic',
 		fontSize: "14dp"
 	},
-	right: 0,
+	left: 0,
 }
 
 "#act": {

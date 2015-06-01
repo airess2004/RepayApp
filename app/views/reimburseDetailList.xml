@@ -47,24 +47,24 @@
 		</View>
 		<View class="buttonBar" >
 			<View class="buttonBarInner">
-				<View id="submitBtn" onClick="doSubmit">
+				<View id="submitBtn" onClick="doSubmit" width="Ti.UI.FILL" left="0" right="0">
 					<Label class="submitLabel" text=" SUBMIT "></Label>
 				</View>
 			</View>
 		</View>
 		<View id="submitDialog" onClick="submitViewClick">
 			<View class="dialogBox" layout="vertical">
-				<Label class="dialogTitle" text="Confirm" left="20dp" right="20dp" top="20dp"></Label>
+				<Label class="dialogTitle" text="Submit" left="20dp" right="20dp" top="20dp"></Label>
 				<View class="vSplitter" backgroundColor="#00a2e8" height="2dp" top="20dp" horizontalWrap="false" />
 				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
 					<Label width="20%" text="TO" color="black"></Label>
 					<TextArea id="toField" width="Ti.UI.FILL" hintText="email"></TextArea>
 				</View>
-				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
+				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp" visible="false" height="0">
 					<Label width="20%" text="CC" color="black"></Label>
 					<TextArea id="ccField" width="Ti.UI.FILL" hintText="email"></TextArea>
 				</View>
-				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp">
+				<View layout="horizontal" width="80%" horizontalWrap="false" left="20dp" right="20dp" visible="false" height="0">
 					<Label width="20%" text="BCC" color="black"></Label>
 					<TextArea id="bccField" width="Ti.UI.FILL" hintText="email"></TextArea>
 				</View>
@@ -79,5 +79,6 @@
 			</View>
 		</View>
 		<View id="dialogView2" onClick="dialogViewClick" />
+		<ActivityIndicator id="act" />
 	</Window>
 </Alloy>

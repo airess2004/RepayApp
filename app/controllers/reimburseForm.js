@@ -48,52 +48,116 @@ function dialogSaveClick(e) {
 }
 
 function doSave(e) {
+	var curTime = moment().utc().toISOString();
+	var item = {
+		title: $.titleField.value,
+		description: "",
+		projectDate: moment($.dateField.value, dateFormat, lang).utc().toISOString(),
+		lastUpdate : curTime,
+	};
+		
 	var reimburse;
 	if (args == null || args.id == null) {
-		reimburse = Alloy.createModel('reimburse', {
-			userId : 1,
-			title : $.titleField.value,
-			projectDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
-			total : 0,
-			isSent : 0,
-			//sentDate : item.sentDate,
-			isDeleted : 0,
-			status : 0,
+		Alloy.Globals.act.show();
+		item.dateCreated = curTime;
+		remoteReimburse.addObject(item, function(result) {
+			if (result.error) {
+				alert(result.error);
+			} else {
+				reimburse = Alloy.createModel('reimburse', {
+					gid: result.gid,
+					username : Alloy.Globals.CURRENT_USER,
+					title : result.title,
+					description : result.description,
+					projectDate : result.projectDate,
+					total : 0,
+					isSent : 0,
+					isDone : 0,
+					//sentDate : result.sentDate,
+					isDeleted : 0,
+					status : 0,
+					isSync: 1,
+				});
+				reimburses.add(reimburse);
+				reimburse.save();
+				reimburse.fetch({
+					remove : false
+				}); 	
+				// reload the tasks	
+				// reimburses.fetch({
+					// remove : false
+				// });
+				if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
+					Alloy.createController("reimburseDetailList", {
+						id : reimburse.id
+					}).getView().open();
+				};
+				$.reimburseForm.fireEvent("close"); 
+			}
+			Alloy.Globals.act.hide();
 		});
-		reimburses.add(reimburse);
-		reimburse.save();
-		reimburse.fetch({remove:false});
 	} else {
+		Alloy.Globals.act2.show();
 		reimburse = reimburses.get(args.id);
-		if (reimburse) {
-			reimburse.set({
-				userId : 1,
-				title : $.titleField.value,
-				projectDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
-			});
-			reimburse.save();
-			reimburse.fetch({remove:false});
-		}
+		item.gid = reimburse.get('gid');
+		remoteReimburse.updateObject(item, function(result) {
+			if (result.error) {
+				alert(result.error);
+			} else {		
+				if (reimburse) {
+					reimburse.set({
+						gid: result.gid,
+						username : Alloy.Globals.CURRENT_USER,
+						title : result.title,
+						description : result.description,
+						projectDate : result.projectDate,
+						//total : result.total,
+						isSent : result.isSent,
+						sentDate : result.sentDate,
+						isDone : result.isDone,
+						doneDate : result.doneDate,
+						isSync: 1,
+					});
+					reimburse.save();
+					reimburse.fetch({
+						remove : false
+					});
+					// reload the tasks
+					// reimburses.fetch({
+						// remove : false
+					// });
+					if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
+						Alloy.createController("reimburseDetailList", {
+							id : reimburse.id
+						}).getView().open();
+					};
+					$.reimburseForm.fireEvent("close");
+				}
+			}
+			Alloy.Globals.act2.hide();
+		});
 	}
 
-	// reload the tasks
-	//reimburses.fetch({remove: false});
-	if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
-		Alloy.createController("reimburseDetailList", {
-			id : reimburse.id
-		}).getView().open();
-	};
-	$.reimburseForm.fireEvent("close"); //close();
+	// // reload the tasks
+	// reimburses.fetch({remove: false});
+	// if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
+		// Alloy.createController("reimburseDetailList", {
+			// id : reimburse.id
+		// }).getView().open();
+	// };
+	// $.reimburseForm.fireEvent("close");
+	//close();
 
 }
 
 function dateFieldClick(evt) {
 	Ti.UI.Android.hideSoftKeyboard();
-	//var picker = 
+	var picker = 
 	Ti.UI.createPicker({
 		type : Ti.UI.PICKER_TYPE_DATE,
 		value : ($.dateField.value == null || $.dateField.value == "") ? new Date() : moment($.dateField.value, dateFormat).toDate() //
-	}).showDatePickerDialog({
+	});
+	picker.showDatePickerDialog({
 		value : ($.dateField.value == null || $.dateField.value == "") ? moment().toDate() : moment($.dateField.value, dateFormat).toDate(), //,
 		callback : function (e) {
 			if (e.cancel) {

@@ -99,7 +99,11 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 	var deviceTokenError = function(ev) {
 		// when an error occurs
 		Ti.API.info('GCM ******* error,' + ev.error);
-		alert("Error registering GCM!");
+		//alert("Error registering GCM!");
+		Ti.Android && Ti.UI.createNotification({
+        	message : "Error registering GCM!",
+        	duration: Ti.UI.NOTIFICATION_DURATION_LONG,
+        }).show();
 	};
 
 	var dataWhenResume = function(data) {
@@ -123,7 +127,7 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 	
 	var unreg = function(ev) {
 		// on unregister
-		Ti.API.info('GCM ******* error,' + ev.deviceToken);
+		Ti.API.info('GCM ******* unreg,' + ev.deviceToken);
 	};
 
 	gcm.addEventListener('callback', receivePush);
@@ -135,7 +139,11 @@ exports.registerGCM = function(successCallback, foregroundCallback, backgroundCa
 };
 
 exports.unregGCM = function(callback) {
-	require('net.iamyellow.gcmjs').unregister();
+	//require("net.iamyellow.gcmjs").unregister(callback);
+	//var gcm = require('net.iamyellow.gcmjs');
+	//gcm.unregister(); // Object #<Gcmjs> has no method 'unregister'
+	//gcm.unregisterForPushNotifications(); //BUG? Object #<Gcmjs> has no method 'unregisterForPushNotifications'
+	//Ti.Network.unregisterForPushNotifications(); //unrecommended way to unregister?
 };
 
 exports.sendGCM = function(ids, msg, callback) {

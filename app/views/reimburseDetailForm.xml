@@ -46,7 +46,7 @@
 		</View>
 		<View class="buttonBar" >
 			<View class="buttonBarInner">
-				<View id="saveBtn" onClick="doSave">
+				<View id="saveBtn" onClick="doSave" width="Ti.UI.FILL" left="0" right="0">
 					<Label class="saveLabel" text=" SAVE "></Label>
 				</View>
 			</View>

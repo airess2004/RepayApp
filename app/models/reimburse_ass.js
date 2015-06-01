@@ -5,29 +5,24 @@ exports.definition = {
 		columns: {
 			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
 			gid: "INTEGER",
-		    title: "string",
-		    description: "string",
-		    total: "double",
-		    projectDate: "datetime",
-		    isSent: "boolean",
-		    sentDate: "datetime",
-		    sentTo: "string",
-		    isDone: "boolean",
-		    doneDate: "datetime",
-		    statusUpdateDate: "datetime",
-		    status: "integer",
-		    userId: "integer",
-		    username : "text",
-		    userAvatar : "text",
-		    dateCreated: "datetime",
-		    lastUpdated: "datetime",
-		    lastUpdate: "datetime",
-		    isDeleted: "boolean",
+			userId : "integer",
+			username : "text",
+			source_userId: "integer",
+			source_userAvatar: "text",
+			reimburse_gid: "integer",
+		    reimburse_title: "text",
+		    reimburse_description: "text",
+		    reimburse_application_date: "datetime",
+		    reimburse_is_submitted: "boolean",
+		    reimburse_submitted_at: "datetime",
+		    reimburse_is_confirmed: "boolean",
+		    reimburse_confirmed_at: "datetime",
+		    reimburse_total_approved: "double",
 		    isSync: "boolean"
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "reimburse",
+			collection_name: "reimburse_ass",
 			idAttribute: 'id'
 		}
 	},
@@ -98,7 +93,7 @@ exports.definition = {
                 // return collection.get(this.sortField);
             // },
             comparator : function(model) {
-  				return -(moment.parseZone(model.get('projectDate')).unix());
+  				return -(moment.parseZone(model.get('reimburse_submitted_at')).unix());
 			},
             // //*** Override sortBy to allow sort on any field, either direction 
             // sortBy: function (iterator, context) {

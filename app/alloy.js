@@ -27,9 +27,9 @@ Titanium.include('createRemoteImageView.js');
 Titanium.include('database/syncService.js');
 
 // Initialize local/remote storage
-var remoteUser = require('database/postgresql_user');	
-var remoteReimburse = require('database/postgresql_reimburse');
-var remoteReimburseDetail = require('database/postgresql_reimbursedetail');
+var remoteUser = require('database/remote_user');	
+var remoteReimburse = require('database/remote_reimburse');
+var remoteReimburseDetail = require('database/remote_reimbursedetail');
 //var localReimburse = require('database/sqlite_reimburse');
 //localReimburse.createDb();
 //var localReimburseDetail = require('database/sqlite_reimbursedetail');
@@ -49,9 +49,12 @@ var moment = require('alloy/moment');
 
 if (OS_IOS || OS_ANDROID) {
 	// Create collections
+	Alloy.Collections.user = Alloy.createCollection('user');
 	Alloy.Collections.reimburse = Alloy.createCollection('reimburse');
 	Alloy.Collections.reimburseDetail = Alloy.createCollection('reimburseDetail');
 	Alloy.Collections.comment = Alloy.createCollection('comment');
+	Alloy.Collections.reimburse_ass = Alloy.createCollection('reimburse_ass');
+	Alloy.Collections.reimburseDetail_ass = Alloy.createCollection('reimburseDetail_ass');
 	// Change default sorting (descending by date)
 	// Alloy.Collections.comment.comparator = function(model) {
   		// return -(moment.parseZone(model.get('commentDate')).unix());
@@ -62,8 +65,16 @@ if (OS_IOS || OS_ANDROID) {
 	// Alloy.Collections.reimburse.comparator = function(model) {
   		// return -(moment.parseZone(model.get('projectDate')).unix());
 	// };
+	
 	//Seed data
-	fillTestData();
+	//fillTestData();
+	
+	Alloy.Collections.user.fetch({remove:false});
+	Alloy.Collections.reimburse.fetch({remove:false});
+	Alloy.Collections.reimburseDetail.fetch({remove:false});
+	Alloy.Collections.comment.fetch({remove:false});
+	Alloy.Collections.reimburse_ass.fetch({remove:false});
+	Alloy.Collections.reimburseDetail_ass.fetch({remove:false});
 	
 	//Alloy.Globals.top = 0;
 	//Alloy.Globals.tableTop = '50dp';
@@ -98,7 +109,7 @@ function addReimburse(item) {
     // Create a new model for the todo collection
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
-    	userName : "Adam", //Alloy.Globals.CURRENT_USER,
+    	username : "Adam", //Alloy.Globals.CURRENT_USER,
     	userAvatar : "/icon/ic_action_user.png",
         title : item.title,
         projectDate : moment(item.projectDate, dateFormat).utc().toISOString(),

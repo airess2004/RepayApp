@@ -236,6 +236,7 @@
 		fontSize: "17dp",
 		//fontWeight: "bold"
 	},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	color: "white",
 	horizontalWrap: false,
 }
