@@ -45,23 +45,25 @@ if ($model) {
 function deleteItem(id) {
 	// find the todo task by id
 	var reimburseDetail = reimburseDetails.get(id);
+	var reimburseId = reimburseDetail.get('reimburseId');
 
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
-	reimburseDetail.destroy();
+	//reimburseDetail.destroy();
+	reimburseDetail.save({isDeleted:1, isSync:0});
+	reimburseDetail.fetch({remove:false});
 	
 	//--- start of update parent
-	var reimburseId = reimburseDetail.get('reimburseId');
-	var detail = reimburseDetails.where({
+	var details = reimburseDetails.where({
 		isDeleted : 0,
 		reimburseId : reimburseId
 	});
 	
 	var total = 0;
 
-	for (var i in detail) {
-		total += parseFloat(detail[i].get("amount"));
+	for (var i in details) {
+		total += parseFloat(details[i].get("amount"));
 	}
 
 	var reimburses = Alloy.Collections.reimburse;
@@ -76,6 +78,7 @@ function deleteItem(id) {
 	
 	reimburseDetail = null;
 	reimburseDetails = null;
+	details = null;
 	
 	Alloy.Globals.reimburseDetailList.fireEvent("open", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
 }
@@ -103,7 +106,7 @@ function thumbPopUp(e) {
 		width: "256dp",
 		height : "256dp",
 		touchEnabled: false,
-		image: $.avatar.image,
+		image: $.avatar.imageOri,
 	}));
 	
 	Alloy.Globals.dialogView2.removeAllChildren();
@@ -114,7 +117,7 @@ function thumbPopUp(e) {
 function rowClick(e) {
 	id = e.source.parent.rowid;
 	Alloy.createController("reimburseDetailForm",{
-					id : id , reimburseId : null, 
+					id : id , reimburseId : $model.get('reimburseId'), 
 					"$model": $model
 				}
 	).getView().open();

@@ -34,22 +34,29 @@ exports.login = function(_item, callback) {
 		onload : function(e) {
 			
 			if (this.status == HTTP_OK) {
-				var json = JSON.parse(this.responseText);
-				Ti.API.debug(json);
-				//this.responseData / this.responseXML
-				//retData = json;
-				//convert array/model as necessary
-				if(!json.message) {
-					retData = {
-						token : json.auth_token,
-						signature : json.signature,
-						params : json.params,
-						error : json.message,
-						fullname : json.email,
-						role : json.role,
+				try {				
+					var json = JSON.parse(this.responseText);
+					Ti.API.debug(json);
+					//this.responseData / this.responseXML
+					//retData = json;
+					//convert array/model as necessary
+					if (!json.message) {
+						retData = {
+							token : json.auth_token,
+							signature : json.signature,
+							params : json.params,
+							error : json.message,
+							fullname : json.email,
+							role : json.role,
+							original_avatar_url : json.original_avatar_url,
+							mini_avatar_url : json.mini_avatar_url,
+						};
 					};
-				};
-				
+				} catch(ex) {
+					retData = {
+						error : ex.message
+					};
+				}
 				if (callback)
 					callback(retData);
 			}
@@ -289,11 +296,11 @@ exports.updateObject = function(_item, callback) {
 						isDeleted : json.user.isDeleted ? 1:0,
 						dateCreated : json.user.created_at,
 						lastUpdated : json.user.updated_at,
-						isSynced : 1,
+						isSync : 1,
 					};
 					if (_item.id) retData.id = _item.id;
 				} else {
-					retData.error = errors2string(json.message.errors);
+					retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
 				} 
 				if (callback)
 					callback(retData, orgItem);
@@ -360,7 +367,30 @@ exports.addObject = function(_item, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
-					retData = orgItem;
+					retData = orgItem;					
+					if (json.success) {
+						retData = {
+							gid : json.user.id,
+							email : json.user.email,
+							username : json.user.username,
+							original_avatar_url : json.user.original_avatar_url,
+							mini_avatar_url : json.user.mini_avatar_url,
+							device_id : json.user.device_id,
+							role_id : json.user.role_id,
+							fullname : json.user.name,
+							login : json.user.login,
+							is_main_user : json.user.is_main_user ? 1 : 0,
+							authentication_token : json.user.authentication_token,
+							isDeleted : json.user.isDeleted ? 1 : 0,
+							dateCreated : json.user.created_at,
+							lastUpdated : json.user.updated_at,
+							isSync : 1,
+						};
+						if (_item.id)
+							retData.id = _item.id;
+					} else {
+						retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
+					} 
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -369,28 +399,6 @@ exports.addObject = function(_item, callback) {
 				var json = JSON.parse(this.responseText);
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.success) {
-					retData = {
-						gid : json.user.id,
-						email: json.user.email,
-						username: json.user.username,
-						original_avatar_url: json.user.original_avatar_url,
-						mini_avatar_url: json.user.mini_avatar_url,
-						device_id: json.user.device_id,
-						role_id: json.user.role_id,
-						fullname: json.user.name,
-						login: json.user.login,
-						is_main_user: json.user.is_main_user ? 1:0,
-						authentication_token: json.user.authentication_token,
-						isDeleted : json.user.isDeleted ? 1:0,
-						dateCreated : json.user.created_at,
-						lastUpdated : json.user.updated_at,
-						isSynced : 1,
-					};
-					if (_item.id) retData.id = _item.id;
-				} else {
-					retData.error = errors2string(json.message.errors);
-				} 
 				if (callback)
 					callback(retData, orgItem);
 			}
@@ -471,6 +479,70 @@ exports.deleteObject = function(_gid, callback) {
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(postData);
+
+		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
+	} catch(e) {
+		Ti.API.info("HTTPClient Exception");
+		for (var i in e.prototype) {
+			Ti.API.info(i + ":" + e[i]);
+		}
+	}
+	return (true);
+};
+
+exports.logout = function(callback) {
+	//Ti.API.info("ItemID = " + _gid);
+	var retData = {};
+	var url = SERVER_API + "users/sign_in";
+	var ready = false;
+	//function to use HTTP to connect to a web server and transfer the data.
+	var http = Ti.Network.createHTTPClient({
+		timeout : 5000,
+		// Function called when an error occurs, including a timeout
+		onerror : function(e) {
+			Ti.API.debug(e.error);
+			//alert('Connection error : '+e.error);
+			var retData = {
+				error : e.error
+			};
+			if (callback)
+				callback(retData);
+			ready = true;
+		},
+		//Function to be called upon a successful response
+		onload : function(e) {
+			Ti.API.debug(this.status);
+			if (this.status == HTTP_OK) {
+				try {
+					var json = JSON.parse(this.responseText);
+					//this.responseData / this.responseXML
+					//convert array/model as necessary
+					if (!json.success) json.error = json.message ? errors2string(json.message.errors) : "";
+				} catch(ex) {
+					retData = {
+						error : ex.message
+					};
+				}
+				if (callback)
+					callback(json);
+			}
+			ready = true;
+		},
+	});
+
+	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
+	http.open('DELETE', url+ "?auth_token="+SERVER_KEY, false);
+	// HTTP Headers must be set AFTER open(), and BEFORE send()
+	http.setRequestHeader('Content-Type','application/json');
+	try {
+		// var postData = {
+			// model : {
+				// id : _gid,
+			// },
+		// };
+		//var jsonstr = postData;
+		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
+		http.send();
 
 		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {

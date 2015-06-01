@@ -51,6 +51,7 @@ function windowOpen(e) {
 		$.total.text = "Rp." + String.formatDecimal(data.get("total")); // +" IDR";; //data.get("total");
 		activity.invalidateOptionsMenu();
 	}
+	
 	showList(e);
 	var isopen = data.get('status') == STATUSCODE[Const.Open];
 	$.editMenu.visible = isopen;
@@ -201,7 +202,7 @@ function transformFunction(model) {
 
 // open the "add item" window
 function addItem() {
-	Alloy.createController("reimburseDetailForm").getView().open();
+	//Alloy.createController("reimburseDetailForm").getView().open();
 }
 
 // Show task list based on selected status type
@@ -211,6 +212,15 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
+	remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret){
+		if (!ret.error) {
+			for (var key in ret) {
+				localReimburseDetail.addOrUpdateDetailObject(ret[key]);	
+			}
+		} else {
+			notifBox(ret.error);
+		}			
+	});
 	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id}); //fetch(e.param ? e.param : {remove:false});
 }
 

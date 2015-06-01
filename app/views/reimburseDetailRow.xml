@@ -2,7 +2,7 @@
   <TableViewRow id="reimburseDetailRow" title="{title}" className="detailRow1">
   	<View id="innerView"  onClick="rowClick" onLongclick="rowLongClick">
   		<View id="avatarView" onClick="thumbPopUp">
-    		<ImageView id="avatar" image="{urlImageOriginal}" />
+    		<ImageView id="avatar" image="{urlImageSmall}" imageOri="{urlImageOriginal}" />
     	</View>
     	<View class="midView" >
     		<Label id="title" text="{name}" />

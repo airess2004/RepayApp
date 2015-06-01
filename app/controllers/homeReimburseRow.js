@@ -39,6 +39,7 @@ function transformFunction(model) {
 	var transform = model.toJSON(); 
 	transform.status = transform.isRejected == true ? Const.Rejected : Const.Approved;
 	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/ic_receipt.png";
+	transform.urlImageSmall = transform.urlImageSmall || "/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
 	if (transform.name && String.format(transform.name).length > 25)

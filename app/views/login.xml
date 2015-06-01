@@ -4,12 +4,12 @@
 			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
 				<Label color="#176d7e" icon="fa-user"></Label>
-				<TextField id="userField" hintText="EMAIL" onFocus="userFocus" value="target@gmail.com"></TextField>
+				<TextField id="userField" hintText="EMAIL" onFocus="userFocus" ></TextField>
 			</View>
 			<View class="vSplitter" />
 			<View class="centeredHorizontal">
 				<Label color="#176d7e" icon="fa-lock"></Label>
-				<TextField id="passField" passwordMask="true" hintText="PASSWORD" value="willy1234"></TextField>
+				<TextField id="passField" passwordMask="true" hintText="PASSWORD" ></TextField>
 			</View>
 			<View class="vSplitter" />
 			<Button id="signIn" title="LOG IN" onClick="onSignInClick"></Button>

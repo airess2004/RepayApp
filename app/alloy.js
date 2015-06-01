@@ -30,16 +30,16 @@ Titanium.include('database/syncService.js');
 var remoteUser = require('database/remote_user');	
 var remoteReimburse = require('database/remote_reimburse');
 var remoteReimburseDetail = require('database/remote_reimbursedetail');
-//var localReimburse = require('database/sqlite_reimburse');
+//var localReimburse = require('database/local_reimburse');
 //localReimburse.createDb();
-//var localReimburseDetail = require('database/sqlite_reimbursedetail');
+var localReimburseDetail = require('database/local_reimbursedetail');
 //localReimburseDetail.createDb();
-//var localConfig = require('database/sqlite_config');
+var localConfig = require('database/local_config');
 //localConfig.createDb();
 
 // Initialize config
-// var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
-// var lastUsername = localConfig.findOrCreateObject("lastUsername",Alloy.Globals.CURRENT_USER,"");
+var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
+var lastUsername = localConfig.findOrCreateObject("lastUsername",Alloy.Globals.CURRENT_USER,"");
 var lastSyncReimburseTime = {key:"lastSyncReimburseTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
 var lastSyncReimburseDetTime = {key:"lastSyncReimburseDetTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
 var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:Alloy.Globals.CURRENT_USER};
@@ -50,6 +50,7 @@ var moment = require('alloy/moment');
 if (OS_IOS || OS_ANDROID) {
 	// Create collections
 	Alloy.Collections.user = Alloy.createCollection('user');
+	Alloy.Collections.config = Alloy.createCollection('config');
 	Alloy.Collections.reimburse = Alloy.createCollection('reimburse');
 	Alloy.Collections.reimburseDetail = Alloy.createCollection('reimburseDetail');
 	Alloy.Collections.comment = Alloy.createCollection('comment');
@@ -70,6 +71,7 @@ if (OS_IOS || OS_ANDROID) {
 	//fillTestData();
 	
 	Alloy.Collections.user.fetch({remove:false});
+	Alloy.Collections.config.fetch({remove:false});
 	Alloy.Collections.reimburse.fetch({remove:false});
 	Alloy.Collections.reimburseDetail.fetch({remove:false});
 	Alloy.Collections.comment.fetch({remove:false});

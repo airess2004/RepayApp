@@ -34,7 +34,7 @@ var PING_TIMEOUT = 5000; //3000
         console.log(err || assembly);
     });
  */
-Transloadit.upload = function(options, callback) {
+Transloadit.upload = function(options, callback, progressCallback) {
 	var expDate = getExpiryDate();
 	if (options.expDate) expDate = options.expDate;
     var data = {
@@ -45,10 +45,12 @@ Transloadit.upload = function(options, callback) {
                 key: options.key,
             },
             template_id: options.template,
-            notify_url: options.notify_url,
-            fields: options.fields
+            //notify_url: options.notify_url,
+            //fields: options.fields
         }
     };
+    if (options.notify_url) data.params.notify_url = options.notify_url;
+    if (options.fields) data.params.fields = options.fields;
     
 	if (options.getSignature) {
 		options.getSignature(data.params, function(err, signature) {
@@ -77,7 +79,7 @@ Transloadit.upload = function(options, callback) {
                 callback(err);
             } else {
                 if (options.wait) {
-                    pingAssembly(assembly, callback);
+                    pingAssembly(assembly, callback, progressCallback);
                 } else {
                     callback(err, assembly);
                 }
@@ -119,14 +121,14 @@ function request(method, url) {
     return xhr;
 }
 
-function pingAssembly(assembly, callback) {
+function pingAssembly(assembly, callback, progressCallback) {
     if (assembly.ok === 'ASSEMBLY_COMPLETED') {
         callback(null, assembly);
     } else if (assembly.ok === 'ASSEMBLY_EXECUTING') {
         setTimeout(function() {
             var get = request('GET', assembly.assembly_url);
             get.exec(null, function(err, data) {
-            	callback(null, data);
+            	if (progressCallback) progressCallback(null, data);
                 pingAssembly(data, callback);
             });
         }, PING_TIMEOUT);

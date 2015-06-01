@@ -129,7 +129,7 @@ function utcDateString(time) {
 	return result;
 }; 
 
-function upload2trans (filename, callback, wait) {
+function upload2trans (filename, callback, wait, progressCallback) {
 	getSignatureFromServer(null, function(er, hash, params) {
 		if (!er) {
 			EXPIRED_TIME = params.auth.expires;
@@ -159,7 +159,7 @@ function upload2trans (filename, callback, wait) {
 					// if (assembly.results.thumb)
 					// obj.urlImageSmall = assembly.results.thumb[0].url;
 					// if (assembly.results.optimized)
-					// obj.urlImageOri = assembly.results.optimized[0].url;
+					// obj.urlImageOriginal = assembly.results.optimized[0].url;
 					// // ":origin"
 					// if (assembly.results.medium)
 					// obj.urlImageMedium = assembly.results.medium[0].url;
@@ -179,6 +179,20 @@ function upload2trans (filename, callback, wait) {
 						alert('Error ' + msg);
 					}
 					if (callback) callback(msg);
+				}
+			}, function(err, assembly) {
+				Ti.API.info(err || assembly);
+				//console.log(err || assembly);
+				if (!err) {
+					// if (assembly.results.thumb)
+					// obj.urlImageSmall = assembly.results.thumb[0].url;
+					// if (assembly.results.optimized)
+					// obj.urlImageOriginal = assembly.results.optimized[0].url;
+					// // ":origin"
+					// if (assembly.results.medium)
+					// obj.urlImageMedium = assembly.results.medium[0].url;
+					if (progressCallback)
+						progressCallback(assembly);
 				}
 			}); 
 		} else {

@@ -54,6 +54,7 @@
  	//height: Titanium.UI.FILL, //"64dp",
  	width: Titanium.UI.FILL, //"64dp",
  	image: "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
+ 	imageOri: "/icon/thumb_receipt.png",
  	touchEnabled : false,
  	left: "0",
  	top: "0",

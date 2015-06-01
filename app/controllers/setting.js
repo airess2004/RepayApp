@@ -5,8 +5,10 @@ Alloy.Globals.avatar = $.avatar;
 
 function signOutClick(e) {
 	$.signOutButton.touchEnabled = false;
-	libgcm.unregGCM();
-	Alloy.Globals.login.getView().open();
+	remoteUser.logout(function(evt) {
+		libgcm.unregGCM();
+		Alloy.Globals.login.getView().open();
+	});
 	$.signOutButton.touchEnabled = true;
 }
 

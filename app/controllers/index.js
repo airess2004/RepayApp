@@ -323,11 +323,9 @@ function okClick(e) {
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 	upload2trans(file.nativePath, function(asm) {
 		if (typeof asm == "object") {
-			//var rv = asm.bytes_received;
-			//var sz = asm.bytes_expected;
 			if (asm.ok == "ASSEMBLY_COMPLETED") { //ASSEMBLY_CANCELED, ASSEMBLY_COMPLETED, REQUEST_ABORTED, or error means done
-				Alloy.Globals.profileImage.image = asm.results.optimized[0].url;
-				Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+				Alloy.Globals.profileImage.image = asm.results.optimized[0].url; //asm.results.thumb[0].url;
+				Alloy.Globals.avatar.image = asm.results.optimized[0].url;
 				//Ti.API.info(JSON.stringify(asm.results));
 				var item = {
 					email: Alloy.Globals.CURRENT_USER,
@@ -350,6 +348,11 @@ function okClick(e) {
 				});
 			}
 		}
+	}, function(asm) {
+		// if (typeof asm == "object") {
+			// var rv = asm.bytes_received;
+			// var sz = asm.bytes_expected;
+		// }
 	});
 	$.cropperView.show();
 	$.act.hide();
@@ -398,5 +401,6 @@ $.index.addEventListener("android:back", function(e) {
 	// };
 // });
 
+startSyncReimburseDet($.index);
 
 $.index.open();

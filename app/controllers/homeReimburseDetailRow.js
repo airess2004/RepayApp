@@ -91,7 +91,7 @@ function thumbPopUp(e) {
 		width: "256dp",
 		height : "256dp",
 		touchEnabled: false,
-		image: $.avatar.image,
+		image: $.avatar.imageOri,
 	}));
 	
 	Alloy.Globals.dialogView.removeAllChildren();

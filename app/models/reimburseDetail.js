@@ -17,7 +17,9 @@ exports.definition = {
 			lastUpdate : "datetime",
 			urlImageMedium : "string",
 			urlImageSmall : "string",
-			urlImageOriginal : "string"
+			urlImageOriginal : "string",
+			isSync: "boolean",
+			username: "text",
 		},
 		adapter : {
 			type : "sql",

@@ -57,12 +57,12 @@ function onSignInClick(e) {
 				{
 					var preCURRENT_USER = item.username.trim().toUpperCase();
 					// save to local var first to prevent syncService from syncing when all required last data not ready yet
-					//lastUsername = localConfig.createOrUpdateObject("lastUsername", item.username.trim(), "");
-					//skipIntro = localConfig.createOrUpdateObject("skipIntro", e.source.parent.skipIntro.toString(), "");
-					//lastSyncReimburseTime = localConfig.findOrCreateObject("lastSyncReimburseTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
-					//lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
-					//lastSyncReimburseToken = localConfig.findOrCreateObject("lastSyncReimburseToken", "", preCURRENT_USER);
-					//lastSyncReimburseDetToken = localConfig.findOrCreateObject("lastSyncReimburseDetToken", "", preCURRENT_USER);
+					lastUsername = localConfig.createOrUpdateObject("lastUsername", item.username.trim(), "");
+					skipIntro = localConfig.createOrUpdateObject("skipIntro", e.source.parent.skipIntro.toString(), "");
+					lastSyncReimburseTime = localConfig.findOrCreateObject("lastSyncReimburseTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
+					lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
+					lastSyncReimburseToken = localConfig.findOrCreateObject("lastSyncReimburseToken", "", preCURRENT_USER);
+					lastSyncReimburseDetToken = localConfig.findOrCreateObject("lastSyncReimburseDetToken", "", preCURRENT_USER);
 					CURRENT_NAME = result.fullname;
 					SERVER_KEY = result.token;
 					//TRANSLOADIT_SIGNATURE = result.hash;
@@ -76,7 +76,11 @@ function onSignInClick(e) {
 					CURRENT_USER = preCURRENT_USER;
 					Alloy.Globals.CURRENT_NAME = CURRENT_NAME;
 					Alloy.Globals.CURRENT_USER = CURRENT_USER;
+					Alloy.Globals.profileImage.image = result.original_avatar_url || result.mini_avatar_url || "/icon/ic_action_user.png";
+					Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 					exports.currentObj = item;
+					
+					refreshSyncSignature();
 					
 					remoteReimburse.getAssList("reimburse_submitted_at", "DESC", 0, 20, null, null, null, function(ret1, ret2) {
 						if (!ret1.error) {
@@ -234,6 +238,7 @@ function loginOpen(e) {
 		var actionBar = $.loginForm.getActivity().getActionBar();
     	actionBar.hide();
     }
+    if(lastUsername && lastUsername!="") $.userField.value = lastUsername.val;
 	if ($.userField.value && $.userField.value != "")
 		$.passField.value = "";
 	$.userField.blur();

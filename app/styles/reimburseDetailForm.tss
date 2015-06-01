@@ -148,6 +148,7 @@
   //height: "64dp",
   width: "64dp",
   image: "/icon/ic_action_photo.png",
+  imageOri: "/icon/ic_action_photo.png",
   //borderColor :"darkgray",
   //borderWidth :"1dp",
   //right : "4dp",

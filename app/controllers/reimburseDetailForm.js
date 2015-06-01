@@ -18,7 +18,8 @@ function winOpen(e) {
 		$.dateField.value = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.value = data.get('amount');
 		$.descriptionField.value = data.get('description');
-		$.photo.image = data.get('urlImageOriginal');
+		$.photo.image = data.get('urlImageSmall');
+		$.photo.imageOri = data.get('urlImageOriginal');
 		Ti.UI.Android.hideSoftKeyboard();
 	}
 	$.actionTitle.text = data ? "EDIT EXPENSE" : "NEW EXPENSE";
@@ -58,9 +59,11 @@ function doSearch(e) {
 
 function doSave(e) {
 	$.act.show();
+	var curTime = moment().utc().toISOString();
 	var reimburses = Alloy.Collections.reimburse;
-	var reimburseId;
-	if (args.reimburseId == null) {
+	var reimburseId = args.reimburseId;
+	var reimburse = reimburses.get(reimburseId);
+	if (args.id) {
 		var reimburseDetail = reimburseDetails.get(args.id);
 		if (reimburseDetail) {
 			var amount = parseFloat($.amountField.value);
@@ -70,8 +73,11 @@ function doSave(e) {
 				description : $.descriptionField.value,
 				receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 				amount : amount,
-				urlImageOriginal : $.photo.image,
+				urlImageSmall : $.photo.image,
+				urlImageOriginal : $.photo.imageOri,
 				IsSync: 0,
+				username: Alloy.Globals.CURRENT_USER,
+				lastUpdate : curTime,
 			});
 			reimburseDetail.save();
 			reimburseDetail.fetch({remove: false});
@@ -82,13 +88,19 @@ function doSave(e) {
 		if (isNaN(amount)) amount = 0;
 		var reimburseDetail = Alloy.createModel("reimburseDetail", {
 			reimburseId : args.reimburseId,
+			reimburseGid : reimburse.get('gid'),
 			name : $.titleField.value,
 			description : $.descriptionField.value,
 			receiptDate : moment($.dateField.value, dateFormat, lang).utc().toISOString(),
 			isDeleted : 0,
 			amount : amount,
-			urlImageOriginal : $.photo.image,
+			urlImageSmall : $.photo.image,
+			urlImageOriginal : $.photo.imageOri,
 			IsSync: 0,
+			status : DETAILSTATUSCODE[Const.Open],
+			username: Alloy.Globals.CURRENT_USER,
+			lastUpdate : curTime,
+			dateCreated : curTime,
 		});
 		reimburseDetail.save();
 		reimburseDetails.add(reimburseDetail);
@@ -106,8 +118,6 @@ function doSave(e) {
 	for (var i in detail) {
 		total += parseFloat(detail[i].get("amount"));
 	}
-
-	var reimburse = reimburses.get(reimburseId);
 
 	reimburse.set({
 		"total" : parseFloat(total),
@@ -147,6 +157,7 @@ function imageClick(e) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
 						$.photo.image = media.nativePath; //media;
+						$.photo.imageOri = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				});
@@ -158,6 +169,7 @@ function imageClick(e) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
 						$.photo.image = media.nativePath; //media;
+						$.photo.imageOri = media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				}, 1);

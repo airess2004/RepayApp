@@ -33,7 +33,8 @@ function winOpen(e) {
 		$.dateField.text = moment.parseZone(data.get('receiptDate')).local().format(dateFormat);
 		$.amountField.text = "Rp." + String.formatDecimal(data.get('amount'));// + " IDR";
 		$.descriptionField.text = data.get('description');
-		$.photo.image = data.get('urlImageOriginal');
+		$.photo.image = data.get('urlImageSmall');
+		$.photo.imageOri = data.get('urlImageOriginal');
 		// var activity = $.comment.getActivity();
 		// if (activity) {
 		// var actionBar = activity.getActionBar();
@@ -137,7 +138,7 @@ function thumbPopUp(e) {
 		width: "256dp",
 		height : "256dp",
 		touchEnabled: false,
-		image: $.photo.image,
+		image: $.photo.imageOri,
 	}));
 	
 	$.dialogView3.removeAllChildren();

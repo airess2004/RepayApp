@@ -35,54 +35,57 @@ exports.getAssList = function(sortBy, order, start, count, filterCol, filterOp, 
                 };
                 var json = {};
                 try {
-                    json = JSON.parse(this.responseText);
+                    json = JSON.parse(this.responseText);                   
+					if (json.success) {
+						retData = [];
+						for ( i = 0,
+						len = json.reimburse_associations.length; len > i; i++) {
+							var obj = json.reimburse_associations[i];
+							retData.push({
+								username : Alloy.Globals.CURRENT_USER,
+								gid : obj.id,
+								source_userId : obj.user_id,
+								source_userAvatar : obj.user_mini_avatar_url,
+								reimburse_gid : obj.reimburse_id,
+								reimburse_title : obj.reimburse_title,
+								reimburse_description : obj.reimburse_description,
+								reimburse_total : parseFloat(obj.reimburse_total) || 0,
+								reimburse_application_date : obj.reimburse_application_date,
+								reimburse_is_submitted : (obj.reimburse_is_submitted == "true" || obj.reimburse_is_submitted == "1") ? 1 : 0,
+								reimburse_submitted_at : obj.reimburse_submitted_at,
+								reimburse_is_confirmed : (obj.reimburse_is_confirmed == "true" || obj.reimburse_is_confirmed == "1") ? 1 : 0,
+								reimburse_confirmed_at : obj.reimburse_confirmed_at,
+								reimburse_total_approved : obj.reimburse_total_approved,
+								isSync : 1
+							});
+							for ( j = 0,
+							len2 = obj.reimburse_details.length; len2 > j; j++) {
+								var obj2 = obj.reimburse_details[j];
+								retDetailData.push({
+									gid : obj2.id,
+									reimburseGid : obj2.reimburse_id,
+									name : obj2.title,
+									description : obj2.description,
+									receiptDate : obj2.transaction_datetime,
+									amount : parseFloat(obj2.amount),
+									urlImageSmall : obj2.receipt_mini_url,
+									urlImageOriginal : obj2.receipt_original_url,
+									isRejected : (obj2.is_rejected == "true" || obj2.is_rejected == "1") ? 1 : 0,
+									totalComments : obj2.total_comment,
+								});
+							}
+						};
+					} else {
+						retData = {
+							error : errors2string(json.message.errors)
+						};
+					}
                 } catch (ex) {
                     retData = {
                         error: ex.message
                     };
                 }
-                if (json.success) {
-                    retData = [];
-                    for (i = 0, len = json.reimburse_associations.length; len > i; i++) {
-                    	var obj = json.reimburse_associations[i];
-                    	retData.push({
-                    		username: Alloy.Globals.CURRENT_USER,
-                    		gid: obj.id,
-                    		source_userId: obj.user_id,
-                    		source_userAvatar: obj.user_mini_avatar_url,
-                    		reimburse_gid: obj.reimburse_id,
-                        	reimburse_title: obj.reimburse_title,
-                        	reimburse_description: obj.reimburse_description,
-                        	reimburse_total: parseFloat(obj.reimburse_total) || 0,
-                        	reimburse_application_date: obj.reimburse_application_date,
-                        	reimburse_is_submitted: (obj.reimburse_is_submitted == "true" || obj.reimburse_is_submitted == "1") ? 1 : 0,
-                        	reimburse_submitted_at: obj.reimburse_submitted_at,
-                        	reimburse_is_confirmed: (obj.reimburse_is_confirmed == "true" || obj.reimburse_is_confirmed == "1") ? 1 : 0,
-                        	reimburse_confirmed_at: obj.reimburse_confirmed_at,
-                        	reimburse_total_approved: obj.reimburse_total_approved,
-                        	isSynced: 1
-                    	});
-                    	for (j = 0, len2 = obj.reimburse_details.length; len2 > j; j++) {
-                    		var obj2 = obj.reimburse_details[j];
-                    		retDetailData.push({
-                    			gid: obj2.id,
-                    			reimburseGid: obj2.reimburse_id,
-                    			name: obj2.title,
-                    			description: obj2.description,
-                    			receiptDate: obj2.transaction_datetime,
-                    			amount: parseFloat(obj2.amount),
-                    			urlImageSmall: obj2.receipt_mini_url,
-                    			urlImageOriginal: obj2.receipt_original_url,
-                    			isRejected: (obj2.is_rejected == "true" || obj2.is_rejected == "1") ? 1 : 0,
-                    			totalComments: obj2.total_comment,
-                    		});
-                    	}
-                    };
-                } else {
-                	retData = {
-                		error : errors2string(json.message.errors)
-                	};
-                }
+                
                 callback && callback(retData, retDetailData);
             }
             ready = true;
@@ -163,7 +166,7 @@ exports.getObject = function(_gid, callback) {
 						isDeleted : json.model.isDeleted ? 1:0,
 						dateCreated : json.model.dateCreated,
 						lastUpdate : json.model.lastUpdate,
-						isSynced : 1,
+						isSync : 1,
 					};
 				};
 				if (callback)
@@ -226,7 +229,37 @@ exports.getList = function(sortBy, order, start, count, filterCol, filterOp, fil
 				};
 				var json = {};
 				try {
-					json = JSON.parse(this.responseText);
+					json = JSON.parse(this.responseText);				
+					if (json.success) {
+						retData = [];
+						for ( i = 0,
+						len = json.reimburses.length; i < len; i++) {
+							var obj = json.reimburses[i];
+							var obj2 = {
+								username : Alloy.Globals.CURRENT_USER,
+								title : obj.title, //title,
+								description : obj.description, //description,
+								total : parseFloat(obj.total_approved) || 0, //amount,
+								projectDate : obj.application_date, //date,
+								gid : obj.id,
+								//idx : obj.idx ? json.model[i].idx : 0,
+								sentDate : obj.submitted_at,
+								doneDate : obj.confirmed_at,
+								isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
+								isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
+								isDeleted : 0, //obj.isDeleted ? 1 : 0,
+								dateCreated : obj.created_at,
+								lastUpdate : obj.updated_at,
+								isSync : 1,
+							};
+							obj2.status = obj2.isDone ? STATUSCODE[Const.Closed] : obj2.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
+							retData.push(obj2);
+						};
+					} else {
+						retData = {
+							error : errors2string(json.message.errors)
+						};
+					}
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -234,36 +267,7 @@ exports.getList = function(sortBy, order, start, count, filterCol, filterOp, fil
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary	
-				if (json.success) {
-					retData = [];
-					for ( i = 0,
-					len = json.reimburses.length; i < len; i++) {
-						var obj = json.reimburses[i];
-						var obj2 = {
-							username : Alloy.Globals.CURRENT_USER,
-							title : obj.title, //title,
-							description : obj.description, //description,
-							total : parseFloat(obj.total_approved) || 0, //amount,
-							projectDate : obj.application_date, //date,
-							gid : obj.id,
-							//idx : obj.idx ? json.model[i].idx : 0,
-							sentDate : obj.submitted_at,
-							doneDate: obj.confirmed_at,
-							isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
-							isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
-							isDeleted : 0, //obj.isDeleted ? 1 : 0,
-							dateCreated : obj.created_at,
-							lastUpdate : obj.updated_at,
-							isSynced : 1,
-						};
-						obj2.status = obj2.isDone ? STATUSCODE[Const.Closed] : obj2.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
-						retData.push(obj2);
-					};
-				} else {
-					retData = {
-                		error : errors2string(json.message.errors)
-                	};
-				}
+				
 				//obj.tableView.setData(obj.getTableData(_done, retData));
 				if (callback)
 					callback(retData);
@@ -356,7 +360,7 @@ exports.getListFrom = function(fromDate, sortBy, order, start, count, callback) 
 							isDeleted : json.model[i].isDeleted ? 1 : 0,
 							dateCreated : json.model[i].dateCreated,
 							lastUpdate : json.model[i].lastUpdate,
-							isSynced : 1,
+							isSync : 1,
 						});
 					};
 				};
@@ -429,7 +433,33 @@ exports.updateObject = function(_item, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
-					retData = orgItem;
+					retData = orgItem;					
+					if (json.success) {
+						retData = {
+							username : Alloy.Globals.CURRENT_USER,
+							userId : json.reimburse.user_id,
+							title : json.reimburse.title, //title,
+							description : json.reimburse.description, //description,
+							total : parseFloat(json.reimburse.total_approved) || 0, //amount,
+							projectDate : json.reimburse.application_date, //date,
+							gid : json.reimburse.id || orgItem.gid,
+							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
+							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
+							doneDate : json.reimburse.confirmed_at,
+							isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
+							sentDate : json.reimburse.submitted_at,
+							sendTo : json.reimburse.destination_email,
+							isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
+							dateCreated : json.reimburse.created_at,
+							lastUpdate : json.reimburse.updated_at,
+							isSync : 1,
+						};
+						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
+						if (orgItem.id)
+							retData.id = orgItem.id;
+					} else {
+						retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
+					} 
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -437,31 +467,7 @@ exports.updateObject = function(_item, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.success) {
-					retData = {
-						username : Alloy.Globals.CURRENT_USER,
-						userId : json.reimburse.user_id,
-						title : json.reimburse.title, //title,
-						description : json.reimburse.description, //description,
-						total : parseFloat(json.reimburse.total_approved) || 0, //amount,
-						projectDate : json.reimburse.application_date, //date,
-						gid : json.reimburse.id || orgItem.gid,
-						//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
-						isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
-						doneDate : json.reimburse.confirmed_at,
-						isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
-						sentDate : json.reimburse.submitted_at,
-						sendTo: json.reimburse.destination_email,
-						isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
-						dateCreated : json.reimburse.created_at,
-						lastUpdate : json.reimburse.updated_at,
-						isSynced : 1,
-					};
-					retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
-					if (orgItem.id) retData.id = orgItem.id;
-				} else {
-					retData.error = errors2string(json.message.errors);
-				} 
+				
 				if (callback)
 					callback(retData);
 			}
@@ -532,7 +538,33 @@ exports.addObject = function(_item, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
-					retData = orgItem;//json
+					retData = orgItem;//json					
+					if (json.success) {
+						retData = {
+							username : Alloy.Globals.CURRENT_USER,
+							userId : json.reimburse.user_id,
+							title : json.reimburse.title, //title,
+							description : json.reimburse.description, //description,
+							total : parseFloat(json.reimburse.total) || 0, //amount,
+							projectDate : json.reimburse.application_date, //date,
+							gid : json.reimburse.id,
+							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
+							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
+							doneDate : json.reimburse.confirmed_at,
+							isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
+							sentDate : json.reimburse.submitted_at,
+							sendTo : json.reimburse.destination_email,
+							isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
+							dateCreated : json.reimburse.created_at,
+							lastUpdate : json.reimburse.updated_at,
+							isSync : 1,
+						};
+						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
+						if (orgItem.id)
+							retData.id = orgItem.id;
+					} else {
+						retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
+					} 
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -540,31 +572,7 @@ exports.addObject = function(_item, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.success) {
-					retData = {
-						username : Alloy.Globals.CURRENT_USER,
-						userId : json.reimburse.user_id,
-						title : json.reimburse.title, //title,
-						description : json.reimburse.description, //description,
-						total : parseFloat(json.reimburse.total) || 0, //amount,
-						projectDate : json.reimburse.application_date, //date,
-						gid : json.reimburse.id,
-						//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
-						isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
-						doneDate : json.reimburse.confirmed_at,
-						isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
-						sentDate : json.reimburse.submitted_at,
-						sendTo: json.reimburse.destination_email,
-						isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
-						dateCreated : json.reimburse.created_at,
-						lastUpdate : json.reimburse.updated_at,
-						isSynced : 1,
-					};
-					retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
-					if (orgItem.id) retData.id = orgItem.id;
-				} else {
-					retData.error = errors2string(json.message.errors);
-				} 
+				
 				if (callback)
 					callback(retData, orgItem);
 			}
@@ -658,7 +666,7 @@ exports.AddOrUpdateObject = function(_item, callback) {
 						isDeleted : json.model.isDeleted ? 1:0,
 						dateCreated : json.model.dateCreated,
 						lastUpdate : json.model.lastUpdate,
-						isSynced : 1,
+						isSync : 1,
 					};
 					if (_item.id) retData.id = _item.id;
 				};
@@ -732,7 +740,13 @@ exports.deleteObject = function(_gid, callback) {
 				};
 				var json = {};
 				try {
-					json = JSON.parse(this.responseText);
+					json = JSON.parse(this.responseText);					
+					if (!json.success) {
+						retData.message = json.message;
+						retData.error = json.message ? "Can't delete submitted record!" : "Record not found!";
+					} else {
+						retData = {};
+					}
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -740,12 +754,7 @@ exports.deleteObject = function(_gid, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (!json.success) {
-					retData.message = json.message;
-					retData.error = json.message ? "Can't delete submitted record!" : "Record not found!";
-				} else {
-					retData = {};
-				}
+				
 				// if (json.model) {
 					// retData = {
 						// title : json.model.title, //title,
@@ -760,7 +769,7 @@ exports.deleteObject = function(_gid, callback) {
 						// isDeleted : json.model.isDeleted ? 1:0,
 						// dateCreated : json.model.dateCreated,
 						// lastUpdate : json.model.lastUpdate,
-						// isSynced : 1,
+						// isSync : 1,
 					// };
 				// };
 				if (callback)
@@ -828,7 +837,29 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
-					retData = json;
+					retData = json;					
+					if (json.success) {
+						retData = {
+							title : json.title, //title,
+							description : json.description, //description,
+							total : parseFloat(json.total_approved) || 0, //amount,
+							projectDate : json.application_date, //date,
+							gid : json.id || _gid,
+							//idx : json.model.idx ? json.model.idx : 0,
+							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
+							doneDate : json.confirmed_at,
+							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
+							sentDate : json.submitted_at,
+							sentTo : tolist ? tolist[0] : null,
+							//isDeleted : 0,
+							//dateCreated : json.model.dateCreated,
+							//lastUpdate : json.model.lastUpdate,
+							isSync : 1,
+						};
+						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
+					} else {
+						retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
+					} 
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -836,28 +867,7 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.success) {
-					retData = {
-						title : json.title, //title,
-						description : json.description, //description,
-						total : parseFloat(json.total_approved) || 0, //amount,
-						projectDate : json.application_date, //date,
-						gid : json.id || _gid,
-						//idx : json.model.idx ? json.model.idx : 0,
-						isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
-						doneDate : json.confirmed_at,
-						isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
-						sentDate : json.submitted_at,
-						sentTo : tolist ? tolist[0] : null,
-						//isDeleted : 0,
-						//dateCreated : json.model.dateCreated,
-						//lastUpdate : json.model.lastUpdate,
-						isSynced : 1,
-					};
-					retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
-				} else {
-					retData.error = errors2string(json.message.errors);
-				} 
+				
 				if (callback)
 					callback(retData);
 			}
@@ -920,7 +930,29 @@ exports.confirmObject = function(_gid, callback) {
 				var json = {};
 				try {
 					json = JSON.parse(this.responseText);
-					retData = json;
+					retData = json;				
+					if (json.success) {
+						retData = {
+							title : json.title, //title,
+							description : json.description, //description,
+							total : parseFloat(json.total_approved) || 0, //amount,
+							projectDate : json.application_date, //date,
+							gid : json.id || _gid,
+							//idx : json.model.idx ? json.model.idx : 0,
+							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
+							doneDate : json.confirmed_at,
+							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
+							sentDate : json.submitted_at,
+							//sentTo : tolist ? tolist[0] : null,
+							//isDeleted : 0,
+							//dateCreated : json.model.dateCreated,
+							//lastUpdate : json.model.lastUpdate,
+							isSync : 1,
+						};
+						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
+					} else {
+						retData.error = json.message ? errors2string(json.message.errors) : "Record not found!";
+					} 
 				} catch(ex) {
 					retData = {
 						error : ex.message
@@ -928,28 +960,7 @@ exports.confirmObject = function(_gid, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				if (json.success) {
-					retData = {
-						title : json.title, //title,
-						description : json.description, //description,
-						total : parseFloat(json.total_approved) || 0, //amount,
-						projectDate : json.application_date, //date,
-						gid : json.id || _gid,
-						//idx : json.model.idx ? json.model.idx : 0,
-						isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
-						doneDate : json.confirmed_at,
-						isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
-						sentDate : json.submitted_at,
-						//sentTo : tolist ? tolist[0] : null,
-						//isDeleted : 0,
-						//dateCreated : json.model.dateCreated,
-						//lastUpdate : json.model.lastUpdate,
-						isSynced : 1,
-					};
-					retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
-				} else {
-					retData.error = errors2string(json.message.errors);
-				} 
+				
 				if (callback)
 					callback(retData);
 			}
