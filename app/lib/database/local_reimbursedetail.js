@@ -21,40 +21,6 @@ exports.dropTable = function() {
 	//return db;
 };
 
-exports.getDetailObject = function(_id, callback) {
-	Ti.API.info("ItemDetailID = " + _id);
-	var retData = {};
-	var db = Ti.Database.open(DATABASE_NAME);
-	try {
-		var rows = db.execute("select ROWID, * from "+table+" where ROWID = ? and isDeleted = 0", _id);
-		if (rows.isValidRow()) {
-			retData = {
-				name : rows.fieldByName('name'),
-				description : rows.fieldByName('description'),
-				amount : rows.fieldByName('amount'),
-				receiptDate : rows.fieldByName('receiptDate'),
-				urlImageOriginal : rows.fieldByName('urlImageOri'),
-				urlImageMedium : rows.fieldByName('urlImageMedium'),
-				urlImageSmall : rows.fieldByName('urlImageSmall'),
-				isSynced : rows.fieldByName('isSynced'),
-				isDeleted : rows.fieldByName('isDeleted'),
-				lastUpdate : rows.fieldByName('lastUpdate'),
-				reimburse_gid : rows.fieldByName('reimburse_gid'),
-				gid : rows.fieldByName('gid'),
-				reimburse_id : rows.fieldByName('reimburse_id'),
-				id : _id, //rows.fieldByName('ROWID')
-			};
-		}
-	} catch(e) {
-		retData.error = e.message; //e[0];
-	}
-	db.close();
-	Ti.API.info("DB getDetailItem: ", retData);
-	if (callback)
-		callback(retData);
-	return retData;
-};
-
 exports.getDetailObjectByGID = function(_gid, callback) {
 	Ti.API.info("ItemDetailID = " + _gid);
 	var retData = {};
@@ -232,8 +198,10 @@ exports.addOrUpdateDetailObject = function(_item, callback) {
 		obj = Alloy.createModel(table, _item);
 		list.add(obj, {merge:true});
 	}
-	obj.save(_item);
-	obj.fetch({remove:false});
+	if (_item.lastUpdate > obj.get('lastUpdate')) {
+		obj.save(_item);
+		obj.fetch({remove:false});
+	}
 	retData = obj.toJSON();
 	if (callback)
 		callback(retData, orgItem);
@@ -264,12 +232,12 @@ exports.softDeleteDetailObject = function(_id, callback) {
 	var retData = {};
 	Ti.API.info("Delete ItemDetailID = " + _id);
 	var list = Alloy.createCollection(table);
-	list.fetch({id:_id, remove:false});
+	list.fetch({remove:false});
 	var obj = list.find(function(mdl){
 		return mdl.get('id') ==_id;
 	});
 	if (obj) {
-		obj.save({isDeleted:1});
+		obj.save({isDeleted:1, isSync:0});
 		obj.fetch({remove:false});
 		retData = obj.toJSON();
 	} else {
