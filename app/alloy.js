@@ -40,22 +40,34 @@ var localConfig = require('database/local_config');
 
 // Initialize config
 var lastUsername = localConfig.findOrCreateObject("lastUsername",Alloy.Globals.CURRENT_USER,"");
-var lastFullname = localConfig.findOrCreateObject("lastFullname",Alloy.Globals.CURRENT_NAME,lastUsername.val);
-var lastToken = localConfig.findOrCreateObject("lastToken",SERVER_KEY,lastUsername.val);
-var lastAvatar = localConfig.findOrCreateObject("lastAvatar","",lastUsername.val);
-var lastMiniAvatar = localConfig.findOrCreateObject("lastMiniAvatar","",lastUsername.val);
+var preCURRENT_USER = lastUsername.val ? lastUsername.val.trim().toUpperCase() : "";
+var lastFullname = localConfig.findOrCreateObject("lastFullname",Alloy.Globals.CURRENT_NAME,preCURRENT_USER);
+var lastToken = localConfig.findOrCreateObject("lastToken",SERVER_KEY,preCURRENT_USER);
+var lastAvatar = localConfig.findOrCreateObject("lastAvatar","",preCURRENT_USER);
+var lastMiniAvatar = localConfig.findOrCreateObject("lastMiniAvatar","",preCURRENT_USER);
 var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
-var lastSyncReimburseTime = {key:"lastSyncReimburseTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
-var lastSyncReimburseDetTime = {key:"lastSyncReimburseDetTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
-var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:Alloy.Globals.CURRENT_USER};
-var lastSyncReimburseDetToken = {key:"lastSyncReimburseDetToken", val:"", username:Alloy.Globals.CURRENT_USER};
+var lastSyncReimburseTime = {key:"lastSyncReimburseTime", val:moment(minDate, dateFormat, lang).toISOString(), username:preCURRENT_USER};
+var lastSyncReimburseDetTime = {key:"lastSyncReimburseDetTime", val:moment(minDate, dateFormat, lang).toISOString(), username:preCURRENT_USER};
+var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:preCURRENT_USER};
+var lastSyncReimburseDetToken = {key:"lastSyncReimburseDetToken", val:"", username:preCURRENT_USER};
 
 if (lastToken.val && lastToken.val!="") {
+	
+	lastSyncReimburseTime = localConfig.findOrCreateObject("lastSyncReimburseTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
+	lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
+	lastSyncReimburseToken = localConfig.findOrCreateObject("lastSyncReimburseToken", "", preCURRENT_USER);
+	lastSyncReimburseDetToken = localConfig.findOrCreateObject("lastSyncReimburseDetToken", "", preCURRENT_USER);
+	Alloy.Globals.lastSyncReimburseTime = lastSyncReimburseTime.val;
+	Alloy.Globals.lastSyncReimburseDetTime = lastSyncReimburseDetTime.val;
+	Alloy.Globals.lastSyncReimburseToken = lastSyncReimburseToken.val;
+	Alloy.Globals.lastSyncReimburseDetToken = lastSyncReimburseDetToken.val;
 	SERVER_KEY = lastToken.val;
 	Alloy.Globals.CURRENT_NAME = lastFullname.val;
-	Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
-	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	//Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
+	//Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 	Alloy.Globals.CURRENT_USER = lastUsername.val;
+	
+	refreshSyncSignature();
 }
 
 // Update
@@ -109,6 +121,102 @@ if (OS_IOS || OS_ANDROID) {
 	// libgcm.registerGCM(function(e) {
 		// Alloy.Globals.gcmRegId = e.deviceToken;
 	// });
+}
+
+function getFirstList() {	// some Alloy.Globals might not be available yet at this point
+	remoteReimburse.getAssList("reimburse_submitted_at", "DESC", 0, 20, null, null, null, function(ret1, ret2) {
+		if (!ret1.error) {
+			var reimburses_ass = Alloy.Collections.reimburse_ass;
+			reimburses_ass.fetch({
+				remove : false
+			});
+			// Make sure collection is in sync
+			var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
+			reimburseDetails_ass.fetch({
+				remove : false
+			});
+			// Make sure collection is in sync
+
+			for (var key in ret1) {
+				var obj = ret1[key];
+				var obj2 = reimburses_ass.find(function(mdl) {
+					return mdl.get('gid') == obj.gid;
+				});
+				//findWhere({gid : obj.gid});
+				//if (!obj2 || obj2.get('lastUpdate') < obj.lastUpdate)
+				{
+					if (!obj2)
+						obj2 = Alloy.createModel("reimburse_ass", obj);
+					reimburses_ass.add(obj2, {
+						merge : true
+					});
+					obj2.save({}, {
+						success : function(par) {
+							//par.fetch({remove:false});
+							for (var key2 in ret2) {
+								var det = ret2[key2];
+								if (det.reimburseGid == par.get('reimburse_gid')) {
+									var det2 = reimburseDetails_ass.find(function(mdl) {
+										return mdl.get('gid') == det.gid;
+									});
+									//findWhere({gid : det.gid});
+									//if (!det2)
+									{
+										det.reimburseId = par.id;
+										if (!det2)
+											det2 = Alloy.createModel("reimburseDetail_ass", det);
+										reimburseDetails_ass.add(det2, {
+											merge : true
+										});
+										det2.save();
+										//det2.fetch({remove:false});
+									}
+								}
+							}
+						}
+					});
+				}
+			}
+
+			if (Alloy.Globals.scrollableView)
+				Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
+		} else {
+			alert(ret1.error);
+		}
+
+		remoteReimburse.getList("updated_at", "DESC", 0, 20, null, null, null, function(ret) {
+			if (!ret.error) {
+				var reimburses = Alloy.Collections.reimburse;
+				reimburses.fetch({
+					remove : false
+				});
+				// Make sure collection is in sync
+
+				for (var key3 in ret) {
+					var obj3 = ret[key3];
+					var obj4 = reimburses.find(function(mdl) {
+						return mdl.get('gid') == obj3.gid;
+					});
+					//findWhere({gid : obj.gid});
+					//TODO: if already exist check use newer one (updated_at, local or remote)
+					//if (!obj4 || obj4.get('lastUpdate') < obj3.lastUpdate)
+					{
+						if (!obj4)
+							obj4 = Alloy.createModel("reimburse", obj3);
+						reimburses.add(obj4, {
+							merge : true
+						});
+						obj4.save();
+						//obj2.fetch({remove:false});
+					}
+				}
+				if (Alloy.Globals.scrollableView)
+					Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
+			} else {
+				alert(ret.error);
+			}
+		});
+	}); 
 }
 
 function hideActionBarCallback(e) {

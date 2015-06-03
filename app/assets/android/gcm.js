@@ -42,9 +42,9 @@
 	var LAST_USER = "";
 	var LAST_TOKEN = "";
 	var localConfig = require('database/local_config');
-	var lastUsername = localConfig.findOrCreateObject("lastUsername",CURRENT_USER,"");
-	var lastToken = localConfig.findOrCreateObject("lastToken",LAST_TOKEN,lastUsername.val);
-	
+	var lastUsername = localConfig.findOrCreateObject("lastUsername", LAST_USER, "");
+	var lastToken = localConfig.findOrCreateObject("lastToken", LAST_TOKEN, lastUsername.val ? lastUsername.val.trim().toUpperCase() : "");
+
 	if (LAST_TOKEN && LAST_TOKEN!="") {	
 		// create launcher intent
 		var ntfId = Ti.App.Properties.getInt('ntfId', 0),

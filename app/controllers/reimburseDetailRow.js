@@ -52,7 +52,8 @@ function deleteItem(id) {
 	// reflect this in the tableview
 	//reimburseDetail.destroy();
 	reimburseDetail.save({isDeleted:1, isSync:0});
-	reimburseDetail.fetch({remove:false});
+	//reimburseDetail.fetch({remove:false});
+	reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+reimburseId});
 	
 	//--- start of update parent
 	var details = reimburseDetails.where({

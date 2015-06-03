@@ -244,7 +244,7 @@ exports.deleteDetailObject = function(_id, callback) {
 	var retData = {};
 	Ti.API.info("Delete ItemDetailID = " + _id);
 	var list = Alloy.createCollection(table);
-	list.fetch({id:_id, remove:false});
+	list.fetch({remove:false});
 	var obj = list.find(function(mdl){
 		return mdl.get('id') ==_id;
 	});

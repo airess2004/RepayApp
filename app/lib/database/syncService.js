@@ -223,16 +223,26 @@ function startSyncReimburseDet(_win, callback) {
 };
 
 function syncDetail(obj) {	
-	if (obj.gid) {// already existed
+	if (obj.gid) {// already existed in server
 		syncReimburseDetCount++;
-		remoteReimburseDetail.updateDetailObject(obj, function(ret2) {
-			if (!ret2.error) {
-				localReimburseDetail.updateDetailObject(ret2);
-				lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
-			}
-			syncReimburseDetCount--;
-		});
-	} else {// not existed
+		if (obj.isDeleted == 1) {
+			remoteReimburseDetail.deleteDetailObject(obj.gid, function(ret2) {
+				if (!ret2.error) {
+					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
+					localReimburseDetail.deleteDetailObject(obj.id);
+				}
+				syncReimburseDetCount--;
+			});
+		} else {
+			remoteReimburseDetail.updateDetailObject(obj, function(ret2) {
+				if (!ret2.error) {
+					localReimburseDetail.updateDetailObject(ret2);
+					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
+				}
+				syncReimburseDetCount--;
+			});
+		}
+	} else {// not existed in server
 		if (obj.isDeleted == 1) {// skip upload if unsynced local data was deleted
 			lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
 			localReimburseDetail.deleteDetailObject(obj.id);

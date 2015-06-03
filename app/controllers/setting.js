@@ -2,6 +2,8 @@ var args = arguments[0] || {};
 
 Alloy.Globals.avatar = $.avatar;
 
+//Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image; //profileImage doesn't exist yet at this point (child controller created first before parent controller)
+
 
 function signOutClick(e) {
 	$.signOutButton.touchEnabled = false;
@@ -16,6 +18,14 @@ function signOutClick(e) {
 			lastToken = localConfig.createOrUpdateObject("lastToken", "", Alloy.Globals.CURRENT_USER);
 			Alloy.Globals.CURRENT_USER = "";
 			SERVER_KEY = "";
+			
+			// for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
+  				// reimburseDetails.models[i].destroy();        
+			// };						
+			// for (var i = reimburses.models.length-1; i >= 0; i--) {
+  				// reimburses.models[i].destroy();        
+			// };
+							
 			Alloy.Globals.login.getView().open();
 		} else {
 			alert(result.error);

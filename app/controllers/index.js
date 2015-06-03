@@ -10,11 +10,14 @@ Alloy.Globals.scrollableView = $.scrollableView;
 Alloy.Globals.leftAction = $.leftAction;
 Alloy.Globals.rightAction = $.rightAction;
 Alloy.Globals.dialogView = $.dialogView;
-Alloy.Globals.profileImage = $.profile;
 Alloy.Globals.overlayView = $.overlayView;
 Alloy.Globals.fullImage = $.fullImage;
 Alloy.Globals.cropperView = $.cropperView;
 Alloy.Globals.act = $.act;
+Alloy.Globals.profileImage = $.profile;
+
+Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
+Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image; //avatar from child controller should be existed at this point
 
 var abx = require('com.alcoapps.actionbarextras');
 
@@ -143,6 +146,8 @@ function mainViewOpen(e) {
 	if (!Alloy.Globals.CURRENT_USER || Alloy.Globals.CURRENT_USER=="") {
 		//Alloy.Globals.CURRENT_USER = "Admin"; 
 		Alloy.Globals.login.getView().open();
+	} else {
+		getFirstList();
 	}
 	
 	//Alloy.Collections.reimburse.fetch({remove: false});

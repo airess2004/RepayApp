@@ -331,21 +331,22 @@ exports.updateDetailObject = function(_item, callback) {
 					json = JSON.parse(this.responseText);
 					retData = orgItem;					
 					if (json.success) {
+						var obj = json.reimburse_detail;
 						retData = {
-							name : json.title,
-							description : json.description, //description,
-							amount : parseFloat(json.amount) || 0, //amount,
-							receiptDate : json.transaction_datetime, //date,
-							urlImageOriginal : json.receipt_original_url, //pic
+							name : obj.title,
+							description : obj.description, //description,
+							amount : parseFloat(obj.amount) || 0, //amount,
+							receiptDate : obj.transaction_datetime, //date,
+							urlImageOriginal : obj.receipt_original_url, //pic
 							//urlImageMedium : obj.urlImageMedium,
-							urlImageSmall : json.receipt_mini_url,
-							gid : json.id || orgItem.gid,
+							urlImageSmall : obj.receipt_mini_url,
+							gid : obj.id || orgItem.gid,
 							username : Alloy.Globals.CURRENT_USER,
-							reimburseGid : json.reimburse_id, //reimburseId,
+							reimburseGid : obj.reimburse_id, //reimburseId,
 							isDeleted : 0, //obj.isDeleted ? 1:0,
-							isRejected : (json.is_rejected == "true" || json.is_rejected == "1") ? 1 : 0,
-							dateCreated : json.created_at,
-							lastUpdate : moment.parseZone(json.updated_at).utc().toISOString(),
+							isRejected : (obj.is_rejected == "true" || obj.is_rejected == "1") ? 1 : 0,
+							dateCreated : obj.created_at,
+							lastUpdate : moment.parseZone(obj.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						retData.status = retData.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];

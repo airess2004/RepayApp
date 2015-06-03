@@ -44,12 +44,16 @@ function onSignUpClick(e) {
 				if (Alloy.Globals.gcmRegId && Alloy.Globals.gcmRegId != "") 
 					lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, preCURRENT_USER);
 				CURRENT_NAME = result.fullname?result.fullname.trim():result.fullname;
-				SERVER_KEY = result.token; 				
-				CURRENT_USER = preCURRENT_USER;
+				SERVER_KEY = result.token; 	
+				Alloy.Globals.lastSyncReimburseTime = lastSyncReimburseTime.val;
+				Alloy.Globals.lastSyncReimburseDetTime = lastSyncReimburseDetTime.val;
+				Alloy.Globals.lastSyncReimburseToken = lastSyncReimburseToken.val;
+				Alloy.Globals.lastSyncReimburseDetToken = lastSyncReimburseDetToken.val;			
+				//Alloy.Globals.profileImage.image = result.original_avatar_url || result.mini_avatar_url || "/icon/ic_action_user.png";
+				//Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 				Alloy.Globals.CURRENT_NAME = CURRENT_NAME;
+				CURRENT_USER = preCURRENT_USER;
 				Alloy.Globals.CURRENT_USER = CURRENT_USER;
-				Alloy.Globals.profileImage.image = result.original_avatar_url || result.mini_avatar_url || "/icon/ic_action_user.png";
-				Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 				exports.currentObj = item;
 
 				refreshSyncSignature(); 

@@ -150,9 +150,9 @@ function switchChange(e) {
 					"isRejected" : !$.switchBtn.value, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
 					"isSync" : 0,
 				}, {success :function(mdl){
-					mdl.fetch({
-						remove : false
-					});
+					// mdl.fetch({
+						// remove : false
+					// });
 					var amount = parseFloat(mdl.get('amount'));
 					var reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
 						return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
@@ -165,9 +165,9 @@ function switchChange(e) {
 						"reimburse_total_approved" : parseFloat(reimburse.get('reimburse_total_approved')) + ($.switchBtn.value ? amount : -amount),
 						"isSync" : 0,
 					}, {success :function(parmdl){
-						parmdl.fetch({
-							remove : false
-						});
+						// parmdl.fetch({
+							// remove : false
+						// });
 						Alloy.Globals.act.hide();
 						Alloy.Globals.toggleUsed = false;
 					}, error: function(){
