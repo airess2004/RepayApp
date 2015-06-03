@@ -18,7 +18,7 @@
 	},
 	navBarHidden: true,
   	//fullscreen: true,
-  	//exitOnClose: true,
+  	exitOnClose: true,
   	theme: "Theme.AppCompat.Light.NoActionBar",
 }
 

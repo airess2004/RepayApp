@@ -295,7 +295,7 @@ exports.updateObject = function(_item, callback) {
 						authentication_token: json.user.authentication_token,
 						isDeleted : json.user.isDeleted ? 1:0,
 						dateCreated : json.user.created_at,
-						lastUpdated : json.user.updated_at,
+						lastUpdated : moment.parseZone(json.user.updated_at).utc().toISOString(),
 						isSync : 1,
 					};
 					if (_item.id) retData.id = _item.id;
@@ -383,7 +383,7 @@ exports.addObject = function(_item, callback) {
 							authentication_token : json.user.authentication_token,
 							isDeleted : json.user.isDeleted ? 1 : 0,
 							dateCreated : json.user.created_at,
-							lastUpdated : json.user.updated_at,
+							lastUpdated : moment.parseZone(json.user.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						if (_item.id)
@@ -417,6 +417,7 @@ exports.addObject = function(_item, callback) {
 				password : _item.password, //description,
 				password_confirmation : _item.password2,
 				name : _item.fullname, //date,
+				deviceToken: Alloy.Globals.gcmRegId,
 			},
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
@@ -493,7 +494,7 @@ exports.deleteObject = function(_gid, callback) {
 exports.logout = function(callback) {
 	//Ti.API.info("ItemID = " + _gid);
 	var retData = {};
-	var url = SERVER_API + "users/sign_in";
+	var url = SERVER_API + "users/sign_out";
 	var ready = false;
 	//function to use HTTP to connect to a web server and transfer the data.
 	var http = Ti.Network.createHTTPClient({
@@ -531,7 +532,7 @@ exports.logout = function(callback) {
 	});
 
 	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
-	http.open('DELETE', url+ "?auth_token="+SERVER_KEY, false);
+	http.open('GET', url+ "?auth_token="+SERVER_KEY, false);
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {

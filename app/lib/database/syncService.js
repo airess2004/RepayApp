@@ -49,7 +49,7 @@ function startSyncReimburse(_win, callback) {
 						syncReimburseCount++;
 						remoteReimburse.updateObject(obj, function(ret2) {
 							if (!ret2.error) {
-								localReimburse.updateObject(ret2, enqueueDetails);
+								localReimburse.updateObject(ret2, enqueueUniqueDetails);
 								lastSyncReimburseTime = localConfig.createOrUpdateObject("lastSyncReimburseTime",obj.lastUpdate);
 							}
 							syncReimburseCount--;
@@ -66,7 +66,7 @@ function startSyncReimburse(_win, callback) {
 									syncReimburseCount++;
 									remoteReimburse.updateObject(obj2, function(ret3) {
 										if (!ret3.error) {
-											localReimburse.updateObject(ret3, enqueueDetails);
+											localReimburse.updateObject(ret3, enqueueUniqueDetails);
 											lastSyncReimburseTime = localConfig.createOrUpdateObject("lastSyncReimburseTime",obj.lastUpdate);
 										}
 										syncReimburseCount--;
@@ -112,7 +112,7 @@ function startSyncReimburseDet(_win, callback) {
     		clearTimeout(syncTimer);	
 			if (Alloy.Globals.CURRENT_USER && Alloy.Globals.CURRENT_USER != "" && syncReimburseDetCount == 0) {
 				if (syncReimburseDetList.isEmpty()) {
-					enqueueAllDetails();
+					enqueueAllUniqueDetails();
 				} else {
 					//refreshSyncSignature();
 					var obj = syncReimburseDetList.dequeue();
@@ -165,7 +165,24 @@ function startSyncReimburseDet(_win, callback) {
 									}
 									//act.hide();
 								});
-
+								//-- start update image url of parent								
+								var list = Alloy.createCollection("reimburse");
+								list.fetch({
+									remove : false
+								});
+								var parobj = list.find(function(mdl) {
+									return mdl.get('id') == obj.reimburseId;
+								});
+								if (parobj) {
+									parobj.save({
+										first_receipt_original_url : obj.urlImageOriginal,
+										first_receipt_mini_url : obj.urlImageSmall,
+									});
+									parobj.fetch({
+										remove : false
+									});
+								}
+								//-- end update url of parent
 							} else {
 								//act.hide();
 								if (err.error == TRANSLOADIT_AUTH_EXPIRED) {
@@ -248,7 +265,7 @@ function enqueueDetails(par) {
 					var obj = ret[idx2];
 					if (!obj.isSync) {
 						syncReimburseDetList.enqueue(obj);
-						syncReimburseDetLastTime = obj.lastUpdate;
+						if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
 					}
 				}
 			}
@@ -265,7 +282,7 @@ function enqueueAllDetails() {
 				var obj = ret[idx2];
 				if (!obj.isSync) {
 					syncReimburseDetList.enqueue(obj);
-					syncReimburseDetLastTime = obj.lastUpdate;
+					if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
 				}
 			}
 		}
@@ -273,6 +290,73 @@ function enqueueAllDetails() {
 	}); 
 };
 
+function enqueueUniqueDetails(par) {
+	if (!par.error && par.id>0) {		
+		syncReimburseDetCount++;
+		localReimburseDetail.getDetailListAll(par.id, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", syncReimburseDetLastTime, function(ret) {
+			if (!ret.error) {
+				for (idx2 in ret) {
+					var obj = ret[idx2];
+					if (!obj.isSync) {
+						var qidx = null;
+						var qobj = null;
+						var detList = syncReimburseDetList.getList();
+						var detOffset = syncReimburseDetList.getOffset();
+						for (var i=detOffset, iLen=detList.length; i<iLen; i++) {
+    						if (detList[i].id == obj.id && !detList[i].gid) {
+    							qidx = i;
+    							qobj = arr[i];
+    							break;
+    						}
+  						}
+						if(qidx === null) { // object not in queue yet or already in queue and already have gid
+							syncReimburseDetList.enqueue(obj);
+							if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
+						} else { //object already in queue but doesn't have gid yet, so we need to replace the object with newer one before it's sent to server
+							syncReimburseDetList.replaceAt(qidx-detOffset, obj);
+							if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
+						}
+						//detList = null;
+					}
+				}
+			}
+			syncReimburseDetCount--;
+		}); 
+	}
+};
+
+function enqueueAllUniqueDetails() {			
+	syncReimburseDetCount++;
+	localReimburseDetail.getDetailListAll(null, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", syncReimburseDetLastTime, function(ret) {
+		if (!ret.error) {
+			for (idx2 in ret) {
+				var obj = ret[idx2];
+				if (!obj.isSync) {
+					var qidx = null;
+					var qobj = null;
+					var detList = syncReimburseDetList.getList();
+					var detOffset = syncReimburseDetList.getOffset();
+					for (var i=detOffset, iLen=detList.length; i<iLen; i++) {
+    					if (detList[i].id == obj.id && !detList[i].gid) {
+    						qidx = i;
+    						qobj = arr[i];
+    						break;
+    					}
+  					}
+					if(qidx === null) { // object not in queue yet or already in queue and already have gid
+						syncReimburseDetList.enqueue(obj);
+						if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
+					} else { //object already in queue but doesn't have gid yet, so we need to replace the object with newer one before it's sent to server
+						syncReimburseDetList.replaceAt(qidx-detOffset, obj);
+						if (syncReimburseDetLastTime < obj.lastUpdate ) syncReimburseDetLastTime = obj.lastUpdate;
+					}
+					//detList = null;
+				}
+			}
+		}
+		syncReimburseDetCount--;
+	}); 
+};
 
 
 function createSyncService() {

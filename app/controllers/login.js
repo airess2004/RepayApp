@@ -63,7 +63,12 @@ function onSignInClick(e) {
 					lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
 					lastSyncReimburseToken = localConfig.findOrCreateObject("lastSyncReimburseToken", "", preCURRENT_USER);
 					lastSyncReimburseDetToken = localConfig.findOrCreateObject("lastSyncReimburseDetToken", "", preCURRENT_USER);
-					CURRENT_NAME = result.fullname;
+					lastFullname = localConfig.createOrUpdateObject("lastFullname", result.fullname?result.fullname.trim():result.fullname, preCURRENT_USER);
+					lastToken = localConfig.createOrUpdateObject("lastToken", result.token, preCURRENT_USER);
+					lastAvatar = localConfig.createOrUpdateObject("lastAvatar", result.original_avatar_url, preCURRENT_USER);
+					lastMiniAvatar = localConfig.createOrUpdateObject("lastMiniAvatar", result.mini_avatar_url, preCURRENT_USER);
+					if (Alloy.Globals.gcmRegId && Alloy.Globals.gcmRegId!="") lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, preCURRENT_USER);
+					CURRENT_NAME = result.fullname?result.fullname.trim():result.fullname;
 					SERVER_KEY = result.token;
 					//TRANSLOADIT_SIGNATURE = result.hash;
 					//TRANSLOADIT_PARAMS = JSON.parse(result.param);
@@ -101,7 +106,7 @@ function onSignInClick(e) {
 								var obj2 = reimburses_ass.find(function(mdl) {
 									return mdl.get('gid') == obj.gid;
 								}); //findWhere({gid : obj.gid});
-								//if (!obj2) 
+								//if (!obj2 || obj2.get('lastUpdate') < obj.lastUpdate) 
 								{
 									if (!obj2) obj2 = Alloy.createModel("reimburse_ass", obj);
 									reimburses_ass.add(obj2, {merge: true});
@@ -168,7 +173,7 @@ function onSignInClick(e) {
 										return mdl.get('gid') == obj3.gid;
 									}); //findWhere({gid : obj.gid});
 									//TODO: if already exist check use newer one (updated_at, local or remote)
-									//if (!obj2) 
+									//if (!obj4 || obj4.get('lastUpdate') < obj3.lastUpdate)  
 									{
 										if (!obj4) obj4 = Alloy.createModel("reimburse", obj3);
 										reimburses.add(obj4, {merge: true});
@@ -191,7 +196,9 @@ function onSignInClick(e) {
 					//create & add main view
 					//par.exitOnClose = false;
 					if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
-					if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
+					//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
+					if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("open");
+					$.loginForm.exitOnClose = false;
 					$.loginForm.close();
 				}
 			}
@@ -223,6 +230,7 @@ function showResetDialog(e) {
 };
 
 function showSignUpForm(e) {
+	$.loginForm.exitOnClose = false;
 	register.getView().open();
 	$.loginForm.close();
 };
@@ -234,6 +242,7 @@ function userFocus(e) {
 };
 
 function loginOpen(e) {
+	$.loginForm.exitOnClose = true;
 	if ($.loginForm.getActivity()) {
 		var actionBar = $.loginForm.getActivity().getActionBar();
     	actionBar.hide();

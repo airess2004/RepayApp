@@ -11,6 +11,7 @@
 // Alloy.Globals.someGlobalFunction = function(){};
 
 if (!Alloy) Alloy = require('alloy'); //Bug workaround? After coming back from background "Alloy is not defined"
+var moment = require('alloy/moment');
 
 // Global Constant
 Titanium.include('/common/constant.js');
@@ -38,14 +39,27 @@ var localConfig = require('database/local_config');
 //localConfig.createDb();
 
 // Initialize config
-var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
 var lastUsername = localConfig.findOrCreateObject("lastUsername",Alloy.Globals.CURRENT_USER,"");
+var lastFullname = localConfig.findOrCreateObject("lastFullname",Alloy.Globals.CURRENT_NAME,lastUsername.val);
+var lastToken = localConfig.findOrCreateObject("lastToken",SERVER_KEY,lastUsername.val);
+var lastAvatar = localConfig.findOrCreateObject("lastAvatar","",lastUsername.val);
+var lastMiniAvatar = localConfig.findOrCreateObject("lastMiniAvatar","",lastUsername.val);
+var skipIntro = localConfig.findOrCreateObject("skipIntro","false","");
 var lastSyncReimburseTime = {key:"lastSyncReimburseTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
 var lastSyncReimburseDetTime = {key:"lastSyncReimburseDetTime", val:moment(minDate, dateFormat, lang).toISOString(), username:Alloy.Globals.CURRENT_USER};
 var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:Alloy.Globals.CURRENT_USER};
 var lastSyncReimburseDetToken = {key:"lastSyncReimburseDetToken", val:"", username:Alloy.Globals.CURRENT_USER};
 
-var moment = require('alloy/moment');
+if (lastToken.val && lastToken.val!="") {
+	SERVER_KEY = lastToken.val;
+	Alloy.Globals.CURRENT_NAME = lastFullname.val;
+	Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
+	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	Alloy.Globals.CURRENT_USER = lastUsername.val;
+}
+
+// Update
+var updateModule = require('common/update');
 
 if (OS_IOS || OS_ANDROID) {
 	// Create collections
@@ -112,7 +126,8 @@ function addReimburse(item) {
     var reimburse = Alloy.createModel('reimburse', {
     	userId : 1,
     	username : "Adam", //Alloy.Globals.CURRENT_USER,
-    	userAvatar : "/icon/ic_action_user.png",
+    	first_receipt_original_url : "/icon/ic_action_user.png",
+    	first_receipt_mini_url : "/icon/ic_action_user.png",
         title : item.title,
         projectDate : moment(item.projectDate, dateFormat).utc().toISOString(),
         sentDate : item.sentDate,

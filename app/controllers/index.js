@@ -150,6 +150,7 @@ function mainViewOpen(e) {
 	//Alloy.Collections.comment.fetch({remove: false});
 	if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("refresh");
 	//updateTitle($.scrollableView.currentPage);
+	updateModule.check();
 }
 
 // Need to destroy when binding to data collection to prevent memory leaks

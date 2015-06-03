@@ -243,13 +243,15 @@ exports.getList = function(sortBy, order, start, count, filterCol, filterOp, fil
 								projectDate : obj.application_date, //date,
 								gid : obj.id,
 								//idx : obj.idx ? json.model[i].idx : 0,
+								first_receipt_mini_url : obj.first_receipt_mini_url,
+								first_receipt_original_url : obj.first_receipt_original_url,
 								sentDate : obj.submitted_at,
 								doneDate : obj.confirmed_at,
 								isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
 								isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
 								isDeleted : 0, //obj.isDeleted ? 1 : 0,
-								dateCreated : obj.created_at,
-								lastUpdate : obj.updated_at,
+								dateCreated : obj.created_at, //moment.parseZone(obj.created_at).utc().toISOString(),
+								lastUpdate : moment.parseZone(obj.updated_at).utc().toISOString(),
 								isSync : 1,
 							};
 							obj2.status = obj2.isDone ? STATUSCODE[Const.Closed] : obj2.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
@@ -444,6 +446,8 @@ exports.updateObject = function(_item, callback) {
 							projectDate : json.reimburse.application_date, //date,
 							gid : json.reimburse.id || orgItem.gid,
 							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
+							//first_receipt_mini_url : json.reimburse.first_receipt_mini_url,
+							//first_receipt_original_url : json.reimburse.first_receipt_original_url,
 							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
 							doneDate : json.reimburse.confirmed_at,
 							isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
@@ -451,7 +455,7 @@ exports.updateObject = function(_item, callback) {
 							sendTo : json.reimburse.destination_email,
 							isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
 							dateCreated : json.reimburse.created_at,
-							lastUpdate : json.reimburse.updated_at,
+							lastUpdate : moment.parseZone(json.reimburse.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
@@ -549,6 +553,8 @@ exports.addObject = function(_item, callback) {
 							projectDate : json.reimburse.application_date, //date,
 							gid : json.reimburse.id,
 							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
+							//first_receipt_mini_url : json.reimburse.first_receipt_mini_url,
+							//first_receipt_original_url : json.reimburse.first_receipt_original_url,
 							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
 							doneDate : json.reimburse.confirmed_at,
 							isSent : (json.reimburse.is_submitted == "true" || json.reimburse.is_submitted == "1") ? 1 : 0,
@@ -556,7 +562,7 @@ exports.addObject = function(_item, callback) {
 							sendTo : json.reimburse.destination_email,
 							isDeleted : 0, //json.reimburses[0].isDeleted ? 1:0,
 							dateCreated : json.reimburse.created_at,
-							lastUpdate : json.reimburse.updated_at,
+							lastUpdate : moment.parseZone(json.reimburse.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
@@ -846,6 +852,8 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 							projectDate : json.application_date, //date,
 							gid : json.id || _gid,
 							//idx : json.model.idx ? json.model.idx : 0,
+							//first_receipt_mini_url : json.first_receipt_mini_url,
+							//first_receipt_original_url : json.first_receipt_original_url,
 							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
 							doneDate : json.confirmed_at,
 							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
@@ -885,7 +893,7 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 			//cc : cclist,
 			//bcc : bcclist,
 			destination_email: tolist ? tolist[0] : null,
-			submitted_at: moment().toISOString(),
+			submitted_at: moment().utc().toISOString(),
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		var jsonstr = JSON.stringify(postData);
@@ -901,7 +909,7 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 	return (true);
 };
 
-exports.confirmObject = function(_gid, callback) {
+exports.confirmObject = function(_gid, rejectedlist, callback) {
 	Ti.API.info("ItemID = " + _gid);
 	var retData = {};
 	var url = SERVER_API + ModelName;
@@ -939,6 +947,8 @@ exports.confirmObject = function(_gid, callback) {
 							projectDate : json.application_date, //date,
 							gid : json.id || _gid,
 							//idx : json.model.idx ? json.model.idx : 0,
+							//first_receipt_mini_url : json.first_receipt_mini_url,
+							//first_receipt_original_url : json.first_receipt_original_url,
 							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
 							doneDate : json.confirmed_at,
 							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
@@ -978,7 +988,10 @@ exports.confirmObject = function(_gid, callback) {
 			//cc : cclist,
 			//bcc : bcclist,
 			//destination_email: tolist ? tolist[0] : null,
-			confirmed_at: moment().toISOString(),
+			reimburse: {
+				confirmed_at: moment().utc().toISOString(),
+				rejected_id_list: rejectedlist,
+			},
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		var jsonstr = JSON.stringify(postData);

@@ -60,9 +60,14 @@ function deleteItem(id) {
 		reimburseId : reimburseId
 	});
 	
+	var first_receipt_original_url = null;
+	var first_receipt_mini_url = null;
 	var total = 0;
-
 	for (var i in details) {
+		if (i == 0) {
+			first_receipt_original_url = detail[i].get("first_receipt_original_url");
+			first_receipt_mini_url = detail[i].get("first_receipt_mini_url");
+		}
 		total += parseFloat(details[i].get("amount"));
 	}
 
@@ -70,7 +75,9 @@ function deleteItem(id) {
 	var reimburse = reimburses.get(reimburseId);
 
 	reimburse.set({
-		"total" : parseFloat(total)
+		"total" : parseFloat(total),
+		first_receipt_original_url : first_receipt_original_url,
+		first_receipt_mini_url : first_receipt_mini_url,
 	});
 	reimburse.save();
 	reimburse.fetch({remove: false});

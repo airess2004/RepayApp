@@ -20,6 +20,16 @@ function Queue(){
   var queue  = [];
   var offset = 0;
 
+  // Returns the offset of the queue, which might be needed to check for duplicated element when elements need to be unique
+  this.getOffset = function(){
+    return (offset);
+  };
+  
+  // Returns the internal array of the queue, which might be needed to check for duplicated element when elements need to be unique
+  this.getList = function(){
+    return (queue);
+  };
+  
   // Returns the length of the queue.
   this.getLength = function(){
     return (queue.length - offset);
@@ -68,9 +78,22 @@ function Queue(){
 
   /* Returns the item at the front of the queue (without dequeuing it). If the
    * queue is empty then undefined is returned.
+   * Edit: When specified idx parameter can be used to peek at specific location
    */
-  this.peek = function(){
-    return (queue.length > 0 ? queue[offset] : undefined);
+  this.peek = function(idx){
+  	var len = queue.length;
+    return (len > 0 ? idx ? (idx >= 0) && (idx < len - offset) ? queue[idx + offset] : undefined : queue[offset] : undefined); //(queue.length > 0 ? queue[offset] : undefined);
+  };
+  
+  // Replace the element at specific index, might me needed to update an element when elements need to be unique
+  this.replaceAt = function(idx, element){
+  	var len = queue.length;
+  	if (idx && (len > 0) && (idx >= 0) && (idx < len - offset)) {
+  		var obj = queue[idx + offset];
+  		queue[idx + offset] = element;
+  		return obj; //true
+  	}
+    return undefined; //false
   };
 
 }

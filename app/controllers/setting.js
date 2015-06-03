@@ -5,9 +5,21 @@ Alloy.Globals.avatar = $.avatar;
 
 function signOutClick(e) {
 	$.signOutButton.touchEnabled = false;
-	remoteUser.logout(function(evt) {
-		libgcm.unregGCM();
-		Alloy.Globals.login.getView().open();
+	remoteUser.logout(function(result) {
+		if (!result.error) {
+			libgcm.unregGCM();
+			Alloy.Globals.gcmRegId = "";
+			lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, Alloy.Globals.CURRENT_USER);
+			Alloy.Globals.profileImage.image = null;
+			Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+			Alloy.Globals.CURRENT_NAME = "";
+			lastToken = localConfig.createOrUpdateObject("lastToken", "", Alloy.Globals.CURRENT_USER);
+			Alloy.Globals.CURRENT_USER = "";
+			SERVER_KEY = "";
+			Alloy.Globals.login.getView().open();
+		} else {
+			alert(result.error);
+		}
 	});
 	$.signOutButton.touchEnabled = true;
 }
@@ -15,7 +27,7 @@ function signOutClick(e) {
 function syncClick(e) {
 	$.syncButton.touchEnabled = false;
 	if (Alloy.Globals.CURRENT_USER && Alloy.Globals.CURRENT_USER != "") {
-		
+		enqueueAllUniqueDetails();
 	} else {
 		alert("Please login first!");
 		Alloy.Globals.login.getView().open();

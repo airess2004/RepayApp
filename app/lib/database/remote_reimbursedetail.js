@@ -144,8 +144,8 @@ exports.getDetailList = function(_parentid, sortBy, order, start, count, filterC
 								reimburseGid : obj.reimburse_id, //reimburseId,
 								isDeleted : 0, //obj.isDeleted ? 1:0,
 								isRejected : (obj.is_rejected == "true" || obj.is_rejected == "1") ? 1 : 0,
-								dateCreated : obj.created_at,
-								lastUpdate : obj.updated_at,
+								//dateCreated : obj.created_at,
+								lastUpdate : moment.parseZone(obj.updated_at).utc().toISOString(),
 								isSync : 1,
 							};
 							obj2.status = obj2.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];
@@ -345,7 +345,7 @@ exports.updateDetailObject = function(_item, callback) {
 							isDeleted : 0, //obj.isDeleted ? 1:0,
 							isRejected : (json.is_rejected == "true" || json.is_rejected == "1") ? 1 : 0,
 							dateCreated : json.created_at,
-							lastUpdate : json.updated_at,
+							lastUpdate : moment.parseZone(json.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						retData.status = retData.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];
@@ -381,9 +381,9 @@ exports.updateDetailObject = function(_item, callback) {
 				description : _item.description, //description,
 				amount : _item.amount?_item.amount:0, //amount,
 				transaction_datetime : _item.receiptDate, //date,
-				receipt_url_original : _item.urlImageOriginal, //pic
+				receipt_original_url : _item.urlImageOriginal, //pic
 				//urlImageMedium : _item.urlImageMedium,
-				receipt_url_mini : _item.urlImageSmall,
+				receipt_mini_url : _item.urlImageSmall,
 				created_at : _item.dateCreated,
 				updated_at : _item.lastUpdate,
 				//isDeleted : false,
@@ -449,7 +449,7 @@ exports.addDetailObject = function(_item, callback) {
 							isDeleted : 0, //obj.isDeleted ? 1:0,
 							isRejected : (obj.is_rejected == "true" || obj.is_rejected == "1") ? 1 : 0,
 							dateCreated : obj.created_at,
-							lastUpdate : obj.updated_at,
+							lastUpdate : moment.parseZone(obj.updated_at).utc().toISOString(),
 							isSync : 1,
 						};
 						retData.status = retData.isRejected ? DETAILSTATUSCODE[Const.Rejected] : DETAILSTATUSCODE[Const.Open];
@@ -485,9 +485,9 @@ exports.addDetailObject = function(_item, callback) {
 				description : _item.description, //description,
 				amount : _item.amount?_item.amount:0, //amount,
 				transaction_datetime : _item.receiptDate, //date,
-				receipt_url_original : _item.urlImageOriginal, //pic
+				receipt_original_url : _item.urlImageOriginal, //pic
 				//urlImageMedium : _item.urlImageMedium,
-				receipt_url_mini : _item.urlImageSmall,
+				receipt_mini_url : _item.urlImageSmall,
 				created_at : _item.dateCreated,
 				updated_at : _item.lastUpdate,
 				//isDeleted : false,

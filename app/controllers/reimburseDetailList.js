@@ -110,6 +110,7 @@ function doEdit(e) {
 // confirm
 function sendReimburse(id, callback) {
 	// find by id
+	Ti.UI.Android.hideSoftKeyboard();
 	var reimburse = reimburses.get(id);
 	if (reimburseDetails.length > 0) {
 		var tolist = string2array($.toField.value);					
@@ -147,21 +148,21 @@ function sendReimburse(id, callback) {
 				//reimburses.fetch({remove: false});
 				//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
 				if (result.isSent && Alloy.Globals.gcmRegId) {
-					libgcm.sendGCM([Alloy.Globals.gcmRegId], {
-						title : "Pending Approval ID:" + reimburse.get('gid'),
-						message : "You have new pending Reimburse Approval Titled:'" + reimburse.get('title') + "' from '" + Alloy.Globals.CURRENT_USER + "'",
-						date : reimburse.get('sentDate'), //moment().toISOString(),
-					}, function(ret) {
-						if (ret.error)
-							alert("Error : " + ret.error);
-					});
+					// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+						// title : "Pending Approval ID:" + reimburse.get('gid'),
+						// message : "You have new pending Reimburse Approval Titled:'" + reimburse.get('title') + "' from '" + Alloy.Globals.CURRENT_USER + "'",
+						// date : reimburse.get('sentDate'), //moment().toISOString(),
+					// }, function(ret) {
+						// if (ret.error)
+							// alert("Error : " + ret.error);
+					// });
+					notifBox("Reimburse has been successfully Submitted.");
 				}
 			}
 		});
 	} else {
 		alert("You don't have any Expense!");
 	}
-	Ti.UI.Android.hideSoftKeyboard();
 	return reimburse;
 }
 
@@ -195,7 +196,7 @@ function transformFunction(model) {
 	transform.status = DETAILSTATUS[transform.status];
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format("DD-MM-YYYY"); //dateFormat
 	transform.amount = "Rp." + String.formatDecimal(transform.amount); // +" IDR";
-	if (String.format(transform.name).length > 23)
+	if (transform.name && String.format(transform.name).length > 23)
 		transform.name = transform.name.substring(0, 20) + "...";
 	return transform;
 }
@@ -215,8 +216,20 @@ function showList(e) {
 	remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret){
 		if (!ret.error) {
 			for (var key in ret) {
-				localReimburseDetail.addOrUpdateDetailObject(ret[key]);	
+				//localReimburseDetail.addOrUpdateDetailObject(ret[key]); //will overwrite local data with server data regardless which one newer
+				var obj = ret[key];
+				obj.reimburseId = args.id;
+				var found = reimburseDetails.find(function(mdl){
+					return mdl.get('gid') == obj.gid;
+				});
+				if (!found) {
+					localReimburseDetail.addDetailObject(obj);
+				} else 
+				if (found.get('lastUpdate') < obj.lastUpdate) {
+					localReimburseDetail.updateDetailObject(obj);
+				};
 			}
+			reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id});
 		} else {
 			notifBox(ret.error);
 		}			

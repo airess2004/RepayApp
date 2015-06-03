@@ -113,14 +113,21 @@ function doSave(e) {
 		reimburseId : reimburseId
 	});
 
+	var first_receipt_original_url = null;
+	var first_receipt_mini_url = null;
 	var total = 0;
-
 	for (var i in detail) {
+		if (i == 0) {
+			first_receipt_original_url = detail[i].get("first_receipt_original_url");
+			first_receipt_mini_url = detail[i].get("first_receipt_mini_url");
+		}
 		total += parseFloat(detail[i].get("amount"));
 	}
 
 	reimburse.set({
 		"total" : parseFloat(total),
+		first_receipt_original_url : first_receipt_original_url,
+		first_receipt_mini_url : first_receipt_mini_url,
 		//IsSync: 0,
 	});
 	reimburse.save();

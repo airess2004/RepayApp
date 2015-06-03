@@ -147,7 +147,14 @@ function approveReimburse(id) {
 	// });
 	// if (!dets) dets = [];
 	// TODO: update detail's status
-	remoteReimburse.confirmObject(reimburse.get('reimburse_gid'), function(result) {
+	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburse.get('gid')});
+	var rejectedDetails = reimburseDetails_ass.where({isRejected:1});
+	if (!rejectedDetails) rejectedDetails = [];
+	var rejectedlist = [];
+	rejectedDetails.forEach(function(det){
+		rejectedlist.push(det.get('gid'));
+	});
+	remoteReimburse.confirmObject(reimburse.get('reimburse_gid'), rejectedlist, function(result) {
 		if (result.error) {
 			alert(result.error);
 		} else {
@@ -170,14 +177,15 @@ function approveReimburse(id) {
 			//reimburses.fetch({remove: false});
 			//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
 			if (result.isDone && Alloy.Globals.gcmRegId) {
-				libgcm.sendGCM([Alloy.Globals.gcmRegId], {
-					title : "Reimburse ID:" + reimburse.get('reimburse_gid'),
-					message : "Reimburse Titled:'" + reimburse.get('reimburse_title') + "' has been approved by '" + Alloy.Globals.CURRENT_USER + "'",
-					date : reimburse.get('reimburse_confirmed_at'), //moment().toISOString(),
-				}, function(ret) {
-					if (ret.error)
-						alert("Error : " + ret.error);
-				});
+				// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+					// title : "Reimburse ID:" + reimburse.get('reimburse_gid'),
+					// message : "Reimburse Titled:'" + reimburse.get('reimburse_title') + "' has been approved by '" + Alloy.Globals.CURRENT_USER + "'",
+					// date : reimburse.get('reimburse_confirmed_at'), //moment().toISOString(),
+				// }, function(ret) {
+					// if (ret.error)
+						// alert("Error : " + ret.error);
+				// });
+				notifBox("Reimburse has been successfully Confirmed.");
 			}
 		}
 	});

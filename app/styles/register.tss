@@ -2,7 +2,7 @@
 ".noNavBar": {
   navBarHidden: true,
   //fullscreen: true,
-  exitOnClose: false,
+  exitOnClose: true, //false,
   orientationModes: Alloy.Globals.orientModes,
   theme: "Theme.AppCompat.Light.NoActionBar",
 }

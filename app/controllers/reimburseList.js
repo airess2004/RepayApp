@@ -48,7 +48,8 @@ function transformFunction(model) {
 	transform.searchableText = model.get('title') + " " + STATUS[stat] + " " + model.get('total') + " " + model.get('projectDate');
 	transform.status_backgroundColor = STATUSCODE_COLOR[stat];
 	transform.statusView_backgroundColor = transform.status_backgroundColor;
-	transform.avatar = "/icon/thumb_receipt.png"; //"/icon/ic_action_copy.png"
+	transform.avatar = transform.first_receipt_mini_url && transform.first_receipt_mini_url!="" ? transform.first_receipt_mini_url : "/icon/ic_action_copy.png"; //"/icon/thumb_receipt.png"//
+	transform.avatarOri = transform.first_receipt_original_url && transform.first_receipt_original_url!="" ? transform.first_receipt_original_url : "/icon/ic_action_copy.png";
 	//-- end of workaround
 	return transform;
 }
@@ -198,6 +199,7 @@ $.reimburseList.addEventListener("open", function(e){
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
+	showAllClick(e);
 	Alloy.Globals.scrollableView.scrollToView($.reimburseList);
 	//showList(e);
 	e.cancelBubble = true;
