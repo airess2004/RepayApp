@@ -18,7 +18,7 @@ comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE rei
 
 // Sort Descending
 // comments.comparator = function(model) {
-  // return -(moment.parseZone(model.get('commentDate')).unix());
+  // return -(moment.parseZone(model.get('dateCreated')).unix());
 // };
 //comments.sort();
 
@@ -51,6 +51,35 @@ function winOpen(e) {
 	$.commentField.blur();
 	Ti.UI.Android.hideSoftKeyboard();
 	//$.commentField.addEventListener("focus", commentFocus);
+	$.act.show();
+	remoteReimburseDetail.getDetailObject(args.gid, function(result, retlist) {
+		if (result.error) {
+			notifBox(result.error);
+		} else {
+			var list = Alloy.createCollection('comment');
+			list.fetch({
+				remove : false
+			});
+			for (var key in retlist) {
+				var obj = retlist[key];
+				obj.reimburseDetailId = args.id;
+				var obj2 = list.find(function(mdl) {
+					return mdl.get('gid') == obj.gid;
+				});
+				//if (!obj2 || obj2.get('lastUpdate') < obj.lastUpdate)					
+				{
+					if (!obj2)
+						obj2 = Alloy.createModel("comment", obj);
+					list.add(obj2, {
+						merge : true
+					});
+					obj2.save();
+					//obj2.fetch({remove:false});
+				}
+			}
+		}
+		$.act.hide();
+	});
 }
 
 function winClose(e) {
@@ -80,27 +109,42 @@ function whereFunction(collection) {
 
 function transformFunction(model) {
 	var transform = model.toJSON();
-	transform.commentDate = moment.parseZone(transform.commentDate).local().format("DD-MM-YYYY HH:mm:ss");
+	transform.dateCreated = moment.parseZone(transform.dateCreated).local().format("DD-MM-YYYY HH:mm:ss");
 	return transform;
 }
 
 function newCommentClick(e) {
 	if ($.commentField.value != null && String.format($.commentField.value).trim().length > 0) {
-		//var isodd = (comments.where({reimburseDetailId : args.id}).length % 2) == 1;
-		var comment = Alloy.createModel('comment', {
+		var item = {
 			message : $.commentField.value,
-			commentDate : moment().utc().toISOString(),
+			dateCreated : moment().utc().toISOString(),
 			//userId : data.get('user_id'),
 			username : Alloy.Globals.CURRENT_USER,
+			email : Alloy.Globals.CURRENT_USER,
+			fullname : Alloy.Globals.CURRENT_NAME,
 			reimburseDetailId : args.id,
 			reimburseDetailGid : args.gid,
+			original_avatar_url : Alloy.Globals.profileImage.image,
+			mini_avatar_url : Alloy.Globals.profileImage.image,
+		};
+		remoteReimburseDetail.addCommentObject(item, function(result) {
+			if (!result.error) {
+				//var isodd = (comments.where({reimburseDetailId : args.id}).length % 2) == 1;
+				var comment = Alloy.createModel('comment', item);
+				comments.add(comment);
+				comment.save();
+				// reload the tasks
+				//comment.fetch({remove: false});
+				$.commentField.value = "";
+				
+				data.save({totalComments:parseInt(data.get('totalComments'))+1});
+				//data.fetch({remove:false});
+			} else {
+				alert(result.error);
+			}
 		});
-		comments.add(comment);
-		comment.save();
-		// reload the tasks
-		comment.fetch({remove: false});
 	}
-	$.commentField.value = "";
+	
 	$.commentField.blur();
 	Ti.UI.Android.hideSoftKeyboard();
 }

@@ -11,19 +11,19 @@ var id;
 if ($model) {
 	id = $model.id;
 	$.commentRow.rowid = $model.id;
-	
-	var isodd = ($model.get('userId') % 2) == 1;
-	$.avatar.image = (isodd || Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
-	$.avatarView.left = isodd ? null : "0";
-	$.avatarView.right = isodd ? "0" : null;
-	$.username.left = isodd ? null : "0";
-	$.username.right = isodd ? "0" : null;
-	$.message.left = isodd ? "0" : "56dp";
-	$.message.right = isodd ? "56dp" : "0";
-	$.message.textAlign = isodd ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
-	$.commentDate.left = isodd ? "0" : "56dp";
-	$.commentDate.right = isodd ? "56dp" : "0";
-	$.commentDate.textAlign = isodd ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
+	var username = $model.get('email');
+	var isowner = ((username ? username.trim().toUpperCase() : "") == Alloy.Globals.CURRENT_USER);
+	$.avatar.image = (isowner || Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
+	$.avatarView.left = isowner ? null : "0";
+	$.avatarView.right = isowner ? "0" : null;
+	$.username.left = isowner ? null : "0";
+	$.username.right = isowner ? "0" : null;
+	$.message.left = isowner ? "0" : "56dp";
+	$.message.right = isowner ? "56dp" : "0";
+	$.message.textAlign = isowner ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
+	$.commentDate.left = isowner ? "0" : "56dp";
+	$.commentDate.right = isowner ? "56dp" : "0";
+	$.commentDate.textAlign = isowner ? Titanium.UI.TEXT_ALIGNMENT_RIGHT : Titanium.UI.TEXT_ALIGNMENT_LEFT;
 	
 	// var avatar = $.createStyle({
 		// classes : ["avatarView"],

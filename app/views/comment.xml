@@ -57,5 +57,6 @@
 			</View>
 		</View>
 		<View id="dialogView3" onClick="dialogViewClick" />
+		<ActivityIndicator id="act" />
 	</Window>
 </Alloy>

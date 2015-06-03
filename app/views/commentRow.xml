@@ -2,13 +2,13 @@
 	<View id="commentRow" title="{title}" layout="vertical">
 		<View id="innerView" horizontalWrap="false">
 			<View class="avatarView" id="avatarView" onClick="thumbPopUp">
-				<ImageView id="avatar" />
+				<ImageView id="avatar" image="{mini_avatar_url}" imageOri="{original_avatar_url}" />
 			</View>
 			<Label class="message" id="message" text="{message}"/>
 		</View>
 		<View id="innerView" horizontalWrap="false">
 			<Label class="username" id="username" text="{username}" />
-			<Label class="commentDate" id="commentDate" text="{commentDate}"/>
+			<Label class="commentDate" id="commentDate" text="{dateCreated}"/>
 		</View>
 	</View>
 	<View class="vSplitter" />

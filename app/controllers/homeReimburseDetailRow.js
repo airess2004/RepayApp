@@ -105,7 +105,8 @@ function rowClick(e) {
 	Alloy.createController("comment",{
 					id : id , 
 					gid : gid,
-					reimburseId : null,
+					reimburseId : $model.get('reimburseId'),
+					reimburseGid : $model.get('reimburseGid'),
 					"$model": $model
 				}
 	).getView().open();

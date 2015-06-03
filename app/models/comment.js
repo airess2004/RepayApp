@@ -6,10 +6,14 @@ exports.definition = {
 		    reimburseDetailId: "bigint",
 		    reimburseDetailGid: "integer",
 		    message: "string",
-		    commentDate: "datetime",
 		    userId: "integer",
 		    username : "string",
-		    dateCreated: "date"
+		    email : "string",
+		    fullname : "string",
+		    mini_avatar_url : "text",
+		    original_avatar_url : "text",
+		    dateCreated: "datetime",
+		    lastUpdate: "datetime",
 		},
 		adapter: {
 			type: "sql",
@@ -28,7 +32,7 @@ exports.definition = {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
 			comparator : function(model) {
-  				return (moment.parseZone(model.get('commentDate')).unix());
+  				return (moment.parseZone(model.get('dateCreated')).unix());
 			},
 		});
 

@@ -65,7 +65,8 @@ if (lastToken.val && lastToken.val!="") {
 	Alloy.Globals.CURRENT_NAME = lastFullname.val;
 	//Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
 	//Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
-	Alloy.Globals.CURRENT_USER = lastUsername.val;
+	CURRENT_USER = preCURRENT_USER;
+	Alloy.Globals.CURRENT_USER = preCURRENT_USER;
 	
 	refreshSyncSignature();
 }
@@ -84,7 +85,7 @@ if (OS_IOS || OS_ANDROID) {
 	Alloy.Collections.reimburseDetail_ass = Alloy.createCollection('reimburseDetail_ass');
 	// Change default sorting (descending by date)
 	// Alloy.Collections.comment.comparator = function(model) {
-  		// return -(moment.parseZone(model.get('commentDate')).unix());
+  		// return -(moment.parseZone(model.get('dateCreated')).unix());
 	// };
 	// Alloy.Collections.reimburseDetail.comparator = function(model) {
   		// return -(moment.parseZone(model.get('receiptDate')).unix());
@@ -290,7 +291,7 @@ function addComment(item) {
     var comment = Alloy.createModel('comment', {
     	reimburseDetailId : item.reimburseDetailId,
         message : item.message,
-        commentDate : moment(item.commentDate).utc().toISOString(),
+        dateCreated : moment(item.dateCreated).utc().toISOString(),
         userId : 2,
         username : "Johan",
     });
@@ -355,7 +356,7 @@ function fillTestData() {
 		var comment = addComment({
 			reimburseDetailId : detail.id,
 			message : "Ok thanks "+i,
-			commentDate : moment().subtract(i, "days").utc().toISOString() //.format(dateFormat)
+			dateCreated : moment().subtract(i, "days").utc().toISOString() //.format(dateFormat)
 		});
 	}
 }

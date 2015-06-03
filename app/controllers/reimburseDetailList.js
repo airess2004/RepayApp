@@ -213,6 +213,7 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
+	$.act.show();
 	remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret){
 		if (!ret.error) {
 			for (var key in ret) {
@@ -232,7 +233,8 @@ function showList(e) {
 			reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id});
 		} else {
 			notifBox(ret.error);
-		}			
+		}
+		$.act.hide();			
 	});
 	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id}); //fetch(e.param ? e.param : {remove:false});
 }

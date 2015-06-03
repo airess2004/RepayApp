@@ -258,3 +258,15 @@
 	visible: false,
 	zIndex: 9999,
 }
+
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7000",
+	visible: false,
+	modal: true,
+	zIndex: 9999,
+}

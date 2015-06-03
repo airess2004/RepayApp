@@ -46,7 +46,8 @@
  	//borderColor: "#eeee",
  	//borderWidth: "1dp",
  	//top: "4dp",
- 	left: "20dp", //"4dp",
+ 	//left: "20dp", //"4dp",
+ 	right: "0",
  	bubbleParent: false,
 }
 
