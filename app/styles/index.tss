@@ -116,6 +116,10 @@
 	// borderRadius: "20dp",
 	// borderWidth: "2dp",
 	// left: "4dp",
+	// anchorPoint : {
+        // x : 0.5,
+        // y : 0.5
+    // },
 }
 
 ".tabGroup": {

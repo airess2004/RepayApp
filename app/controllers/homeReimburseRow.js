@@ -38,8 +38,8 @@ function whereFunction(collection) {
 function transformFunction(model) {
 	var transform = model.toJSON(); 
 	transform.status = transform.isRejected == true ? Const.Rejected : Const.Approved;
-	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/ic_receipt.png";
-	transform.urlImageSmall = transform.urlImageSmall || "/icon/ic_receipt.png";
+	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
+	transform.urlImageSmall = transform.urlImageSmall || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
 	if (transform.name && String.format(transform.name).length > 25)
@@ -116,10 +116,10 @@ function thumbPopUp(e) {
 		touchEnabled: false,
 	}); 
 	aview.add(Ti.UI.createImageView({
-		width: "256dp",
-		height : "256dp",
+		//width: "512dp",
+		height : "512dp",
 		touchEnabled: false,
-		image: $.avatar.image,
+		image: $.avatar.imageOri,
 	}));
 	
 	Alloy.Globals.dialogView.removeAllChildren();

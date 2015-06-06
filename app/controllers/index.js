@@ -327,6 +327,7 @@ function okClick(e) {
 	file.write(croppedImg);
 	Alloy.Globals.profileImage.image = file.nativePath; //croppedImg; //$.fullImage.toBlob() //$.fullView.toImage();  //$.cropperView.toImage(); //
 	Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+	Alloy.Globals.Uploading++;
 	upload2trans(file.nativePath, function(asm) {
 		if (typeof asm == "object") {
 			if (asm.ok == "ASSEMBLY_COMPLETED") { //ASSEMBLY_CANCELED, ASSEMBLY_COMPLETED, REQUEST_ABORTED, or error means done
@@ -354,6 +355,7 @@ function okClick(e) {
 				});
 			}
 		}
+		Alloy.Globals.Uploading--;
 	}, function(asm) {
 		// if (typeof asm == "object") {
 			// var rv = asm.bytes_received;
@@ -395,6 +397,24 @@ $.index.addEventListener("android:back", function(e) {
 	}
 });
 
+function syncCallback(e) {
+	//if (!Alloy.Globals.profileImage.animating) 
+	{
+		// Spin the image
+		var matrix2d = Ti.UI.create2DMatrix();
+		matrix2d = matrix2d.rotate(360);
+		// in degrees
+		// matrix2d = matrix2d.scale(1.5); // scale to 1.5 times original size
+		var a = Ti.UI.createAnimation({
+			transform : matrix2d,
+			duration : 5000,
+			autoreverse : false, //true,
+			repeat : 1
+		}); 
+		Alloy.Globals.profileImage.animate(a);
+	}
+}
+
 // $.index.addEventListener('open', function() {
 	// var actionBar = $.index.getActivity().getActionBar();
 	// // get a handle to the action bar
@@ -407,6 +427,7 @@ $.index.addEventListener("android:back", function(e) {
 	// };
 // });
 
+setSyncAnimateCallback(syncCallback);
 startSyncReimburseDet($.index);
 
 $.index.open();

@@ -53,7 +53,7 @@ exports.getDetailObject = function(_gid, callback) {
 							urlImageOriginal : obj.receipt_original_url, //pic
 							//urlImageMedium : obj.urlImageMedium,
 							urlImageSmall : obj.receipt_mini_url,
-							gid : obj.id || orgItem.gid,
+							gid : obj.id || _gid,
 							username : Alloy.Globals.CURRENT_USER,
 							reimburseGid : obj.reimburse_id, //reimburseId,
 							isDeleted : 0, //obj.isDeleted ? 1:0,
@@ -250,7 +250,7 @@ exports.updateDetailObject = function(_item, callback) {
 				error : (e.source.status > 0) ? e.error : 'Connection Timed out'
 			};
 			if (callback)
-				callback(retData);
+				callback(retData, orgItem);
 			ready = true;
 		},
 		//Function to be called upon a successful response
@@ -297,7 +297,7 @@ exports.updateDetailObject = function(_item, callback) {
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
 				if (callback)
-					callback(retData);
+					callback(retData, orgItem);
 			}
 			ready = true;
 		},

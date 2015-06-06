@@ -28,8 +28,8 @@
 }
 
 "#avatar" : {
- 	//height: "64dp",
- 	width: "64dp",
+ 	height: "128dp",
+ 	//width: "64dp",
  	image: "/icon/ic_action_copy.png",
  	imageOri: "/icon/ic_action_copy.png",
  	touchEnabled : false,

@@ -7,9 +7,10 @@
 			<View id="avatarView" onClick="avatarClick">
 				<ImageView id="avatar" />
 			</View>
-			<Label id="email" text="username@repay.com"/>
+			<Label id="email" text=""/>
 			<Button id="signOutButton" onClick="signOutClick" title="Log Out" ></Button>
 			<Button id="syncButton" onClick="syncClick" title="Sync Now" ></Button>
 		</ScrollView>
+		<!--ActivityIndicator id="act" /-->
 	</View>
 </Alloy>

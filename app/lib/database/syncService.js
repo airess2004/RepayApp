@@ -20,6 +20,9 @@ var syncCount = 0;
 var syncTimer;
 var SyncInterval = 5000;
 
+var syncFailed = 0;
+var detSyncFailed = 0;
+
 function startSyncReimburse(_win, callback) {
 	syncReimburseTimer = setTimeout(syncFunc, SyncInterval);
 	
@@ -39,6 +42,8 @@ function startSyncReimburse(_win, callback) {
 									syncReimburseLastTime = obj.lastUpdate;
 								}
 							}
+						} else {
+							syncFailed++;
 						}
 						syncReimburseCount--;
 					}); 
@@ -51,6 +56,8 @@ function startSyncReimburse(_win, callback) {
 							if (!ret2.error) {
 								localReimburse.updateObject(ret2, enqueueUniqueDetails);
 								lastSyncReimburseTime = localConfig.createOrUpdateObject("lastSyncReimburseTime",obj.lastUpdate);
+							} else {
+								syncFailed++;
 							}
 							syncReimburseCount--;
 						});
@@ -68,9 +75,13 @@ function startSyncReimburse(_win, callback) {
 										if (!ret3.error) {
 											localReimburse.updateObject(ret3, enqueueUniqueDetails);
 											lastSyncReimburseTime = localConfig.createOrUpdateObject("lastSyncReimburseTime",obj.lastUpdate);
+										} else {
+											syncFailed++;
 										}
 										syncReimburseCount--;
 									});
+								} else {
+									syncFailed++;
 								}
 								syncReimburseCount--;
 							}); 
@@ -85,6 +96,11 @@ function startSyncReimburse(_win, callback) {
 			syncReimburseCount = 0; //syncReimburseCount--;
 			//if (syncReimburseCount < 0) syncReimburseCount = 0;
     	} finally {
+    		if (syncFailed > 0) {
+    			lastSyncReimburseTime = localConfig.findOrCreateObject("lastSyncReimburseTime", moment(minDate, dateFormat, lang).toISOString());
+    			if (lastSyncReimburseTime.val < syncReimburseLastTime) syncReimburseLastTime = lastSyncReimburseTime.val;
+    			syncFailed = 0;
+    		}
     		Ti.API.warn("Sync Reimburse End ("+syncReimburseCount+") : "+moment().toISOString());
     		if (syncReimburseCount < 0) syncReimburseCount = 0;
     		syncReimburseTimer = setTimeout(syncFunc, SyncInterval);
@@ -117,7 +133,8 @@ function startSyncReimburseDet(_win, callback) {
 					//refreshSyncSignature();
 					var obj = syncReimburseDetList.dequeue();
 					var proto = obj.urlImageOriginal ? obj.urlImageOriginal.substring(0, 3).toUpperCase() : '';
-					if (proto && proto!="HTT" && proto!="FTP") {					
+					if (proto && proto!="HTT" && proto!="FTP") {
+						Alloy.Globals.Uploading++;					
 						Transloadit.upload({
 							expDate : syncTransExp || EXPIRED_TIME, //.format("yyyy/MM/dd HH:mm:ss+00:00"),
 							key : syncTransKey || TRANSLOADIT_KEY,
@@ -138,6 +155,7 @@ function startSyncReimburseDet(_win, callback) {
 							Ti.API.info(err || assembly);
 							//console.log(err || assembly);
 							if (!err) {
+								var oriurl = obj.urlImageOriginal;
 								if (assembly.results.thumb)
 									obj.urlImageSmall = assembly.results.thumb[0].url;
 								if (assembly.results.optimized)
@@ -148,8 +166,27 @@ function startSyncReimburseDet(_win, callback) {
 								obj.isSync = 0;
 								localReimburseDetail.updateDetailObject(obj, function(ret) {
 									if (!ret.error) {
-										syncDetail(ret);
+										syncDetail(ret);														
+										//-- start update image url of parent
+										var list = Alloy.createCollection("reimburse");
+										list.fetch({
+											remove : false
+										});
+										var parobj = list.find(function(mdl) {
+											return mdl.get('id') == obj.reimburseId;
+										});
+										if (parobj && parobj.get('first_receipt_original_url')==oriurl) {
+											parobj.save({
+												first_receipt_original_url : obj.urlImageOriginal,
+												first_receipt_mini_url : obj.urlImageSmall,
+											});
+											parobj.fetch({
+												remove : false
+											});
+										}
+										//-- end update url of parent
 									} else {
+										detSyncFailed++;
 										if (ret.error == INVALID_TOKEN) {
 											// var dialog = Ti.UI.createAlertDialog({
 												// message : L('session_expired'),
@@ -165,25 +202,9 @@ function startSyncReimburseDet(_win, callback) {
 									}
 									//act.hide();
 								});
-								//-- start update image url of parent								
-								var list = Alloy.createCollection("reimburse");
-								list.fetch({
-									remove : false
-								});
-								var parobj = list.find(function(mdl) {
-									return mdl.get('id') == obj.reimburseId;
-								});
-								if (parobj) {
-									parobj.save({
-										first_receipt_original_url : obj.urlImageOriginal,
-										first_receipt_mini_url : obj.urlImageSmall,
-									});
-									parobj.fetch({
-										remove : false
-									});
-								}
-								//-- end update url of parent
+								
 							} else {
+								detSyncFailed++;
 								//act.hide();
 								if (err.error == TRANSLOADIT_AUTH_EXPIRED) {
 									// var dialog = Ti.UI.createAlertDialog({
@@ -199,9 +220,10 @@ function startSyncReimburseDet(_win, callback) {
 									refreshSyncSignature();
 								} else {
 									var msg = err.source ? (err.source.status + " : " + err.error) : err;
-									notifBox('Error ' + msg);
+									//notifBox('Error ' + msg);
 								}
 							}
+							Alloy.Globals.Uploading--;
 						}); 
 					} else {						
 						syncDetail(obj);
@@ -216,6 +238,11 @@ function startSyncReimburseDet(_win, callback) {
 			//if (syncReimburseDetCount < 0) syncReimburseDetCount = 0;
     	} finally {
     		Ti.API.warn("Sync ReimburseDetail End ("+syncReimburseDetCount+") : "+moment().toISOString());
+    		if (detSyncFailed > 0) {
+				lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString());
+				if (lastSyncReimburseDetTime.val < syncReimburseDetLastTime) syncReimburseDetLastTime = lastSyncReimburseDetTime.val;
+				detSyncFailed = 0;
+    		}
     		if (syncReimburseDetCount < 0) syncReimburseDetCount = 0;
     		syncReimburseDetTimer = setTimeout(syncFunc, SyncInterval);
     	}
@@ -230,14 +257,19 @@ function syncDetail(obj) {
 				if (!ret2.error) {
 					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
 					localReimburseDetail.deleteDetailObject(obj.id);
+				} else {
+					detSyncFailed++;
 				}
 				syncReimburseDetCount--;
 			});
 		} else {
-			remoteReimburseDetail.updateDetailObject(obj, function(ret2) {
+			remoteReimburseDetail.updateDetailObject(obj, function(ret2, obj2) {
 				if (!ret2.error) {
-					localReimburseDetail.updateDetailObject(ret2);
-					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
+					for (var attrname in ret2) { obj2[attrname] = ret2[attrname]; }
+					localReimburseDetail.updateDetailObject(/*ret2*/obj2);
+					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", /*obj*/obj2.lastUpdate);
+				} else {
+					detSyncFailed++;
 				}
 				syncReimburseDetCount--;
 			});
@@ -250,15 +282,21 @@ function syncDetail(obj) {
 			syncReimburseDetCount++;
 			remoteReimburseDetail.addDetailObject(obj, function(ret2, obj2) {
 				if (!ret2.error) {
-					obj2.gid = ret2.gid;
+					//obj2.gid = ret2.gid;
+					for (var attrname in ret2) { obj2[attrname] = ret2[attrname]; }
 					syncReimburseDetCount++;
-					remoteReimburseDetail.updateDetailObject(obj2, function(ret3) {
+					remoteReimburseDetail.updateDetailObject(obj2, function(ret3, obj3) {
 						if (!ret3.error) {
-							localReimburseDetail.updateDetailObject(ret3);
-							lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", obj.lastUpdate);
+							for (var attrname in ret3) { obj3[attrname] = ret3[attrname]; }
+							localReimburseDetail.updateDetailObject(obj3/*ret3*/);
+							lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", /*obj*/obj3.lastUpdate);
+						} else {
+							detSyncFailed++;
 						}
 						syncReimburseDetCount--;
 					});
+				} else {
+					detSyncFailed++;
 				}
 				syncReimburseDetCount--;
 			});
@@ -281,6 +319,8 @@ function enqueueDetails(par) {
 			}
 			syncReimburseDetCount--;
 		}); 
+	} else {
+		syncFailed++;
 	}
 };
 
@@ -332,6 +372,8 @@ function enqueueUniqueDetails(par) {
 			}
 			syncReimburseDetCount--;
 		}); 
+	} else {
+		syncFailed++;
 	}
 };
 
@@ -368,6 +410,22 @@ function enqueueAllUniqueDetails() {
 	}); 
 };
 
+Alloy.Globals.Uploading = 0;
+var syncAnimateTimer;
+function setSyncAnimateCallback(callback) {
+	syncAnimateTimer = setTimeout(intervalFunc, 50);
+	
+	function intervalFunc(e) {
+		try {
+			clearTimeout(syncTimer);
+			if (syncReimburseCount > 0 || syncReimburseDetCount > 0 || Alloy.Globals.Uploading > 0 || !syncReimburseList.isEmpty() || !syncReimburseDetList.isEmpty()) {
+				if (callback) callback(e);
+			}
+		} finally {
+			syncAnimateTimer = setTimeout(intervalFunc, 50);
+		}
+	}
+}
 
 function createSyncService() {
 	var IntervalSECONDS = 300;

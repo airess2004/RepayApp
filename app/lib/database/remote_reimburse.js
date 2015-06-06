@@ -241,7 +241,7 @@ exports.updateObject = function(_item, callback) {
 				error : (e.source.status > 0) ? e.error : 'Connection Timed out'
 			};
 			if (callback)
-				callback(retData);
+				callback(retData, orgItem);
 			ready = true;
 		},
 		//Function to be called upon a successful response
@@ -292,7 +292,7 @@ exports.updateObject = function(_item, callback) {
 				//convert array/model as necessary
 				
 				if (callback)
-					callback(retData);
+					callback(retData, orgItem);
 			}
 			ready = true;
 		},

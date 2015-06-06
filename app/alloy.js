@@ -61,6 +61,8 @@ if (lastToken.val && lastToken.val!="") {
 	Alloy.Globals.lastSyncReimburseDetTime = lastSyncReimburseDetTime.val;
 	Alloy.Globals.lastSyncReimburseToken = lastSyncReimburseToken.val;
 	Alloy.Globals.lastSyncReimburseDetToken = lastSyncReimburseDetToken.val;
+	syncReimburseLastTime = lastSyncReimburseTime.val;
+	syncReimburseDetLastTime = lastSyncReimburseDetTime.val;
 	SERVER_KEY = lastToken.val;
 	Alloy.Globals.CURRENT_NAME = lastFullname.val;
 	//Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
@@ -146,8 +148,18 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 				//findWhere({gid : obj.gid});
 				//if (!obj2 || obj2.get('lastUpdate') < obj.lastUpdate)
 				{
-					if (!obj2)
+					if (!obj2) {
 						obj2 = Alloy.createModel("reimburse_ass", obj);
+					} else {
+						//if (obj2.get('reimburse_is_confirmed')) 
+						{
+							obj2.set({
+								reimburse_is_confirmed: obj.reimburse_is_confirmed,
+								reimburse_confirmed_at: obj.reimburse_confirmed_at,
+								reimburse_total_approved: obj.reimburse_total_approved,
+							});
+						}
+					}
 					reimburses_ass.add(obj2, {
 						merge : true
 					});
@@ -164,8 +176,16 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 									//if (!det2)
 									{
 										det.reimburseId = par.id;
-										if (!det2)
+										if (!det2) {
 											det2 = Alloy.createModel("reimburseDetail_ass", det);
+										} else {
+											var detobj = {
+												totalComments: det.totalComments,
+											};
+											//if (obj2.get('reimburse_is_confirmed')) 
+												detobj.isRejected = det.isRejected;
+											det2.set(detobj);
+										}
 										reimburseDetails_ass.add(det2, {
 											merge : true
 										});
@@ -182,7 +202,7 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 			if (Alloy.Globals.scrollableView)
 				Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
 		} else {
-			alert(ret1.error);
+			notifBox(ret1.error);
 		}
 
 		remoteReimburse.getList("updated_at", "DESC", 0, 20, null, null, null, function(ret) {
@@ -202,8 +222,16 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 					//TODO: if already exist check use newer one (updated_at, local or remote)
 					//if (!obj4 || obj4.get('lastUpdate') < obj3.lastUpdate)
 					{
-						if (!obj4)
+						if (!obj4) {
 							obj4 = Alloy.createModel("reimburse", obj3);
+						} else {
+							if (obj4.get('isSent')) {
+								obj4.set({
+									isDone: obj3.isDone,
+									doneDate: obj3.doneDate,
+								});
+							}
+						}
 						reimburses.add(obj4, {
 							merge : true
 						});
@@ -214,7 +242,7 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 				if (Alloy.Globals.scrollableView)
 					Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
 			} else {
-				alert(ret.error);
+				notifBox(ret.error);
 			}
 		});
 	}); 

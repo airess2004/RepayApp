@@ -47,18 +47,19 @@
  	borderWidth: "1dp",
  	top: "0",
  	//left: "20dp",
- 	right: "0", 
+ 	right: "16dp", 
  	bubbleParent: false,
 }
 
 "#avatar" : {
- 	//height: Titanium.UI.FILL, //"64dp",
- 	width: Titanium.UI.FILL, //"64dp",
+ 	height: "144dp", //"64dp",
+ 	//width: Titanium.UI.FILL, //"64dp",
  	image: "/icon/thumb_receipt.png", //"/icon/ic_action_photo.png",
  	imageOri: "/icon/thumb_receipt.png",
  	touchEnabled : false,
- 	left: "0",
- 	top: "0",
+ 	//left: "0",
+ 	//right: "0",
+ 	//top: "0",
 }
 
 ".midView" : {

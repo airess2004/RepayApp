@@ -64,6 +64,7 @@ function doSave(e) {
 			if (result.error) {
 				alert(result.error);
 			} else {
+				//for (var attrname in result) { item[attrname] = result[attrname]; }
 				reimburse = Alloy.createModel('reimburse', {
 					gid: result.gid,
 					username : Alloy.Globals.CURRENT_USER,
@@ -103,7 +104,8 @@ function doSave(e) {
 		remoteReimburse.updateObject(item, function(result) {
 			if (result.error) {
 				alert(result.error);
-			} else {		
+			} else {
+				//for (var attrname in result) { item[attrname] = result[attrname]; }	
 				if (reimburse) {
 					reimburse.set({
 						gid: result.gid,

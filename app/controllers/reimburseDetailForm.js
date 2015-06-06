@@ -108,6 +108,7 @@ function doSave(e) {
 		reimburseId = args.reimburseId;
 	}
 
+	//-- start update parent
 	var detail = reimburseDetails.where({
 		isDeleted : 0,
 		reimburseId : reimburseId
@@ -118,8 +119,8 @@ function doSave(e) {
 	var total = 0;
 	for (var i in detail) {
 		if (i == 0) {
-			first_receipt_original_url = detail[i].get("first_receipt_original_url");
-			first_receipt_mini_url = detail[i].get("first_receipt_mini_url");
+			first_receipt_original_url = detail[i].get("urlImageOriginal");
+			first_receipt_mini_url = detail[i].get("urlImageSmall");
 		}
 		total += parseFloat(detail[i].get("amount"));
 	}
@@ -132,6 +133,7 @@ function doSave(e) {
 	});
 	reimburse.save();
 	reimburse.fetch({remove: false});
+	//-- end update parent
 
 	// reload the tasks
 	//reimburseDetails.fetch({remove: false});
@@ -163,8 +165,21 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						$.photo.image = media.nativePath; //media;
-						$.photo.imageOri = media.nativePath;
+						var newWidth = media.width;
+						var newHeight = media.height;
+						var aspectRatio =  media.height / media.width;
+						if (newWidth > 1024) {
+							newWidth = 1024;
+							newHeight = newWidth*aspectRatio;
+						} else if (newHeight > 1024) {
+							newHeight = 1024;
+							newWidth = newHeight/aspectRatio;
+						}
+						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
+						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
+						file.write(resizedImg);
+						$.photo.image = file.nativePath; //media.nativePath; //media;
+						$.photo.imageOri = file.nativePath; //media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				});
@@ -175,8 +190,21 @@ function imageClick(e) {
 				var camera = require('camera').getImage(function(media) {
 					if (media != null) {
 						Ti.API.info("Click Image = " + media.nativePath);
-						$.photo.image = media.nativePath; //media;
-						$.photo.imageOri = media.nativePath;
+						var newWidth = media.width;
+						var newHeight = media.height;
+						var aspectRatio =  media.height / media.width;
+						if (newWidth > 1024) {
+							newWidth = 1024;
+							newHeight = newWidth*aspectRatio;
+						} else if (newHeight > 1024) {
+							newHeight = 1024;
+							newWidth = newHeight/aspectRatio;
+						}
+						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
+						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
+						file.write(resizedImg);
+						$.photo.image = file.nativePath; //media.nativePath; //media;
+						$.photo.imageOri = file.nativePath; //media.nativePath;
 					}
 					Alloy.Globals.cameraShown = false;
 				}, 1);

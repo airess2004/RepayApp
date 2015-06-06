@@ -11,9 +11,14 @@ var id;
 if ($model) {
 	id = $model.id;
 	$.commentRow.rowid = $model.id;
-	var username = $model.get('email');
-	var isowner = ((username ? username.trim().toUpperCase() : "") == Alloy.Globals.CURRENT_USER);
-	$.avatar.image = (isowner || Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
+	var email = $model.get('email');
+	//var avatarOri = $model.get('original_avatar_url');
+	//var avatar = $model.get('mini_avatar_url');
+	//if (avatar == "") avatar = null;
+	//if (avatarOri == "") avatarOri = null;
+	var isowner = ((email ? email.trim().toUpperCase() : "") == Alloy.Globals.CURRENT_USER);
+	//$.avatar.imageOri = isowner ? (Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image : avatarOri ? avatarOri : "/icon/ic_action_user.png";
+	//$.avatar.image = isowner ? (Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image : avatar ? avatar : "/icon/ic_action_user.png";
 	$.avatarView.left = isowner ? null : "0";
 	$.avatarView.right = isowner ? "0" : null;
 	$.username.left = isowner ? null : "0";
@@ -68,10 +73,10 @@ function thumbPopUp(e) {
 		touchEnabled: false,
 	}); 
 	aview.add(Ti.UI.createImageView({
-		width: "256dp",
-		height : "256dp",
+		//width: "512dp",
+		height : "512dp",
 		touchEnabled: false,
-		image: $.avatar.image,
+		image: $.avatar.imageOri,
 	}));
 	
 	Alloy.Globals.dialogView3.removeAllChildren();

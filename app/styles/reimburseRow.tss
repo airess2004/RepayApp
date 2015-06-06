@@ -36,8 +36,8 @@
 }
 
 "#avatar" : {
- 	//height: Titanium.UI.FILL,
- 	width: "64dp", //Titanium.UI.FILL,
+ 	height: "128dp", //Titanium.UI.FILL,
+ 	//width: "64dp", //Titanium.UI.FILL,
  	image: "/icon/thumb_receipt.png", //"/icon/ic_action_copy.png",
  	touchEnabled: false,
 }

@@ -48,8 +48,8 @@ function transformFunction(model) {
 	transform.searchableText = model.get('title') + " " + STATUS[stat] + " " + model.get('total') + " " + model.get('projectDate');
 	transform.status_backgroundColor = STATUSCODE_COLOR[stat];
 	transform.statusView_backgroundColor = transform.status_backgroundColor;
-	transform.avatar = transform.first_receipt_mini_url && transform.first_receipt_mini_url!="" ? transform.first_receipt_mini_url : "/icon/ic_action_copy.png"; //"/icon/thumb_receipt.png"//
-	transform.avatarOri = transform.first_receipt_original_url && transform.first_receipt_original_url!="" ? transform.first_receipt_original_url : "/icon/ic_action_copy.png";
+	transform.avatar = transform.first_receipt_mini_url && transform.first_receipt_mini_url!="" ? transform.first_receipt_mini_url : "/icon/thumb_receipt.png"; //"/icon/ic_action_copy.png"; //
+	transform.avatarOri = transform.first_receipt_original_url && transform.first_receipt_original_url!="" ? transform.first_receipt_original_url : "/icon/thumb_receipt.png"; //"/icon/ic_action_copy.png";
 	//-- end of workaround
 	return transform;
 }
@@ -122,8 +122,8 @@ function updateBorder(e) {
 		// touchEnabled: false,
 	// }); 
 	// aview.add(Ti.UI.createImageView({
-		// width: "256dp",
-		// height : "256dp",
+		// //width: "512dp",
+		// height : "512dp",
 		// touchEnabled: false,
 		// image: img ? img.image : $.avatar.image,
 	// }));

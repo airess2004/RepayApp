@@ -7,17 +7,21 @@ Alloy.Globals.avatar = $.avatar;
 
 function signOutClick(e) {
 	$.signOutButton.touchEnabled = false;
+	Alloy.Globals.act.show();
 	remoteUser.logout(function(result) {
 		if (!result.error) {
 			libgcm.unregGCM();
 			Alloy.Globals.gcmRegId = "";
 			lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, Alloy.Globals.CURRENT_USER);
-			Alloy.Globals.profileImage.image = null;
+			Alloy.Globals.profileImage.image = "/icon/ic_action_user.png";
 			Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 			Alloy.Globals.CURRENT_NAME = "";
 			lastToken = localConfig.createOrUpdateObject("lastToken", "", Alloy.Globals.CURRENT_USER);
 			Alloy.Globals.CURRENT_USER = "";
 			SERVER_KEY = "";
+			syncReimburseLastTime = moment(minDate, dateFormat, lang).toISOString();
+			syncReimburseDetLastTime = moment(minDate, dateFormat, lang).toISOString();
+			$.email.text = "";
 			
 			// for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
   				// reimburseDetails.models[i].destroy();        
@@ -30,6 +34,7 @@ function signOutClick(e) {
 		} else {
 			alert(result.error);
 		}
+		Alloy.Globals.act.hide();
 	});
 	$.signOutButton.touchEnabled = true;
 }

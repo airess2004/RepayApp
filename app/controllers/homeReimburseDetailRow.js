@@ -33,7 +33,8 @@ if ($model) {
 	//comments && comments.fetch({remove: false});
 	//$.switchBtn.removeEventListener("change", switchChange);
 	//$.switchBtn.addEventListener("change", switchChange);
-	if ($.switchBtn.value == null) $.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
+	//if ($.switchBtn.value == null) 
+		$.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
 	updateSwitch($.switchBtn, $.switchBtn.value);
 	var reimburse = reimburses_ass.find(function(mdl) {
 			return mdl.get('reimburse_gid') == $model.get('reimburseGid');
@@ -88,8 +89,8 @@ function thumbPopUp(e) {
 		touchEnabled: false,
 	}); 
 	aview.add(Ti.UI.createImageView({
-		width: "256dp",
-		height : "256dp",
+		//width: "512dp",
+		height : "512dp",
 		touchEnabled: false,
 		image: $.avatar.imageOri,
 	}));

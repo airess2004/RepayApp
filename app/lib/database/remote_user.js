@@ -77,6 +77,7 @@ exports.login = function(_item, callback) {
 					password : _item.passwordHash,
 				},
 				deviceToken: _item.deviceToken,
+				is_android: true,
 				//expDate : EXPIRED_TIME,//.format("yyyy/MM/dd HH:mm:ss+00:00"),
 			};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
@@ -232,7 +233,7 @@ exports.addObject = function(_item, callback) {
 							fullname : json.user.name,
 							login : json.user.login,
 							is_main_user : json.user.is_main_user ? 1 : 0,
-							authentication_token : json.user.authentication_token,
+							token : json.user.authentication_token,
 							isDeleted : json.user.isDeleted ? 1 : 0,
 							dateCreated : json.user.created_at,
 							lastUpdated : moment.parseZone(json.user.updated_at).utc().toISOString(),

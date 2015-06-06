@@ -60,13 +60,43 @@ function windowOpen(e) {
 }
 
 function windowClose(e) {
-	$.destroy();
-	reimburseDetails = null;
-	reimburses = null;
-	if (data) {
+	if (data) {		
+		//-- start update parent
+		var detail = reimburseDetails.where({
+			isDeleted : 0,
+			reimburseId : args.id
+		});
+
+		var first_receipt_original_url = null;
+		var first_receipt_mini_url = null;
+		var total = 0;
+		for (var i in detail) {
+			if (i == 0) {
+				first_receipt_original_url = detail[i].get("urlImageOriginal");
+				first_receipt_mini_url = detail[i].get("urlImageSmall");
+			}
+			total += parseFloat(detail[i].get("amount"));
+		}
+
+		data.set({
+			"total" : parseFloat(total),
+			"first_receipt_original_url" : first_receipt_original_url,
+			"first_receipt_mini_url" : first_receipt_mini_url,
+			//IsSync: 0,
+		});
+		data.save();
+		data.fetch({
+			remove : false
+		});
+		//-- end update parent
+
+		Alloy.Globals.reimburseListReimburse.fetch({remove:false});
 		Alloy.Globals.scrollableView.views[1].fireEvent("open", e);
 		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+args.id*/}});
+		$.destroy();
 		data = null;
+		reimburseDetails = null;
+		reimburses = null;
 	}
 }
 
@@ -119,6 +149,7 @@ function sendReimburse(id, callback) {
 		if (tolist == null) tolist = [];
 		if (cclist == null) cclist = [];
 		if (bcclist == null) bcclist = [];
+		$.act.show();
 		remoteReimburse.sendObject(reimburse.get('gid'), tolist, cclist, bcclist, function(result) {
 			if (result.error) {
 				alert(result.error);
@@ -159,6 +190,7 @@ function sendReimburse(id, callback) {
 					notifBox("Reimburse has been successfully Submitted.");
 				}
 			}
+			$.act.hide();
 		});
 	} else {
 		alert("You don't have any Expense!");

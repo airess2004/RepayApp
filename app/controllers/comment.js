@@ -68,8 +68,9 @@ function winOpen(e) {
 				});
 				//if (!obj2 || obj2.get('lastUpdate') < obj.lastUpdate)					
 				{
-					if (!obj2)
+					if (!obj2) {
 						obj2 = Alloy.createModel("comment", obj);
+					}
 					list.add(obj2, {
 						merge : true
 					});
@@ -77,20 +78,38 @@ function winOpen(e) {
 					//obj2.fetch({remove:false});
 				}
 			}
+			if (comments) {
+				//comments.reset();
+				comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+args.gid});
+			}
+			
 		}
 		$.act.hide();
 	});
 }
 
 function winClose(e) {
+	if (data) {
+		//-- start update parent
+		comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+args.gid});
+		var count = comments.length;
+
+		data.set({
+			"totalComments" : count,
+			//IsSync: 0,
+		});
+		data.save();
+		data.fetch({
+			remove : false
+		});
+		//-- end update parent
+		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+data.get("reimburseId")*/}});
+	}
 	$.destroy();
+	data = null;
 	comments = null;
 	reimburseDetails_ass = null;
 	//reimburses = null;
-	if (data) {
-		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+data.get("reimburseId")*/}});
-		data = null;
-	}
 }
 
 function doBack(evt) {// what to do when the "home" icon is pressed
@@ -109,12 +128,18 @@ function whereFunction(collection) {
 
 function transformFunction(model) {
 	var transform = model.toJSON();
+	transform.isowner = ((transform.email ? transform.email.trim().toUpperCase() : "") == Alloy.Globals.CURRENT_USER);
 	transform.dateCreated = moment.parseZone(transform.dateCreated).local().format("DD-MM-YYYY HH:mm:ss");
+	if (transform.isowner) {
+		transform.original_avatar_url = (Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
+		transform.mini_avatar_url = (Alloy.Globals.profileImage == null) ? "/icon/ic_action_user.png" : Alloy.Globals.profileImage.image;
+	}
 	return transform;
 }
 
 function newCommentClick(e) {
 	if ($.commentField.value != null && String.format($.commentField.value).trim().length > 0) {
+		$.act.show();
 		var item = {
 			message : $.commentField.value,
 			dateCreated : moment().utc().toISOString(),
@@ -129,6 +154,8 @@ function newCommentClick(e) {
 		};
 		remoteReimburseDetail.addCommentObject(item, function(result) {
 			if (!result.error) {
+				// merge the result object
+				for (var attrname in result) { item[attrname] = result[attrname]; }
 				//var isodd = (comments.where({reimburseDetailId : args.id}).length % 2) == 1;
 				var comment = Alloy.createModel('comment', item);
 				comments.add(comment);
@@ -142,6 +169,7 @@ function newCommentClick(e) {
 			} else {
 				alert(result.error);
 			}
+			$.act.hide();
 		});
 	}
 	
@@ -179,8 +207,8 @@ function thumbPopUp(e) {
 		touchEnabled: false,
 	}); 
 	aview.add(Ti.UI.createImageView({
-		width: "256dp",
-		height : "256dp",
+		//width: "512dp",
+		height : "512dp",
 		touchEnabled: false,
 		image: $.photo.imageOri,
 	}));

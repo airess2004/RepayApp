@@ -30,7 +30,7 @@
     			<Require src="reimburseRow"/>
 			</Templates>
 			<ListSection id="listSection" dataCollection="$.localReimburse" dataFilter="whereFunction" dataTransform="transformFunction">
-				<ListItem itemId="{id}" avatar:image="{avatar}" title:text="{title}" date:text="{projectDate}" total:text="{total}" status:text="{status}" status:backgroundColor="{status_backgroundColor}" statusView:backgroundColor="{statusView_backgroundColor}" searchableText="{searchableText}" /> 
+				<ListItem itemId="{id}" avatar:image="{avatar}" avatar:imageOri="{avatarOri}" title:text="{title}" date:text="{projectDate}" total:text="{total}" status:text="{status}" status:backgroundColor="{status_backgroundColor}" statusView:backgroundColor="{statusView_backgroundColor}" searchableText="{searchableText}" /> 
 			</ListSection>	
 		</ListView>
 		<!--/Widget-->

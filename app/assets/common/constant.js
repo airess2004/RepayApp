@@ -292,6 +292,20 @@ function cropImage(in_img, rect) {
 	return out_img;
 }
 
+function resizeImage(in_img, size) {
+	var out_img = null;
+	if (in_img) {
+		var ImageFactory = require('ti.imagefactory');
+		//var rect = $.cropperView.getRect();
+		// convert coordinate from "dp" to "pt"
+		size.width = Math.max(0, size.width /* * Ti.Platform.displayCaps.logicalDensityFactor*/); //x must be >= 0
+		size.height = Math.max(0, size.height /* * Ti.Platform.displayCaps.logicalDensityFactor*/); //y must be >= 0
+		//size.quality = ImageFactory.QUALITY_MEDIUM;
+		out_img = ImageFactory.imageAsResized(in_img.media || in_img, size);
+	}
+	return out_img;
+}
+
 //################# PROPERTIES GET - DO NOT CHANGE ################
 var settings=Ti.App.Properties.getObject('settings',{});
 

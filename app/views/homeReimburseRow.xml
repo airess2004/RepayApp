@@ -4,7 +4,7 @@
   	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
   		<View class="centeredBtnView" left="0">
   			<View class="avatarView" onClick="thumbPopUp">
-    			<ImageView id="avatar" image="{userAvatar}" />
+    			<ImageView id="avatar" image="{userAvatar}" imageOri="{userAvatar}" />
     		</View>
     	</View>
     	<View class="midView">

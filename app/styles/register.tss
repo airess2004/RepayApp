@@ -107,7 +107,7 @@
 	backgroundColor: "#7777",
 	//visible: true,
 	modal: true,
-	zIndex: 99,
+	zIndex: 9999,
 }
 
 "TextField": {

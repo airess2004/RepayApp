@@ -111,10 +111,11 @@ function thumbPopUp(e) {
 		touchEnabled: false,
 	}); 
 	aview.add(Ti.UI.createImageView({
-		width: "256dp",
-		height : "256dp",
+		//width: $.avatar.width > $.avatar.height ? "512dp" : undefined,
+		height : "512dp",
 		touchEnabled: false,
 		image: $.avatar.imageOri,
+		autorotate: true,
 	}));
 	
 	Alloy.Globals.dialogView2.removeAllChildren();
