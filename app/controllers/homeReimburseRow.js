@@ -2,9 +2,9 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 //var reimburses = Alloy.Globals.homeListReimburse; //Alloy.Collections.reimburse; //
-var reimburseDetails_ass = $.localReimburseDetail_ass; //Alloy.Collections.reimburseDetail; //
+var reimburseDetails_ass = $.localReimburseDetail_ass; //Alloy.Collections.reimburseDetail_ass; //  
 //$.localReimburseDetail = Alloy.Globals.homeListReimburseDetail;
-//reimburseDetails && reimburseDetails.fetch({remove: false});
+//reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 //Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
 var id;
 var gid;
@@ -42,6 +42,7 @@ function transformFunction(model) {
 	transform.urlImageSmall = transform.urlImageSmall || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
 	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
 	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
+	//transform.detailList = $.localReimburseDetail_ass;
 	if (transform.name && String.format(transform.name).length > 25)
 		transform.name = transform.name.substring(0, 22) + "...";
 	return transform;
@@ -147,8 +148,9 @@ function approveReimburse(id) {
 	// });
 	// if (!dets) dets = [];
 	// TODO: update detail's status
-	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburse.get('gid')});
-	var rejectedDetails = reimburseDetails_ass.where({isRejected:1});
+	var reimburseGid = reimburse.get('gid');
+	//reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburse.get('gid')});
+	var rejectedDetails = reimburseDetails_ass.where({isRejected:1, reimburseGid:reimburseGid});
 	if (!rejectedDetails) rejectedDetails = [];
 	var rejectedlist = [];
 	rejectedDetails.forEach(function(det){

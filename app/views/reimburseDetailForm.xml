@@ -28,7 +28,7 @@
 						<Label class="labelName" left="0" right="0">Title</Label>
 						<TextField class="textField" left="0" right="0" id="titleField" hintText="Title" ></TextField>
 					</View>
-					<View id="imageView" onClick="imageClick">
+					<View id="imageView" > <!-- onClick="imageClick" -->
 						<ImageView id="photo" />
 					</View>
 				</View>
@@ -37,7 +37,7 @@
 				<TextField class="textField" id="amountField" hintText="Amount" keyboardType="Titanium.UI.KEYBOARD_NUMBER_PAD" ></TextField>
 				<View class="vSplitter" />
 				<Label class="labelName" >Date</Label>
-				<TextField class="textField" id="dateField" hintText="DD/MM/YYYY"  onFocus="dateFieldClick" editable="false"></TextField>
+				<TextField class="textField" id="dateField" hintText="DD/MM/YYYY" editable="false"></TextField> <!-- onFocus="dateFieldClick" -->
 				<View class="vSplitter" />
 				<Label  class="labelName" >Description</Label>
 				<TextArea class="textField" id="descriptionField" hintText="Description" ></TextArea>
@@ -51,6 +51,7 @@
 				</View>
 			</View>
 		</View>
+		<View id="dialogView3" onClick="dialogViewClick" />
 		<ActivityIndicator id="act" />
 	</Window>
 </Alloy>

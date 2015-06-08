@@ -265,6 +265,7 @@ function syncDetail(obj) {
 		} else {
 			remoteReimburseDetail.updateDetailObject(obj, function(ret2, obj2) {
 				if (!ret2.error) {
+					// merge the result object
 					for (var attrname in ret2) { obj2[attrname] = ret2[attrname]; }
 					localReimburseDetail.updateDetailObject(/*ret2*/obj2);
 					lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", /*obj*/obj2.lastUpdate);
@@ -287,6 +288,7 @@ function syncDetail(obj) {
 					syncReimburseDetCount++;
 					remoteReimburseDetail.updateDetailObject(obj2, function(ret3, obj3) {
 						if (!ret3.error) {
+							// merge the result object
 							for (var attrname in ret3) { obj3[attrname] = ret3[attrname]; }
 							localReimburseDetail.updateDetailObject(obj3/*ret3*/);
 							lastSyncReimburseDetTime = localConfig.createOrUpdateObject("lastSyncReimburseDetTime", /*obj*/obj3.lastUpdate);
@@ -379,7 +381,7 @@ function enqueueUniqueDetails(par) {
 
 function enqueueAllUniqueDetails() {			
 	syncReimburseDetCount++;
-	localReimburseDetail.getDetailListAll(null, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", syncReimburseDetLastTime, function(ret) {
+	localReimburseDetail.getDetailListAll(null, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", /*syncReimburseDetLastTime*/moment(minDate, dateFormat, lang).toISOString(), function(ret) {
 		if (!ret.error) {
 			for (idx2 in ret) {
 				var obj = ret[idx2];

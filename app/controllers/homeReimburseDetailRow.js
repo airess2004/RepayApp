@@ -1,13 +1,15 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses_ass = Alloy.Collections.reimburse_ass; //Alloy.Globals.homeListReimburse; //
-var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
+//Alloy.Globals.homeListReimburse_ass might not be existed yet at this point, since parent controller is created after all it's childens are created
+//var reimburses_ass = Alloy.Collections.reimburse_ass; //Alloy.Globals.homeListReimburse_ass; //
+var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass; //args.detailList; //$.localReimburseDetail; //Alloy.Globals.homeListReimburseDetail; //
 //var comments = Alloy.Collections.comment;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 //comments && comments.fetch({remove: false});
 var id;
 var gid;
+var reimburse;
 
 // $model represents the current model accessible to this
 // controller from the markup's model-view binding. $model
@@ -36,11 +38,11 @@ if ($model) {
 	//if ($.switchBtn.value == null) 
 		$.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
 	updateSwitch($.switchBtn, $.switchBtn.value);
-	var reimburse = reimburses_ass.find(function(mdl) {
-			return mdl.get('reimburse_gid') == $model.get('reimburseGid');
-	}); //findWhere({reimburse_gid: $model.get('reimburseGid')}); //reimburses_ass.get($model.get('reimburseId'));
+	// var reimburse = reimburses_ass.find(function(mdl) {
+			// return mdl.get('reimburse_gid') == $model.get('reimburseGid');
+	// }); //findWhere({reimburse_gid: $model.get('reimburseGid')}); //reimburses_ass.get($model.get('reimburseId'));
 	//if (reimburse && reimburse.length > 0) reimburse = reimburse[0];
-	var parentstatus = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
+	// var parentstatus = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
 	$.switchBtn.touchEnabled = true; //(parentstatus <= STATUSCODE[Const.Pending]);
 	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 }
@@ -135,7 +137,7 @@ function switchChange(e) {
 		Alloy.Globals.toggleUsed = true;
 		if ($.switchBtn.touchEnabled) {
 			var reimburseDetail = reimburseDetails_ass.get(id);
-			var reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl) {
+			reimburse = /*Alloy.Globals.homeListReimburse_ass*/Alloy.Collections.reimburse_ass.find(function(mdl) {
 				return mdl.get('reimburse_gid') == reimburseDetail.get('reimburseGid');
 			}); //findWhere({reimburse_gid: reimburseDetail.get('reimburseGid')});
 			//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
@@ -149,27 +151,28 @@ function switchChange(e) {
 					// "status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
 				// });
 				reimburseDetail.save({
-					"isRejected" : !$.switchBtn.value, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
+					"isRejected" : (!$.switchBtn.value) ? 1 : 0, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
 					"isSync" : 0,
 				}, {success :function(mdl){
 					// mdl.fetch({
 						// remove : false
 					// });
 					var amount = parseFloat(mdl.get('amount'));
-					var reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
-						return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
-					}); //findWhere({reimburse_gid: mdl.get('reimburseGid')});
+					// reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
+						// return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
+					// }); //findWhere({reimburse_gid: mdl.get('reimburseGid')});
 					//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
 					// reimburse.set({
 						// "total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
 					// });
 					reimburse.save({
-						"reimburse_total_approved" : parseFloat(reimburse.get('reimburse_total_approved')) + ($.switchBtn.value ? amount : -amount),
+						"reimburse_total_approved" : parseFloat(reimburse.get('reimburse_total_approved')) + (mdl.get('isRejected') ? -amount : amount),
 						"isSync" : 0,
 					}, {success :function(parmdl){
 						// parmdl.fetch({
 							// remove : false
 						// });
+						Alloy.Globals.homeListReimburse_ass.fetch({remove:false});
 						Alloy.Globals.act.hide();
 						Alloy.Globals.toggleUsed = false;
 					}, error: function(){

@@ -242,6 +242,15 @@
 	horizontalWrap: false,
 }
 
+"#dialogView3": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+	touchEnabled: true,
+	backgroundColor: "#5000",
+	visible: false,
+	zIndex: 9999,
+}
+
 "#act": {
 	style: Ti.UI.ActivityIndicatorStyle.BIG,
 	//top : '10dp',
@@ -251,5 +260,5 @@
 	backgroundColor: "#7000",
 	//visible: true,
 	modal: true,
-	zIndex: 99,
+	zIndex: 9999,
 }

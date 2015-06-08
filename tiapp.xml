@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.reimburseapp.repay</id>
     <name>RepayApp</name>
-    <version>1.9.6</version>
+    <version>1.9.7</version>
     <publisher>Willy</publisher>
     <url>http://reimburseapp.com</url>
     <description>undefined</description>
@@ -41,7 +41,7 @@
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest android:installLocation="auto"
-            android:versionCode="196" android:versionName="1.9.6">
+            android:versionCode="197" android:versionName="1.9.7">
             <!--application android:debuggable="false" android:screenOrientation="portrait" android:theme="@style/Theme.Repayapp1"-->
             <application android:debuggable="false"
                 android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light">

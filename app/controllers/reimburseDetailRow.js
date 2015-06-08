@@ -66,8 +66,8 @@ function deleteItem(id) {
 	var total = 0;
 	for (var i in details) {
 		if (i == 0) {
-			first_receipt_original_url = detail[i].get("first_receipt_original_url");
-			first_receipt_mini_url = detail[i].get("first_receipt_mini_url");
+			first_receipt_original_url = details[i].get("urlImageOriginal");
+			first_receipt_mini_url = details[i].get("urlImageSmall");
 		}
 		total += parseFloat(details[i].get("amount"));
 	}

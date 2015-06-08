@@ -7,9 +7,129 @@ var reimburseDetails = Alloy.Collections.reimburseDetail;
 var reimburses = Alloy.Collections.reimburse;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 var data;
+var reimburse;
 
 if (args.id != null) {
 	data = reimburseDetails.get(args.id);
+	reimburse = reimburses.get(data.get('reimburseId'));
+}
+
+function dateFieldClick(evt) {
+	Ti.UI.Android.hideSoftKeyboard();
+	
+	var picker = Ti.UI.createPicker({
+		type : Ti.UI.PICKER_TYPE_DATE,
+		value : ($.dateField.value == null || $.dateField.value == "") ? new Date() : moment($.dateField.value, dateFormat).toDate()
+	});
+
+	picker.showDatePickerDialog({
+		value : ($.dateField.value == null || $.dateField.value == "") ? moment().toDate() : moment($.dateField.value, dateFormat).toDate(),
+		callback : function(e) {
+			if (e.cancel) {
+			} else {
+				$.dateField.value = moment(e.value).format(dateFormat);
+			}
+			$.dateField.blur();
+		}
+	});
+}
+
+function dialogViewClick(e) {
+    $.dialogView3.hide(); //visible = false;
+}
+
+function thumbPopUp(e) {
+	var aview = Ti.UI.createView({
+		width : "256dp",
+		height : "256dp",
+		backgroundColor : "#7777",
+		borderColor : Alloy.Globals.lightColor,
+		borderWidth : "1dp",
+		touchEnabled: false,
+	}); 
+	aview.add(Ti.UI.createImageView({
+		//width: "512dp",
+		height : "512dp",
+		touchEnabled: false,
+		image: $.photo.imageOri,
+	}));
+	
+	$.dialogView3.removeAllChildren();
+	$.dialogView3.add(aview);
+	$.dialogView3.show();
+}
+
+function imageClick(e) {
+	if (!Alloy.Globals.cameraShown) {
+		Alloy.Globals.cameraShown = true;
+		//Create a dialog with options
+		var dialog = Ti.UI.createOptionDialog({
+			//title of dialog
+			title : 'Choose an image source...',
+			//options
+			options : ['Camera', 'Photo Gallery', 'Cancel'],
+			//index of cancel button
+			cancel : 2
+		});
+		
+		//add event listener
+		dialog.addEventListener('click', function(e) {
+			//if first option was selected
+			if (e.index == 0) {
+				var camera = require('camera').getImage(function(media) {
+					if (media != null) {
+						Ti.API.info("Click Image = " + media.nativePath);
+						var newWidth = media.width;
+						var newHeight = media.height;
+						var aspectRatio =  media.height / media.width;
+						if (newWidth > 1024) {
+							newWidth = 1024;
+							newHeight = newWidth*aspectRatio;
+						} else if (newHeight > 1024) {
+							newHeight = 1024;
+							newWidth = newHeight/aspectRatio;
+						}
+						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
+						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
+						file.write(resizedImg);
+						$.photo.image = file.nativePath; //media.nativePath; //media;
+						$.photo.imageOri = file.nativePath; //media.nativePath;
+					}
+					Alloy.Globals.cameraShown = false;
+				});
+				//cameraShown = false;
+			} 
+			else if(e.index == 1) {
+				//obtain an image from the gallery
+				var camera = require('camera').getImage(function(media) {
+					if (media != null) {
+						Ti.API.info("Click Image = " + media.nativePath);
+						var newWidth = media.width;
+						var newHeight = media.height;
+						var aspectRatio =  media.height / media.width;
+						if (newWidth > 1024) {
+							newWidth = 1024;
+							newHeight = newWidth*aspectRatio;
+						} else if (newHeight > 1024) {
+							newHeight = 1024;
+							newWidth = newHeight/aspectRatio;
+						}
+						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
+						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
+						file.write(resizedImg);
+						$.photo.image = file.nativePath; //media.nativePath; //media;
+						$.photo.imageOri = file.nativePath; //media.nativePath;
+					}
+					Alloy.Globals.cameraShown = false;
+				}, 1);
+			}
+			else {
+				//cancel was tapped
+				Alloy.Globals.cameraShown = false;
+			}
+		}); 
+		dialog.show();
+	}
 }
 
 function winOpen(e) {
@@ -22,7 +142,19 @@ function winOpen(e) {
 		$.photo.imageOri = data.get('urlImageOriginal');
 		Ti.UI.Android.hideSoftKeyboard();
 	}
-	$.actionTitle.text = data ? "EDIT EXPENSE" : "NEW EXPENSE";
+	var unSent = !(reimburse && reimburse.get('isSent'));
+	$.actionTitle.text = data ? reimburse.get('isSent') ? "EXPENSE" : "EDIT EXPENSE" : "NEW EXPENSE";
+	$.titleField.editable = unSent;
+	$.dateField.editable = unSent;
+	$.amountField.editable = unSent;
+	$.descriptionField.editable = unSent;
+	if (unSent) {
+		$.imageView.addEventListener("click", imageClick);
+		$.dateField.addEventListener("focus", dateFieldClick);
+	} else {
+		$.imageView.addEventListener("click", thumbPopUp);
+	};
+	$.saveBtn.visible = unSent;
 	//$.titleField.blur();
 	//Ti.UI.Android.hideSoftKeyboard();
 }
@@ -109,7 +241,7 @@ function doSave(e) {
 	}
 
 	//-- start update parent
-	var detail = reimburseDetails.where({
+	var details = reimburseDetails.where({
 		isDeleted : 0,
 		reimburseId : reimburseId
 	});
@@ -117,12 +249,12 @@ function doSave(e) {
 	var first_receipt_original_url = null;
 	var first_receipt_mini_url = null;
 	var total = 0;
-	for (var i in detail) {
+	for (var i in details) {
 		if (i == 0) {
-			first_receipt_original_url = detail[i].get("urlImageOriginal");
-			first_receipt_mini_url = detail[i].get("urlImageSmall");
+			first_receipt_original_url = details[i].get("urlImageOriginal");
+			first_receipt_mini_url = details[i].get("urlImageSmall");
 		}
-		total += parseFloat(detail[i].get("amount"));
+		total += parseFloat(details[i].get("amount"));
 	}
 
 	reimburse.set({
@@ -133,6 +265,7 @@ function doSave(e) {
 	});
 	reimburse.save();
 	reimburse.fetch({remove: false});
+	//details = null;
 	//-- end update parent
 
 	// reload the tasks
@@ -145,98 +278,6 @@ function doSave(e) {
 	$.reimburseDetailForm.close();
 }
 
-function imageClick(e) {
-	if (!Alloy.Globals.cameraShown) {
-		Alloy.Globals.cameraShown = true;
-		//Create a dialog with options
-		var dialog = Ti.UI.createOptionDialog({
-			//title of dialog
-			title : 'Choose an image source...',
-			//options
-			options : ['Camera', 'Photo Gallery', 'Cancel'],
-			//index of cancel button
-			cancel : 2
-		});
-		
-		//add event listener
-		dialog.addEventListener('click', function(e) {
-			//if first option was selected
-			if (e.index == 0) {
-				var camera = require('camera').getImage(function(media) {
-					if (media != null) {
-						Ti.API.info("Click Image = " + media.nativePath);
-						var newWidth = media.width;
-						var newHeight = media.height;
-						var aspectRatio =  media.height / media.width;
-						if (newWidth > 1024) {
-							newWidth = 1024;
-							newHeight = newWidth*aspectRatio;
-						} else if (newHeight > 1024) {
-							newHeight = 1024;
-							newWidth = newHeight/aspectRatio;
-						}
-						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
-						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
-						file.write(resizedImg);
-						$.photo.image = file.nativePath; //media.nativePath; //media;
-						$.photo.imageOri = file.nativePath; //media.nativePath;
-					}
-					Alloy.Globals.cameraShown = false;
-				});
-				//cameraShown = false;
-			} 
-			else if(e.index == 1) {
-				//obtain an image from the gallery
-				var camera = require('camera').getImage(function(media) {
-					if (media != null) {
-						Ti.API.info("Click Image = " + media.nativePath);
-						var newWidth = media.width;
-						var newHeight = media.height;
-						var aspectRatio =  media.height / media.width;
-						if (newWidth > 1024) {
-							newWidth = 1024;
-							newHeight = newWidth*aspectRatio;
-						} else if (newHeight > 1024) {
-							newHeight = 1024;
-							newWidth = newHeight/aspectRatio;
-						}
-						var resizedImg = resizeImage(media, {width: newWidth, height: newHeight});
-						var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, Ti.Utils.base64encode(media.nativePath).toString()+".jpg");
-						file.write(resizedImg);
-						$.photo.image = file.nativePath; //media.nativePath; //media;
-						$.photo.imageOri = file.nativePath; //media.nativePath;
-					}
-					Alloy.Globals.cameraShown = false;
-				}, 1);
-			}
-			else {
-				//cancel was tapped
-				Alloy.Globals.cameraShown = false;
-			}
-		}); 
-		dialog.show();
-	}
-}
-
-function dateFieldClick(evt) {
-	Ti.UI.Android.hideSoftKeyboard();
-	
-	var picker = Ti.UI.createPicker({
-		type : Ti.UI.PICKER_TYPE_DATE,
-		value : ($.dateField.value == null || $.dateField.value == "") ? new Date() : moment($.dateField.value, dateFormat).toDate()
-	});
-
-	picker.showDatePickerDialog({
-		value : ($.dateField.value == null || $.dateField.value == "") ? moment().toDate() : moment($.dateField.value, dateFormat).toDate(),
-		callback : function(e) {
-			if (e.cancel) {
-			} else {
-				$.dateField.value = moment(e.value).format(dateFormat);
-			}
-			$.dateField.blur();
-		}
-	});
-}
 
 $.reimburseDetailForm.addEventListener("android:back", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;

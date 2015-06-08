@@ -1,14 +1,14 @@
 var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
-var reimburses_ass = $.localReimburse_ass; //Alloy.Collections.reimburse;
+var reimburses_ass = $.localReimburse_ass; //Alloy.Collections.reimburse_ass; //
 //var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
 
 // fetch existing todo items from storage
 reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
 //reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 
-Alloy.Globals.homeListReimburse_ass = $.localReimburse_ass;
+Alloy.Globals.homeListReimburse_ass = reimburses_ass; //$.localReimburse_ass;
 //Alloy.Globals.homeListReimburseDetail_ass = $.localReimburseDetail_ass;
 
 // Sort Descending
@@ -64,7 +64,7 @@ function showList(e) {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
 	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
-	//reimburseDetails && reimburseDetails.fetch({remove: false});
+	//reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 	//comments && comments.fetch({remove: false});
 }
 

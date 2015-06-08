@@ -55,7 +55,7 @@ exports.getAssList = function(sortBy, order, start, count, filterCol, filterOp, 
 								reimburse_submitted_at : obj.reimburse_submitted_at,
 								reimburse_is_confirmed : (obj.reimburse_is_confirmed == "true" || obj.reimburse_is_confirmed == "1") ? 1 : 0,
 								reimburse_confirmed_at : obj.reimburse_confirmed_at,
-								reimburse_total_approved : obj.reimburse_total_approved,
+								reimburse_total_approved : parseFloat(obj.reimburse_total_approved) || 0,
 								isSync : 1
 							});
 							for ( j = 0,
@@ -71,7 +71,7 @@ exports.getAssList = function(sortBy, order, start, count, filterCol, filterOp, 
 									urlImageSmall : obj2.receipt_mini_url,
 									urlImageOriginal : obj2.receipt_original_url,
 									isRejected : (obj2.is_rejected == "true" || obj2.is_rejected == "1") ? 1 : 0,
-									totalComments : obj2.total_comment,
+									totalComments : parseInt(obj2.total_comment) || 0,
 								});
 							}
 						};
@@ -568,23 +568,24 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 					json = JSON.parse(this.responseText);
 					retData = json;					
 					if (json.success) {
+						var obj = json.reimburse;
 						retData = {
-							title : json.title, //title,
-							description : json.description, //description,
-							total : parseFloat(json.total_approved) || 0, //amount,
-							projectDate : json.application_date, //date,
-							gid : json.id || _gid,
+							title : obj.title, //title,
+							description : obj.description, //description,
+							//total : parseFloat(obj.total_approved) || 0, //amount,
+							projectDate : obj.application_date, //date,
+							gid : obj.id || _gid,
 							//idx : json.model.idx ? json.model.idx : 0,
 							//first_receipt_mini_url : json.first_receipt_mini_url,
 							//first_receipt_original_url : json.first_receipt_original_url,
-							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
-							doneDate : json.confirmed_at,
-							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
-							sentDate : json.submitted_at,
+							isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
+							doneDate : obj.confirmed_at,
+							isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
+							sentDate : obj.submitted_at,
 							sentTo : tolist ? tolist[0] : null,
 							//isDeleted : 0,
 							//dateCreated : json.model.dateCreated,
-							//lastUpdate : json.model.lastUpdate,
+							lastUpdate : obj.updated_at,
 							isSync : 1,
 						};
 						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];
@@ -663,23 +664,24 @@ exports.confirmObject = function(_gid, rejectedlist, callback) {
 					json = JSON.parse(this.responseText);
 					retData = json;				
 					if (json.success) {
+						var obj = json.reimburse;
 						retData = {
-							title : json.title, //title,
-							description : json.description, //description,
-							total : parseFloat(json.total_approved) || 0, //amount,
-							projectDate : json.application_date, //date,
-							gid : json.id || _gid,
+							title : obj.title, //title,
+							description : obj.description, //description,
+							//total : parseFloat(obj.total_approved) || 0, //amount,
+							projectDate : obj.application_date, //date,
+							gid : obj.id || _gid,
 							//idx : json.model.idx ? json.model.idx : 0,
 							//first_receipt_mini_url : json.first_receipt_mini_url,
 							//first_receipt_original_url : json.first_receipt_original_url,
-							isDone : (json.is_confirmed == "true" || json.is_confirmed == "1") ? 1 : 0,
-							doneDate : json.confirmed_at,
-							isSent : (json.is_submitted == "true" || json.is_submitted == "1") ? 1 : 0,
-							sentDate : json.submitted_at,
+							isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
+							doneDate : obj.confirmed_at,
+							isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
+							sentDate : obj.submitted_at,
 							//sentTo : tolist ? tolist[0] : null,
 							//isDeleted : 0,
 							//dateCreated : json.model.dateCreated,
-							//lastUpdate : json.model.lastUpdate,
+							lastUpdate : obj.updated_at,
 							isSync : 1,
 						};
 						retData.status = retData.isDone ? STATUSCODE[Const.Closed] : retData.isSent ? STATUSCODE[Const.Pending] : STATUSCODE[Const.Open];

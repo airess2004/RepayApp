@@ -19,7 +19,7 @@
     </View>
     <View width="Ti.UI.FILL" height="30dp"></View>
     <View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail_ass" dataFilter="whereFunction" dataTransform="transformFunction">
-    	<Require src="homeReimburseDetailRow"/>
+    	<Require src="homeReimburseDetailRow" detailList="{detailList}" />
     </View>
     <View class="vSplitter" />
     <View id="bottomView" layout="vertical" onLongclick="approveBtnClick">

@@ -1,6 +1,13 @@
 /*global Ti: true, require: true */
 
 (function (service) {
+	var LAST_USER = "";
+	var LAST_TOKEN = "";
+	var localConfig = require('database/local_config');
+	var lastUsername = localConfig.findOrCreateObject("lastUsername", LAST_USER, "");
+	var lastToken = localConfig.findOrCreateObject("lastToken", LAST_TOKEN, lastUsername.val ? lastUsername.val.trim().toUpperCase() : "");
+
+	if (LAST_TOKEN && LAST_TOKEN!="") {	// only process gcm receival when user haven't logged out yet
 
 	var serviceIntent = service.getIntent(),
 	title = serviceIntent.hasExtra('title') ? serviceIntent.getStringExtra('title') : '',
@@ -39,13 +46,6 @@
 		return str | 0;
 	})();
 		
-	var LAST_USER = "";
-	var LAST_TOKEN = "";
-	var localConfig = require('database/local_config');
-	var lastUsername = localConfig.findOrCreateObject("lastUsername", LAST_USER, "");
-	var lastToken = localConfig.findOrCreateObject("lastToken", LAST_TOKEN, lastUsername.val ? lastUsername.val.trim().toUpperCase() : "");
-
-	if (LAST_TOKEN && LAST_TOKEN!="") {	
 		// create launcher intent
 		var ntfId = Ti.App.Properties.getInt('ntfId', 0),
 		    launcherIntent = Ti.Android.createIntent({

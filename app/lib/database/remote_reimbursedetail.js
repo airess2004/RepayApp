@@ -58,7 +58,7 @@ exports.getDetailObject = function(_gid, callback) {
 							reimburseGid : obj.reimburse_id, //reimburseId,
 							isDeleted : 0, //obj.isDeleted ? 1:0,
 							isRejected : (obj.is_rejected == "true" || obj.is_rejected == "1") ? 1 : 0,
-							total_comment: obj.total_comment,
+							total_comment: parseInt(obj.total_comment) || 0,
 							//dateCreated : obj.created_at,
 							//lastUpdate : moment.parseZone(obj.updated_at).utc().toISOString(),
 							isSync : 1,

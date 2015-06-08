@@ -52,11 +52,12 @@ var lastSyncReimburseToken = {key:"lastSyncReimburseToken", val:"", username:pre
 var lastSyncReimburseDetToken = {key:"lastSyncReimburseDetToken", val:"", username:preCURRENT_USER};
 
 if (lastToken.val && lastToken.val!="") {
-	
 	lastSyncReimburseTime = localConfig.findOrCreateObject("lastSyncReimburseTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
 	lastSyncReimburseDetTime = localConfig.findOrCreateObject("lastSyncReimburseDetTime", moment(minDate, dateFormat, lang).toISOString(), preCURRENT_USER);
 	lastSyncReimburseToken = localConfig.findOrCreateObject("lastSyncReimburseToken", "", preCURRENT_USER);
 	lastSyncReimburseDetToken = localConfig.findOrCreateObject("lastSyncReimburseDetToken", "", preCURRENT_USER);
+	lastDeviceToken = localConfig.findOrCreateObject("lastDeviceToken", "", preCURRENT_USER);
+	Alloy.Globals.gcmRegId = lastDeviceToken.val;
 	Alloy.Globals.lastSyncReimburseTime = lastSyncReimburseTime.val;
 	Alloy.Globals.lastSyncReimburseDetTime = lastSyncReimburseDetTime.val;
 	Alloy.Globals.lastSyncReimburseToken = lastSyncReimburseToken.val;
@@ -157,6 +158,7 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 								reimburse_is_confirmed: obj.reimburse_is_confirmed,
 								reimburse_confirmed_at: obj.reimburse_confirmed_at,
 								reimburse_total_approved: obj.reimburse_total_approved,
+								source_userAvatar: obj.source_userAvatar,
 							});
 						}
 					}

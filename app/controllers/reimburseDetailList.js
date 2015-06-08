@@ -62,7 +62,7 @@ function windowOpen(e) {
 function windowClose(e) {
 	if (data) {		
 		//-- start update parent
-		var detail = reimburseDetails.where({
+		var details = reimburseDetails.where({
 			isDeleted : 0,
 			reimburseId : args.id
 		});
@@ -70,12 +70,12 @@ function windowClose(e) {
 		var first_receipt_original_url = null;
 		var first_receipt_mini_url = null;
 		var total = 0;
-		for (var i in detail) {
+		for (var i in details) {
 			if (i == 0) {
-				first_receipt_original_url = detail[i].get("urlImageOriginal");
-				first_receipt_mini_url = detail[i].get("urlImageSmall");
+				first_receipt_original_url = details[i].get("urlImageOriginal");
+				first_receipt_mini_url = details[i].get("urlImageSmall");
 			}
-			total += parseFloat(detail[i].get("amount"));
+			total += parseFloat(details[i].get("amount"));
 		}
 
 		data.set({
@@ -97,6 +97,7 @@ function windowClose(e) {
 		data = null;
 		reimburseDetails = null;
 		reimburses = null;
+		details = null;
 	}
 }
 
@@ -116,12 +117,12 @@ function submitViewClick(e) {
 
 function dialogSendClick(e) {
     sendReimburse(args.id, function(result) {
-    	if (result.error) {
-    		alert(result.error);
-    	} else {
-    		$.submitDialog.hide();
-    		$.reimburseDetailList.close();
-    	}
+    	// if (result.error) {
+    		// alert(result.error);
+    	// } else {
+    		// $.submitDialog.hide();
+    		// $.reimburseDetailList.close();
+    	// }
     }); 
 }
 
@@ -161,8 +162,10 @@ function sendReimburse(id, callback) {
 				// if (!dets) dets = [];
 				// TODO: update detail's status
 				reimburse.set({
-					"status" : STATUSCODE[result.isSent ? Const.Pending : Const.Open],
+					"status" : result.status, //STATUSCODE[result.isSent ? Const.Pending : Const.Open],
 					isSent : result.isSent,
+					sentDate: result.sentDate,
+					sentTo: result.sentTo,
 				});
 				reimburse.save();
 				// reimburse.save(null, {
@@ -188,6 +191,8 @@ function sendReimburse(id, callback) {
 							// alert("Error : " + ret.error);
 					// });
 					notifBox("Reimburse has been successfully Submitted.");
+					$.submitDialog.hide();
+    				$.reimburseDetailList.close();
 				}
 			}
 			$.act.hide();
