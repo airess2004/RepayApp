@@ -1,11 +1,18 @@
 <Alloy>
 	<Collection id="localReimburse_ass" src="reimburse_ass" instance="true"/>
-	<View class="container" layout="vertical" onOpen="showList">
+	<View class="container" id="homeList" layout="vertical" onOpen="showList">
 		<!--TitleControl>
     		<Label id="tab1Title">Home</Label>
   		</TitleControl-->
-		<TableView layout="vertical" id="tableView" searchAsChild="false" dataCollection="$.localReimburse_ass" dataFilter="whereFunction" dataTransform="transformFunction">
-			<Require src="homeReimburseRow"/>
-		</TableView>
+		<!--ListView layout="vertical" id="tableView" searchAsChild="false" dataCollection="$.localReimburse_ass" dataFilter="whereFunction" dataTransform="transformFunction">
+			<Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="listLoader" /-->
+			<!--Templates>
+    			<Require src="homeReimburseRow"/>
+			</Templates-->
+			<!--ListSection id="listSection" dataCollection="$.localReimburse_ass" dataFilter="whereFunction" dataTransform="transformFunction">
+				<ListItem itemId="{id}" avatar:image="{avatar}" avatar:imageOri="{avatarOri}" title:text="{title}" date:text="{projectDate}" total:text="{total}" status:text="{status}" status:backgroundColor="{status_backgroundColor}" statusView:backgroundColor="{statusView_backgroundColor}" searchableText="{searchableText}" /> 
+			</ListSection-->
+			<!--ListSection id="listSection" />
+		</ListView-->
 	</View>      
 </Alloy>

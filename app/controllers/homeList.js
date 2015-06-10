@@ -2,10 +2,10 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 var reimburses_ass = $.localReimburse_ass; //Alloy.Collections.reimburse_ass; //
-//var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
+var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
 
 // fetch existing todo items from storage
-reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
+//reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
 //reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 
 Alloy.Globals.homeListReimburse_ass = reimburses_ass; //$.localReimburse_ass;
@@ -41,19 +41,150 @@ function whereFunction(collection) {
 // easiest way to do that is to clone the model and return its
 // attributes with the toJSON() function.
 function transformFunction(model) {
-	var transform = model.toJSON();
+	var transform = model ? model.toJSON() : this.toJSON();
 	transform.status = transform.reimburse_is_confirmed == true ? Const.Closed : Const.Pending; //transform.status
 	transform.total = "Rp." + String.formatDecimal(transform.reimburse_total_approved); //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
 	transform.projectDate = moment.parseZone(transform.reimburse_application_date).local().format(dateFormat);
 	transform.title = transform.reimburse_title;
 	//if (transform.title && String.format(transform.title).length > 30) transform.title = transform.title.substring(0,27)+"...";
 	transform.userAvatar = transform.source_userAvatar || "/icon/thumb_reimburse.png";
+	transform.userAvatarOri = transform.source_userAvatarOri || transform.source_userAvatar;
+	//additional properties
+	transform.searchableText = transform.title + " " + transform.status + " " + transform.total + " " + transform.projectDate;
+	transform.innerView_touchEnabled = (transform.status == Const.Pending);
+	transform.bottomView_touchEnabled = transform.innerView_touchEnabled;
+	transform.confirmBtn = {
+		touchEnabled : transform.innerView_touchEnabled,
+		text : (transform.innerView_touchEnabled) ? "CONFIRM" : transform.status,
+		backgroundColor : (transform.innerView_touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor,
+	};
 	return transform;
 }
 
-// open the "add item" window
-function addItem() {
-	
+function detailTransformFunction(model) {
+	var transform = model ? model.toJSON() : this.toJSON(); 
+	transform.status = transform.isRejected == true ? Const.Rejected : Const.Approved;
+	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
+	transform.urlImageSmall = transform.urlImageSmall || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
+	transform.receiptDate = moment.parseZone(transform.receiptDate).local().format(dateFormat);
+	transform.amount = "Rp." + String.formatDecimal(transform.amount);// + " IDR";
+	//transform.detailList = $.localReimburseDetail_ass;
+	if (transform.name && String.format(transform.name).length > 25)
+		transform.name = transform.name.substring(0, 22) + "...";
+	//additional properties
+	var val = (DETAILSTATUSCODE[transform.status] < DETAILSTATUSCODE[Const.Rejected]);
+	transform.switchBtn = {
+		touchEnabled : true,
+		value : val,
+		backgroundImage: val == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
+	};
+	return transform;
+}
+
+function prefixBindId(prefix, temp) {
+	if (temp.bindId) temp.bindId = prefix + temp.bindId;
+	var childs = temp.childTemplates;
+	if (childs) {
+		var len = childs.length;
+		for (var x = 0; x < len; x++) {
+			prefixBindId(prefix, childs[x]);
+		}
+	}
+}
+
+function createAssList(e) {
+	// refresh collections
+	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
+	reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
+	// generate template upto max number of details
+	var maxcount = 0;
+	reimburses_ass.forEach(function(mdl) {
+		if (mdl.get('reimburseDetail_count') > maxcount) maxcount = mdl.get('reimburseDetail_count');
+	});
+	var temps = {};
+	for (var i = 0; i <= maxcount; i++) {
+		var temp = Alloy.createController("homeReimburseRow", {"__itemTemplate":{}}).getView();
+		//customize each template
+		var detailTemps = temp.childTemplates[2];
+		detailTemps.childTemplates = [];
+		for (var j = 0; j < i; j++) {
+			var detailTemp = Alloy.createController("homeReimburseDetailRow", {"__itemTemplate":{}}).getView();
+			// customize each detail template
+			detailTemp.type = "Ti.UI.View";
+			detailTemp.bindId = detailTemp.properties.bindId;
+			prefixBindId("_"+i+"_"+j+"_", detailTemp);
+			detailTemps.childTemplates.push(detailTemp);
+		}
+		temps["temp"+i] = temp;
+	}
+	// create listview
+	var listView = Ti.UI.createListView({
+    	// Maps Templates
+    	templates: temps,
+    	// Can be overridden by the item's template property
+    	defaultItemTemplate: 'temp0',
+    	searchView: Alloy.Globals.searchView,
+	});
+	// create section & init items
+	var items = [];
+	var parentLength = reimburses_ass.length;
+	for (var i = 0; i < parentLength; i++) {
+		var obj = transformFunction(reimburses_ass.models[i]);
+		var item = {
+			template: "temp"+obj.reimburseDetail_count,
+			searchableText: obj.searchableText,
+			properties: {
+				itemId: obj.id,
+			},
+			avatar: {
+				image: obj.userAvatar,
+				imageOri: obj.userAvatarOri,
+			},
+			title: {
+				text: obj.title,
+			},
+			total: {
+				text: obj.total,
+			},
+			innerView: {
+				touchEnabled: obj.innerView_touchEnabled,
+			},
+			bottomView: {
+				touchEnabled: obj.bottomView_touchEnabled,
+			},
+			confirmBtn: obj.confirmBtn,
+		};
+		var details = reimburseDetails_ass.where({reimburseId:obj.id});
+		var detailLength = details.length;
+		var cnt = obj.reimburseDetail_count;
+		for (var j = 0; j < detailLength; j++) {
+			var detObj = detailTransformFunction(details[j]);
+			var prx = "_"+cnt+"_"+j+"_";
+			item[prx+"avatar"] = {
+				image: detObj.urlImageSmall,
+				imageOri: detObj.urlImageOriginal,
+			};
+			item[prx+"title"] = {
+				text: detObj.name,
+			};
+			item[prx+"date"] = {
+				text: detObj.receiptDate,
+			};
+			item[prx+"amount"] = {
+				text: detObj.amount,
+			};
+			item[prx+"commentLabel"] = {
+				text: detObj.totalComments,
+			};
+			item[prx+"switchBtn"] = detObj.switchBtn;
+		}
+		items.push(item);
+	};
+	var section = Ti.UI.createListSection();
+	section.setItems(items);
+	listView.sections = [section];
+	$.homeList.removeAllChildren();
+	$.homeList.add(listView);
 }
 
 // Show task list based on selected status type
@@ -66,6 +197,7 @@ function showList(e) {
 	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
 	//reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 	//comments && comments.fetch({remove: false});
+	createAssList(e);
 }
 
 $.homeList.addEventListener("refresh", function(e){
@@ -83,7 +215,10 @@ $.homeList.addEventListener("open", function(e){
 	//Alloy.Globals.newMenu.visible = false;
 	// Make sure icons are updated
 	//Alloy.Globals.index.activity.invalidateOptionsMenu();
-	$.tableView.search = Alloy.Globals.searchView;
+	
+	//createAssList(e);
+	
+	//$.tableView.search = Alloy.Globals.searchView;
 	Alloy.Globals.scrollableView.scrollToView($.homeList);
 	//showList(e);
 	e.cancelBubble = true;

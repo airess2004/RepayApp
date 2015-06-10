@@ -1,15 +1,15 @@
 <Alloy>
-  <Collection id="localReimburseDetail_ass" src="reimburseDetail_ass" instance="true"/>
-  <TableViewRow id="homeReimburseRow" title="{title}" layout="vertical"  className="reimburseRow2">
-  	<View id="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
-  		<View class="centeredBtnView" left="0">
-  			<View class="avatarView" onClick="thumbPopUp">
-    			<ImageView id="avatar" image="{userAvatar}" imageOri="{userAvatar}" />
+  <!--Collection id="localReimburseDetail_ass" src="reimburseDetail_ass" instance="true"/-->
+  <ItemTemplate id="homeReimburseRow" bindId="homeReimburseRow" name="homeReimburseRow" layout="vertical" className="homeReimburseRow1"><!--title="{title}"/-->
+  	<View id="innerView" bindId="innerView" layout="horizontal" onClick="rowClick" onLongclick="approveBtnClick">
+  		<View class="centeredBtnView" bindId="centeredBtnView1" >
+  			<View id="avatarView" bindId="avatarView" onClick="thumbPopUp">
+    			<ImageView id="avatar" bindId="avatar"  /> <!-- image="{userAvatar}" imageOri="{userAvatarOri}" -->
     		</View>
     	</View>
-    	<View class="midView">
+    	<View class="midView" bindId="midView1">
     		<!--Label id="userName" text="{userName}" /-->
-    		<Label id="title" text="{title}" />
+    		<Label id="title" bindId="title"  /> <!-- text="{title}" -->
     		<!--Label id="date" text="{projectDate}" /-->
     	</View>
     	<!--View class="rightView">
@@ -17,19 +17,21 @@
     		<Label id="total" text="{total}"/>
     	</View-->
     </View>
-    <View width="Ti.UI.FILL" height="30dp"></View>
-    <View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail_ass" dataFilter="whereFunction" dataTransform="transformFunction">
+    <View class="view1" bindId="view1" ></View>
+    <!--View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail_ass" dataFilter="whereFunction" dataTransform="transformFunction">
     	<Require src="homeReimburseDetailRow" detailList="{detailList}" />
+    </View-->
+    <View layout="vertical" id="detailView" bindId="detailView">
     </View>
-    <View class="vSplitter" />
-    <View id="bottomView" layout="vertical" onLongclick="approveBtnClick">
-    	<View class="totalView">
-    		<Label class="totalLabel">Total : </Label>
-    		<Label id="total" text="{total}"/>
+    <View class="vSplitter" bindId="vSplitter1" />
+    <View id="bottomView" bindId="bottomView" layout="vertical" onLongclick="approveBtnClick">
+    	<View class="totalView" bindId="totalView1">
+    		<Label class="totalLabel" bindId="totalLabel1" text="Total : " />
+    		<Label id="total" bindId="total" /> <!-- text="{total}" -->
     	</View>
-    	<Label id="confirmBtn" onClick="approveBtnClick" />
+    	<Label id="confirmBtn" bindId="confirmBtn" onClick="approveBtnClick" />
     </View>
-  </TableViewRow>  
+  </ItemTemplate>  
   <!-- AlertDialog should not be created in XML otherwise it will crash app sometimes -->
   <!--AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
             message="Are you sure you want to approve selected receipts?" cancel="1">

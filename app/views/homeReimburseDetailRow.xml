@@ -1,30 +1,30 @@
 <Alloy>
 	<!--Collection id="localReimburseDetail" src="reimburseDetail" instance="true"/-->
 	<!--Collection id="localComment" src="comment" instance="true"/-->
-	<View id="homeReimburseDetailRow" class="homeDetailRow" layout="vertical" >
-		<View class="vSplitter" />
-		<View id="innerView"  onClick="rowClick" onLongclick="rowLongClick">
-			<View layout="horizontal" touchEnabled="false" horizontalWrap="false" right="20dp">
-				<View class="centeredBtnView" left="0">
-					<View class="avatarView" onClick="thumbPopUp">
-						<ImageView id="avatar" image="{urlImageSmall}" imageOri="{urlImageOriginal}" /> 
+	<ItemTemplate id="homeReimburseDetailRow" bindId="homeReimburseDetailRow" name="homeReimburseDetailRow" class="homeDetailRow" layout="vertical" className="homeReimburseDetailRow1">
+		<View class="vSplitter" bindId="vSplitter1" />
+		<View id="innerView" bindId="innerView" onClick="rowClick" onLongclick="rowLongClick">
+			<View class="view1" bindId="view1" layout="horizontal" >
+				<View class="centeredBtnView" bindId="centeredBtnView" >
+					<View id="avatarView" bindId="avatarView" onClick="thumbPopUp">
+						<ImageView id="avatar" bindId="avatar"  /> <!-- image="{urlImageSmall}" imageOri="{urlImageOriginal}" --> 
 					</View>
 				</View>
-				<View class="midView" layout="vertical">
-					<Label id="title" text="{name}" />
-					<Label id="date" text="{receiptDate}"/>
-					<Label id="amount" text="{amount}"/>
-					<View class="commentView" layout="horizontal">
-						<ImageView class="commentImg"></ImageView>
-						<Label id="commentLabel"></Label>
+				<View class="midView" bindId="midView" layout="vertical">
+					<Label id="title" bindId="title"  /> <!-- text="{name}" -->
+					<Label id="date" bindId="date" /> <!-- text="{receiptDate}" -->
+					<Label id="amount" bindId="amount" /> <!-- text="{amount}" -->
+					<View class="commentView" bindId="commentView" layout="horizontal">
+						<ImageView class="commentImg" bindId="commentImg"></ImageView>
+						<Label id="commentLabel" bindId="commentLabel"></Label> <!-- text="{totalComments}" -->
 					</View>
 				</View>
 			</View>
-			<View id="rightView" onClick="switchChange">
+			<View id="rightView" bindId="rightView" onClick="switchChange">
 				<!--Switch class="switch" id="switchBtn" top="12dp" onClick="switchChange"></Switch-->
-				<Label class="switch" id="switchBtn" top="12dp" onClick="switchChange"></Label>
+				<Label class="switch" id="switchBtn" bindId="switchBtn" onClick="switchChange"></Label>
 			</View>
 		</View>
-		<View width="Ti.UI.FILL" height="32dp"></View>
-	</View>
+		<View class="view2" bindId="view2" ></View>
+	</ItemTemplate>
 </Alloy>

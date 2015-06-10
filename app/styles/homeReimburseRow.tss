@@ -33,11 +33,11 @@
 	touchEnabled: false,
 	//backgroundColor: "white",
 	//backgroundSelectedColor: "lightgray",
-	//left: "4dp",
+	left: "0", //left: "4dp",
 	//right: "4dp",
 }
 
-".avatarView" : {
+"#avatarView" : {
  	height: Titanium.UI.FILL, //"72dp",
  	width: Titanium.UI.FILL, //"64dp",
  	touchEnabled : true,
@@ -151,7 +151,7 @@
 	width: Titanium.UI.FILL ,
  	height: Titanium.UI.SIZE,
  	touchEnabled : false, //true
- 	layout: "horizontal",
+ 	//layout: "horizontal",
  	horizontalWrap: "false",
  	backgroundColor: "transparent",
 }
@@ -169,14 +169,16 @@
  		fontFamily: 'century-gothic',
  		fontSize: "14dp",
  		fontWeight: "bold",
- 	}
+ 	},
+ 	left: "0",
 }
 
 "#total" : {
- 	width: Titanium.UI.FILL,
- 	//right: "8dp",
+ 	width: Titanium.UI.SIZE,
+ 	right: "0",
+ 	//left: "0",
  	//bottom: "8dp",
- 	textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
+ 	//textAlign: Titanium.UI.TEXT_ALIGNMENT_RIGHT,
  	touchEnabled : false,
  	height: Titanium.UI.SIZE,
  	horizontalWrap: false,
@@ -211,6 +213,11 @@
  		fontSize: "16dp",
  		fontWeight: "bold",
  	}
+}
+
+".view1" : {
+	width: Ti.UI.FILL, 
+	height: "30dp",
 }
 
 "#detailView" : {

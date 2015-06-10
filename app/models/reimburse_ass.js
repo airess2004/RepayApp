@@ -9,6 +9,7 @@ exports.definition = {
 			username : "text",
 			source_userId: "integer",
 			source_userAvatar: "text",
+			source_userAvatarOri: "text",
 			reimburse_gid: "integer",
 		    reimburse_title: "text",
 		    reimburse_description: "text",
@@ -18,6 +19,7 @@ exports.definition = {
 		    reimburse_is_confirmed: "boolean",
 		    reimburse_confirmed_at: "datetime",
 		    reimburse_total_approved: "double",
+		    reimburseDetail_count: "integer",
 		    isSync: "boolean"
 		},
 		adapter: {

@@ -28,17 +28,23 @@
  	backgroundColor: "white",
 }
 
+".view1": {
+	touchEnabled: false,
+	horizontalWrap: false,
+	right: "20dp",
+}
+
 ".centeredBtnView": {
 	height: Titanium.UI.SIZE,
 	width: "33.3%",
 	touchEnabled: false,
 	//backgroundColor: "white",
 	//backgroundSelectedColor: "lightgray",
-	//left: "4dp",
+	left: "0", //left: "4dp",
 	//right: "4dp",
 }
 
-".avatarView" : {
+"#avatarView" : {
  	height: "72dp",
  	width: "72dp",
  	touchEnabled : true,
@@ -156,6 +162,7 @@
 }
 
 ".switch" : {
+	top: "12dp",
 	right: "0",
  	height: "24dp",
  	width: "64dp",
@@ -168,4 +175,9 @@
  	titleOff: "",
  	titleOn: "",
  	bubbleParent: false,
+}
+
+".view2" : {
+	width: Ti.UI.FILL,
+	height: "32dp",
 }

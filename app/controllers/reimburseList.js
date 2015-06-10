@@ -54,11 +54,6 @@ function transformFunction(model) {
 	return transform;
 }
 
-// open the "add item" window
-function addItem() {
-	
-}
-
 // Show task list based on selected status type
 function showList(e) {
 	// if (typeof e.index !== 'undefined' && e.index !== null) {

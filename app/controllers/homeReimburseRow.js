@@ -36,7 +36,7 @@ function whereFunction(collection) {
 // easiest way to do that is to clone the model and return its
 // attributes with the toJSON() function.
 function transformFunction(model) {
-	var transform = model.toJSON(); 
+	var transform = model ? model.toJSON() : this.toJSON(); 
 	transform.status = transform.isRejected == true ? Const.Rejected : Const.Approved;
 	transform.urlImageOriginal = transform.urlImageOriginal || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
 	transform.urlImageSmall = transform.urlImageSmall || "/icon/thumb_receipt.png"; //"/icon/ic_receipt.png";
