@@ -73,21 +73,35 @@ function deleteItem(id) {
 	}
 }
 
+function fullClick(e) {
+	var view = e.source;
+    var img = e.source.children[0];
+    view.width = undefined;
+    view.height = Ti.UI.FILL;
+    img.height = Ti.UI.FILL;
+    img.enableZoomControls = true;
+}
+
 function thumbPopUp(e) {
-	var item = e.section.items[e.itemIndex]; //$.avatar
+	if (e.section) {
+		var item = e.section.items[e.itemIndex]; //$.avatar
+	}
 	var aview = Ti.UI.createView({
 		width : "256dp",
 		height : "256dp",
 		backgroundColor : "#7000",
 		borderColor : Alloy.Globals.lightColor,
 		borderWidth : "1dp",
-		touchEnabled: false,
+		touchEnabled: true,
+		bubbleParent: false,
 	}); 
+	aview.addEventListener("click", fullClick);
+	
 	aview.add(Ti.UI.createImageView({
 		//width: "512dp",
 		height : "512dp",
 		touchEnabled: false,
-		image: item.avatar.imageOri,
+		image: ($.avatar && $.avatar.imageOri) || item.avatar.imageOri,
 		autorotate: true,
 	}));
 	

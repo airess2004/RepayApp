@@ -42,7 +42,7 @@
 			</View>
 			<View id="activeTab"></View>
 		</View>
-		<ScrollableView id="scrollableView" class="mainView" layout ="vertical" onScrollEnd="scrollableViewScrollEnd" onScroll="scrollableViewScroll">
+		<ScrollableView id="scrollableView" class="mainView"  onScrollEnd="scrollableViewScrollEnd" onScroll="scrollableViewScroll"> <!-- layout ="vertical" -->
 			<Require src='homeList' id="homeList"/>
 			<Require src='reimburseList' id="reimburseList"/>
 			<Require src='setting' id="setting"/>
@@ -75,7 +75,7 @@
 		</View>
 		<View id="dialogView" onClick="dialogViewClick" />
 		<View id="overlayView">
-			<View id="blackView" width="Ti.UI.FILL" height="Ti.UI.FILL" backgroundColor="black">
+			<View id="bgView" width="Ti.UI.FILL" height="Ti.UI.FILL" backgroundColor="white">
 				<View id="fullView"  onTouchmove="touchMove" onTouchstart ="touchStart">
 					<ImageView id="fullImage" ></ImageView>
 					<View class="cropperView" id="cropperView">

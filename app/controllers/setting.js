@@ -13,6 +13,11 @@ function signOutClick(e) {
 			libgcm.unregGCM();
 			Alloy.Globals.gcmRegId = "";
 			lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, Alloy.Globals.CURRENT_USER);
+			// var reimburse_ass = Alloy.createCollection('reimburse_ass');
+			// reimburse_ass.fetch({query:"SELECT * FROM reimburse_ass WHERE isSync=1 and username='"+Alloy.Globals.CURRENT_USER+"'"});
+			// for (var i = reimburse_ass.models.length-1; i >= 0; i--) {
+  				// reimburse_ass.models[i].destroy();        
+			// }
 			Alloy.Globals.profileImage.image = "/icon/ic_action_user.png";
 			Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
 			Alloy.Globals.CURRENT_NAME = "";
@@ -132,6 +137,7 @@ $.setting.addEventListener("refresh", function(e){
 	Alloy.Globals.index.fireEvent("update", e);
 	//showList(e);
 	$.email.text = Alloy.Globals.CURRENT_USER.toLowerCase();
+	$.versionLabel.text = "Version "+Titanium.App.version;
 	$.avatar.image = Alloy.Globals.profileImage.image;
 });
 
@@ -145,7 +151,7 @@ $.setting.addEventListener("open", function(e){
 	Alloy.Globals.scrollableView.scrollToView($.setting);
 	$.avatar.image = Alloy.Globals.profileImage.image;
 	$.email.text = Alloy.Globals.CURRENT_USER.toLowerCase();
-	
+	$.versionLabel.text = "Version "+Titanium.App.version;
 	//showList(e);
 	e.cancelBubble = true;
 	//Alloy.Globals.dialogView.show();

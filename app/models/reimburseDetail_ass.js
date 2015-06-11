@@ -1,10 +1,10 @@
 exports.definition = {
 	config : {
 		columns : {
-			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
-			gid: "INTEGER",
-			reimburseId : "integer",
-			reimburseGid: "INTEGER",
+			id: "INTEGER PRIMARY KEY AUTOINCREMENT", //local reimburseDetailAss_id
+			gid: "INTEGER", //global reimburseDetail_id
+			reimburseId : "integer", //local reimburseAss_Id
+			reimburseGid: "INTEGER", //global reimburse_id
 			name : "string",
 			receiptDate : "datetime",
 			isRejected : "boolean",

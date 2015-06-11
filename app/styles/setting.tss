@@ -76,6 +76,16 @@
 	}
 }
 
+"#versionLabel" : {
+ 	textAlign: Ti.UI.TEXT_ALIGNMENT_RIGHT,
+	font: {
+		fontFamily: 'century-gothic',
+		fontSize: "10sp"
+	},
+	color : 'lightgray',
+	right : "8dp",
+}
+
 "#act": {
 	style: Ti.UI.ActivityIndicatorStyle.BIG,
 	//top : '10dp',

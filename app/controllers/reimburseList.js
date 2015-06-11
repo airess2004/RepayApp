@@ -6,7 +6,9 @@ var filter = { isDeleted: 0 };
 
 // fetch existing todo items from storage
 reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and username='"+Alloy.Globals.CURRENT_USER+"'"});
+
 Alloy.Globals.reimburseListReimburse = $.localReimburse;
+Alloy.Globals.reimburseAct = $.act;
 
 // Sort Descending
 // reimburses.comparator = function(model) {

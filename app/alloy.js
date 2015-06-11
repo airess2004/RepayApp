@@ -127,7 +127,8 @@ if (OS_IOS || OS_ANDROID) {
 	// });
 }
 
-function getFirstList() {	// some Alloy.Globals might not be available yet at this point
+function getFirstList(assDoneCallback, listDoneCallback) {	// some Alloy.Globals might not be available yet at this point
+	// get reimburseAssList
 	remoteReimburse.getAssList("reimburse_submitted_at", "DESC", 0, 20, null, null, null, function(ret1, ret2) {
 		if (!ret1.error) {
 			var reimburses_ass = Alloy.Collections.reimburse_ass;
@@ -203,51 +204,64 @@ function getFirstList() {	// some Alloy.Globals might not be available yet at th
 
 			if (Alloy.Globals.scrollableView)
 				Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
+			
 		} else {
 			notifBox(ret1.error);
 		}
-
-		remoteReimburse.getList("updated_at", "DESC", 0, 20, null, null, null, function(ret) {
-			if (!ret.error) {
-				var reimburses = Alloy.Collections.reimburse;
-				reimburses.fetch({
-					remove : false
-				});
-				// Make sure collection is in sync
-
-				for (var key3 in ret) {
-					var obj3 = ret[key3];
-					var obj4 = reimburses.find(function(mdl) {
-						return mdl.get('gid') == obj3.gid;
-					});
-					//findWhere({gid : obj.gid});
-					//TODO: if already exist check use newer one (updated_at, local or remote)
-					//if (!obj4 || obj4.get('lastUpdate') < obj3.lastUpdate)
-					{
-						if (!obj4) {
-							obj4 = Alloy.createModel("reimburse", obj3);
-						} else {
-							if (obj4.get('isSent')) {
-								obj4.set({
-									isDone: obj3.isDone,
-									doneDate: obj3.doneDate,
-								});
-							}
-						}
-						reimburses.add(obj4, {
-							merge : true
-						});
-						obj4.save();
-						//obj2.fetch({remove:false});
-					}
-				}
-				if (Alloy.Globals.scrollableView)
-					Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
-			} else {
-				notifBox(ret.error);
-			}
-		});
+		
+		if (assDoneCallback) assDoneCallback(ret1, ret2);
 	}); 
+	
+	// get reimburseList
+	remoteReimburse.getList("updated_at", "DESC", 0, 20, null, null, null, function(ret) {
+		if (!ret.error) {
+			var reimburses = Alloy.Collections.reimburse;
+			reimburses.fetch({
+				remove : false
+			});
+			// Make sure collection is in sync
+
+			for (var key3 in ret) {
+				var obj3 = ret[key3];
+				var obj4 = reimburses.find(function(mdl) {
+					return mdl.get('gid') == obj3.gid;
+				});
+				//findWhere({gid : obj.gid});
+				//TODO: if already exist check use newer one (updated_at, local or remote)
+				//if (!obj4 || obj4.get('lastUpdate') < obj3.lastUpdate)
+				{
+					if (!obj4) {
+						obj4 = Alloy.createModel("reimburse", obj3);
+					} else {
+						var chgDet = {
+							isDone : obj3.isDone,
+							doneDate : obj3.doneDate,
+						};
+						if (obj3.isSent) {
+							chgDet.isSent = obj3.isSent;
+							chgDet.sentDate = obj3.sentDate;
+						};
+						//if (obj4.get('isSent')) //submit could be sent successfully but timed out when receiving result, thus local data didn't get updated 
+						{
+							obj4.set(chgDet);
+						}
+					}
+					reimburses.add(obj4, {
+						merge : true
+					});
+					obj4.save();
+					//obj2.fetch({remove:false});
+				}
+			}
+			if (Alloy.Globals.scrollableView)
+				Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
+		} else {
+			notifBox(ret.error);
+		}
+		
+		if (listDoneCallback) listDoneCallback(ret);
+	}); 
+
 }
 
 function hideActionBarCallback(e) {

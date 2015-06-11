@@ -584,7 +584,7 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 							doneDate : obj.confirmed_at,
 							isSent : (obj.is_submitted == "true" || obj.is_submitted == "1") ? 1 : 0,
 							sentDate : obj.submitted_at,
-							sentTo : tolist ? tolist[0] : null,
+							sentTo : tolist ? tolist[0].trim() : null,
 							//isDeleted : 0,
 							//dateCreated : json.model.dateCreated,
 							lastUpdate : obj.updated_at,
@@ -618,7 +618,7 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 			//to : tolist,
 			//cc : cclist,
 			//bcc : bcclist,
-			destination_email: tolist ? tolist[0] : null,
+			destination_email: tolist ? tolist[0].trim() : null,
 			submitted_at: moment().utc().toISOString(),
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)

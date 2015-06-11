@@ -4,6 +4,7 @@
     		<Label id="tab3Title">Setting</Label>
   		</TitleControl-->
 		<ScrollView layout = "vertical">
+			<Label id="versionLabel"  />
 			<View id="avatarView" onClick="avatarClick">
 				<ImageView id="avatar" />
 			</View>

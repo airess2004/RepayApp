@@ -147,7 +147,14 @@ function mainViewOpen(e) {
 		//Alloy.Globals.CURRENT_USER = "Admin"; 
 		Alloy.Globals.login.getView().open();
 	} else {
-		getFirstList();
+		if (Alloy.Globals.homeAct) Alloy.Globals.homeAct.show();
+		if (Alloy.Globals.reimburseAct) Alloy.Globals.reimburseAct.show();
+		getFirstList(function (ret1,ret2) {
+			if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("update");
+			//if (Alloy.Globals.homeAct) Alloy.Globals.homeAct.hide();
+		}, function (ret) {
+			if (Alloy.Globals.reimburseAct) Alloy.Globals.reimburseAct.hide();
+		});
 	}
 	
 	//Alloy.Collections.reimburse.fetch({remove: false});
@@ -254,6 +261,13 @@ function fullClick(e) {
 		// });
 		//$.cropperView.applyProperties(style); 
 		$.cropperView.animate({center: center});
+	} else {
+		var view = e.source;
+    	var img = e.source.children[0];
+    	view.width = undefined;
+    	view.height = Ti.UI.FILL;
+    	img.height = Ti.UI.FILL;
+    	img.enableZoomControls = true;
 	}
 }
 
@@ -341,6 +355,9 @@ function okClick(e) {
 				};
 				remoteUser.updateObject(item, function(result) {
 					if(!result.error) {
+						//delete cropped image
+						file.deleteFile();
+						//update user data
 						var users = Alloy.Collections.user;
 						var user = users.find(function(mdl){
 							return mdl.get('email').trim().toUpperCase() == result.email.trim().toUpperCase();

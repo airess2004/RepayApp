@@ -1,5 +1,5 @@
 <Alloy>
-	<!--Collection id="localComment" src="comment" instance="true"/-->
+	<Collection id="localComment" src="comment" instance="true"/>
 	<Window class="container" onOpen="winOpen" onClose="winClose">
 		<!--ActionBar id="actionBar" title="Reimburse View" onHomeIconItemSelected="doMenuClick" /-->
 		<View class="outterWindow" layout="vertical">
@@ -42,7 +42,7 @@
 				<View class="vSplitter" />
 				<Label class="labelName">Comments :</Label>
 				<!--Button id="addNewButton" title="Add Comment" onClick="newCommentClick" width="Ti.UI.FILL"></Button-->
-				<View id="tableView" searchAsChild="false" dataCollection="comment" dataFilter="whereFunction" dataTransform="transformFunction" layout="vertical">
+				<View id="tableView" searchAsChild="false" dataCollection="$.localComment" dataFilter="whereFunction" dataTransform="transformFunction" layout="vertical">
 					<Require src="commentRow"/>
 				</View>
 			</ScrollView>

@@ -3,14 +3,14 @@ var moment = require('alloy/moment');
 exports.definition = {
 	config: {
 		columns: {
-			id: "INTEGER PRIMARY KEY AUTOINCREMENT",
-			gid: "INTEGER",
+			id: "INTEGER PRIMARY KEY AUTOINCREMENT", //local reimburseAss_id
+			gid: "INTEGER", //global reimburseAss_id
 			userId : "integer",
 			username : "text",
 			source_userId: "integer",
 			source_userAvatar: "text",
 			source_userAvatarOri: "text",
-			reimburse_gid: "integer",
+			reimburse_gid: "integer", //global reimburse_id
 		    reimburse_title: "text",
 		    reimburse_description: "text",
 		    reimburse_application_date: "datetime",

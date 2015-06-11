@@ -9,6 +9,9 @@ var reimburseDetails_ass = $.localReimburseDetail_ass; //Alloy.Collections.reimb
 var id;
 var gid;
 
+var section;
+var itemIndex;
+
 // Sort Descending
 // reimburseDetails.comparator = function(model) {
   // return -(moment.parseZone(model.get('receiptDate')).unix());
@@ -76,6 +79,9 @@ if ($model) {
 	} 
 	// wait for parent id to be available before fetching details
 	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+$model.get('reimburse_gid')});
+} else {
+	var $model = null;
+	if (!reimburseDetails_ass) reimburseDetails_ass = Alloy.createCollection('reimburse_ass');
 }
 
 // reimburses.on('change:status', function(e){
@@ -108,6 +114,9 @@ if ($model) {
 // }
 
 function thumbPopUp(e) {
+	if (e.section) {
+		var listItem = e.section.items[e.itemIndex];
+	}
 	var aview = Ti.UI.createView({
 		width : "256dp",
 		height : "256dp",
@@ -120,7 +129,7 @@ function thumbPopUp(e) {
 		//width: "512dp",
 		height : "512dp",
 		touchEnabled: false,
-		image: $.avatar.imageOri,
+		image: ($.avatar && $.avatar.imageOri) || listItem.avatar.imageOri,
 	}));
 	
 	Alloy.Globals.dialogView.removeAllChildren();
@@ -136,9 +145,10 @@ function rowClick(e) {
 
 // confirm
 function approveReimburse(id) {
+	var dataItem = section && section.items[itemIndex];
 	// find the todo task by id
 	var reimburse = Alloy.Globals.homeListReimburse_ass.get(id);
-
+	reimburse.fetch({id: id});
 	// destroy the model from persistence, which will in turn remove
 	// it from the collection, and model-view binding will automatically
 	// reflect this in the tableview
@@ -148,8 +158,8 @@ function approveReimburse(id) {
 	// });
 	// if (!dets) dets = [];
 	// TODO: update detail's status
-	var reimburseGid = reimburse.get('gid');
-	//reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburse.get('gid')});
+	var reimburseGid = reimburse.get('reimburse_gid'); //'gid'
+	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburseGid});
 	var rejectedDetails = reimburseDetails_ass.where({isRejected:1, reimburseGid:reimburseGid});
 	if (!rejectedDetails) rejectedDetails = [];
 	var rejectedlist = [];
@@ -174,11 +184,11 @@ function approveReimburse(id) {
 			// }
 			// });
 			reimburse.fetch({
-				remove : false
+				id: id, //remove : false
 			});
 			//reimburses.fetch({remove: false});
 			//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
-			if (result.isDone && Alloy.Globals.gcmRegId) {
+			if (result.isDone ) { //&& Alloy.Globals.gcmRegId
 				// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 					// title : "Reimburse ID:" + reimburse.get('reimburse_gid'),
 					// message : "Reimburse Titled:'" + reimburse.get('reimburse_title') + "' has been approved by '" + Alloy.Globals.CURRENT_USER + "'",
@@ -187,6 +197,13 @@ function approveReimburse(id) {
 					// if (ret.error)
 						// alert("Error : " + ret.error);
 				// });
+				var obj = Alloy.Globals.homeTransFunc && Alloy.Globals.homeTransFunc(reimburse);
+				if (dataItem) {
+					dataItem["innerView"].touchEnabled = obj.innerView_touchEnabled;
+					dataItem["bottomView"].touchEnabled = obj.bottomView_touchEnabled;
+					dataItem["confirmBtn"]= obj.confirmBtn;
+				}
+				section && section.updateItemAt(itemIndex, dataItem);
 				notifBox("Reimburse has been successfully Confirmed.");
 			}
 		}
@@ -210,22 +227,36 @@ function approveBtnClick(e) {
 		Alloy.Globals.approveBtnUsed = true;
 		id = e.source.parent.rowid;
 		gid = e.source.parent.rowgid;
-		if (!id) {
+		if (!id && e.source.parent.parent) {
 			id = e.source.parent.parent.rowid;
 			gid = e.source.parent.parent.rowgid;
 		}
-		// Creates AlertDialog on-the-fly to prevent crashing issue when showing alertdialog created in XML
-		var approveDialog = Ti.UI.createAlertDialog({
-			title : "Confirm",
-			message : "Are you sure you want to approve/reject marked receipts?",
-			buttonNames : ["Yes", "No"],
-			cancel : 1
-		});
-		approveDialog.addEventListener('click', doApproveClick);
+		// for listview
+		if (!id) {
+			section = e.section;
+			itemIndex = e.itemIndex;
+			var listItem = e.section.items[e.itemIndex];
+			id = parseInt(e.itemId);
+			$model = Alloy.Globals.homeListReimburse_ass.get(id);
+			$model.fetch({id: id});
+			gid = $model.get('gid');
+			//reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+$model.get('reimburse_gid')});
+		}
+		
+		if (!$model.get('reimburse_is_confirmed')) {
+			// Creates AlertDialog on-the-fly to prevent crashing issue when showing alertdialog created in XML
+			var approveDialog = Ti.UI.createAlertDialog({
+				title : "Confirm",
+				message : "Are you sure you want to approve/reject marked receipts?",
+				buttonNames : ["Yes", "No"],
+				cancel : 1
+			});
+			approveDialog.addEventListener('click', doApproveClick);
 
-		approveDialog.rowid = id;
-		//approveDialog.rowgid = gid;
-		approveDialog.show({modal:true}); //Bug: this may crash app sometimes when creating AlertDialog in XML (or using local Collection?)
+			approveDialog.rowid = id;
+			//approveDialog.rowgid = gid;
+			approveDialog.show({modal:true}); //Bug: this may crash app sometimes when creating AlertDialog in XML (or using local Collection?)
+		}
 	}
 }
 

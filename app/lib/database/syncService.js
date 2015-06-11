@@ -134,7 +134,8 @@ function startSyncReimburseDet(_win, callback) {
 					var obj = syncReimburseDetList.dequeue();
 					var proto = obj.urlImageOriginal ? obj.urlImageOriginal.substring(0, 3).toUpperCase() : '';
 					if (proto && proto!="HTT" && proto!="FTP") {
-						Alloy.Globals.Uploading++;					
+						Alloy.Globals.Uploading++;	
+						var oriImageFile = Ti.Filesystem.getFile(obj.urlImageOriginal);				
 						Transloadit.upload({
 							expDate : syncTransExp || EXPIRED_TIME, //.format("yyyy/MM/dd HH:mm:ss+00:00"),
 							key : syncTransKey || TRANSLOADIT_KEY,
@@ -150,7 +151,7 @@ function startSyncReimburseDet(_win, callback) {
 								// });
 								next(null, syncTransSign || TRANSLOADIT_SIGNATURE);
 							},
-							file : Ti.Filesystem.getFile(obj.urlImageOriginal)
+							file : oriImageFile,
 						}, function(err, assembly) {
 							Ti.API.info(err || assembly);
 							//console.log(err || assembly);
@@ -166,6 +167,9 @@ function startSyncReimburseDet(_win, callback) {
 								obj.isSync = 0;
 								localReimburseDetail.updateDetailObject(obj, function(ret) {
 									if (!ret.error) {
+										// delete resized image
+										oriImageFile.deleteFile();
+										// sync detail
 										syncDetail(ret);														
 										//-- start update image url of parent
 										var list = Alloy.createCollection("reimburse");
@@ -345,7 +349,7 @@ function enqueueAllDetails() {
 function enqueueUniqueDetails(par) {
 	if (!par.error && par.id>0) {		
 		syncReimburseDetCount++;
-		localReimburseDetail.getDetailListAll(par.id, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", syncReimburseDetLastTime, function(ret) {
+		localReimburseDetail.getDetailListAll(par.id, "lastUpdate", "desc", 0, maxInt, "lastUpdate", ">", /*syncReimburseDetLastTime*/moment(minDate, dateFormat, lang).toISOString(), function(ret) {
 			if (!ret.error) {
 				for (idx2 in ret) {
 					var obj = ret[idx2];

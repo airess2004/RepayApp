@@ -45,6 +45,8 @@ if ($model) {
 	// var parentstatus = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
 	$.switchBtn.touchEnabled = true; //(parentstatus <= STATUSCODE[Const.Pending]);
 	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
+} else {
+	$model = null;
 }
 
 // toggle the "done" status of the IDed todo
@@ -81,20 +83,37 @@ function doDeleteClick(e){
 	}
 };
 
+function fullClick(e) {
+	var view = e.source;
+    var img = e.source.children[0];
+    view.width = undefined;
+    view.height = Ti.UI.FILL;
+    img.height = Ti.UI.FILL;
+    img.enableZoomControls = true;
+}
+
 function thumbPopUp(e) {
+	if (e.section) {
+		var listItem = e.section.items[e.itemIndex];
+		var ar = e.bindId.split("_");
+		var prx = "_"+ar[1]+"_"+ar[2]+"_";
+	}
 	var aview = Ti.UI.createView({
 		width : "256dp",
 		height : "256dp",
 		backgroundColor : "#7777",
 		borderColor : Alloy.Globals.lightColor,
 		borderWidth : "1dp",
-		touchEnabled: false,
+		touchEnabled: true,
+		bubbleParent: false,
 	}); 
+	aview.addEventListener("click", fullClick);
+	
 	aview.add(Ti.UI.createImageView({
 		//width: "512dp",
 		height : "512dp",
 		touchEnabled: false,
-		image: $.avatar.imageOri,
+		image: ($.avatar && $.avatar.imageOri) || listItem[prx+"avatar"].imageOri,
 	}));
 	
 	Alloy.Globals.dialogView.removeAllChildren();
@@ -105,12 +124,29 @@ function thumbPopUp(e) {
 function rowClick(e) {
 	id = e.source.parent.rowid;
 	gid = e.source.parent.rowgid;
+	if (!id) {
+		if (e.section) {
+			var listItem = e.section.items[e.itemIndex];
+			var reimburseAssId = parseInt(e.itemId);
+			var ar = e.bindId.split("_");
+			var prx = "_"+ar[1]+"_"+ar[2]+"_";
+			var detItem = listItem[prx+"homeReimburseDetailRow"];
+			id = parseInt(detItem.itemId);
+			$model = reimburseDetails_ass.get(id);
+			$model.fetch({id: id});
+			gid = $model.get('gid');
+		}
+	}
 	Alloy.createController("comment",{
 					id : id , 
 					gid : gid,
 					reimburseId : $model.get('reimburseId'),
 					reimburseGid : $model.get('reimburseGid'),
-					"$model": $model
+					"$model": $model,
+					section: e.section,
+					itemIndex: e.itemIndex,
+					dataItem: listItem,
+					prefix: prx,
 				}
 	).getView().open();
 }
@@ -135,43 +171,75 @@ Alloy.Globals.toggleUsed = false;
 function switchChange(e) {
 	if (!Alloy.Globals.toggleUsed) {
 		Alloy.Globals.toggleUsed = true;
-		if ($.switchBtn.touchEnabled) {
+		if (e.section) {
+			var listItem = e.section.items[e.itemIndex];
+			var reimburseAssId = parseInt(e.itemId);
+			var ar = e.bindId.split("_");
+			var prx = "_"+ar[1]+"_"+ar[2]+"_";
+			var detItem = listItem[prx+"homeReimburseDetailRow"];
+			id = parseInt(detItem.itemId);
+			$model = reimburseDetails_ass.get(id);
+			$model.fetch({id: id});
+		}
+		if (($.switchBtn && $.switchBtn.touchEnabled) || listItem[prx+"switchBtn"].touchEnabled) { //switchBtn
 			var reimburseDetail = reimburseDetails_ass.get(id);
+			reimburseDetail.fetch({id: id});
 			reimburse = /*Alloy.Globals.homeListReimburse_ass*/Alloy.Collections.reimburse_ass.find(function(mdl) {
 				return mdl.get('reimburse_gid') == reimburseDetail.get('reimburseGid');
 			}); //findWhere({reimburse_gid: reimburseDetail.get('reimburseGid')});
 			//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
+			reimburse.fetch({id: reimburse.get('id')});
 			var status = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending]; //reimburse.get('status');
 			if (status <= STATUSCODE[Const.Pending]) {
 				Alloy.Globals.act.show({modal:true});
-				$.switchBtn.value = !$.switchBtn.value;
-				updateSwitch($.switchBtn, $.switchBtn.value);
+				var val = false;
+				if ($.switchBtn) {
+					$.switchBtn.value = !$.switchBtn.value;
+					updateSwitch($.switchBtn, $.switchBtn.value);
+					val = $.switchBtn.value;
+				} else 
+				if (listItem) {
+					listItem[prx+"switchBtn"].value = !listItem[prx+"switchBtn"].value;
+					val = listItem[prx+"switchBtn"].value;
+				}
 
 				// reimburseDetail.set({
 					// "status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
 				// });
 				reimburseDetail.save({
-					"isRejected" : (!$.switchBtn.value) ? 1 : 0, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
+					"isRejected" : (!val) ? 1 : 0, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
 					"isSync" : 0,
 				}, {success :function(mdl){
 					// mdl.fetch({
 						// remove : false
 					// });
+					var detObj = Alloy.Globals.homeDetTransFunc && Alloy.Globals.homeDetTransFunc(mdl);
+					if (listItem) {
+						listItem[prx+"switchBtn"]= detObj.switchBtn;
+					}
+					
 					var amount = parseFloat(mdl.get('amount'));
 					// reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
 						// return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
 					// }); //findWhere({reimburse_gid: mdl.get('reimburseGid')});
 					//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
+					var newTotal = parseFloat(reimburse.get('reimburse_total_approved')) + (mdl.get('isRejected') ? -amount : amount);
 					// reimburse.set({
 						// "total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
 					// });
 					reimburse.save({
-						"reimburse_total_approved" : parseFloat(reimburse.get('reimburse_total_approved')) + (mdl.get('isRejected') ? -amount : amount),
+						"reimburse_total_approved" : newTotal,
 						"isSync" : 0,
 					}, {success :function(parmdl){
 						// parmdl.fetch({
 							// remove : false
 						// });
+						var obj = Alloy.Globals.homeTransFunc && Alloy.Globals.homeTransFunc(parmdl);
+						if (listItem) {
+							listItem["total"].text = obj.total;
+						}
+						
+						e.section && e.section.updateItemAt(e.itemIndex, listItem);
 						Alloy.Globals.homeListReimburse_ass.fetch({remove:false});
 						Alloy.Globals.act.hide();
 						Alloy.Globals.toggleUsed = false;

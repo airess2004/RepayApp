@@ -201,8 +201,17 @@ function upload2trans (filename, callback, wait, progressCallback) {
 	});
 }
 
+function trimArray(arr) {
+	if (arr) {
+		for (var i=0,  tot=arr.length; i < tot; i++) {
+			arr[i] = arr[i].trim();
+		}
+	}
+	return arr;
+}
+
 function string2array(str) {
-      return str.match(/[^\r\n]+/g); //str.replace(/(\r\n|\r|\n)/g, '\n');
+      return trimArray(str.match(/[^\r\n]+/g)); //str.replace(/(\r\n|\r|\n)/g, '\n');
 };
 
 function createDialog(params, callback, parent) {
@@ -241,7 +250,8 @@ function getFilename(fullpath) {
 }
 
 function deleteFile(filename) {
-	var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,getFilename(filename));							
+	var file = Titanium.Filesystem.getFile(filename);
+	if (!file.exists()) file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, getFilename(filename));							
 	if (file.exists()) {
 		file.deleteFile();
 	}

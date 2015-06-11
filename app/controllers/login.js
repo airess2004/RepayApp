@@ -93,7 +93,14 @@ function onSignInClick(e) {
 					
 					refreshSyncSignature();
 					
-					getFirstList();
+					if (Alloy.Globals.homeAct) Alloy.Globals.homeAct.show();
+					if (Alloy.Globals.reimburseAct) Alloy.Globals.reimburseAct.show();
+					getFirstList(function (ret1,ret2) {
+						if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("update");
+						//if (Alloy.Globals.homeAct) Alloy.Globals.homeAct.hide();
+					}, function (ret) {
+						if (Alloy.Globals.reimburseAct) Alloy.Globals.reimburseAct.hide();
+					});
 					
 					//p.win.hide();//.blur();
 					// for (var idx in par.children) {

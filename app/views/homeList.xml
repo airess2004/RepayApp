@@ -1,6 +1,7 @@
 <Alloy>
 	<Collection id="localReimburse_ass" src="reimburse_ass" instance="true"/>
-	<View class="container" id="homeList" layout="vertical" onOpen="showList">
+	<View class="container" id="homeList"  onOpen="showList"> <!-- layout="vertical" -->
+		<View id="homeListView" />
 		<!--TitleControl>
     		<Label id="tab1Title">Home</Label>
   		</TitleControl-->
@@ -14,5 +15,6 @@
 			</ListSection-->
 			<!--ListSection id="listSection" />
 		</ListView-->
-	</View>      
+		<ActivityIndicator id="act" />
+	</View>     
 </Alloy>

@@ -192,7 +192,7 @@
 	width: Titanium.UI.FILL,
 	height: Titanium.UI.FILL,
 	contentHeight: Titanium.UI.SIZE,
-	scrollType: "vertical",
+	//scrollType: "vertical",
 	zIndex: 1,
 	top:0,
 	//bottom:"48dp",

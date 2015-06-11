@@ -16,3 +16,14 @@
  	//bubbleParent: false,
 }
 
+"#act": {
+	style: Ti.UI.ActivityIndicatorStyle.BIG,
+	//top : '10dp',
+	//left : '10dp',
+	height: Ti.UI.FILL,
+	width: Ti.UI.FILL,
+	backgroundColor: "#7777",
+	//visible: true,
+	modal: true,
+	zIndex: 9999,
+}

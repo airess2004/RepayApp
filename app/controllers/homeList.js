@@ -11,6 +11,8 @@ var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
 Alloy.Globals.homeListReimburse_ass = reimburses_ass; //$.localReimburse_ass;
 //Alloy.Globals.homeListReimburseDetail_ass = $.localReimburseDetail_ass;
 
+Alloy.Globals.homeAct = $.act;
+
 // Sort Descending
 // reimburses.comparator = function(model) {
   // return -(moment.parseZone(model.get('projectDate')).unix());
@@ -60,6 +62,7 @@ function transformFunction(model) {
 	};
 	return transform;
 }
+Alloy.Globals.homeTransFunc = transformFunction;
 
 function detailTransformFunction(model) {
 	var transform = model ? model.toJSON() : this.toJSON(); 
@@ -80,6 +83,7 @@ function detailTransformFunction(model) {
 	};
 	return transform;
 }
+Alloy.Globals.homeDetTransFunc = detailTransformFunction;
 
 function prefixBindId(prefix, temp) {
 	if (temp.bindId) temp.bindId = prefix + temp.bindId;
@@ -97,12 +101,12 @@ function createAssList(e) {
 	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
 	reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 	// generate template upto max number of details
-	var maxcount = 0;
+	Alloy.Globals.homeMaxDetail = 0;
 	reimburses_ass.forEach(function(mdl) {
-		if (mdl.get('reimburseDetail_count') > maxcount) maxcount = mdl.get('reimburseDetail_count');
+		if (mdl.get('reimburseDetail_count') > Alloy.Globals.homeMaxDetail) Alloy.Globals.homeMaxDetail = mdl.get('reimburseDetail_count');
 	});
 	var temps = {};
-	for (var i = 0; i <= maxcount; i++) {
+	for (var i = 0; i <= Alloy.Globals.homeMaxDetail; i++) {
 		var temp = Alloy.createController("homeReimburseRow", {"__itemTemplate":{}}).getView();
 		//customize each template
 		var detailTemps = temp.childTemplates[2];
@@ -160,6 +164,9 @@ function createAssList(e) {
 		for (var j = 0; j < detailLength; j++) {
 			var detObj = detailTransformFunction(details[j]);
 			var prx = "_"+cnt+"_"+j+"_";
+			item[prx+"homeReimburseDetailRow"] = {
+				itemId: detObj.id,
+			};
 			item[prx+"avatar"] = {
 				image: detObj.urlImageSmall,
 				imageOri: detObj.urlImageOriginal,
@@ -183,8 +190,22 @@ function createAssList(e) {
 	var section = Ti.UI.createListSection();
 	section.setItems(items);
 	listView.sections = [section];
-	$.homeList.removeAllChildren();
-	$.homeList.add(listView);
+	$.homeListView.removeAllChildren(); //$.homeList.children[0].removeAllChildren(); //.remove($.homeList.children[0]); //
+	$.homeListView.add(listView); //$.homeList.children[0].add(listView);
+	//$.homeList.children[0] = listView;
+}
+
+function updateAssList(newList, newListDetail) {
+	if ($.homeListView.children.length == 0) { //$.homeList.children.length
+		createAssList();
+	} else {
+		// refresh collections
+		reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"});
+		reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
+	}
+	var listView = $.homeListView.children[0]; //$.homeList.children[0].children[0];
+	//TODO: update listItems of changed data instead of recreating the listview from scratch
+	
 }
 
 // Show task list based on selected status type
@@ -194,11 +215,16 @@ function showList(e) {
 	// } else {
 		// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
+	//reimburses_ass && reimburses_ass.fetch({remove: false, query:"SELECT * FROM reimburse_ass WHERE username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
 	//reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 	//comments && comments.fetch({remove: false});
-	createAssList(e);
+	//createAssList(e);
 }
+
+$.homeList.addEventListener("update", function(e){
+	createAssList(e);
+	Alloy.Globals.homeAct.hide();
+});
 
 $.homeList.addEventListener("refresh", function(e){
 	Alloy.Globals.index.fireEvent("update", e);
@@ -211,15 +237,19 @@ function thumbPopUp(e) {
 
 $.homeList.addEventListener("open", function(e){
 	e.bubbles = false;
-	Alloy.Globals.index.getActivity().getActionBar().title = "Home";
-	//Alloy.Globals.newMenu.visible = false;
-	// Make sure icons are updated
-	//Alloy.Globals.index.activity.invalidateOptionsMenu();
-	
-	//createAssList(e);
-	
-	//$.tableView.search = Alloy.Globals.searchView;
-	Alloy.Globals.scrollableView.scrollToView($.homeList);
-	//showList(e);
+	if (!Alloy.Globals.homeAct.visible) {	
+		Alloy.Globals.index.getActivity().getActionBar().title = "Home";
+		//Alloy.Globals.newMenu.visible = false;
+		// Make sure icons are updated
+		//Alloy.Globals.index.activity.invalidateOptionsMenu();
+
+		//createAssList(e);
+
+		//$.tableView.search = Alloy.Globals.searchView;
+		Alloy.Globals.scrollableView.scrollToView($.homeList);
+		//showList(e);
+	}
 	e.cancelBubble = true;
 });
+
+//createAssList();

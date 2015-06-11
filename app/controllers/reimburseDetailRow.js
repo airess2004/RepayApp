@@ -81,7 +81,7 @@ function deleteItem(id) {
 		first_receipt_mini_url : first_receipt_mini_url,
 	});
 	reimburse.save();
-	reimburse.fetch({remove: false});
+	reimburse.fetch({id: reimburseId}); //.fetch({remove: false});
 	//--- end of update parent
 	
 	reimburseDetail = null;
@@ -99,7 +99,14 @@ function doDeleteClick(e){
 	}
 };
 
-
+function fullClick(e) {
+	var view = e.source;
+    var img = e.source.children[0];
+    view.width = undefined;
+    view.height = Ti.UI.FILL;
+    img.height = Ti.UI.FILL;
+    img.enableZoomControls = true;
+}
 
 function thumbPopUp(e) {
 	var aview = Ti.UI.createView({
@@ -108,8 +115,11 @@ function thumbPopUp(e) {
 		backgroundColor : "#7777",
 		borderColor : Alloy.Globals.lightColor,
 		borderWidth : "1dp",
-		touchEnabled: false,
+		touchEnabled: true,
+		bubbleParent: false,
 	}); 
+	aview.addEventListener("click", fullClick);
+	
 	aview.add(Ti.UI.createImageView({
 		//width: $.avatar.width > $.avatar.height ? "512dp" : undefined,
 		height : "512dp",

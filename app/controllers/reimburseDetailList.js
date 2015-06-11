@@ -144,59 +144,72 @@ function sendReimburse(id, callback) {
 	Ti.UI.Android.hideSoftKeyboard();
 	var reimburse = reimburses.get(id);
 	if (reimburseDetails.length > 0) {
-		var tolist = string2array($.toField.value);					
-		var cclist = string2array($.ccField.value);
-		var bcclist = string2array($.bccField.value);
-		if (tolist == null) tolist = [];
-		if (cclist == null) cclist = [];
-		if (bcclist == null) bcclist = [];
-		$.act.show();
-		remoteReimburse.sendObject(reimburse.get('gid'), tolist, cclist, bcclist, function(result) {
-			if (result.error) {
-				alert(result.error);
-			} else {			
-				// var dets = reimburseDetails.where({
-				// isDeleted : 0,
-				// reimburseId : $.homeReimburseRow.rowid
-				// });
-				// if (!dets) dets = [];
-				// TODO: update detail's status
-				reimburse.set({
-					"status" : result.status, //STATUSCODE[result.isSent ? Const.Pending : Const.Open],
-					isSent : result.isSent,
-					sentDate: result.sentDate,
-					sentTo: result.sentTo,
-				});
-				reimburse.save();
-				// reimburse.save(null, {
-				// success: function(model, resp){
-				// alert("Success saving.");
-				// },
-				// error: function(model, resp) {
-				// alert("Error saving!");
-				// }
-				// });
-				reimburse.fetch({
-					remove : false
-				});
-				//reimburses.fetch({remove: false});
-				//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
-				if (result.isSent && Alloy.Globals.gcmRegId) {
-					// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
+		var foundUnsync = reimburseDetails.find(function(mdl){
+			return (mdl.get('isSync') == 0); // && (mdl.get('reimburseId') == id);
+		});
+		if (foundUnsync) {
+			if (Alloy.Globals.CURRENT_USER && Alloy.Globals.CURRENT_USER != "") {
+				enqueueUniqueDetails(reimburse.toJSON());
+			}
+			alert("Data are not fully synchronized yet!\nPlease wait a moment.");
+		} else {	
+			var tolist = string2array($.toField.value);
+			var cclist = string2array($.ccField.value);
+			var bcclist = string2array($.bccField.value);
+			if (tolist == null)
+				tolist = [];
+			if (cclist == null)
+				cclist = [];
+			if (bcclist == null)
+				bcclist = [];
+			$.act.show();
+			remoteReimburse.sendObject(reimburse.get('gid'), tolist, cclist, bcclist, function(result) {
+				if (result.error) {
+					alert(result.error);
+				} else {
+					// var dets = reimburseDetails.where({
+					// isDeleted : 0,
+					// reimburseId : $.homeReimburseRow.rowid
+					// });
+					// if (!dets) dets = [];
+					// TODO: update detail's status
+					reimburse.set({
+						"status" : result.status, //STATUSCODE[result.isSent ? Const.Pending : Const.Open],
+						isSent : result.isSent,
+						sentDate : result.sentDate,
+						sentTo : result.sentTo,
+					});
+					reimburse.save();
+					// reimburse.save(null, {
+					// success: function(model, resp){
+					// alert("Success saving.");
+					// },
+					// error: function(model, resp) {
+					// alert("Error saving!");
+					// }
+					// });
+					reimburse.fetch({
+						remove : false
+					});
+					//reimburses.fetch({remove: false});
+					//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+					if (result.isSent) {//&& Alloy.Globals.gcmRegId
+						// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 						// title : "Pending Approval ID:" + reimburse.get('gid'),
 						// message : "You have new pending Reimburse Approval Titled:'" + reimburse.get('title') + "' from '" + Alloy.Globals.CURRENT_USER + "'",
 						// date : reimburse.get('sentDate'), //moment().toISOString(),
-					// }, function(ret) {
+						// }, function(ret) {
 						// if (ret.error)
-							// alert("Error : " + ret.error);
-					// });
-					notifBox("Reimburse has been successfully Submitted.");
-					$.submitDialog.hide();
-    				$.reimburseDetailList.close();
+						// alert("Error : " + ret.error);
+						// });
+						notifBox("Reimburse has been successfully Submitted.");
+						$.submitDialog.hide();
+						$.reimburseDetailList.close();
+					}
 				}
-			}
-			$.act.hide();
-		});
+				$.act.hide();
+			}); 
+		}
 	} else {
 		alert("You don't have any Expense!");
 	}
@@ -250,29 +263,37 @@ function showList(e) {
 	// } else {
 	// whereIndex = INDEXES[e.source.title]; // Android menu
 	// }
-	$.act.show();
-	remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret){
-		if (!ret.error) {
-			for (var key in ret) {
-				//localReimburseDetail.addOrUpdateDetailObject(ret[key]); //will overwrite local data with server data regardless which one newer
-				var obj = ret[key];
-				obj.reimburseId = args.id;
-				var found = reimburseDetails.find(function(mdl){
-					return mdl.get('gid') == obj.gid;
-				});
-				if (!found) {
-					localReimburseDetail.addDetailObject(obj);
-				} else 
-				if (found.get('lastUpdate') < obj.lastUpdate) {
-					localReimburseDetail.updateDetailObject(obj);
-				};
-			}
-			reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id});
-		} else {
-			notifBox(ret.error);
-		}
-		$.act.hide();			
+	var foundUnsync = reimburseDetails.find(function(mdl){
+		return mdl.get('isSync') == 0;
 	});
+	if (!foundUnsync) {	
+		$.act.show();
+		remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret) {
+			if (!ret.error) {
+				for (var key in ret) {
+					//localReimburseDetail.addOrUpdateDetailObject(ret[key]); //will overwrite local data with server data regardless which one newer
+					var obj = ret[key];
+					obj.reimburseId = args.id;
+					var found = reimburseDetails.find(function(mdl) {
+						return mdl.get('gid') == obj.gid;
+					});
+					if (!found) {
+						localReimburseDetail.addDetailObject(obj);
+					} else if (found.get('lastUpdate') < obj.lastUpdate) {
+						localReimburseDetail.updateDetailObject(obj);
+					}
+					;
+				}
+				reimburseDetails && reimburseDetails.fetch({
+					remove : false,
+					query : "SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId=" + args.id
+				});
+			} else {
+				notifBox(ret.error);
+			}
+			$.act.hide();
+		}); 
+	}
 	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id}); //fetch(e.param ? e.param : {remove:false});
 }
 

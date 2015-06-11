@@ -1,6 +1,6 @@
 <Alloy>
 	<Collection id="localReimburse" src="reimburse" instance="true"/>
-	<View class="container" layout="vertical" onOpen="showList">
+	<View class="container"  onOpen="showList"> <!-- layout="vertical" -->
 		<!--TitleControl>
     		<Label id="tab2Title">Reimburse</Label>
   		</TitleControl-->
@@ -34,5 +34,6 @@
 			</ListSection>	
 		</ListView>
 		<!--/Widget-->
-	</View>      
+		<ActivityIndicator id="act" />  
+	</View>
 </Alloy>

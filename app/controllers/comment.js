@@ -3,7 +3,7 @@ var moment = require('alloy/moment');
 Alloy.Globals.cameraShown = false;
 
 var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass;
-var comments = Alloy.Collections.comment; //$.localComment; //
+var comments = $.localComment; //Alloy.Collections.comment; //
 //var reimburses = Alloy.Collections.reimburse;
 
 //reimburseDetails && reimburseDetails.fetch({remove: false});
@@ -103,6 +103,10 @@ function winClose(e) {
 			remove : false
 		});
 		//-- end update parent
+		if (args.section) {
+			args.dataItem[args.prefix+"commentLabel"].text = count;
+			args.section.updateItemAt(args.itemIndex, args.dataItem);
+		}
 		Alloy.Globals.index.fireEvent("refresh", {param:{remove:false/*, query:"SELECT * FROM reimburse WHERE id="+data.get("reimburseId")*/}});
 	}
 	$.destroy();
@@ -197,6 +201,15 @@ function dialogViewClick(e) {
     $.dialogView3.hide(); //visible = false;
 }
 
+function fullClick(e) {
+	var view = e.source;
+    var img = e.source.children[0];
+    view.width = undefined;
+    view.height = Ti.UI.FILL;
+    img.height = Ti.UI.FILL;
+    img.enableZoomControls = true;
+}
+
 function thumbPopUp(e) {
 	var aview = Ti.UI.createView({
 		width : "256dp",
@@ -204,13 +217,17 @@ function thumbPopUp(e) {
 		backgroundColor : "#7777",
 		borderColor : Alloy.Globals.lightColor,
 		borderWidth : "1dp",
-		touchEnabled: false,
+		touchEnabled: true,
+		bubbleParent: false,
 	}); 
+	aview.addEventListener("click", fullClick);
+	
 	aview.add(Ti.UI.createImageView({
 		//width: "512dp",
 		height : "512dp",
 		touchEnabled: false,
 		image: $.photo.imageOri,
+		enableZoomControls: false,
 	}));
 	
 	$.dialogView3.removeAllChildren();
@@ -218,23 +235,13 @@ function thumbPopUp(e) {
 	$.dialogView3.show();
 }
 
-function photoClick(e) {
-	if (!Alloy.Globals.cameraShown) {
-		Alloy.Globals.cameraShown = true;
-		var camera = require('camera').getImage(function(media) {
-			if (media != null) {
-				Ti.API.info("Click Image = " + media.nativePath);
-				$.photo.image = media.nativePath;
-				//media;
-			}
-			Alloy.Globals.cameraShown = false;
-		});
-		//cameraShown = false;
-	}
-}
 
 $.comment.addEventListener("android:back", function(e) {
 	//$.tableView.search = Alloy.Globals.searchView;
 	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
-	$.comment.close(e);
+	if ($.dialogView3.visible) {
+		$.dialogView3.hide();
+	} else {
+		$.comment.close(e);
+	}
 });
