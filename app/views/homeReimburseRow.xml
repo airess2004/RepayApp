@@ -12,15 +12,10 @@
     		<Label id="title" bindId="title"  /> <!-- text="{title}" -->
     		<!--Label id="date" text="{projectDate}" /-->
     	</View>
-    	<!--View class="rightView">
-    		<Label id="approveBtn" onClick="approveBtnClick" />
-    		<Label id="total" text="{total}"/>
-    	</View-->
+    	
     </View>
     <View class="view1" bindId="view1" ></View>
-    <!--View layout="vertical" id="detailView" dataCollection="$.localReimburseDetail_ass" dataFilter="whereFunction" dataTransform="transformFunction">
-    	<Require src="homeReimburseDetailRow" detailList="{detailList}" />
-    </View-->
+    
     <View layout="vertical" id="detailView" bindId="detailView">
     </View>
     <View class="vSplitter" bindId="vSplitter1" />
@@ -33,11 +28,5 @@
     </View>
   </ItemTemplate>  
   <!-- AlertDialog should not be created in XML otherwise it will crash app sometimes -->
-  <!--AlertDialog id="approveDialog" onClick="doApproveClick" title="Confirm"
-            message="Are you sure you want to approve selected receipts?" cancel="1">
-            <ButtonNames>
-                <ButtonName>Yes</ButtonName>
-                <ButtonName>No</ButtonName>
-            </ButtonNames>
-  	</AlertDialog--> 	
+  
 </Alloy>

@@ -1,16 +1,6 @@
 var ModelName = 'reimburse_details/';
 
-var postData = {
-	token : SERVER_KEY,
-	method : 'get',
-	sortby : 'id',
-	order : 'desc',
-	offset : 0,
-	max : 20,
-	model : {
-		id : 0,
-	},
-};
+var postData = {};
 
 exports.getDetailObject = function(_gid, callback) {
 	Ti.API.info("ItemDetailID = " + _gid);
@@ -106,18 +96,9 @@ exports.getDetailObject = function(_gid, callback) {
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
-		// var postData = {
-			// token : SERVER_KEY,
-			// method : 'get',
-			// model : {
-				// id : _gid,
-			// },
-		// };
-		// var jsonstr = JSON.stringify(postData);
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send();
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -222,7 +203,6 @@ exports.getDetailList = function(_parentid, sortBy, order, start, count, filterC
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send();
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -328,7 +308,6 @@ exports.updateDetailObject = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(jsonstr);
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -432,7 +411,6 @@ exports.addDetailObject = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(jsonstr);
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -484,23 +462,7 @@ exports.deleteDetailObject = function(_gid, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
-				// if (json.model) {
-					// retData = {
-						// name : json.model.name, //title,
-						// description : json.model.description, //description,
-						// amount : json.model.amount, //amount,
-						// receiptDate : json.model.receiptDate, //date,
-						// urlImageOriginal : json.model.urlImageOriginal, //pic
-						// urlImageMedium : json.model.urlImageMedium,
-						// urlImageSmall : json.model.urlImageSmall,
-						// gid : json.model.id,
-						// reimburse_gid : json.model.reimburse.id, //reimburseId,
-						// isDeleted : json.model.isDeleted ? 1:0,
-						// dateCreated : json.model.dateCreated,
-						// lastUpdate : json.model.lastUpdate,
-						// isSync : 1,
-					// };
-				// };
+				
 				if (callback)
 					callback(retData);
 			}
@@ -513,18 +475,10 @@ exports.deleteDetailObject = function(_gid, callback) {
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
-		// var postData = {
-			// model : {
-				// id : _gid,
-				// dateDeleted : moment().toISOString(),
-				// //isDeleted : true,
-			// },
-		// };
-		//var jsonstr = JSON.stringify(postData);
+
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send();
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -589,6 +543,7 @@ exports.addCommentObject = function(_item, callback) {
 				}
 				//this.responseData / this.responseXML
 				//convert array/model as necessary 
+				
 				if (callback)
 					callback(retData, orgItem);
 			}
@@ -615,7 +570,6 @@ exports.addCommentObject = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(jsonstr);
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {

@@ -13,6 +13,7 @@ function signOutClick(e) {
 			libgcm.unregGCM();
 			Alloy.Globals.gcmRegId = "";
 			lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, Alloy.Globals.CURRENT_USER);
+			//TODO: delete records if it's already synchronized
 			// var reimburse_ass = Alloy.createCollection('reimburse_ass');
 			// reimburse_ass.fetch({query:"SELECT * FROM reimburse_ass WHERE isSync=1 and username='"+Alloy.Globals.CURRENT_USER+"'"});
 			// for (var i = reimburse_ass.models.length-1; i >= 0; i--) {
@@ -27,13 +28,6 @@ function signOutClick(e) {
 			syncReimburseLastTime = moment(minDate, dateFormat, lang).toISOString();
 			syncReimburseDetLastTime = moment(minDate, dateFormat, lang).toISOString();
 			$.email.text = "";
-			
-			// for (var i = reimburseDetails.models.length-1; i >= 0; i--) {
-  				// reimburseDetails.models[i].destroy();        
-			// };						
-			// for (var i = reimburses.models.length-1; i >= 0; i--) {
-  				// reimburses.models[i].destroy();        
-			// };
 							
 			Alloy.Globals.login.getView().open();
 		} else {
@@ -91,7 +85,6 @@ function avatarClick(e) {
 							Alloy.Globals.overlayView.show({
 								modal : true
 							});
-							//Alloy.Globals.profileImage.image = media.nativePath;
 						}
 						Alloy.Globals.cameraShown = false;
 					});
@@ -116,7 +109,6 @@ function avatarClick(e) {
 							Alloy.Globals.overlayView.show({
 								modal : true
 							});
-							//Alloy.Globals.profileImage.image = media.nativePath;
 						}
 						Alloy.Globals.cameraShown = false;
 					}, 1);
@@ -135,7 +127,6 @@ function avatarClick(e) {
 
 $.setting.addEventListener("refresh", function(e){
 	Alloy.Globals.index.fireEvent("update", e);
-	//showList(e);
 	$.email.text = Alloy.Globals.CURRENT_USER.toLowerCase();
 	$.versionLabel.text = "Version "+Titanium.App.version;
 	$.avatar.image = Alloy.Globals.profileImage.image;
@@ -144,15 +135,9 @@ $.setting.addEventListener("refresh", function(e){
 $.setting.addEventListener("open", function(e){
 	e.bubbles = false;
 	Alloy.Globals.index.getActivity().getActionBar().title = "Setting";
-	//Alloy.Globals.newMenu.visible = false;
-	// Make sure icons are updated
-	//Alloy.Globals.index.activity.invalidateOptionsMenu();
-	//$.tableView.search = Alloy.Globals.searchView;
 	Alloy.Globals.scrollableView.scrollToView($.setting);
 	$.avatar.image = Alloy.Globals.profileImage.image;
 	$.email.text = Alloy.Globals.CURRENT_USER.toLowerCase();
 	$.versionLabel.text = "Version "+Titanium.App.version;
-	//showList(e);
 	e.cancelBubble = true;
-	//Alloy.Globals.dialogView.show();
 });

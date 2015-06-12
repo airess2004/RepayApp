@@ -7,6 +7,7 @@ var reimburseDetails_ass = Alloy.Collections.reimburseDetail_ass; //args.detailL
 //var comments = Alloy.Collections.comment;
 //reimburseDetails && reimburseDetails.fetch({remove: false});
 //comments && comments.fetch({remove: false});
+
 var id;
 var gid;
 var reimburse;
@@ -24,44 +25,12 @@ if ($model) {
 	$.homeReimburseDetailRow.title = $model.get('name')+" "+$model.get('amount')+" "+moment.parseZone($model.get('receiptDate')).local().format(dateFormat);
 	//comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+$model.get("gid")});
 	$.commentLabel.text = $model.get('totalComments'); //comments.where({reimburseDetailId : id}).length;
-	//if ($model.get('isDeleted') == 0) 
-	{
-		//$.homeReimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
-		//$.innerView.backgroundColor = 'lightgray';
-		//$.status.backgroundColor = STATUSCODE_COLOR[status];
-		//$.avatar.image = '/tick_64.png';
-	} 
-	// wait for parent id to be available before fetching details
-	//comments && comments.fetch({remove: false});
-	//$.switchBtn.removeEventListener("change", switchChange);
-	//$.switchBtn.addEventListener("change", switchChange);
-	//if ($.switchBtn.value == null) 
-		$.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
+	$.switchBtn.value = (status < DETAILSTATUSCODE[Const.Rejected]);
 	updateSwitch($.switchBtn, $.switchBtn.value);
-	// var reimburse = reimburses_ass.find(function(mdl) {
-			// return mdl.get('reimburse_gid') == $model.get('reimburseGid');
-	// }); //findWhere({reimburse_gid: $model.get('reimburseGid')}); //reimburses_ass.get($model.get('reimburseId'));
-	//if (reimburse && reimburse.length > 0) reimburse = reimburse[0];
-	// var parentstatus = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
 	$.switchBtn.touchEnabled = true; //(parentstatus <= STATUSCODE[Const.Pending]);
-	//$.rightView.touchEnabled = $.switchBtn.touchEnabled;
 } else {
 	$model = null;
 }
-
-// toggle the "done" status of the IDed todo
-// function toggleStatus(e) {
-	// // find the todo task by id
-	// var todo = todos.get(id);
-// 
-	// // set the current "done" and "date_completed" fields for the model,
-	// // then save to presistence, and model-view binding will automatically
-	// // reflect this in the tableview
-	// todo.set({
-		// "done": todo.get('done') ? 0 : 1,
-		// "date_completed": moment().unix()
-	// }).save();
-// }
 
 // delete the IDed todo from the collection
 function deleteItem(id) {
@@ -164,7 +133,7 @@ function updateSwitch(sw, val) {
 		//backgroundImage: val == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
 		backgroundImage: val == false ? "/icon/sw_no.png" : "/icon/sw_yes.png",
 	});
-	sw.applyProperties(style); //bug? seems to cause other row's switch background to be changing on the first 3 rows, triggering some other's switch change event
+	sw.applyProperties(style); //BUG on tableView? seems to cause other row's switch background to be changing on the first 3 rows, triggering some other's switch change event
 }
 
 Alloy.Globals.toggleUsed = false;
@@ -186,8 +155,7 @@ function switchChange(e) {
 			reimburseDetail.fetch({id: id});
 			reimburse = /*Alloy.Globals.homeListReimburse_ass*/Alloy.Collections.reimburse_ass.find(function(mdl) {
 				return mdl.get('reimburse_gid') == reimburseDetail.get('reimburseGid');
-			}); //findWhere({reimburse_gid: reimburseDetail.get('reimburseGid')});
-			//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
+			}); 
 			reimburse.fetch({id: reimburse.get('id')});
 			var status = STATUSCODE[reimburse.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending]; //reimburse.get('status');
 			if (status <= STATUSCODE[Const.Pending]) {
@@ -203,37 +171,24 @@ function switchChange(e) {
 					val = listItem[prx+"switchBtn"].value;
 				}
 
-				// reimburseDetail.set({
-					// "status" : DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected]
-				// });
 				reimburseDetail.save({
-					"isRejected" : (!val) ? 1 : 0, //DETAILSTATUSCODE[$.switchBtn.value ? Const.Approved : Const.Rejected],
+					"isRejected" : (!val) ? 1 : 0, 
 					"isSync" : 0,
 				}, {success :function(mdl){
-					// mdl.fetch({
-						// remove : false
-					// });
 					var detObj = Alloy.Globals.homeDetTransFunc && Alloy.Globals.homeDetTransFunc(mdl);
 					if (listItem) {
 						listItem[prx+"switchBtn"]= detObj.switchBtn;
 					}
 					
 					var amount = parseFloat(mdl.get('amount'));
-					// reimburse = Alloy.Globals.homeListReimburse_ass.find(function(mdl2) {
-						// return mdl2.get('reimburse_gid') == mdl.get('reimburseGid');
-					// }); //findWhere({reimburse_gid: mdl.get('reimburseGid')});
-					//if (reimburse && reimburse.length>0) reimburse = reimburse[0];
+					
 					var newTotal = parseFloat(reimburse.get('reimburse_total_approved')) + (mdl.get('isRejected') ? -amount : amount);
-					// reimburse.set({
-						// "total" : parseFloat(reimburse.get('total')) + ($.switchBtn.value ? amount : -amount)
-					// });
+					
 					reimburse.save({
 						"reimburse_total_approved" : newTotal,
 						"isSync" : 0,
 					}, {success :function(parmdl){
-						// parmdl.fetch({
-							// remove : false
-						// });
+						
 						var obj = Alloy.Globals.homeTransFunc && Alloy.Globals.homeTransFunc(parmdl);
 						if (listItem) {
 							listItem["total"].text = obj.total;

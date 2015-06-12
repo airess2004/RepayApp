@@ -167,8 +167,6 @@ function winOpen(e) {
 		$.imageView.addEventListener("click", thumbPopUp);
 	};
 	$.saveBtn.visible = unSent;
-	//$.titleField.blur();
-	//Ti.UI.Android.hideSoftKeyboard();
 }
 
 function winClose(e) {
@@ -198,10 +196,22 @@ function doMenuClick(evt) {
 }
 
 function doSearch(e) {
-	alert("Search Clicked");
+	//alert("Search Clicked");
 }
 
 function doSave(e) {
+	// Validation	
+	if ($.titleField.value == null || $.titleField.value.trim() == "") {
+		alert(L('no_title'));
+		return false;
+	} else if ($.dateField.value == null || $.dateField.value == "") {
+		alert(L('no_date'));
+		return false;
+	} else if ($.photo.image == null || $.photo.image == "" || (typeof $.photo.image == 'string' && $.photo.image.indexOf(":") < 0)) {
+		alert(L('no_photo'));
+		return false;
+	}
+	
 	$.act.show();
 	var curTime = moment().utc().toISOString();
 	var reimburses = Alloy.Collections.reimburse;
@@ -277,22 +287,17 @@ function doSave(e) {
 	});
 	reimburse.save();
 	reimburse.fetch({remove: false});
-	//details = null;
 	//-- end update parent
 
 	// reload the tasks
-	//reimburseDetails.fetch({remove: false});
 	if (reimburse.id) {
 		Alloy.Globals.reimburseDetailList.fireEvent("open", {param:{remove:false/*, query:"SELECT * FROM reimburseDetail WHERE reimburseId="+reimburse.id*/}});
 	}
-	//Alloy.Globals.reimburseDetailList.fireEvent("refresh");
 	$.act.hide();
 	$.reimburseDetailForm.close();
 }
 
 
 $.reimburseDetailForm.addEventListener("android:back", function(e) {
-	//$.tableView.search = Alloy.Globals.searchView;
-	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
 	$.reimburseDetailForm.close(e);
 });

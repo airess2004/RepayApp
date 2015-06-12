@@ -16,12 +16,6 @@ if (args.id != null) {
 
 comments && comments.fetch({remove:false, query:"SELECT * FROM comment WHERE reimburseDetailGid="+args.gid});
 
-// Sort Descending
-// comments.comparator = function(model) {
-  // return -(moment.parseZone(model.get('dateCreated')).unix());
-// };
-//comments.sort();
-
 function commentFocus(e) {
 	$.scrollView.scrollToBottom();
 }
@@ -35,22 +29,11 @@ function winOpen(e) {
 		$.descriptionField.text = data.get('description');
 		$.photo.image = data.get('urlImageSmall');
 		$.photo.imageOri = data.get('urlImageOriginal');
-		// var activity = $.comment.getActivity();
-		// if (activity) {
-		// var actionBar = activity.getActionBar();
-		// // get a handle to the action bar
-		// var title = data.get("title");
-		// if (String.format(title).length > 30)
-		// title = title.substring(0, 27) + "...";
-		// actionBar.title = args.title;
-		// $.totalField.value = data.get("total");
-		// }
-		//comments && comments.fetch({remove: false});
 	}
 	$.actionTitle.text = "EXPENSE";
 	$.commentField.blur();
 	Ti.UI.Android.hideSoftKeyboard();
-	//$.commentField.addEventListener("focus", commentFocus);
+	
 	$.act.show();
 	remoteReimburseDetail.getDetailObject(args.gid, function(result, retlist) {
 		if (result.error) {
@@ -116,7 +99,7 @@ function winClose(e) {
 	//reimburses = null;
 }
 
-function doBack(evt) {// what to do when the "home" icon is pressed
+function doBack(evt) {// 
 	Ti.API.info("Home icon clicked!");
 	$.comment.fireEvent('android:back', evt);
 }
@@ -237,8 +220,6 @@ function thumbPopUp(e) {
 
 
 $.comment.addEventListener("android:back", function(e) {
-	//$.tableView.search = Alloy.Globals.searchView;
-	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
 	if ($.dialogView3.visible) {
 		$.dialogView3.hide();
 	} else {

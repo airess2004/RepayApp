@@ -9,8 +9,6 @@ function winOpen(e) {
 	if (data) {
 		$.titleField.value = data.get('title');
 		$.dateField.value = moment.parseZone(data.get('projectDate')).local().format(dateFormat);
-		// $.dateField.value = data.get('projectDate');
-		
 	}
 	$.dialogTitle.text = data ? "Edit Reimburse" : "New Reimburse";
 	$.reimburseForm.parent.show();
@@ -36,7 +34,7 @@ function doMenuClick(evt) {
 }
 
 function doSearch(e) {
-	alert("Search Clicked");
+	//alert("Search Clicked");
 }
 
 function dialogCancelClick(e) {
@@ -48,6 +46,15 @@ function dialogSaveClick(e) {
 }
 
 function doSave(e) {
+	// Validation	
+	if ($.titleField.value == null || $.titleField.value.trim() == "") {
+		alert(L('no_title'));
+		return false;
+	} else if ($.dateField.value == null || $.dateField.value == "") {
+		alert(L('no_date'));
+		return false;
+	}
+	
 	var curTime = moment().utc().toISOString();
 	var item = {
 		title: $.titleField.value,
@@ -84,10 +91,7 @@ function doSave(e) {
 				reimburse.fetch({
 					remove : false
 				}); 	
-				// reload the tasks	
-				// reimburses.fetch({
-					// remove : false
-				// });
+				
 				if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
 					Alloy.createController("reimburseDetailList", {
 						id : reimburse.id
@@ -124,10 +128,7 @@ function doSave(e) {
 					reimburse.fetch({
 						remove : false
 					});
-					// reload the tasks
-					// reimburses.fetch({
-						// remove : false
-					// });
+					
 					if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
 						Alloy.createController("reimburseDetailList", {
 							id : reimburse.id
@@ -139,17 +140,6 @@ function doSave(e) {
 			Alloy.Globals.act2.hide();
 		});
 	}
-
-	// // reload the tasks
-	// reimburses.fetch({remove: false});
-	// if ($.reimburseForm.parent == Alloy.Globals.dialogView) {
-		// Alloy.createController("reimburseDetailList", {
-			// id : reimburse.id
-		// }).getView().open();
-	// };
-	// $.reimburseForm.fireEvent("close");
-	//close();
-
 }
 
 function dateFieldClick(evt) {

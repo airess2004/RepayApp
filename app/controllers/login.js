@@ -1,16 +1,6 @@
 var args = arguments[0] || {};
 exports.currentObj = {};
-var postData = {
-	token : SERVER_KEY,
-	method : 'get',
-	sortby : 'id',
-	order : 'desc',
-	offset : 0,
-	max : 20,
-	model : {
-		id : 0,
-	},
-};
+var postData = {};
 var register = Alloy.createController("register");
 
 Alloy.Globals.logging = false;
@@ -26,7 +16,6 @@ function onSignInClick(e) {
 		var item = {
 			username : $.userField.value ? $.userField.value : '',
 			passwordHash : $.passField.value,
-			//fullname : nameField.value,
 			deviceToken: Alloy.Globals.gcmRegId,
 		};
 		// Validation
@@ -42,7 +31,7 @@ function onSignInClick(e) {
 		$.act.show({
 			modal : true
 		});
-		//var db = require('database/default/remote_user');
+		
 		var LastTimeStamp = moment.utc();
 		remoteUser.login(item, function(result) {
 			$.act.hide();
@@ -70,14 +59,7 @@ function onSignInClick(e) {
 					if (Alloy.Globals.gcmRegId && Alloy.Globals.gcmRegId!="") lastDeviceToken = localConfig.createOrUpdateObject("lastDeviceToken", Alloy.Globals.gcmRegId, preCURRENT_USER);
 					CURRENT_NAME = result.fullname?result.fullname.trim():result.fullname;
 					SERVER_KEY = result.token;
-					//TRANSLOADIT_SIGNATURE = result.hash;
-					//TRANSLOADIT_PARAMS = JSON.parse(result.param);
-					//TRANSLOADIT_TEMPLATEID = TRANSLOADIT_PARAMS.template_id;
-					//TRANSLOADIT_NOTIFY = TRANSLOADIT_PARAMS.notify_url;
-					//TRANSLOADIT_FIELDS = TRANSLOADIT_PARAMS.fields;
-					//TRANSLOADIT_KEY = TRANSLOADIT_PARAMS.auth.key;
-					//EXPIRED_TIME = TRANSLOADIT_PARAMS.auth.expires;
-					////moment.parseZone(TRANSLOADIT_PARAMS.auth.expires).format("yyyy/MM/dd HH:mm:ss+00:00");
+					
 					Alloy.Globals.lastSyncReimburseTime = lastSyncReimburseTime.val;
 					Alloy.Globals.lastSyncReimburseDetTime = lastSyncReimburseDetTime.val;
 					Alloy.Globals.lastSyncReimburseToken = lastSyncReimburseToken.val;
@@ -102,13 +84,6 @@ function onSignInClick(e) {
 						if (Alloy.Globals.reimburseAct) Alloy.Globals.reimburseAct.hide();
 					});
 					
-					//p.win.hide();//.blur();
-					// for (var idx in par.children) {
-					// par.children[idx].hide();
-					// }
-					// par.removeAllChildren();
-					//create & add main view
-					//par.exitOnClose = false;
 					if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[1].fireEvent("refresh");
 					//if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("refresh");
 					if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("open");
@@ -147,12 +122,6 @@ function showSignUpForm(e) {
 	$.loginForm.exitOnClose = false;
 	register.getView().open();
 	$.loginForm.close();
-};
-
-function userFocus(e) {
-	//$.userField.removeEventListener("focus", userFocus);
-	//$.userField.blur();
-	//Ti.UI.Android.hideSoftKeyboard();
 };
 
 function loginOpen(e) {

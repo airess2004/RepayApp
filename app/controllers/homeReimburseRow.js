@@ -6,17 +6,12 @@ var reimburseDetails_ass = $.localReimburseDetail_ass; //Alloy.Collections.reimb
 //$.localReimburseDetail = Alloy.Globals.homeListReimburseDetail;
 //reimburseDetails_ass && reimburseDetails_ass.fetch({remove: false});
 //Alloy.Globals.homeListReimburseDetail = $.localReimburseDetail;
+
 var id;
 var gid;
 
 var section;
 var itemIndex;
-
-// Sort Descending
-// reimburseDetails.comparator = function(model) {
-  // return -(moment.parseZone(model.get('receiptDate')).unix());
-// };
-//reimburseDetails.sort();
 
 function whereFunction(collection) {
 	if (!$.homeReimburseRow.rowgid) alert("invalid gid : "+gid);
@@ -27,9 +22,6 @@ function whereFunction(collection) {
 	if (!ret)
 		ret = [];
 	return ret;
-	//!whereIndex ?
-	//collection.models :
-	//collection.where({ isDeleted: false });
 }
 
 // Perform transformations on each model as it is processed. Since
@@ -62,56 +54,19 @@ if ($model) {
 	$.homeReimburseRow.rowgid = gid;
 	var status = STATUSCODE[$model.get('reimburse_is_confirmed') == true ? Const.Closed : Const.Pending];
 	$.homeReimburseRow.title = $model.get('reimburse_title') + " " + STATUS[status] + " " + $model.get('reimburse_total_approved') + " " + $model.get('reimburse_application_date');
-	//if ($model.get('isDeleted') == 0) 
-	{
-		//$.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-		//$.innerView.backgroundColor = 'lightgray';
-		// $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-		// $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Pending]); //Pending
-		// $.approveBtn.text = ($.approveBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
-		// $.approveBtn.borderRadius = (status == STATUSCODE[Const.Pending]) ? "8dp" : 0;
-		$.innerView.touchEnabled = (status == STATUSCODE[Const.Pending]);
-		$.bottomView.touchEnabled = $.innerView.touchEnabled;
-		$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Pending]); //Pending
-		$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
-		$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
-		//$.avatar.image = '/tick_64.png';
-	} 
+	
+	$.innerView.touchEnabled = (status == STATUSCODE[Const.Pending]);
+	$.bottomView.touchEnabled = $.innerView.touchEnabled;
+	$.confirmBtn.touchEnabled = (status == STATUSCODE[Const.Pending]); //Pending
+	$.confirmBtn.backgroundColor = ($.confirmBtn.touchEnabled) ? Alloy.Globals.lightColor : Alloy.Globals.darkColor;
+	$.confirmBtn.text = ($.confirmBtn.touchEnabled) ? "CONFIRM" : STATUS[status];
+		
 	// wait for parent id to be available before fetching details
 	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+$model.get('reimburse_gid')});
 } else {
 	var $model = null;
 	if (!reimburseDetails_ass) reimburseDetails_ass = Alloy.createCollection('reimburse_ass');
 }
-
-// reimburses.on('change:status', function(e){
- 	// // custom function to update the content on the view
- 	// // var status = e.source.get('status');
-    // // $.homeReimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-	// // $.innerView.backgroundColor = 'lightgray';
-	// // $.approveBtn.backgroundColor = STATUSCODE_COLOR[status];
-	// // $.approveBtn.touchEnabled = (status == STATUSCODE[Const.Pending]);
-	// // $.approveBtn.text = ($.approveBtn.touchEnabled) ? "APPROVE" : STATUS[status];
-	// // $.innerView.touchEnabled = $.approveBtn.touchEnabled;
-// });
-// 
-// reimburses.on('change', function(e){
-	// //reimburses.fetch({remove: false});
-// });
-
-// toggle the "done" status of the IDed todo
-// function toggleStatus(e) {
-	// // find the todo task by id
-	// var todo = todos.get(id);
-// 
-	// // set the current "done" and "date_completed" fields for the model,
-	// // then save to presistence, and model-view binding will automatically
-	// // reflect this in the tableview
-	// todo.set({
-		// "done": todo.get('done') ? 0 : 1,
-		// "date_completed": moment().unix()
-	// }).save();
-// }
 
 function thumbPopUp(e) {
 	if (e.section) {
@@ -149,14 +104,7 @@ function approveReimburse(id) {
 	// find the todo task by id
 	var reimburse = Alloy.Globals.homeListReimburse_ass.get(id);
 	reimburse.fetch({id: id});
-	// destroy the model from persistence, which will in turn remove
-	// it from the collection, and model-view binding will automatically
-	// reflect this in the tableview
-	// var dets = reimburseDetails.where({
-		// isDeleted : 0,
-		// reimburseId : $.homeReimburseRow.rowid
-	// });
-	// if (!dets) dets = [];
+	
 	// TODO: update detail's status
 	var reimburseGid = reimburse.get('reimburse_gid'); //'gid'
 	reimburseDetails_ass && reimburseDetails_ass.fetch({remove:false, query:"SELECT * FROM reimburseDetail_ass WHERE reimburseGid="+reimburseGid});
@@ -175,24 +123,18 @@ function approveReimburse(id) {
 				reimburse_confirmed_at : result.doneDate,
 			});
 			reimburse.save();
-			// reimburse.save(null, {
-			// success: function(model, resp){
-			// alert("Success saving.");
-			// },
-			// error: function(model, resp) {
-			// alert("Error saving!");
-			// }
-			// });
+			
 			reimburse.fetch({
 				id: id, //remove : false
 			});
-			//reimburses.fetch({remove: false});
-			//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+			
 			if (result.isDone ) { //&& Alloy.Globals.gcmRegId
 				// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 					// title : "Reimburse ID:" + reimburse.get('reimburse_gid'),
 					// message : "Reimburse Titled:'" + reimburse.get('reimburse_title') + "' has been approved by '" + Alloy.Globals.CURRENT_USER + "'",
 					// date : reimburse.get('reimburse_confirmed_at'), //moment().toISOString(),
+					// type : "confirm",
+					// id : reimburse.get('reimburse_gid'),
 				// }, function(ret) {
 					// if (ret.error)
 						// alert("Error : " + ret.error);

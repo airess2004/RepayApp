@@ -10,12 +10,6 @@ reimburses && reimburses.fetch({remove: false, query:"SELECT * FROM reimburse WH
 Alloy.Globals.reimburseListReimburse = $.localReimburse;
 Alloy.Globals.reimburseAct = $.act;
 
-// Sort Descending
-// reimburses.comparator = function(model) {
-  // return -(moment.parseZone(model.get('projectDate')).unix());
-// };
-//reimburses.sort();
-
 // Filter the fetched collection before rendering. Don't return the
 // collection itself, but instead return an array of models
 // that you would like to render.
@@ -23,12 +17,7 @@ function whereFunction(collection) {
 	if (filter) filter.username = Alloy.Globals.CURRENT_USER;
 	var ret = collection.where(filter);
 	if (!ret) ret = [];
-	// ret = _.sortBy(ret, function(model){
-		 // return -(moment.parseZone(model.get('projectDate')).unix());
-	// });
-	return ret; //!whereIndex ?
-		//collection.models :
-		//collection.where({ isDeleted: false });
+	return ret; 
 }
 
 // Perform transformations on each model as it is processed. Since
@@ -39,13 +28,11 @@ function whereFunction(collection) {
 // attributes with the toJSON() function.
 function transformFunction(model) {
 	var transform = model.toJSON();
-	var stat = model.get('status'); //BUG? when using "var status =" it's content will be undefined, and when using global var "status =" the content is the same as "transform.status" (uppercased)
-	//alert("stat = "+stat);
+	var stat = model.get('status'); //BUG with listview? when using "var status =" it's content will be undefined, and when using global var "status =" the content is the same as "transform.status" (uppercased)
 	transform.status = STATUS[stat].toUpperCase();
 	transform.projectDate = moment.parseZone(transform.projectDate).local().format(dateFormat);
 	transform.total = "Rp." + String.formatDecimal(transform.total); // + " IDR"; //Number(transform.total.toFixed(2)).toLocaleString() + " IDR";
 	if (transform.title && String.format(transform.title).length > 25) transform.title = transform.title.substring(0,22)+"...";
-	//alert("stat = "+stat + "\nSTATUS[stat] = "+STATUS[stat]+"\nSTATUS[model.get('status')] = "+STATUS[model.get('status')]+"\nSTATUS[model.get('status')] = "+STATUS[model.get('status')]);
 	//-- workaround to customize ItemTemplate component's style on-the-fly
 	transform.searchableText = model.get('title') + " " + STATUS[stat] + " " + model.get('total') + " " + model.get('projectDate');
 	transform.status_backgroundColor = STATUSCODE_COLOR[stat];
@@ -58,11 +45,6 @@ function transformFunction(model) {
 
 // Show task list based on selected status type
 function showList(e) {
-	// if (typeof e.index !== 'undefined' && e.index !== null) {
-		// whereIndex = e.index; // TabbedBar
-	// } else {
-		// whereIndex = INDEXES[e.source.title]; // Android menu
-	// }
 	reimburses && reimburses.fetch({remove:false, query:"SELECT * FROM reimburse WHERE isDeleted=0 and username='"+Alloy.Globals.CURRENT_USER+"'"}); //fetch(e.param ? e.param : {remove:false});
 }
 
@@ -108,27 +90,6 @@ function updateBorder(e) {
 		//case $.showAll: $.showAll.borderWidth = "3dp"; $.showAll.borderRadius = "3dp"; break;
 	}
 }
-
-// function thumbPopUp(e, img) {
-	// var aview = Ti.UI.createView({
-		// width : "256dp",
-		// height : "256dp",
-		// backgroundColor : "#7777",
-		// borderColor : Alloy.Globals.lightColor,
-		// borderWidth : "1dp",
-		// touchEnabled: false,
-	// }); 
-	// aview.add(Ti.UI.createImageView({
-		// //width: "512dp",
-		// height : "512dp",
-		// touchEnabled: false,
-		// image: img ? img.image : $.avatar.image,
-	// }));
-// 	
-	// Alloy.Globals.dialogView.removeAllChildren();
-	// Alloy.Globals.dialogView.add(aview);
-	// Alloy.Globals.dialogView.show();
-// }
 
 function listItemHandler(e) {
 	//var section = $.tableView.sections[e.sectionIndex];
@@ -181,7 +142,13 @@ function listLoader(e) {
     });
 }
 
-if ($.is) $.is.init($.tableView);
+if ($.is) {
+	$.is.init($.tableView);
+	// if ($.tableView.sections && $.tableView.sections.length > 0) {
+		// $.is.load(); //may cause exception if there are no sections on internal listview
+		// $.is.mark(); //may cause exception if there are no sections on internal listview
+	// }
+}
 if ($.ptr) $.ptr.refresh();
 
 $.reimburseList.addEventListener("refresh", function(e){
@@ -192,12 +159,8 @@ $.reimburseList.addEventListener("refresh", function(e){
 $.reimburseList.addEventListener("open", function(e){
 	e.bubbles = false;
 	Alloy.Globals.index.getActivity().getActionBar().title = "Reimburse";
-	//Alloy.Globals.newMenu.visible = true;
-	// Make sure icons are updated
-	//Alloy.Globals.index.activity.invalidateOptionsMenu();
 	$.tableView.search = Alloy.Globals.searchView;
 	showAllClick(e);
 	Alloy.Globals.scrollableView.scrollToView($.reimburseList);
-	//showList(e);
 	e.cancelBubble = true;
 });

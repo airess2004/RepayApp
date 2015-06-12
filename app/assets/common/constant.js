@@ -1,9 +1,5 @@
 //################# STATIC DATA - DO NOT CHANGE #####################
 var maxInt = 2147483647;
-var _NEXT_GEN="nextgen";
-var _FB_GALLERY="fb";
-var _PICASA="pic";
-var _FLICKR="flic";
 
 var isIPad = Ti.Platform.osname == "ipad";
 var isIPhone = Ti.Platform.osname == "iphone";
@@ -14,9 +10,9 @@ var isBB = Ti.Platform.osname == "blackberry";
 var isTizen = Ti.Platform.osname == "tizen";
 
 //$$.createMemoryPool();
-// var memoryPool = require('mempool').MemoryPool;
+// var memoryPool = require('mempool').MemoryPool; //library to clean up unused components to prevent memory leaks
 
-// var splitter = require('ui/common/splitter');
+// var splitter = require('ui/common/splitter'); //library to create horizontal/vertical splitter
 
 var defaultFont = {
 	fontFamily: 'century-gothic'
@@ -75,7 +71,7 @@ function getSignatureFromServer(obj, callback) {
 			var json = JSON.parse(this.responseText);
 			callback(null, json.signature, JSON.parse(json.params));
 		},
-	}); //Titanium.Network.createHTTPClient();
+	});
 	
 	// open the client
 	xhr.open('GET', url + "?auth_token="+SERVER_KEY, true);
@@ -94,14 +90,16 @@ function getSignatureFromServer(obj, callback) {
 	// };
 	// var jsonstr = JSON.stringify(jsonobj);
 	// send the data
-	xhr.send();
+	xhr.send(/*jsonstr*/);
 }; 
 
+// used to compare server timestamp with client timestap, more than 1 minute different will be considered as not insync
 function isTimeInSync(serverTimeStamp, clientTimeStamp) {
 	var diffMin = moment.duration(moment.parseZone(serverTimeStamp).utc().diff(clientTimeStamp)).get("minutes");
-	return !(!serverTimeStamp || !clientTimeStamp || Math.abs(diffMin)>10);
+	return !(!serverTimeStamp || !clientTimeStamp || Math.abs(diffMin) > 1);
 }
 
+// used to convert datetime to transloadit-compatible expired datetime format without using moment.js
 function utcDateString(time) {
 	function pad(val, len) {
 		val = String(val);
@@ -129,7 +127,8 @@ function utcDateString(time) {
 	return result;
 }; 
 
-function upload2trans (filename, callback, wait, progressCallback) {
+//used to upload image file to transloadit using current signature with finished callback and progressbar callback
+function upload2trans (filename, callback, progressCallback) {
 	getSignatureFromServer(null, function(er, hash, params) {
 		if (!er) {
 			EXPIRED_TIME = params.auth.expires;
@@ -142,7 +141,7 @@ function upload2trans (filename, callback, wait, progressCallback) {
 				//notify_url : TRANSLOADIT_NOTIFY, //'http://my-api/hey/file/is/done',
 				template : TRANSLOADIT_TEMPLATEID,
 				//fields : TRANSLOADIT_FIELDS, //{customFormField : true},
-				wait : wait || true, //
+				wait : true, // false = calling callback only once even when assembly still executing. true = calling callback when done, and calling progressCallback while in progress
 				getSignature : function(params, next) {
 					//Ti.API.info(params);
 					//https://transloadit.com/docs/api-docs#authentication
@@ -156,17 +155,9 @@ function upload2trans (filename, callback, wait, progressCallback) {
 				Ti.API.info(err || assembly);
 				//console.log(err || assembly);
 				if (!err) {
-					// if (assembly.results.thumb)
-					// obj.urlImageSmall = assembly.results.thumb[0].url;
-					// if (assembly.results.optimized)
-					// obj.urlImageOriginal = assembly.results.optimized[0].url;
-					// // ":origin"
-					// if (assembly.results.medium)
-					// obj.urlImageMedium = assembly.results.medium[0].url;
 					if (callback)
 						callback(assembly);
 				} else {
-					//act.hide();
 					var msg = err;
 					if (err.error == TRANSLOADIT_AUTH_EXPIRED) {
 						msg = L('session_expired');
@@ -184,13 +175,6 @@ function upload2trans (filename, callback, wait, progressCallback) {
 				Ti.API.info(err || assembly);
 				//console.log(err || assembly);
 				if (!err) {
-					// if (assembly.results.thumb)
-					// obj.urlImageSmall = assembly.results.thumb[0].url;
-					// if (assembly.results.optimized)
-					// obj.urlImageOriginal = assembly.results.optimized[0].url;
-					// // ":origin"
-					// if (assembly.results.medium)
-					// obj.urlImageMedium = assembly.results.medium[0].url;
 					if (progressCallback)
 						progressCallback(assembly);
 				}
@@ -201,6 +185,7 @@ function upload2trans (filename, callback, wait, progressCallback) {
 	});
 }
 
+// trim each element in a string array
 function trimArray(arr) {
 	if (arr) {
 		for (var i=0,  tot=arr.length; i < tot; i++) {
@@ -210,17 +195,20 @@ function trimArray(arr) {
 	return arr;
 }
 
+//convert long string with line character into string array
 function string2array(str) {
       return trimArray(str.match(/[^\r\n]+/g)); //str.replace(/(\r\n|\r|\n)/g, '\n');
 };
 
+//create custom [alert] dialog
 function createDialog(params, callback, parent) {
 	var dialog = Titanium.UI.createAlertDialog(params);
 	if (callback) dialog.addEventListener('click', callback);
 	if (parent) parent.add(dialog);
 };
 
-function msgBox(title,message,callback,parent) {
+//create custom message box
+function msgBox(title, message, callback, parent) {
 	var dialog = Titanium.UI.createAlertDialog({
 			buttonNames: [L('ok')],
 			modal : true,
@@ -232,23 +220,26 @@ function msgBox(title,message,callback,parent) {
 	dialog.show();
 };
 
-function notifBox(message,duration,callback,parent) {
+//create toast notification
+function notifBox(message, duration, callback, parent) {
 	var notif = Titanium.UI.createNotification({
 			message : message,
 			duration : duration ? duration : Ti.UI.NOTIFICATION_DURATION_SHORT,
 			//modal : true,
 		});
-	//if (message) notif.message = message;
+	//if (message) notif.message = message; //BUG? changing message after creation doesn't works
 	//if (duration) notif.duration = duration;
 	if (callback) notif.addEventListener('click', callback);
 	//if (parent) parent.add(notif);
 	notif.show();
 };
 
+//convert full pathname into filename with extension only
 function getFilename(fullpath) {
 	return fullpath ? fullpath.replace(/^.*[\\\/]/, '') : fullpath;
 }
 
+//delete a file
 function deleteFile(filename) {
 	var file = Titanium.Filesystem.getFile(filename);
 	if (!file.exists()) file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, getFilename(filename));							
@@ -257,21 +248,11 @@ function deleteFile(filename) {
 	}
 }
 
+// create thumbnail with 128x128 size, might takes longer time processing large image compared to using ImageFactory library
 function createLocalThumb(srcImg, tgtWidth, tgtHeight, callback) {
-	// var params = {
-		// image : srcImg.toBlob().imageAsResized(tgtWidth, tgtHeight),
-	// };
-	// if (tgtWidth) params.width = tgtWidth;
-	// if (tgtHeight) params.height = tgtHeight;
-	// var img = Ti.UI.createImageView(params);
-	
-	//var imgView = Ti.UI.createView({width : Ti.UI.SIZE, height : Ti.UI.SIZE});
-	//imgView.add(img);
-	
 	var ret = srcImg.toBlob();
 	if (ret) {	
 		var ret = ret.imageAsResized(tgtWidth || tgtHeight || 128, tgtHeight || tgtWidth || 128);
-		//img.toImage(); //imgView.toImage().media;
 
 		if ( typeof srcImg.image == 'string') {
 			var thumbfile = "thumb" + /*Date.now() +*/ "_" + getFilename(srcImg.image); //srcImg.image.replace(/^.*[\\\/]/, '');
@@ -289,7 +270,6 @@ function cropImage(in_img, rect) {
 	var out_img = null;
 	if (in_img) {
 		var ImageFactory = require('ti.imagefactory');
-		//var rect = $.cropperView.getRect();
 		// convert coordinate from "dp" to "pt"
 		rect.width *= Ti.Platform.displayCaps.logicalDensityFactor;
 		rect.height *= Ti.Platform.displayCaps.logicalDensityFactor;
@@ -306,7 +286,6 @@ function resizeImage(in_img, size) {
 	var out_img = null;
 	if (in_img) {
 		var ImageFactory = require('ti.imagefactory');
-		//var rect = $.cropperView.getRect();
 		// convert coordinate from "dp" to "pt"
 		size.width = Math.max(0, size.width /* * Ti.Platform.displayCaps.logicalDensityFactor*/); //x must be >= 0
 		size.height = Math.max(0, size.height /* * Ti.Platform.displayCaps.logicalDensityFactor*/); //y must be >= 0
@@ -335,70 +314,8 @@ allowOrdering = function()
 };
 
 var orientModes = [Titanium.UI.PORTRAIT]; //[Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT];
-var templateName=getProperty('color','config')||'default'; // appstore
+//var templateName=getProperty('color','config')||'default'; // appstore
 //var Template=require('ui/templates/'+templateName); // Change with one of the templates.
-var borderColor = '#004455';
-var selectColor = '#007788';
-var shadowCol = '#ffee20';
-
-//Navigation Settings
-var navigationType = getProperty('navigation','config')||"slider"; // Possible:  tab, metro, slider
-var _NavigationType = navigationType;
-
-//Settings for slider menu
-var sliderMenuRows=getProperty('sliderRows','config')||"2";
-var sliderMenuColumns=getProperty('sliderColumns','config')||"3";
-
-//CHANGE THE TYPE OF GALLERY HERE
-var _typeOfGallery=getProperty('type','gallery')||_FLICKR;  // Possible Values:  _FB_GALLERY, _NEXT_GEN, _PICASA, _FLICKR
-
-//####################### LINKS ########################
-var contactLogoBackground="#00FFFFFF";
-var contactLogoImage=isIPad?"/images/logoipad.png":"/images/logo.png";
-
-
-//Web Site
-var _hasWebPage=getProperty('website','about')!=null&&getProperty('website','about')!="";
-var _About_URL=getProperty('website','about')||"http://www.playssd.com/"; //Replace this with your own link, like info about your app, or ink to your facebook / twitter portfolio
-var _AboutContent=getProperty('content','about')||"";
-
-//How long the connection to api should take
-var _timeout=10000;
-
-//Other settings
-var _AppName=getProperty('appname','config')||"My App";
-
-//################# TEXT FORMATS ###################
-var _h1 = {
-    fontSize : "18sp", //18dp
-    fontStyle : 'bold',
-    fontWeight : 'bold'
-};
-var _h2 = {
-    fontSize : "15sp",
-    fontStyle : 'bold',
-    fontWeight : 'bold'
-};
-var _h3 = {
-    fontSize : "12sp",
-    fontStyle : 'bold',
-    fontWeight : 'bold'
-};
-var _h4 = {
-    fontSize : "13sp"
-};
-var _normal = {
-    fontSize : "11sp"
-};
-var _normal_italic = {
-    fontSize : "11sp",
-    fontStyle : 'italic'
-};
-
-var _empahasys = {
-    fontSize : "10sp",
-    fontStyle : 'italic'
-};
 
 //################ DISPLAY SETTINGS ################
 var _dpiWidth=Ti.Platform.displayCaps.platformWidth; //Standard for iPhone and most of android devices
@@ -408,11 +325,11 @@ if(isAndroid)
 {
 	_dpiWidth=(Ti.Platform.displayCaps.platformWidth/Ti.Platform.displayCaps.logicalDensityFactor);
 	_dpiHeight=(Ti.Platform.displayCaps.platformHeight/Ti.Platform.displayCaps.logicalDensityFactor)-50;
-	if(navigationType=="tab"){
-        _dpiHeight=(Ti.Platform.displayCaps.platformHeight/Ti.Platform.displayCaps.logicalDensityFactor)-110;
-    }else if(navigationType=="metro"){
-        _dpiHeight=(Ti.Platform.displayCaps.platformHeight/Ti.Platform.displayCaps.logicalDensityFactor)-25;
-    }
+	// if(navigationType=="tab"){
+        // _dpiHeight=(Ti.Platform.displayCaps.platformHeight/Ti.Platform.displayCaps.logicalDensityFactor)-110;
+    // }else if(navigationType=="metro"){
+        // _dpiHeight=(Ti.Platform.displayCaps.platformHeight/Ti.Platform.displayCaps.logicalDensityFactor)-25;
+    // }
 }
 
 if(isIPhone)
@@ -460,10 +377,8 @@ Ti.Network.HTTPClient.OPENED = 1;
 Ti.Network.HTTPClient.HEADERS_RECEIVED = 2;
 Ti.Network.HTTPClient.LOADING = 3;
 Ti.Network.HTTPClient.DONE = 4;
-var stateDONE = 4; //Ti.Network.HTTPClient.DONE
+var stateDONE = Ti.Network.HTTPClient.DONE;
 var HTTP_OK = 200;
-
-
 
 /**
  * @method LoadRemoteImage
@@ -476,7 +391,6 @@ var LoadRemoteImage = function(obj, url) {
 	xhr.onload = function() {
 		//Ti.API.info('image data='+this.responseData);
 		obj.image = this.responseData;
-
 	};
 	// open the client
 	xhr.open('GET', url);
@@ -485,6 +399,7 @@ var LoadRemoteImage = function(obj, url) {
 	xhr.send();
 };
 
+// convert error message from API for alert dialog message
 function errors2string(errorsJSON) {
 	var ret = "";
 	for (var key in errorsJSON) {

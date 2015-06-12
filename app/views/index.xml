@@ -50,18 +50,6 @@
 		</View>
 		<View class="buttonBar" >
 			<View class="buttonBarInner">
-				<!--View class="homeBtn" onClick="homeBtnClick">
-					<ImageView id="homeImg"></ImageView>
-					<Label id="homeIcon" icon="fa-home"></Label>
-				</View>
-				<View class="reimburseBtn" onClick="reimburseBtnClick">
-					<ImageView id="reimburseImg"></ImageView>
-					<Label id="reimburseIcon" icon="fa-file-text"></Label>
-				</View>
-				<View class="settingBtn" onClick="settingBtnClick">
-					<ImageView class="settingImg"></ImageView>
-					<Label id="settingIcon" icon="fa-gear"></Label>
-				</View-->
 				<View class="addBtn" onClick="doNew">
 					<ImageView id="addReceiptImg"></ImageView>
 				</View>

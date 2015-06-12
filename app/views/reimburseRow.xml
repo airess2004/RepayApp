@@ -18,11 +18,5 @@
     	</View>
     </View>
   </ItemTemplate>
-  <!--AlertDialog id="deleteDialog" onClick="doDeleteClick" title="Confirm"
-            message="Are you sure you want to delete this record?" cancel="1">
-            <ButtonNames>
-                <ButtonName>Yes</ButtonName>
-                <ButtonName>No</ButtonName>
-            </ButtonNames>
-    </AlertDialog-->
+ 
 </Alloy>

@@ -7,16 +7,6 @@ var reimburses = Alloy.Collections.reimburse; //$.localReimburses; //
 var data = reimburses.get(args.id);
 reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id});
 
-// Filter the fetched collection before rendering. Don't return the
-// collection itself, but instead return an array of models
-// that you would like to render.
-
-// Sort Descending
-// reimburseDetails.comparator = function(model) {
-  // return -(moment.parseZone(model.get('receiptDate')).unix());
-// };
-//reimburseDetails.sort();
-
 //var abx = require('com.alcoapps.actionbarextras');
 
 function windowOpen(e) {
@@ -28,14 +18,7 @@ function windowOpen(e) {
 	if (activity) {
 		var actionBar = activity.getActionBar();
 		actionBar.hide();
-		// get a handle to the action bar
-		//abx.backgroundColor = "white";
-		// change the App Title
-		//abx.hideLogo();
-		//actionBar.homeButtonEnabled = true;
 		actionBar.icon = "/icon/ic_back.png";
-		//actionBar.logo = "/icon/ic_back.png";
-		//actionBar.displayHomeAsUp = true; // back icon
 		// Show the "angle" pointing back
 		actionBar.onHomeIconItemSelected = doBack;
 		var title = data.get("title");
@@ -44,10 +27,6 @@ function windowOpen(e) {
 		actionBar.subtitle = title;
 		$.actionTitle.text = "Expense List";
 		$.actionSubtitle.text = title;
-		// abx.titleFont = "century-gothic";
-		// abx.subtitleFont = "century-gothic";
-		// abx.titleColor = Alloy.Globals.darkColor;
-		// abx.subtitleColor = Alloy.Globals.lightColor;
 		$.total.text = "Rp." + String.formatDecimal(data.get("total")); // +" IDR";; //data.get("total");
 		activity.invalidateOptionsMenu();
 	}
@@ -117,12 +96,7 @@ function submitViewClick(e) {
 
 function dialogSendClick(e) {
     sendReimburse(args.id, function(result) {
-    	// if (result.error) {
-    		// alert(result.error);
-    	// } else {
-    		// $.submitDialog.hide();
-    		// $.reimburseDetailList.close();
-    	// }
+    	
     }); 
 }
 
@@ -135,7 +109,6 @@ function doEdit(e) {
 	Alloy.Globals.dialogView2.removeAllChildren();
 	Alloy.Globals.dialogView2.add(newview);
 	newview.fireEvent("open");
-	//$.reimburseDetailList.close();
 }
 
 // confirm
@@ -147,7 +120,7 @@ function sendReimburse(id, callback) {
 		var foundUnsync = reimburseDetails.find(function(mdl){
 			return (mdl.get('isSync') == 0); // && (mdl.get('reimburseId') == id);
 		});
-		if (foundUnsync) {
+		if (foundUnsync || Alloy.Globals.Uploading > 0) {
 			if (Alloy.Globals.CURRENT_USER && Alloy.Globals.CURRENT_USER != "") {
 				enqueueUniqueDetails(reimburse.toJSON());
 			}
@@ -167,11 +140,6 @@ function sendReimburse(id, callback) {
 				if (result.error) {
 					alert(result.error);
 				} else {
-					// var dets = reimburseDetails.where({
-					// isDeleted : 0,
-					// reimburseId : $.homeReimburseRow.rowid
-					// });
-					// if (!dets) dets = [];
 					// TODO: update detail's status
 					reimburse.set({
 						"status" : result.status, //STATUSCODE[result.isSent ? Const.Pending : Const.Open],
@@ -180,24 +148,18 @@ function sendReimburse(id, callback) {
 						sentTo : result.sentTo,
 					});
 					reimburse.save();
-					// reimburse.save(null, {
-					// success: function(model, resp){
-					// alert("Success saving.");
-					// },
-					// error: function(model, resp) {
-					// alert("Error saving!");
-					// }
-					// });
+					
 					reimburse.fetch({
 						remove : false
 					});
-					//reimburses.fetch({remove: false});
-					//reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+id});
+					
 					if (result.isSent) {//&& Alloy.Globals.gcmRegId
 						// libgcm.sendGCM([Alloy.Globals.gcmRegId], {
 						// title : "Pending Approval ID:" + reimburse.get('gid'),
 						// message : "You have new pending Reimburse Approval Titled:'" + reimburse.get('title') + "' from '" + Alloy.Globals.CURRENT_USER + "'",
 						// date : reimburse.get('sentDate'), //moment().toISOString(),
+						// type : "submit",
+						// id : reimburse.get('gid'),
 						// }, function(ret) {
 						// if (ret.error)
 						// alert("Error : " + ret.error);
@@ -251,21 +213,13 @@ function transformFunction(model) {
 	return transform;
 }
 
-// open the "add item" window
-function addItem() {
-	//Alloy.createController("reimburseDetailForm").getView().open();
-}
 
 // Show task list based on selected status type
 function showList(e) {
-	// if (typeof e.index !== 'undefined' && e.index !== null) {
-	// whereIndex = e.index; // TabbedBar
-	// } else {
-	// whereIndex = INDEXES[e.source.title]; // Android menu
-	// }
 	var foundUnsync = reimburseDetails.find(function(mdl){
 		return mdl.get('isSync') == 0;
 	});
+	// don't fetch data from server if newly created local record hasn't been fully synced (in middle of sync), otherwise new record could be duplicated
 	if (!foundUnsync) {	
 		$.act.show();
 		remoteReimburseDetail.getDetailList(data.get('gid'), "updated_at", "desc", 0, 20, null, null, null, function(ret) {
@@ -297,17 +251,11 @@ function showList(e) {
 	reimburseDetails && reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+args.id}); //fetch(e.param ? e.param : {remove:false});
 }
 
-function thumbPopUp(e) {
-
-}
-
 $.reimburseDetailList.addEventListener('refresh', function(e) {
 	showList(e);
 });
 
 $.reimburseDetailList.addEventListener("android:back", function(e) {
-	//$.tableView.search = Alloy.Globals.searchView;
-	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
 	if ($.dialogView2.visible) {
 		$.dialogView2.hide();
 	} else if($.submitDialog.visible) {

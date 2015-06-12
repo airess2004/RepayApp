@@ -1,16 +1,6 @@
 var ModelName = 'reimburses/';
 
-var postData = {
-	token : SERVER_KEY,
-	method : 'get',
-	sortby : 'id',
-	order : 'desc',
-	offset : 0,
-	max : 20,
-	model : {
-		id : 0,
-	},
-};
+var postData = {};
 
 exports.getAssList = function(sortBy, order, start, count, filterCol, filterOp, filterVal, callback) {
     var retData = [];
@@ -266,7 +256,6 @@ exports.updateObject = function(_item, callback) {
 							total : parseFloat(json.reimburse.total_approved) || 0, //amount,
 							projectDate : json.reimburse.application_date, //date,
 							gid : json.reimburse.id || orgItem.gid,
-							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
 							//first_receipt_mini_url : json.reimburse.first_receipt_mini_url,
 							//first_receipt_original_url : json.reimburse.first_receipt_original_url,
 							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
@@ -311,14 +300,7 @@ exports.updateObject = function(_item, callback) {
 				title : _item.title, //title,
 				description : _item.description, //description,
 				application_date : _item.projectDate, //date,
-				//sentDate : null, //_item.sentDate,
-				// total : _item.total ? _item.total : 0,
-				// idx : 0,
-				// isSent : false, //_item.isSent,
-				// isDone : false, //_item.isDone,
-				// isDeleted : false, //_item.isDeleted,
-				// dateCreated : _item.dateCreated,
-				// lastUpdate : _item.lastUpdate,
+				//updated_at : _item.lastUpdate,
 			},
 		};
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
@@ -373,7 +355,6 @@ exports.addObject = function(_item, callback) {
 							total : parseFloat(json.reimburse.total) || 0, //amount,
 							projectDate : json.reimburse.application_date, //date,
 							gid : json.reimburse.id,
-							//idx : json.reimburses[0].idx ? json.reimburses[0].idx : 0,
 							//first_receipt_mini_url : json.reimburse.first_receipt_mini_url,
 							//first_receipt_original_url : json.reimburse.first_receipt_original_url,
 							isDone : (json.reimburse.is_confirmed == "true" || json.reimburse.is_confirmed == "1") ? 1 : 0,
@@ -418,12 +399,6 @@ exports.addObject = function(_item, callback) {
 				title : _item.title, //title,
 				description : _item.description, //description,
 				application_date : _item.projectDate, //date,
-				//sentDate : null, //_item.sentDate,
-				// total : _item.total ? _item.total : 0,
-				// idx : 0,
-				// isSent : false, //_item.isSent,
-				// isDone : false, //_item.isDone,
-				// isDeleted : false, //_item.isDeleted,
 				created_at : _item.dateCreated,
 				updated_at : _item.lastUpdate,
 			},
@@ -486,23 +461,6 @@ exports.deleteObject = function(_gid, callback) {
 				//this.responseData / this.responseXML
 				//convert array/model as necessary
 				
-				// if (json.model) {
-					// retData = {
-						// title : json.model.title, //title,
-						// description : json.model.description, //description,
-						// total : json.model.total, //amount,
-						// projectDate : json.model.projectDate, //date,
-						// sentDate : json.model.sentDate,
-						// gid : json.model.id,
-						// idx : json.model.idx ? json.model.idx : 0,
-						// isDone : json.model.isDone ? 1:0,
-						// isSent : json.model.isSent ? 1:0,
-						// isDeleted : json.model.isDeleted ? 1:0,
-						// dateCreated : json.model.dateCreated,
-						// lastUpdate : json.model.lastUpdate,
-						// isSync : 1,
-					// };
-				// };
 				if (callback)
 					callback(retData);
 			}
@@ -515,20 +473,9 @@ exports.deleteObject = function(_gid, callback) {
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
-		// var postData = {
-			// token : SERVER_KEY,
-			// method : 'delete',
-			// model : {
-				// id : _gid,
-				// dateDeleted : moment().toISOString(),
-				// //isDeleted : true,
-			// },
-		// };
-		// // Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
-		// var jsonstr = JSON.stringify(postData);
+		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send();
-
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
+		
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -577,7 +524,6 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 							//total : parseFloat(obj.total_approved) || 0, //amount,
 							projectDate : obj.application_date, //date,
 							gid : obj.id || _gid,
-							//idx : json.model.idx ? json.model.idx : 0,
 							//first_receipt_mini_url : json.first_receipt_mini_url,
 							//first_receipt_original_url : json.first_receipt_original_url,
 							isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
@@ -625,7 +571,6 @@ exports.sendObject = function(_gid, tolist, cclist, bcclist, callback) {
 		var jsonstr = JSON.stringify(postData);
 		http.send(jsonstr);
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {
@@ -673,7 +618,6 @@ exports.confirmObject = function(_gid, rejectedlist, callback) {
 							//total : parseFloat(obj.total_approved) || 0, //amount,
 							projectDate : obj.application_date, //date,
 							gid : obj.id || _gid,
-							//idx : json.model.idx ? json.model.idx : 0,
 							//first_receipt_mini_url : json.first_receipt_mini_url,
 							//first_receipt_original_url : json.first_receipt_original_url,
 							isDone : (obj.is_confirmed == "true" || obj.is_confirmed == "1") ? 1 : 0,
@@ -724,7 +668,6 @@ exports.confirmObject = function(_gid, rejectedlist, callback) {
 		var jsonstr = JSON.stringify(postData);
 		http.send(jsonstr);
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (i in e.prototype) {

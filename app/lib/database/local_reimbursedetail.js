@@ -69,25 +69,7 @@ exports.getDetailList = function(_parentid, sortBy, order, start, count, filterC
 		var parfilter = _parentid ? " and reimburseId="+_parentid : "";
 		db.fetch({remove:false, query:"select * from "+table+" where username='"+Alloy.Globals.CURRENT_USER+"' and isDeleted=0 "+ parfilter +filter+" ORDER BY "+sortBy+" "+order+" LIMIT "+count+" OFFSET "+start*count+";"});
 		retData = db.toJSON();
-		// for (i = 0, len = rows.length; len > i; i++) {
-			// var obj = rows.models[i];
-			// retData.push({
-				// name : obj.get('name'),
-				// description : obj.get('description'),
-				// amount : obj.get('amount'),
-				// receiptDate : obj.get('receiptDate'),
-				// urlImageOriginal : obj.get('urlImageOri'),
-				// urlImageMedium : rows.fieldByName('urlImageMedium'),
-				// urlImageSmall : rows.fieldByName('urlImageSmall'),
-				// isSynced : rows.fieldByName('isSynced'),
-				// isDeleted : rows.fieldByName('isDeleted'),
-				// lastUpdate : rows.fieldByName('lastUpdate'),
-				// reimburse_gid : rows.fieldByName('reimburse_gid'),
-				// gid : rows.fieldByName('gid'),
-				// reimburse_id : _parentid, //rows.fieldByName('reimburse_id'),
-				// id : rows.fieldByName('ROWID')
-			// });
-		// }
+		
 	} catch(e) {
 		retData = {
 			error : e.message //e[0];
@@ -114,25 +96,7 @@ exports.getDetailListAll = function(_parentid, sortBy, order, start, count, filt
 		var parfilter = _parentid ? " and reimburseId="+_parentid : "";
 		db.fetch({remove:false, query:"select * from "+table+" where username='"+Alloy.Globals.CURRENT_USER+"'" + parfilter + filter+" ORDER BY "+sortBy+" "+order+" LIMIT "+count+" OFFSET "+start*count+";"});
 		retData = db.toJSON();
-		// for (i = 0, len = rows.length; len > i; i++) {
-			// var obj = rows.models[i];
-			// retData.push({
-				// name : obj.get('name'),
-				// description : obj.get('description'),
-				// amount : obj.get('amount'),
-				// receiptDate : obj.get('receiptDate'),
-				// urlImageOriginal : obj.get('urlImageOri'),
-				// urlImageMedium : rows.fieldByName('urlImageMedium'),
-				// urlImageSmall : rows.fieldByName('urlImageSmall'),
-				// isSynced : rows.fieldByName('isSynced'),
-				// isDeleted : rows.fieldByName('isDeleted'),
-				// lastUpdate : rows.fieldByName('lastUpdate'),
-				// reimburse_gid : rows.fieldByName('reimburse_gid'),
-				// gid : rows.fieldByName('gid'),
-				// reimburse_id : _parentid, //rows.fieldByName('reimburse_id'),
-				// id : rows.fieldByName('ROWID')
-			// });
-		// }
+		
 	} catch(e) {
 		retData = {
 			error : e.message //e[0];
@@ -218,8 +182,7 @@ exports.deleteDetailObject = function(_id, callback) {
 	});
 	if (obj) {
 		obj.destroy();
-		obj = null; //.fetch({remove:false});
-		//retData = obj.toJSON();
+		obj = null; 
 	} else {
 		retData.error = "Record not found!";
 	}

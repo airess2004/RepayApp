@@ -76,25 +76,7 @@ exports.getImage = function(callback, mode) {
 			var media = event.media;
 			// Must be less than 12Mp otherwise it won't shows (OutOfMemory or bug?)
 			// Resize photo to prevent using too much memory, taking too long time & nativePath doesn't works yet
-			// var imgOption = {image : media};
-			// if (media.width > media.height && media.width > maxImageResolution) {
-				// imgOption.width = maxImageResolution;
-			// } else if (media.width < media.height && media.height > maxImageResolution) {
-				// imgOption.height = maxImageResolution;
-			// }
-			// var image = Ti.UI.createImageView(imgOption).toImage();
-			// var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, "img_"+Date.now()+'.jpg');
-			// f.write(image.media);
-			// image = Ti.UI.createImageView({image : f.resolve()}); //f.nativePath
-			// var imageView = Ti.UI.createImageView({
-				// //width : _win.width,
-				// //height : _win.height,
-				// image : media,
-				// //url : media.nativePath,
-			// });
-			//_win.removeAllChildren();
-			//_win.add(imageView);
-			//_path.value = media.nativePath;
+			
 			Ti.API.info('Our NativePath was: ' + media.nativePath); //image.nativePath
 			//Ti.API.info('Our URL was: ' + imageView.url);
 			Ti.API.info('Current camera is: ' + Ti.Media.camera + ' (Front='+Ti.Media.CAMERA_FRONT+')');

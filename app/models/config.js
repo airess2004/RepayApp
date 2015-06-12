@@ -2,8 +2,8 @@ exports.definition = {
 	config: {
 		columns: {
 			//id: "INTEGER PRIMARY KEY AUTOINCREMENT",
-			username : "TEXT",
-		    key : "TEXT PRIMARY KEY",
+			username : "TEXT", // UNIQUE COLLATE NOCASE
+		    key : "TEXT PRIMARY KEY", // UNIQUE COLLATE NOCASE
 		    val : "TEXT",
 		    "dateCreated": "datetime",
 		    "lastUpdated": "datetime",

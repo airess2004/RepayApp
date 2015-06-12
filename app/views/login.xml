@@ -4,7 +4,7 @@
 			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
 				<Label color="#176d7e" icon="fa-user"></Label>
-				<TextField id="userField" hintText="EMAIL" onFocus="userFocus" ></TextField>
+				<TextField id="userField" hintText="EMAIL"  ></TextField>
 			</View>
 			<View class="vSplitter" />
 			<View class="centeredHorizontal">
@@ -23,15 +23,6 @@
 				<Label class="buttonLabel" text="Not a member? Register for free!"></Label>
 			</View>
 		</ScrollView>
-		
-		
-		<!--AlertDialog id="resetDialog" onClick="doResetClick"
-            message="Send password reset email?" cancel="1">
-            <ButtonNames>
-                <ButtonName>Yes</ButtonName>
-                <ButtonName>No</ButtonName>
-            </ButtonNames>
-        </AlertDialog-->
         
         <Notification id="toast" platform="android" message="Reset verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
 		<ActivityIndicator id="act" />

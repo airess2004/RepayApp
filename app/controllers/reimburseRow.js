@@ -4,6 +4,7 @@ var moment = require('alloy/moment');
 var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
 // fetch existing todo items from storage
 //reimburses && reimburses.fetch({remove: false});
+
 var id;
 
 // $model represents the current model accessible to this
@@ -15,39 +16,14 @@ if ($model) {
 	$.reimburseRow.rowid = $model.id;
 	var status = $model.get('status');
 	$.reimburseRow.title = $model.get('title') + " " + STATUS[$model.get('status')] + " " + $model.get('total') + " " + moment.parseZone($model.get('projectDate')).local().format(dateFormat);
-	if ($model.get('isDeleted') == 0) {
-		//$.reimburseRow.backgroundColor = STATUSCODE_COLOR[status];
-		//$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = STATUSCODE_COLOR[status];
-		$.statusView.backgroundColor = $.status.backgroundColor;
-		//$.avatar.image = '/tick_64.png';
-	} else {
-		//$.reimburseRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
-		$.statusView.backgroundColor = $.status.backgroundColor;
-		//$.avatar.image = '/tick_64.png';
-	}
+	$.status.backgroundColor = STATUSCODE_COLOR[status];
+	$.statusView.backgroundColor = $.status.backgroundColor;
 }
-
-// toggle the "done" status of the IDed todo
-// function toggleStatus(e) {
-	// // find the todo task by id
-	// var todo = todos.get(id);
-// 
-	// // set the current "done" and "date_completed" fields for the model,
-	// // then save to presistence, and model-view binding will automatically
-	// // reflect this in the tableview
-	// todo.set({
-		// "done": todo.get('done') ? 0 : 1,
-		// "date_completed": moment().unix()
-	// }).save();
-// }
 
 // delete the IDed todo from the collection
 function deleteItem(id) {
 	var reimburses = Alloy.Globals.reimburseListReimburse; //Alloy.Collections.reimburse;
-	// find the todo task by id
+	// find by id
 	var reimburse = reimburses.get(id);
 	if (!reimburse) {
 		alert("Record not found!");

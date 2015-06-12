@@ -51,8 +51,7 @@ function onSignUpClick(e) {
 				Alloy.Globals.lastSyncReimburseDetToken = lastSyncReimburseDetToken.val;	
 				syncReimburseLastTime = lastSyncReimburseTime.val;
 				syncReimburseDetLastTime = lastSyncReimburseDetTime.val;		
-				//Alloy.Globals.profileImage.image = result.original_avatar_url || result.mini_avatar_url || "/icon/ic_action_user.png";
-				//Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image;
+				
 				Alloy.Globals.CURRENT_NAME = CURRENT_NAME;
 				CURRENT_USER = preCURRENT_USER;
 				Alloy.Globals.CURRENT_USER = CURRENT_USER;
@@ -63,7 +62,6 @@ function onSignUpClick(e) {
 				if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[0].fireEvent("open");
 				$.toast.show();
 				$.registerForm.exitOnClose = false;
-				//showSignInForm(e);
 				$.registerForm.close();
 			}
 			$.act.hide();
@@ -79,12 +77,6 @@ function showSignInForm(e){
 	Alloy.Globals.login.getView().open();
 	$.registerForm.close();
 	
-};
-
-function nameFocus(e){
-	//$.nameField.removeEventListener("focus", nameFocus);
-	//$.nameField.blur();
-    //Ti.UI.Android.hideSoftKeyboard();
 };
 
 function registerOpen(e) {

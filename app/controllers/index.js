@@ -19,17 +19,10 @@ Alloy.Globals.profileImage = $.profile;
 Alloy.Globals.profileImage.image = lastAvatar.val || lastMiniAvatar.val || "/icon/ic_action_user.png";
 Alloy.Globals.avatar.image = Alloy.Globals.profileImage.image; //avatar from child controller should be existed at this point
 
-var abx = require('com.alcoapps.actionbarextras');
-
-// libgcm.registerGCM(function(e) {
-	// Alloy.Globals.gcmRegId = e.deviceToken;
-// });
+//var abx = require('com.alcoapps.actionbarextras');
 
 $.scrollableView.prevPage = -1;
 
-function doClick(e) {
-    //alert($.label1.text);
-}
 
 function dialogViewClick(e) {
     $.dialogView.hide(); //visible = false;
@@ -47,7 +40,7 @@ function doMenuClick(evt) {
 }
 
 function doSearch(e) {
-	alert("Search Clicked");
+	//alert("Search Clicked");
 }
 
 Alloy.Globals.newBtnUsed = false;
@@ -59,7 +52,6 @@ function doNew(e) {
 			Alloy.Globals.dialogView.removeAllChildren();
 			Alloy.Globals.dialogView.add(newview);
 			newview.fireEvent("open");
-			//Alloy.Globals.dialogView.show();
 		} else {
 			alert("Please login first!");
 			Alloy.Globals.login.getView().open();
@@ -104,9 +96,6 @@ function settingBtnClick(e) {
 }
 
 function mainViewOpen(e) {
-	//Alloy.Globals.index = $.index;
-	//Alloy.Globals.searchView = $.searchView;
-	//Alloy.Globals.abx = require('com.alcoapps.actionbarextras');
 	var activity = $.index.getActivity();
 	if (activity) {
 		var actionBar = activity.getActionBar();
@@ -114,14 +103,6 @@ function mainViewOpen(e) {
 		// get a handle to the action bar
 		actionBar.title = 'RepayApp';
 		actionBar.logo = "smalllogo.png";
-		//abx.backgroundColor = "white";
-		// change the App Title
-		//actionBar.displayHomeAsUp = true; // back icon
-		// Show the "angle" pointing back
-		// actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
-			// Ti.API.info("Home icon clicked!");
-			//$.index.fireEvent('android:back');
-		// };
 	
 		activity.onCreateOptionsMenu = function(e) {
 			e.menu.clear();
@@ -157,11 +138,7 @@ function mainViewOpen(e) {
 		});
 	}
 	
-	//Alloy.Collections.reimburse.fetch({remove: false});
-	//Alloy.Collections.reimburseDetail.fetch({remove: false});
-	//Alloy.Collections.comment.fetch({remove: false});
 	if (Alloy.Globals.scrollableView) Alloy.Globals.scrollableView.views[Alloy.Globals.scrollableView.currentPage].fireEvent("refresh");
-	//updateTitle($.scrollableView.currentPage);
 	updateModule.check();
 }
 
@@ -197,9 +174,6 @@ function updateTitle(currentPage) {
 	var style1 = $.createStyle({
 		classes : ["tabTitle"],
 		apiName : 'Label',
-		//touchEnabled: false,
-		//color: Alloy.Globals.darkColor,
-		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
 			fontSize : "18dp", //"16dp",
@@ -210,9 +184,6 @@ function updateTitle(currentPage) {
 	var style2 = $.createStyle({
 		classes : ["tabTitle"],
 		apiName : 'Label',
-		//touchEnabled: false,
-		//color: Alloy.Globals.darkColor,
-		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
 			fontSize : "18dp", //"16dp",
@@ -223,9 +194,6 @@ function updateTitle(currentPage) {
 	var style3 = $.createStyle({
 		classes : ["tabTitle"],
 		apiName : 'Label',
-		//touchEnabled: false,
-		//color: Alloy.Globals.darkColor,
-		//backgroundColor:"transparent",
 		font : {
 			fontFamily : 'century-gothic',
 			fontSize : "18dp", //"16dp",
@@ -251,15 +219,7 @@ function fullClick(e) {
         	"x" : (e.x / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.width), //normalize to 0..1
             "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
         };
-		//var parsz = $.fullView.getSize();
 		var center = {x: dpPoint.x, y: dpPoint.y}; //{x: parsz.width/2, y: parsz.height/2};
-		// $.cropperView.center = center; //setCenter(center);
-		// var style = $.createStyle({
-			// classes : ["cropperView"],
-			// apiName : 'View',
-			// center: center,
-		// });
-		//$.cropperView.applyProperties(style); 
 		$.cropperView.animate({center: center});
 	} else {
 		var view = e.source;
@@ -279,25 +239,8 @@ function touchStart(e) {
         	"x" : (e.x / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.width), //normalize to 0..1
             "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
         };
-		// var center = $.cropperView.center; //getCenter();
-		// if (!center) 
-		// {
-			// var parsz = $.cropperView.parent.getSize();
-			// center = {x: parsz.width/2, y: parsz.height/2};
-			// $.cropperView.center = center; //setCenter(center);
-			// var style = $.createStyle({
-				// classes : ["cropperView"],
-				// apiName : 'View',
-				// center: center,
-			// });
-			// $.cropperView.applyProperties(style); 
-		// }
 		var newcenter = {x: dpPoint.x, y: dpPoint.y}; //
 		$.cropperView.animate({center: newcenter});
-		// centerStartX = center.x;
-		// centerStartY = center.y;
-		// touchStartX = e.x;
-		// touchStartY = e.y;
 		$.cropperView.ox = dpPoint.x - newcenter.x;
   		$.cropperView.oy = dpPoint.y - newcenter.y;
 	}
@@ -312,14 +255,6 @@ function touchMove(e) {
             "y" : (e.y / Ti.Platform.displayCaps.logicalDensityFactor), //  / parseInt(e.source.rect.height) //normalize to 0..1
         };
 		var center = {x: (dpPoint.x - $.cropperView.ox), y: (dpPoint.y - $.cropperView.oy)}; //{x: centerStartX + (e.x - touchStartX), y: centerStartY + (e.y - touchStartY)};
-		// $.cropperView.center = center; //setCenter(center);
-		// var style = $.createStyle({
-			// classes : ["cropperView"],
-			// apiName : 'View',
-			// center: center,
-		// });
-		//$.cropperView.applyProperties(style); 
-		//if ($.cropperView.center) 
 		$.cropperView.animate({center: center});
 	}
 }
@@ -327,13 +262,7 @@ function touchMove(e) {
 function okClick(e) {
 	$.act.show();
 	$.cropperView.hide();
-	// var rect = $.cropperView.getRect();
-	//$.cropperView.borderWidth = 0;
-	//$.cropperView.borderRadius = 0;
-	// $.croppedImage.image = $.fullView.toImage();
-	// $.croppedImage.top = -rect.y;
-	// $.croppedImage.left = -rect.x;
-	// $.croppedImage.visible = true;
+	
 	Alloy.Globals.profileImage.image = null;
 	Alloy.Globals.avatar.image = null;
 	var croppedImg = cropImage($.fullView.toImage(), $.cropperView.getRect());
@@ -373,7 +302,7 @@ function okClick(e) {
 			}
 		}
 		Alloy.Globals.Uploading--;
-	}, function(asm) {
+	}, function(asm) { //callback used to update progressbar
 		// if (typeof asm == "object") {
 			// var rv = asm.bytes_received;
 			// var sz = asm.bytes_expected;
@@ -382,10 +311,6 @@ function okClick(e) {
 	$.cropperView.show();
 	$.act.hide();
 	$.overlayView.hide();
-	// $.croppedImage.visible = false;
-	//$.cropperView.borderWidth = "1";
-	//$.cropperView.borderRadius = "64dp";
-	//$.croppedImage.image = null;
 }
 
 function cancelClick(e) {
@@ -403,8 +328,6 @@ $.index.addEventListener('refresh', function(e) {
 });
 
 $.index.addEventListener("android:back", function(e) {
-	//$.tableView.search = Alloy.Globals.searchView;
-	//Alloy.Globals.index.activity.actionBar.title = "Reimburse Detail";
 	if ($.overlayView.visible) {
 		$.overlayView.hide();
 	} else if ($.dialogView.visible) {
@@ -414,14 +337,14 @@ $.index.addEventListener("android:back", function(e) {
 	}
 });
 
+// sync animation callback
 function syncCallback(e) {
 	//if (!Alloy.Globals.profileImage.animating) 
 	{
 		// Spin the image
 		var matrix2d = Ti.UI.create2DMatrix();
 		matrix2d = matrix2d.rotate(360);
-		// in degrees
-		// matrix2d = matrix2d.scale(1.5); // scale to 1.5 times original size
+		// rotate 360 degree within 5 seconds
 		var a = Ti.UI.createAnimation({
 			transform : matrix2d,
 			duration : 5000,
@@ -432,19 +355,9 @@ function syncCallback(e) {
 	}
 }
 
-// $.index.addEventListener('open', function() {
-	// var actionBar = $.index.getActivity().getActionBar();
-	// // get a handle to the action bar
-	// actionBar.title = 'RepayApp';
-	// // change the App Title
-	// actionBar.displayHomeAsUp = true;
-	// // Show the "angle" pointing back
-	// actionBar.onHomeIconItemSelected = function() {// what to do when the "home" icon is pressed
-		// Ti.API.info("Home icon clicked!");
-	// };
-// });
-
+// activate sync engine
 setSyncAnimateCallback(syncCallback);
 startSyncReimburseDet($.index);
 
+// open main window
 $.index.open();

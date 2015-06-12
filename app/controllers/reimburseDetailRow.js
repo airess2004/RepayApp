@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 
 var moment = require('alloy/moment');
 var reimburseDetails = Alloy.Collections.reimburseDetail;
+
 var id;
 
 // $model represents the current model accessible to this
@@ -13,33 +14,9 @@ if ($model) {
 	$.reimburseDetailRow.rowid = $model.id;
 	var status = $model.get('status');
 	$.reimburseDetailRow.title = $model.get('name');
-	if ($model.get('isDeleted') == 0) {
-		//$.reimburseDetailRow.backgroundColor = STATUSCODE_COLOR[status];
-		//$.innerView.backgroundColor = 'lightgray';
-		$.status.backgroundColor = DETAILSTATUSCODE_COLOR[status];
-		//$.avatar.image = '/tick_64.png';
-	} else {
-		//$.reimburseDetailRow.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.innerView.backgroundColor = 'white';
-		$.status.backgroundColor = status == 0 ? 'red' : 'purple';
-		//$.avatar.image = '/tick_64.png';
-	}
+	$.status.backgroundColor = DETAILSTATUSCODE_COLOR[status];
 	$.status.visible = status > DETAILSTATUSCODE[Const.Open];
 }
-
-// toggle the "done" status of the IDed todo
-// function toggleStatus(e) {
-	// // find the todo task by id
-	// var todo = todos.get(id);
-// 
-	// // set the current "done" and "date_completed" fields for the model,
-	// // then save to presistence, and model-view binding will automatically
-	// // reflect this in the tableview
-	// todo.set({
-		// "done": todo.get('done') ? 0 : 1,
-		// "date_completed": moment().unix()
-	// }).save();
-// }
 
 // delete the IDed todo from the collection
 function deleteItem(id) {
@@ -52,7 +29,6 @@ function deleteItem(id) {
 	// reflect this in the tableview
 	//reimburseDetail.destroy();
 	reimburseDetail.save({isDeleted:1, isSync:0});
-	//reimburseDetail.fetch({remove:false});
 	reimburseDetails.fetch({remove:false, query:"SELECT * FROM reimburseDetail WHERE isDeleted=0 and reimburseId="+reimburseId});
 	
 	//--- start of update parent
@@ -140,10 +116,6 @@ function rowClick(e) {
 					"$model": $model
 				}
 	).getView().open();
-	// Alloy.createController("comment",{
-					// id : id
-				// }
-	// ).getView().open();
 }
 
 function rowLongClick(e) {

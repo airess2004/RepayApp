@@ -76,16 +76,6 @@
 	color: Alloy.Globals.darkColor,
 }
 
-// "Label": {
-	// width: Ti.UI.SIZE,
-	// left: "4dp"
-// }
-// 
-// "TextField": {
-	// width: Ti.UI.SIZE,
-	// left: "4dp"
-// }
-
 ".centeredVertical": {
 	height: Titanium.UI.SIZE,
 	contentHeight: Titanium.UI.SIZE,

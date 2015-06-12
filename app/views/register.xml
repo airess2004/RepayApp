@@ -4,7 +4,7 @@
 			<ImageView class="fitWidth" image="/logo.png" left="32dp" right="32dp" bottom="48dp" />
 			<View class="centeredHorizontal">
 				<Label color="#176d7e" icon="fa-user"></Label>
-				<TextField id="nameField" hintText="FULLNAME" onFocus="nameFocus"></TextField>
+				<TextField id="nameField" hintText="FULLNAME" ></TextField>
 			</View>
 			<View class="vSplitter" />
 			<View class="centeredHorizontal">
@@ -23,18 +23,12 @@
 			</View>
 			<View class="vSplitter" />
 			<Button id="signUp" title="REGISTER" onClick="onSignUpClick"></Button>
-			<!--View class="fitSize" layout="vertical" horizontalWrap="false">
-				<Button class="darkButton" id="companySignIn" title="Learn more about RepayApp?"></Button>
-				<View class="centeredHorizontal" width="Ti.UI.FILL">
-					
-				</View>
-			</View-->
+			
 			<View class="bottomButton" onClick="showSignInForm">
 				<Label class="buttonLabel" text="Already have an account? Sign In"></Label>
 			</View>
 		</ScrollView>
-		
-        
+		 
         <Notification id="toast" platform="android" message="Verification email has been sent." duration="Ti.UI.NOTIFICATION_DURATION_LONG" />
 		<ActivityIndicator id="act" />
 		

@@ -83,7 +83,6 @@ exports.login = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(JSON.stringify(postData));
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (var i in e.prototype) {
@@ -181,7 +180,6 @@ exports.updateObject = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(JSON.stringify(postData));
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (var i in e.prototype) {
@@ -276,65 +274,6 @@ exports.addObject = function(_item, callback) {
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send(JSON.stringify(postData));
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
-	} catch(e) {
-		Ti.API.info("HTTPClient Exception");
-		for (var i in e.prototype) {
-			Ti.API.info(i + ":" + e[i]);
-		}
-	}
-	return (true);
-};
-
-exports.deleteObject = function(_gid, callback) {
-	Ti.API.info("ItemID = " + _gid);
-	var retData = {};
-	var url = SERVER_API + ModelName;
-	var ready = false;
-	//function to use HTTP to connect to a web server and transfer the data.
-	var http = Ti.Network.createHTTPClient({
-		timeout : 5000,
-		// Function called when an error occurs, including a timeout
-		onerror : function(e) {
-			Ti.API.debug(e.error);
-			//alert('Connection error : '+e.error);
-			var retData = {
-				error : e.error
-			};
-			if (callback)
-				callback(retData);
-			ready = true;
-		},
-		//Function to be called upon a successful response
-		onload : function(e) {
-			Ti.API.debug(this.status);
-			if (this.status == HTTP_OK) {
-				var json = JSON.parse(this.responseText);
-				//this.responseData / this.responseXML
-				//convert array/model as necessary
-				if (callback)
-					callback(json);
-			}
-			ready = true;
-		},
-	});
-
-	// Prepare the connection, Async param/option Only used on iOS, Mobile Web and Tizen
-	http.open('POST', url, false);
-	// HTTP Headers must be set AFTER open(), and BEFORE send()
-	//http.setRequestHeader('Content-Type','application/json');
-	try {
-		var postData = {
-			token : SERVER_KEY,
-			method : 'delete',
-			model : {
-				id : _gid,
-			},
-		};
-		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
-		http.send(postData);
-
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (var i in e.prototype) {
@@ -389,16 +328,10 @@ exports.logout = function(callback) {
 	// HTTP Headers must be set AFTER open(), and BEFORE send()
 	http.setRequestHeader('Content-Type','application/json');
 	try {
-		// var postData = {
-			// model : {
-				// id : _gid,
-			// },
-		// };
-		//var jsonstr = postData;
+		
 		// Send the request, put object/string content to be sent as parameter (ie. on POST/PUT)
 		http.send();
 
-		//while (/*http.status == 0 || http.statusText == null*/http.readyState != stateDONE) {;}
 	} catch(e) {
 		Ti.API.info("HTTPClient Exception");
 		for (var i in e.prototype) {

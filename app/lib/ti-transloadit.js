@@ -2,6 +2,8 @@ var Transloadit = module.exports = {};
 var TRANSLOADIT_API = 'http://api2.transloadit.com/assemblies';
 var PING_TIMEOUT = 5000; //3000
 /*
+ * Modified by AdamN to support progressbar callback 
+ *
  * @method upload
  * requires Object options with the following parameters
  * key - your transloadit API key
